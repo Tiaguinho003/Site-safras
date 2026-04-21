@@ -12,7 +12,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "firebase": "firebase",
+    "deploy": "pnpm build && firebase deploy --only=hosting --project=site-safras"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
@@ -22,11 +24,14 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "firebase-tools": "^15.15.0",
     "typescript": "^5.7.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
+      "protobufjs",
+      "re2",
       "sharp"
     ]
   }

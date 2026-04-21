@@ -1,0 +1,31 @@
+# Cloud Build pipeline — roda em cada push para main.
+# Instala deps, builda Astro e faz deploy pro Firebase Hosting.
+#
+# SA de execução: cloud-build-deployer@site-safras.iam.gserviceaccount.com
+# Roles concedidas (ver IAM do projeto site-safras):
+#   - roles/cloudbuild.builds.builder
+#   - roles/firebasehosting.admin
+#   - roles/firebase.viewer
+#   - roles/logging.logWriter
+
+serviceAccount: "projects/site-safras/serviceAccounts/cloud-build-deployer@site-safras.iam.gserviceaccount.com"
+
+steps:
+  - name: "node:22"
+    id: "install-build-deploy"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        set -euo pipefail
+        corepack enable pnpm
+        corepack prepare pnpm@10 --activate
+        pnpm install --frozen-lockfile
+        pnpm build
+        pnpm exec firebase deploy --only=hosting --project=site-safras --non-interactive
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: "E2_HIGHCPU_8"
+
+timeout: "600s"
