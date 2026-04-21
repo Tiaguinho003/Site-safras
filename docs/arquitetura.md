@@ -107,18 +107,18 @@ Definições iniciais — evoluem em `docs/design-system.md` quando componentes 
 
 ### Paleta
 
-Paleta enxuta e institucional — base branca, 2 verdes da marca, 1 accent terra pontual.
+Paleta enxuta e institucional — base branca, 2 verdes da marca, 1 accent terra pontual. Declarada em `src/styles/tokens.css` via `@theme` (Tailwind v4), o que automaticamente gera utility classes (`bg-brand`, `text-ink`, `border-line`...).
 
-| Token | Hex | Uso |
-|---|---|---|
-| `--bg` | `#ffffff` | Background principal (branco puro) |
-| `--bg-subtle` | `#f6f6f4` | Alternância de seções (quase branco, warmth mínima) |
-| `--line` | `#e3e3df` | Bordas e divisores |
-| `--ink` | `#141311` | Textos primários |
-| `--ink-muted` | `#5a564f` | Textos secundários |
-| `--safras-green-900` | `#134024` | Verde escuro — hover, headings fortes |
-| `--safras-green-700` | `#1f6b3a` | Verde da marca — CTAs primários, highlights |
-| `--safras-earth-600` | `#8b5e34` | Accent terra (café torrado) — uso pontual pra warmth |
+| Token CSS | Hex | Utility Tailwind | Uso |
+|---|---|---|---|
+| `--color-paper` | `#ffffff` | `bg-paper` | Background principal (branco puro) |
+| `--color-paper-alt` | `#f6f6f4` | `bg-paper-alt` | Alternância de seções |
+| `--color-line` | `#e3e3df` | `border-line` | Bordas e divisores |
+| `--color-ink` | `#141311` | `text-ink` | Textos primários |
+| `--color-ink-muted` | `#5a564f` | `text-ink-muted` | Textos secundários |
+| `--color-brand` | `#1f6b3a` | `bg-brand` / `text-brand` | Verde da marca — CTAs primários |
+| `--color-brand-dark` | `#134024` | `bg-brand-dark` | Verde escuro — hover, headings fortes |
+| `--color-earth` | `#8b5e34` | `text-earth` | Accent terra (café torrado) — uso pontual |
 
 *Paleta pode ser refinada após validação com a marca.*
 

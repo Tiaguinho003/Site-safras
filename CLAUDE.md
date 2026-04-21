@@ -41,13 +41,12 @@ pnpm test           # testes (quando configurado)
 5. **Performance como feature**: LCP < 2.5s, CLS < 0.1, Lighthouse mobile ≥ 95
 
 ## Design tokens (referência rápida)
-- Background: `--bg: #ffffff` (branco puro) · `--bg-subtle: #f6f6f4` (alt sections)
-- Primary (marca): `--safras-green-700: #1f6b3a`
-- Primary escuro: `--safras-green-900: #134024`
-- Accent terra (pontual): `--safras-earth-600: #8b5e34`
-- Texto: `--ink: #141311` · `--ink-muted: #5a564f`
-- Borda: `--line: #e3e3df`
-- **Única tipografia**: Inter (hierarquia por peso e tamanho, sem segunda family)
+Declarados em `src/styles/tokens.css` via `@theme` (Tailwind v4 gera utilities automaticamente).
+
+- Surface: `--color-paper` `#ffffff` (bg) · `--color-paper-alt` `#f6f6f4` · `--color-line` `#e3e3df`
+- Texto: `--color-ink` `#141311` · `--color-ink-muted` `#5a564f`
+- Brand: `--color-brand` `#1f6b3a` (marca) · `--color-brand-dark` `#134024` · `--color-earth` `#8b5e34`
+- **Única tipografia**: Inter (variable, via `@fontsource-variable/inter`). Hierarquia por peso e tamanho, sem segunda family.
 
 ## Páginas planejadas (v1)
 - `/` — Home

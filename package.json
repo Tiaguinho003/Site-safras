@@ -1,0 +1,33 @@
+{
+  "name": "site-safras",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Site institucional Safras & Negócios",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@tailwindcss/vite": "^4.2.4",
+    "astro": "^6.1.8",
+    "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "typescript": "^5.7.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
+}
