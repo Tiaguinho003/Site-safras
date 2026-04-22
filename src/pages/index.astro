@@ -3,6 +3,30 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import cafezalAereo from "../assets/hero/cafezal-aereo.jpg";
 import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
+
+const services = [
+  {
+    number: "01",
+    title: "Corretagem de café",
+    description:
+      "Intermediamos a negociação entre produtor e comprador com neutralidade e leitura de mercado, assegurando preço justo, contrato claro e pagamento em dia.",
+    iconSvg: `<path d="m11 17 2 2a1 1 0 1 0 3-3" /><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="m21 3 1 11h-2" /><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" /><path d="M3 4h8" />`,
+  },
+  {
+    number: "02",
+    title: "Assessoria de mercado",
+    description:
+      "Inteligência de preços, análise de safra e acompanhamento macroeconômico para orientar decisões de venda, hedge e planejamento de longo prazo.",
+    iconSvg: `<polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" />`,
+  },
+  {
+    number: "03",
+    title: "Classificação e qualidade",
+    description:
+      "Prova de xícara e classificação sensorial executadas por profissionais experientes, lote por lote — agregando valor e garantindo padrão na entrega.",
+    iconSvg: `<path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" />`,
+  },
+];
 ---
 
 <BaseLayout title="Safras & Negócios | Corretora de café">
@@ -157,150 +181,71 @@ import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-12">
-        <article>
-          <a
-            href="/servicos"
-            class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 rounded-lg"
-          >
-            <div class="flex items-center gap-3 mb-6">
-              <span
-                class="text-xs font-semibold text-brand tracking-[0.22em]"
+      <div
+        id="servicos-accordion"
+        class="flex flex-col md:flex-row gap-4 md:gap-5 md:h-[500px] lg:h-[540px]"
+      >
+        {
+          services.map((service, idx) => (
+            <article
+              data-service-card
+              data-active={idx === 0 ? "true" : "false"}
+              class="group relative overflow-hidden rounded-xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[2.5_1_0%] data-[active=true]:border-solid data-[active=true]:border-brand-dark h-[320px] md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              tabindex="0"
+              aria-label={`Serviço ${service.number}: ${service.title}`}
+            >
+              <div
                 aria-hidden="true"
-              >
-                01
-              </span>
-              <span
-                class="h-px flex-1 bg-line group-hover:bg-brand transition-colors duration-300"
-              ></span>
-            </div>
+                class="absolute inset-0 bg-paper/90 group-data-[active=true]:bg-[linear-gradient(180deg,rgba(19,64,36,0)_20%,rgba(1,61,1,0.95)_100%)] transition-all duration-[600ms] ease-[cubic-bezier(0.48,0,0.11,1)]"
+              />
 
-            <div
-              class="relative aspect-[5/4] rounded-lg bg-paper-alt border border-dashed border-line overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:border-brand/40 group-hover:-translate-y-1 group-hover:shadow-[0_20px_40px_-20px_rgba(2,92,0,0.25)]"
-              role="img"
-              aria-label="Imagem ilustrativa de corretagem de café — em breve"
-            >
-              <span
-                class="text-xs text-ink-muted/70 italic transition-colors duration-300 group-hover:text-brand/70"
-              >
-                Imagem em breve
-              </span>
-            </div>
+              <div class="relative h-full p-6 md:p-7 flex flex-col justify-between">
+                <div class="flex items-start justify-between gap-4">
+                  <div
+                    class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center bg-ink text-brand group-data-[active=true]:bg-brand group-data-[active=true]:text-paper transition-colors duration-400 ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={service.iconSvg}
+                    />
+                  </div>
+                  <span
+                    class="text-4xl md:text-5xl lg:text-6xl font-semibold text-paper leading-none tracking-tight opacity-0 translate-x-3 group-data-[active=true]:opacity-100 group-data-[active=true]:translate-x-0 transition-all duration-400 ease-[cubic-bezier(0.48,0,0.11,1)] delay-[400ms]"
+                    aria-hidden="true"
+                  >
+                    {service.number}
+                  </span>
+                </div>
 
-            <h3
-              class="mt-6 text-xl md:text-2xl font-semibold text-ink leading-snug tracking-tight transition-colors duration-300 group-hover:text-brand"
-            >
-              Corretagem de café
-              <span
-                class="inline-block ml-1 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                aria-hidden="true"
-              >→</span>
-            </h3>
-            <p
-              class="mt-3 text-sm md:text-base text-ink-muted leading-relaxed"
-            >
-              Intermediamos a negociação entre produtor e comprador com
-              neutralidade e leitura de mercado, assegurando preço justo,
-              contrato claro e pagamento em dia.
-            </p>
-          </a>
-        </article>
-
-        <article>
-          <a
-            href="/servicos"
-            class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 rounded-lg"
-          >
-            <div class="flex items-center gap-3 mb-6">
-              <span
-                class="text-xs font-semibold text-brand tracking-[0.22em]"
-                aria-hidden="true"
-              >
-                02
-              </span>
-              <span
-                class="h-px flex-1 bg-line group-hover:bg-brand transition-colors duration-300"
-              ></span>
-            </div>
-
-            <div
-              class="relative aspect-[5/4] rounded-lg bg-paper-alt border border-dashed border-line overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:border-brand/40 group-hover:-translate-y-1 group-hover:shadow-[0_20px_40px_-20px_rgba(2,92,0,0.25)]"
-              role="img"
-              aria-label="Imagem ilustrativa de assessoria de mercado — em breve"
-            >
-              <span
-                class="text-xs text-ink-muted/70 italic transition-colors duration-300 group-hover:text-brand/70"
-              >
-                Imagem em breve
-              </span>
-            </div>
-
-            <h3
-              class="mt-6 text-xl md:text-2xl font-semibold text-ink leading-snug tracking-tight transition-colors duration-300 group-hover:text-brand"
-            >
-              Assessoria de mercado
-              <span
-                class="inline-block ml-1 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                aria-hidden="true"
-              >→</span>
-            </h3>
-            <p
-              class="mt-3 text-sm md:text-base text-ink-muted leading-relaxed"
-            >
-              Inteligência de preços, análise de safra e acompanhamento
-              macroeconômico para orientar decisões de venda, hedge e
-              planejamento de longo prazo.
-            </p>
-          </a>
-        </article>
-
-        <article>
-          <a
-            href="/servicos"
-            class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 rounded-lg"
-          >
-            <div class="flex items-center gap-3 mb-6">
-              <span
-                class="text-xs font-semibold text-brand tracking-[0.22em]"
-                aria-hidden="true"
-              >
-                03
-              </span>
-              <span
-                class="h-px flex-1 bg-line group-hover:bg-brand transition-colors duration-300"
-              ></span>
-            </div>
-
-            <div
-              class="relative aspect-[5/4] rounded-lg bg-paper-alt border border-dashed border-line overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:border-brand/40 group-hover:-translate-y-1 group-hover:shadow-[0_20px_40px_-20px_rgba(2,92,0,0.25)]"
-              role="img"
-              aria-label="Imagem ilustrativa de classificação de café — em breve"
-            >
-              <span
-                class="text-xs text-ink-muted/70 italic transition-colors duration-300 group-hover:text-brand/70"
-              >
-                Imagem em breve
-              </span>
-            </div>
-
-            <h3
-              class="mt-6 text-xl md:text-2xl font-semibold text-ink leading-snug tracking-tight transition-colors duration-300 group-hover:text-brand"
-            >
-              Classificação e qualidade
-              <span
-                class="inline-block ml-1 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                aria-hidden="true"
-              >→</span>
-            </h3>
-            <p
-              class="mt-3 text-sm md:text-base text-ink-muted leading-relaxed"
-            >
-              Prova de xícara e classificação sensorial executadas por
-              profissionais experientes, lote por lote — agregando valor e
-              garantindo padrão na entrega.
-            </p>
-          </a>
-        </article>
+                <div>
+                  <h3
+                    class="text-xl md:text-2xl lg:text-[1.75rem] font-semibold text-ink group-data-[active=true]:text-paper leading-[1.15] tracking-tight transition-colors duration-400 ease-[cubic-bezier(0.48,0,0.11,1)]"
+                  >
+                    {service.title}
+                  </h3>
+                  <div
+                    class="h-px bg-paper/40 my-4 md:my-5 w-0 group-data-[active=true]:w-full transition-[width] duration-500 ease-[cubic-bezier(0.48,0,0.11,1)] delay-[350ms]"
+                    aria-hidden="true"
+                  />
+                  <p
+                    class="text-sm md:text-base text-paper/90 leading-relaxed opacity-0 translate-y-2 group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 transition-all duration-400 ease-[cubic-bezier(0.48,0,0.11,1)] delay-[500ms]"
+                  >
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))
+        }
       </div>
 
       <p class="mt-10 text-xs italic text-ink-muted/70">
@@ -309,4 +254,19 @@ import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
       </p>
     </div>
   </section>
+
+  <script>
+    const cards = document.querySelectorAll<HTMLElement>("[data-service-card]");
+
+    const activate = (target: HTMLElement) => {
+      cards.forEach((card) => {
+        card.dataset.active = card === target ? "true" : "false";
+      });
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", () => activate(card));
+      card.addEventListener("focus", () => activate(card));
+    });
+  </script>
 </BaseLayout>
