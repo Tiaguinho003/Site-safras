@@ -1,22 +1,26 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+/**
+ * Rota /contato — redireciona pra home com hash #contato, que abre o modal.
+ * Em produção o Firebase Hosting faz 301 (ver firebase.json); este template
+ * é fallback pra dev local (Astro dev server) e navegadores sem JS.
+ */
 ---
 
-<BaseLayout title="Contato | Safras & Negócios">
-  <section
-    class="max-w-4xl mx-auto px-6 md:px-10 py-24 md:py-32 text-center"
-  >
-    <p
-      class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
-    >
-      [ Em construção ]
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/#contato" />
+    <link rel="canonical" href="/" />
+    <title>Redirecionando... | Safras & Negócios</title>
+    <script is:inline>
+      window.location.replace("/#contato");
+    </script>
+  </head>
+  <body>
+    <p style="font-family: system-ui, sans-serif; padding: 2rem;">
+      Redirecionando... Se nada acontecer,
+      <a href="/#contato">clique aqui</a>.
     </p>
-    <h1 class="text-3xl md:text-5xl font-semibold text-ink leading-tight">
-      Fale Conosco
-    </h1>
-    <p class="mt-5 text-lg text-ink-muted max-w-xl mx-auto">
-      Esta página está em construção. Em breve teremos formulário de
-      contato, dados diretos e integração com WhatsApp.
-    </p>
-  </section>
-</BaseLayout>
+  </body>
+</html>

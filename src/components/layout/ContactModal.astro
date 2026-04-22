@@ -1,0 +1,440 @@
+---
+/**
+ * Modal global de contato.
+ * Abre em qualquer página via [data-open-contact] ou hash #contato.
+ * Fase 1: submit é stub (sem backend). Fase 2 plugará Cloud Function.
+ */
+---
+
+<div
+  id="contact-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="contact-modal-title"
+  aria-hidden="true"
+  hidden
+  class="fixed inset-0 z-50 flex items-start md:items-center justify-center overflow-y-auto"
+>
+  <div
+    data-modal-overlay
+    class="fixed inset-0 bg-ink/60 backdrop-blur-sm opacity-0 transition-opacity duration-200 motion-reduce:transition-none"
+  >
+  </div>
+
+  <div
+    data-modal-panel
+    class="relative w-full md:max-w-xl mx-auto my-0 md:my-10 bg-paper rounded-none md:rounded-2xl shadow-2xl opacity-0 scale-[0.97] transition-[opacity,transform] duration-200 motion-reduce:transition-none min-h-screen md:min-h-0"
+  >
+    <div class="flex items-start justify-between px-6 md:px-8 pt-6 md:pt-8 pb-2">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-2">
+          [ Fale com a Safras ]
+        </p>
+        <h2
+          id="contact-modal-title"
+          class="text-2xl md:text-3xl font-semibold text-ink leading-tight"
+        >
+          Solicitar Serviço
+        </h2>
+      </div>
+      <button
+        type="button"
+        data-modal-close
+        aria-label="Fechar"
+        class="shrink-0 -mr-2 -mt-2 md:-mr-3 md:-mt-3 p-2 text-ink-muted hover:text-ink transition-colors"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div data-modal-body class="px-6 md:px-8 pb-8">
+      <p class="text-sm text-ink-muted leading-relaxed mb-6">
+        Conte um pouco sobre sua demanda e retornaremos em até 1 dia útil.
+      </p>
+
+      <form
+        id="contact-form"
+        novalidate
+        class="space-y-4"
+        data-state="idle"
+      >
+        {/* Honeypot — bots preenchem, humanos não veem */}
+        <div
+          class="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          <label>
+            Não preencher
+            <input
+              type="text"
+              name="company"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </label>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label for="cf-nome" class="block text-sm font-medium text-ink mb-1.5">
+              Nome completo <span class="text-brand">*</span>
+            </label>
+            <input
+              id="cf-nome"
+              name="nome"
+              type="text"
+              required
+              autocomplete="name"
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors"
+            />
+          </div>
+          <div>
+            <label for="cf-email" class="block text-sm font-medium text-ink mb-1.5">
+              E-mail <span class="text-brand">*</span>
+            </label>
+            <input
+              id="cf-email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors"
+            />
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label for="cf-telefone" class="block text-sm font-medium text-ink mb-1.5">
+              Telefone / WhatsApp <span class="text-brand">*</span>
+            </label>
+            <input
+              id="cf-telefone"
+              name="telefone"
+              type="tel"
+              required
+              autocomplete="tel"
+              placeholder="(00) 00000-0000"
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors"
+            />
+          </div>
+          <div>
+            <label for="cf-perfil" class="block text-sm font-medium text-ink mb-1.5">
+              Perfil <span class="text-brand">*</span>
+            </label>
+            <select
+              id="cf-perfil"
+              name="perfil"
+              required
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors appearance-none bg-[url('data:image/svg+xml;utf8,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2216%22%20height=%2216%22%20fill=%22none%22%20stroke=%22%235a564f%22%20stroke-width=%221.75%22%20viewBox=%220%200%2024%2024%22><path%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20d=%22M6%209l6%206%206-6%22/></svg>')] bg-no-repeat bg-[right_1rem_center] pr-10"
+            >
+              <option value="">Selecione</option>
+              <option value="produtor">Produtor</option>
+              <option value="comprador">Comprador / Trader</option>
+              <option value="parceiro">Parceiro</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label for="cf-interesse" class="block text-sm font-medium text-ink mb-1.5">
+              Interesse / Serviço
+            </label>
+            <select
+              id="cf-interesse"
+              name="interesse"
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors appearance-none bg-[url('data:image/svg+xml;utf8,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2216%22%20height=%2216%22%20fill=%22none%22%20stroke=%22%235a564f%22%20stroke-width=%221.75%22%20viewBox=%220%200%2024%2024%22><path%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20d=%22M6%209l6%206%206-6%22/></svg>')] bg-no-repeat bg-[right_1rem_center] pr-10"
+            >
+              <option value="">Selecione</option>
+              <option value="corretagem">Corretagem</option>
+              <option value="assessoria">Assessoria</option>
+              <option value="classificacao">Classificação</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label for="cf-estado" class="block text-sm font-medium text-ink mb-1.5">
+              Estado / Região
+            </label>
+            <input
+              id="cf-estado"
+              name="estado"
+              type="text"
+              autocomplete="address-level1"
+              placeholder="Ex.: Minas Gerais"
+              class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="cf-mensagem" class="block text-sm font-medium text-ink mb-1.5">
+            Mensagem
+          </label>
+          <textarea
+            id="cf-mensagem"
+            name="mensagem"
+            rows="4"
+            placeholder="Descreva sua demanda (opcional)"
+            class="w-full px-4 py-2.5 text-sm text-ink bg-paper border border-line rounded-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-colors resize-y min-h-[100px]"
+          ></textarea>
+        </div>
+
+        <div
+          data-form-error
+          hidden
+          class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3"
+        >
+        </div>
+
+        <button
+          type="submit"
+          data-form-submit
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark disabled:opacity-60 disabled:cursor-not-allowed text-paper text-base font-medium px-7 py-3 rounded-full transition-colors duration-200"
+        >
+          <span data-submit-label>Enviar solicitação</span>
+          <span data-submit-arrow aria-hidden="true">→</span>
+          <svg
+            data-submit-spinner
+            hidden
+            class="w-4 h-4 animate-spin"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"></circle>
+            <path fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z"></path>
+          </svg>
+        </button>
+
+        <p class="text-xs text-ink-muted/80 leading-relaxed pt-2">
+          Ao enviar, você concorda que utilizaremos seus dados apenas para entrar em contato sobre esta solicitação.
+        </p>
+      </form>
+
+      {/* Tela de sucesso (oculta até submit bem-sucedido) */}
+      <div
+        data-form-success
+        hidden
+        class="py-6 text-center"
+      >
+        <div
+          class="mx-auto w-14 h-14 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-5"
+        >
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-ink mb-2">
+          Solicitação recebida
+        </h3>
+        <p class="text-sm text-ink-muted max-w-sm mx-auto leading-relaxed">
+          Recebemos sua mensagem e entraremos em contato em até 1 dia útil. Obrigado pelo interesse na Safras &amp; Negócios.
+        </p>
+        <button
+          type="button"
+          data-modal-close
+          class="mt-6 inline-flex items-center gap-1.5 text-ink hover:text-brand text-sm font-medium transition-colors"
+        >
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("contact-modal");
+  if (modal) {
+    const overlay = modal.querySelector<HTMLElement>("[data-modal-overlay]");
+    const panel = modal.querySelector<HTMLElement>("[data-modal-panel]");
+    const form = modal.querySelector<HTMLFormElement>("#contact-form");
+    const submitBtn = modal.querySelector<HTMLButtonElement>("[data-form-submit]");
+    const submitLabel = modal.querySelector<HTMLElement>("[data-submit-label]");
+    const submitArrow = modal.querySelector<HTMLElement>("[data-submit-arrow]");
+    const submitSpinner = modal.querySelector<HTMLElement>("[data-submit-spinner]");
+    const errorBox = modal.querySelector<HTMLElement>("[data-form-error]");
+    const successBox = modal.querySelector<HTMLElement>("[data-form-success]");
+
+    let lastTrigger: HTMLElement | null = null;
+    let isOpen = false;
+
+    const FOCUSABLE =
+      'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]):not([tabindex="-1"]), textarea:not([disabled]):not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])';
+
+    function openModal(trigger: HTMLElement | null = null) {
+      if (isOpen) return;
+      isOpen = true;
+      lastTrigger = trigger;
+      modal!.removeAttribute("hidden");
+      modal!.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+
+      // Reset do estado do form (se veio de um sucesso anterior)
+      resetFormState();
+
+      // Trigger transition
+      requestAnimationFrame(() => {
+        overlay?.classList.replace("opacity-0", "opacity-100");
+        panel?.classList.replace("opacity-0", "opacity-100");
+        panel?.classList.replace("scale-[0.97]", "scale-100");
+      });
+
+      // Foco inicial no primeiro input
+      setTimeout(() => {
+        const firstInput = modal!.querySelector<HTMLInputElement>('input[name="nome"]');
+        firstInput?.focus();
+      }, 50);
+    }
+
+    function closeModal() {
+      if (!isOpen) return;
+      isOpen = false;
+      modal!.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+
+      overlay?.classList.replace("opacity-100", "opacity-0");
+      panel?.classList.replace("opacity-100", "opacity-0");
+      panel?.classList.replace("scale-100", "scale-[0.97]");
+
+      const onEnd = () => {
+        modal!.setAttribute("hidden", "");
+        panel?.removeEventListener("transitionend", onEnd);
+      };
+      panel?.addEventListener("transitionend", onEnd);
+
+      // Fallback se reduced motion ou transitionend não disparar
+      setTimeout(() => {
+        if (!isOpen) modal!.setAttribute("hidden", "");
+      }, 300);
+
+      // Limpa hash se foi aberto via link
+      if (window.location.hash === "#contato") {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+
+      lastTrigger?.focus();
+    }
+
+    function resetFormState() {
+      form?.reset();
+      form?.setAttribute("data-state", "idle");
+      form!.hidden = false;
+      successBox!.hidden = true;
+      errorBox!.hidden = true;
+      submitBtn!.disabled = false;
+      submitSpinner!.hidden = true;
+      submitArrow!.hidden = false;
+      submitLabel!.textContent = "Enviar solicitação";
+    }
+
+    // Triggers globais: qualquer [data-open-contact]
+    document.querySelectorAll<HTMLElement>("[data-open-contact]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal(el);
+      });
+    });
+
+    // Fechar via botões [data-modal-close]
+    modal.querySelectorAll<HTMLElement>("[data-modal-close]").forEach((el) => {
+      el.addEventListener("click", () => closeModal());
+    });
+
+    // Clique no overlay fecha
+    overlay?.addEventListener("click", () => closeModal());
+
+    // ESC fecha
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen) {
+        closeModal();
+      }
+    });
+
+    // Focus trap
+    modal.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab" || !isOpen) return;
+      const focusables = Array.from(
+        modal!.querySelectorAll<HTMLElement>(FOCUSABLE)
+      ).filter((el) => !el.hasAttribute("hidden") && el.offsetParent !== null);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement;
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Abre via hash #contato ao carregar
+    if (window.location.hash === "#contato") {
+      setTimeout(() => openModal(), 100);
+    }
+    window.addEventListener("hashchange", () => {
+      if (window.location.hash === "#contato") openModal();
+    });
+
+    // Submit handler — Fase 1 é stub (simula envio)
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form!.checkValidity()) {
+        form!.reportValidity();
+        return;
+      }
+
+      // Honeypot: se preenchido, é bot — finge sucesso
+      const hp = (form!.elements.namedItem("company") as HTMLInputElement)?.value;
+      if (hp) {
+        showSuccess();
+        return;
+      }
+
+      // Estado "enviando"
+      submitBtn!.disabled = true;
+      submitSpinner!.hidden = false;
+      submitArrow!.hidden = true;
+      submitLabel!.textContent = "Enviando...";
+      errorBox!.hidden = true;
+
+      try {
+        // FASE 1 — STUB: simula um POST de ~800ms e sempre dá sucesso.
+        // FASE 2 — substituir por fetch pra Cloud Function.
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        showSuccess();
+      } catch (err) {
+        errorBox!.hidden = false;
+        errorBox!.textContent =
+          "Não foi possível enviar agora. Tente novamente em instantes.";
+        submitBtn!.disabled = false;
+        submitSpinner!.hidden = true;
+        submitArrow!.hidden = false;
+        submitLabel!.textContent = "Enviar solicitação";
+      }
+    });
+
+    function showSuccess() {
+      form!.hidden = true;
+      successBox!.hidden = false;
+      form!.setAttribute("data-state", "success");
+    }
+  }
+</script>

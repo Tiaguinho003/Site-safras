@@ -11,7 +11,7 @@ const isActive = (href: string) => {
 ---
 
 <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm border-b border-line">
-  <div class="max-w-7xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between gap-6">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 md:h-28 flex items-center justify-between gap-6">
     <a
       href="/"
       class="flex items-center shrink-0"
@@ -20,16 +20,16 @@ const isActive = (href: string) => {
       <Image
         src={logoOri}
         alt="Safras & Negócios"
-        height={40}
-        widths={[140, 280]}
-        sizes="140px"
-        class="h-8 md:h-10 w-auto"
+        height={56}
+        widths={[180, 360]}
+        sizes="180px"
+        class="h-10 md:h-14 w-auto"
         loading="eager"
       />
     </a>
 
     <nav aria-label="Menu principal" class="hidden lg:block flex-1">
-      <ul class="flex items-center justify-center gap-8">
+      <ul class="flex items-center justify-center gap-12">
         {
           mainNav.map((item) => (
             <li>
@@ -37,7 +37,7 @@ const isActive = (href: string) => {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 class:list={[
-                  "text-sm font-medium transition-colors duration-200",
+                  "text-base font-medium transition-colors duration-200",
                   isActive(item.href)
                     ? "text-brand"
                     : "text-ink-muted hover:text-ink",
@@ -52,13 +52,14 @@ const isActive = (href: string) => {
     </nav>
 
     <div class="flex items-center gap-3 shrink-0">
-      <a
-        href="/contato"
-        class="hidden sm:inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-sm font-medium px-5 py-2.5 rounded-full transition-colors duration-200"
+      <button
+        type="button"
+        data-open-contact
+        class="hidden sm:inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-6 py-2.5 rounded-full transition-colors duration-200"
       >
-        Fale Conosco
+        Solicitar Serviço
         <span aria-hidden="true">→</span>
-      </a>
+      </button>
 
       <button
         type="button"
@@ -69,7 +70,7 @@ const isActive = (href: string) => {
         class="lg:hidden p-2 -m-2 text-ink"
       >
         <svg
-          class="w-6 h-6"
+          class="w-7 h-7"
           fill="none"
           stroke="currentColor"
           stroke-width="1.75"
@@ -110,13 +111,15 @@ const isActive = (href: string) => {
           </li>
         ))
       }
-      <li class="pt-2 sm:hidden">
-        <a
-          href="/contato"
-          class="block text-center bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
+      <li class="pt-3 sm:hidden">
+        <button
+          type="button"
+          data-open-contact
+          class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
         >
-          Fale Conosco →
-        </a>
+          Solicitar Serviço
+          <span aria-hidden="true">→</span>
+        </button>
       </li>
     </ul>
   </nav>

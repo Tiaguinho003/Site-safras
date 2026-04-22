@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
-  site: "https://site-safras.web.app",
+  site: "https://safrasenegocios.com.br",
   trailingSlash: "never",
   build: {
     inlineStylesheets: "auto",

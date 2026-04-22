@@ -41,3 +41,12 @@ firebase-debug.*.log
 /.extract-*
 /.temp-*
 /.scratch-*
+
+# Documentos comerciais e materiais pessoais (não versionar)
+/proposta-custos-site.docx
+/proposta-custos-site.pdf
+
+# Debug artefatos (Playwright, screenshots one-off)
+/playwright-debug.*
+/debug-*.png
+/debug-*.html
