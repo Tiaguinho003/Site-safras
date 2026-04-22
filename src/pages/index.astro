@@ -1,23 +1,140 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import cafezalAereo from "../assets/hero/cafezal-aereo.jpg";
+import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
 ---
 
-<BaseLayout title="Safras & Negócios | Mercado de café">
-  <main class="min-h-screen flex items-center justify-center px-6">
-    <section class="max-w-2xl text-center">
+<BaseLayout title="Safras & Negócios | Corretora de café">
+  <section
+    class="relative overflow-hidden bg-paper"
+    aria-labelledby="hero-titulo"
+  >
+    <div
+      class="max-w-7xl mx-auto px-6 md:px-10 pt-14 md:pt-20 lg:pt-24 pb-28 md:pb-40 lg:pb-48"
+    >
+      <div
+        class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start"
+      >
+        <div class="max-w-xl lg:pt-6">
+          <span
+            class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-6"
+          >
+            [ Corretora de café ]
+          </span>
+
+          <h1
+            id="hero-titulo"
+            class="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-ink leading-[1.08] tracking-tight"
+          >
+            Tradição e confiança
+            <span class="text-brand">no mercado do café.</span>
+          </h1>
+
+          <p class="mt-6 text-base md:text-lg text-ink-muted leading-relaxed max-w-lg">
+            Conectamos produtores, cooperativas, indústria e exportadores com
+            seriedade e proximidade — do grão à liquidação, em toda safra.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <a
+              href="/contato"
+              class="inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-sm md:text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
+            >
+              Fale Conosco
+              <span aria-hidden="true">→</span>
+            </a>
+            <a
+              href="/servicos"
+              class="inline-flex items-center gap-1.5 text-ink hover:text-brand text-sm md:text-base font-medium px-2 py-3 transition-colors"
+            >
+              Conheça nossos serviços
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div
+            class="relative aspect-[5/4] lg:aspect-square rounded-xl overflow-hidden bg-paper-alt shadow-[0_30px_60px_-20px_rgba(20,19,17,0.25)]"
+          >
+            <Image
+              src={cafezalAereo}
+              alt="Vista aérea de cafezal com colheitadeira em operação"
+              widths={[600, 900, 1200]}
+              sizes="(max-width: 1024px) 92vw, 52vw"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+
+          <div
+            class="absolute -bottom-16 md:-bottom-24 right-2 md:right-8 w-[58%] md:w-[50%] aspect-[4/5] rounded-xl overflow-hidden border-[6px] md:border-[10px] border-paper shadow-[0_24px_48px_-12px_rgba(20,19,17,0.35)]"
+          >
+            <Image
+              src={provaDeXicara}
+              alt="Prova de xícara — classificação sensorial de café por especialistas"
+              widths={[320, 480, 700]}
+              sizes="(max-width: 768px) 56vw, 30vw"
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="bg-paper-alt border-t border-line"
+    aria-labelledby="depoimento-titulo"
+  >
+    <h2 id="depoimento-titulo" class="sr-only">Depoimento</h2>
+    <div class="max-w-4xl mx-auto px-6 md:px-10 py-16 md:py-24">
+      <figure>
+        <svg
+          class="w-10 h-10 text-brand/30 mb-6"
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 8c-4.418 0-8 3.582-8 8 0 3.866 2.686 7 6 8v-2c-2.21-.88-4-3-4-6 0-3.314 2.686-6 6-6V8zm14 0c-4.418 0-8 3.582-8 8 0 3.866 2.686 7 6 8v-2c-2.21-.88-4-3-4-6 0-3.314 2.686-6 6-6V8z"
+          ></path>
+        </svg>
+        <blockquote
+          class="text-xl md:text-2xl lg:text-3xl font-medium text-ink leading-snug max-w-3xl"
+        >
+          Em 15 anos trabalhando com a Safras, nunca tive surpresa ruim.
+          Compromisso, clareza nos contratos e pagamento em dia. Não é só
+          vender café — é construir uma relação em que eu posso planejar
+          minha safra sem medo.
+        </blockquote>
+        <figcaption class="mt-8 text-sm text-ink-muted">
+          — <span class="font-semibold text-ink">João Batista Pereira</span>,
+          Produtor · Sul de Minas, MG
+        </figcaption>
+      </figure>
+      <p class="mt-6 text-xs italic text-ink-muted/70">
+        ⚠ Depoimento exemplo — substituir por depoimento real antes de publicar
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-paper border-t border-line">
+    <div class="max-w-4xl mx-auto px-6 md:px-10 py-20 md:py-28 text-center">
       <p
-        class="text-sm font-medium uppercase tracking-[0.2em] text-brand mb-5"
+        class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-4"
       >
-        Em construção
+        [ Em construção ]
       </p>
-      <h1
-        class="text-5xl md:text-7xl font-bold text-ink leading-[1.05] mb-6"
-      >
-        Safras <span class="text-brand">&amp;</span> Negócios
-      </h1>
-      <p class="text-lg text-ink-muted">
-        Nova versão do site em desenvolvimento.
+      <h2 class="text-2xl md:text-3xl font-semibold text-ink">
+        Demais seções da Home chegarão em breve
+      </h2>
+      <p class="mt-4 text-ink-muted max-w-xl mx-auto">
+        Quem somos, serviços, números, processo e notícias — vamos construir
+        cada seção com calma.
       </p>
-    </section>
-  </main>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,140 @@
+---
+import { Image } from "astro:assets";
+import logoOri from "../../assets/branding/safras-logo-ori.png";
+import { mainNav } from "../../data/navigation";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (href: string) => {
+  const normalized = href.replace(/\/$/, "") || "/";
+  return normalized === currentPath;
+};
+---
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm border-b border-line">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between gap-6">
+    <a
+      href="/"
+      class="flex items-center shrink-0"
+      aria-label="Safras & Negócios — Ir para a home"
+    >
+      <Image
+        src={logoOri}
+        alt="Safras & Negócios"
+        height={40}
+        widths={[140, 280]}
+        sizes="140px"
+        class="h-8 md:h-10 w-auto"
+        loading="eager"
+      />
+    </a>
+
+    <nav aria-label="Menu principal" class="hidden lg:block flex-1">
+      <ul class="flex items-center justify-center gap-8">
+        {
+          mainNav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={[
+                  "text-sm font-medium transition-colors duration-200",
+                  isActive(item.href)
+                    ? "text-brand"
+                    : "text-ink-muted hover:text-ink",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3 shrink-0">
+      <a
+        href="/contato"
+        class="hidden sm:inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-sm font-medium px-5 py-2.5 rounded-full transition-colors duration-200"
+      >
+        Fale Conosco
+        <span aria-hidden="true">→</span>
+      </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="lg:hidden p-2 -m-2 text-ink"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Menu principal (mobile)"
+    hidden
+    class="lg:hidden border-t border-line bg-paper"
+  >
+    <ul class="px-6 py-4 space-y-1">
+      {
+        mainNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={[
+                "block px-3 py-2.5 rounded-md text-base font-medium transition-colors",
+                isActive(item.href)
+                  ? "text-brand bg-paper-alt"
+                  : "text-ink hover:bg-paper-alt",
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-2 sm:hidden">
+        <a
+          href="/contato"
+          class="block text-center bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
+        >
+          Fale Conosco →
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle?.addEventListener("click", () => {
+    if (!menu) return;
+    const willOpen = menu.hasAttribute("hidden");
+    if (willOpen) {
+      menu.removeAttribute("hidden");
+    } else {
+      menu.setAttribute("hidden", "");
+    }
+    toggle.setAttribute("aria-expanded", String(willOpen));
+    toggle.setAttribute("aria-label", willOpen ? "Fechar menu" : "Abrir menu");
+  });
+</script>

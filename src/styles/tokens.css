@@ -15,10 +15,10 @@
   --color-ink: #141311;
   --color-ink-muted: #5a564f;
 
-  /* Brand */
-  --color-brand: #1f6b3a;
-  --color-brand-dark: #134024;
-  --color-earth: #8b5e34;
+  /* Brand — cores extraídas dos PNGs oficiais da logo */
+  --color-brand: #025c00;
+  --color-brand-dark: #013d01;
+  --color-earth: #3c3424;
 
   /* Typography */
   --font-sans:
