@@ -11,6 +11,60 @@ const stats = [
   { target: 8, suffix: "", label: "Estados de atuação" },
 ];
 
+const steps = [
+  {
+    number: "01",
+    title: "Relacionamento",
+    description:
+      "Conhecemos o produtor, a cooperativa ou o comprador. Entendemos cada necessidade antes de qualquer número ir pro papel.",
+  },
+  {
+    number: "02",
+    title: "Negociação",
+    description:
+      "Levantamos preço, volume e condições. Conectamos as pontas no momento certo — sem afobação, sem prejuízo.",
+  },
+  {
+    number: "03",
+    title: "Logística",
+    description:
+      "Coordenamos armazenagem, transporte e entrega. Acompanhamos o café sair do terreiro até chegar onde precisa.",
+  },
+  {
+    number: "04",
+    title: "Liquidação",
+    description:
+      "Conferimos peso, classificação e pagamento. Relação que não termina no contrato — segue pra próxima safra.",
+  },
+];
+
+const posts = [
+  {
+    category: "Notícias",
+    date: "22 abr 2026",
+    title: "Cotação do arábica renova máxima histórica com clima seco em Minas",
+    excerpt:
+      "A soma de geada fora de época e irregularidade nas chuvas pressiona o preço na ICE Futures desde janeiro.",
+    href: "/noticias",
+  },
+  {
+    category: "Blog",
+    date: "15 abr 2026",
+    title: "Como a classificação sensorial influencia o preço final da saca",
+    excerpt:
+      "Prova de xícara não é formalidade — é o detalhe que decide se uma saca vale bebida dura, mole ou riada.",
+    href: "/blog",
+  },
+  {
+    category: "Notícias",
+    date: "08 abr 2026",
+    title: "Safra 2026/27 projeta recorde em volumes exportáveis do Brasil",
+    excerpt:
+      "Levantamentos do Cecafé apontam colheita robusta, mesmo com adversidades pontuais no Cerrado Mineiro.",
+    href: "/noticias",
+  },
+];
+
 const services = [
   {
     number: "01",
@@ -397,6 +451,166 @@ const services = [
         ⚠ Números em rascunho — substituir pelos valores reais da Safras
         antes de publicar.
       </p>
+    </div>
+  </section>
+
+  <section
+    class="bg-paper-alt border-t border-line"
+    aria-labelledby="timeline-titulo"
+  >
+    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+      <div class="max-w-2xl mb-14 md:mb-20">
+        <span
+          class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
+        >
+          [ Como trabalhamos ]
+        </span>
+        <h2
+          id="timeline-titulo"
+          class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
+        >
+          Do primeiro aperto de mão
+          <span class="text-brand">à última saca entregue.</span>
+        </h2>
+        <p class="mt-5 text-base md:text-lg text-ink-muted leading-relaxed">
+          Um fluxo claro, sem surpresas — com a Safras presente em cada
+          etapa da operação.
+        </p>
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 lg:gap-10"
+      >
+        {
+          steps.map((step) => (
+            <div class="relative">
+              <div
+                class="w-14 h-14 rounded-full bg-brand flex items-center justify-center text-paper font-semibold text-base tracking-tight shadow-[0_12px_32px_-12px_rgba(2,92,0,0.55)]"
+                aria-hidden="true"
+              >
+                {step.number}
+              </div>
+              <h3 class="mt-6 text-xl md:text-2xl font-semibold text-ink leading-snug tracking-tight">
+                {step.title}
+              </h3>
+              <p class="mt-3 text-sm md:text-base text-ink-muted leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="bg-paper border-t border-line"
+    aria-labelledby="mercado-titulo"
+  >
+    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+      <div
+        class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 md:mb-20"
+      >
+        <div class="max-w-2xl">
+          <span
+            class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
+          >
+            [ Mercado ]
+          </span>
+          <h2
+            id="mercado-titulo"
+            class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
+          >
+            Notícias e análises que
+            <span class="text-brand">movem o café.</span>
+          </h2>
+          <p class="mt-5 text-base md:text-lg text-ink-muted leading-relaxed">
+            Acompanhe o mercado com curadoria Safras — cotações, safras e
+            cenário macro.
+          </p>
+        </div>
+        <a
+          href="/noticias"
+          class="inline-flex items-center gap-1.5 text-brand hover:text-brand-dark font-medium text-sm whitespace-nowrap border-b border-brand/30 hover:border-brand pb-1 self-start md:self-auto md:mb-2 transition-colors"
+        >
+          Ver todas as notícias
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 lg:gap-10">
+        {
+          posts.map((post) => (
+            <article class="group">
+              <a
+                href={post.href}
+                class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 rounded-lg"
+              >
+                <div class="relative aspect-[3/2] rounded-lg bg-paper-alt border border-dashed border-line overflow-hidden flex items-center justify-center transition-colors duration-300 group-hover:border-brand/40">
+                  <span class="text-xs italic text-ink-muted/70 transition-colors duration-300 group-hover:text-brand/70">
+                    Imagem em breve
+                  </span>
+                </div>
+                <div class="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-ink-muted">
+                  <span class="text-brand font-semibold">{post.category}</span>
+                  <span aria-hidden="true">·</span>
+                  <time>{post.date}</time>
+                </div>
+                <h3 class="mt-3 text-lg md:text-xl font-semibold text-ink leading-snug tracking-tight line-clamp-3 transition-colors duration-300 group-hover:text-brand">
+                  {post.title}
+                </h3>
+                <p class="mt-3 text-sm text-ink-muted leading-relaxed line-clamp-2">
+                  {post.excerpt}
+                </p>
+                <span class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand">
+                  Ler mais
+                  <span
+                    class="transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </span>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="mt-12 text-xs italic text-ink-muted/70">
+        ⚠ Posts exemplo — substituir por conteúdo real antes de publicar.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-brand-dark" aria-labelledby="cta-final-titulo">
+    <div
+      class="max-w-4xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32 text-center"
+    >
+      <span
+        class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-paper/60 mb-5"
+      >
+        [ Vamos conversar ]
+      </span>
+      <h2
+        id="cta-final-titulo"
+        class="text-3xl md:text-4xl lg:text-5xl font-semibold text-paper leading-[1.1] tracking-tight"
+      >
+        Uma conversa pode mudar a sua safra.
+      </h2>
+      <p class="mt-6 text-base md:text-lg text-paper/80 leading-relaxed max-w-2xl mx-auto">
+        Conte pra gente o que você precisa — vender café, comprar lote ou
+        entender o mercado. Respondemos rápido e sem compromisso.
+      </p>
+      <div class="mt-10">
+        <a
+          href="/contato"
+          class="inline-flex items-center gap-1.5 bg-paper hover:bg-paper-alt text-ink text-base font-medium px-7 py-3.5 rounded-full transition-colors duration-200"
+        >
+          Fale Conosco
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
