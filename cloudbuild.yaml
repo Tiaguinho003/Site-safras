@@ -26,6 +26,8 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY
-  machineType: "E2_HIGHCPU_8"
+  # Sem machineType explícito → usa default e2-medium (elegível ao free tier
+  # de 120 build-minutes/dia). Build é um pouco mais lento (~6-10 min em vez
+  # de ~3-5 min), mas custo zero em operação normal.
 
-timeout: "600s"
+timeout: "1200s"
