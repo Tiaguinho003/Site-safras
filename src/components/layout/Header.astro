@@ -19,7 +19,7 @@ const isActive = (href: string) => {
   data-scroll-aware={isHome ? "true" : undefined}
   class="site-header sticky top-0 z-40"
 >
-  <div class="max-w-[100rem] mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between gap-6">
+  <div class="max-w-[100rem] mx-auto px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6">
     <a
       href="/"
       class="site-header__logo flex items-center shrink-0 relative"
@@ -28,8 +28,8 @@ const isActive = (href: string) => {
       <Image
         src={logoBranco}
         alt=""
-        height={64}
-        class="site-header__logo-img site-header__logo-img--white h-10 md:h-16 w-auto"
+        height={48}
+        class="site-header__logo-img site-header__logo-img--white h-8 md:h-12 w-auto"
         loading="eager"
       />
       <Image
@@ -50,7 +50,7 @@ const isActive = (href: string) => {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 data-active={isActive(item.href) ? "true" : undefined}
-                class="site-header__nav-link text-base font-medium"
+                class="site-header__nav-link text-base md:text-lg font-light"
               >
                 {item.label}
               </a>
@@ -142,8 +142,10 @@ const isActive = (href: string) => {
 
   /* --- MODE: hero (over the dark image) --- */
   .site-header[data-mode="hero"] {
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
+    background-color: rgba(20, 19, 17, 0.18);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .site-header[data-mode="hero"] .site-header__logo-img--white {
     opacity: 1;
