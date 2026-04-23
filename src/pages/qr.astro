@@ -1,0 +1,31 @@
+---
+/**
+ * Rota /qr — destino do QR code impresso no material físico (cartão Safras).
+ * Redireciona pra home com UTMs de rastreio. Em produção o Firebase Hosting
+ * faz 302 via regra no firebase.json; este template é fallback pra dev local
+ * e pra garantir que a URL nunca retorne 404 caso a regra de redirect suma.
+ *
+ * IMPORTANTE: a URL /qr está gravada em tinta em material impresso.
+ * Nunca renomear este arquivo nem alterar o destino sem autorização explícita.
+ */
+const DEST = "/?utm_source=qr&utm_medium=print&utm_campaign=cartao";
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${DEST}`} />
+    <link rel="canonical" href="/" />
+    <title>Redirecionando... | Safras & Negócios</title>
+    <script is:inline define:vars={{ DEST }}>
+      window.location.replace(DEST);
+    </script>
+  </head>
+  <body>
+    <p style="font-family: system-ui, sans-serif; padding: 2rem;">
+      Redirecionando... Se nada acontecer,
+      <a href={DEST}>clique aqui</a>.
+    </p>
+  </body>
+</html>

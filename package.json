@@ -26,6 +26,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "firebase-tools": "^15.15.0",
+    "jsqr": "^1.4.0",
+    "potrace": "^2.1.8",
+    "qrcode": "^1.5.4",
     "typescript": "^5.7.0"
   },
   "pnpm": {
