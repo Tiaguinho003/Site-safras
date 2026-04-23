@@ -136,7 +136,7 @@ const services = [
     >
       <h1
         id="hero-titulo"
-        class="max-w-5xl ml-8 md:ml-10 lg:ml-12 xl:ml-14 uppercase text-paper leading-[0.95] tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)]"
+        class="max-w-5xl ml-8 md:ml-10 lg:ml-12 xl:ml-14 uppercase text-paper leading-[0.95] tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)] font-['Poppins','Inter',sans-serif]"
       >
         <span
           class="word-rotator block font-bold text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem]"
@@ -166,7 +166,7 @@ const services = [
       </h1>
 
       <div
-        class="mt-12 md:mt-16 lg:mt-20 ml-8 md:ml-10 lg:ml-12 xl:ml-14 flex items-stretch gap-4 md:gap-5 max-w-md md:max-w-lg"
+        class="mt-6 md:mt-8 lg:mt-10 ml-8 md:ml-10 lg:ml-12 xl:ml-14 flex items-stretch gap-4 md:gap-5 max-w-md md:max-w-lg"
       >
         <span
           class="w-px bg-paper/40 shrink-0"
@@ -251,47 +251,47 @@ const services = [
           </div>
 
           <figure
-            class="flex flex-col gap-3 md:ml-auto md:max-w-[280px] order-2 md:order-none"
+            class="flex flex-col gap-3 md:ml-auto md:max-w-[320px] order-2 md:order-none"
             aria-labelledby="depoimento-titulo"
           >
             <h2 id="depoimento-titulo" class="sr-only">Palavra do fundador</h2>
-            <div
-              class="self-end mr-6 md:mr-8 w-12 h-12 md:w-14 md:h-14 rounded-full bg-paper/10 border border-paper/25 flex items-center justify-center overflow-hidden"
-              aria-hidden="true"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.75"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-paper/60"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
-            <div class="min-w-0">
-              <blockquote
-                class="text-sm md:text-base font-medium text-paper leading-snug"
-              >
-                &ldquo;Palavra dada, safra entregue.<br />Tradição que atravessa
-                safras.&rdquo;
-              </blockquote>
-              <span
-                class="block h-px my-3 bg-gradient-to-r from-paper/40 via-paper/20 to-transparent"
-                aria-hidden="true"></span>
-              <figcaption class="text-xs text-paper/70">
-                <span class="font-semibold text-paper">Gilson Aloise</span>
+            <div class="self-end flex items-center gap-3">
+              <figcaption class="text-xs text-paper/70 text-right min-w-0">
+                <span class="block font-semibold text-paper">Gilson Aloise</span>
                 <span class="block text-paper/60 mt-0.5"
                   >Fundador, Safras &amp; Negócios</span
                 >
               </figcaption>
+              <span
+                class="w-px self-stretch bg-paper/40"
+                aria-hidden="true"></span>
+              <div
+                class="mr-6 md:mr-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-paper/10 border border-paper/25 shrink-0 flex items-center justify-center overflow-hidden"
+                aria-hidden="true"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-paper/60"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
             </div>
+            <blockquote
+              class="text-sm md:text-base font-medium text-paper leading-snug"
+            >
+              &ldquo;Palavra dada, safra entregue.<br />Tradição que atravessa
+              safras.&rdquo;
+            </blockquote>
           </figure>
         </div>
 
