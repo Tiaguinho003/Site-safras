@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import cafezalAereo from "../assets/hero/cafezal-aereo.jpg";
+import lavouraDeCafe from "../assets/hero/lavoura-de-cafe.png";
 import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
 
 const stats = [
@@ -65,6 +65,17 @@ const posts = [
   },
 ];
 
+const partners = [
+  "Cooperativa do Cerrado",
+  "Café Três Coroas",
+  "Exportadora Minas",
+  "Torrefação Bourbon",
+  "Cooperativa do Caparaó",
+  "Café Arábica Brasil",
+  "Santos Export",
+  "Torrefação do Vale",
+];
+
 const services = [
   {
     number: "01",
@@ -92,126 +103,208 @@ const services = [
 
 <BaseLayout title="Safras & Negócios | Corretora de café">
   <section
-    class="relative overflow-hidden bg-paper"
+    class="relative -mt-16 md:-mt-20 flex flex-col min-h-screen"
     aria-labelledby="hero-titulo"
   >
     <div
-      class="max-w-7xl mx-auto px-6 md:px-10 pt-14 md:pt-20 lg:pt-24 pb-28 md:pb-40 lg:pb-48"
+      class="absolute inset-0 -z-10 overflow-hidden"
+      aria-hidden="true"
     >
+      <Image
+        src={lavouraDeCafe}
+        alt=""
+        widths={[1200, 1600, 2000]}
+        sizes="100vw"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-black/20"></div>
       <div
-        class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-start"
+        class="absolute inset-0"
+        style="background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.35) 100%);"
       >
-        <div class="max-w-xl lg:pt-6">
+      </div>
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.18) 25%, transparent 50%);"
+      >
+      </div>
+    </div>
+
+    <div
+      class="relative flex-1 max-w-[100rem] w-full mx-auto px-6 md:px-10 pt-32 md:pt-40 lg:pt-48 pb-16 md:pb-0"
+    >
+      <h1
+        id="hero-titulo"
+        class="max-w-5xl ml-8 md:ml-10 lg:ml-12 xl:ml-14 uppercase text-paper leading-[0.95] tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)] font-['Poppins','Inter',sans-serif]"
+      >
+        <span
+          class="word-rotator block font-bold text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem]"
+          aria-live="polite"
+        >
+          <span class="word-rotator__word" data-state="active"
+            >Tradição</span
+          >
+          <span class="word-rotator__word" data-state="queued" aria-hidden="true"
+            >Confiança</span
+          >
+        </span>
+        <span
+          class="word-rotator-divider block my-1 md:my-1.5"
+          aria-hidden="true"
+        ></span>
+        <span class="flex items-start gap-x-2.5 md:gap-x-3 lg:gap-x-4 xl:gap-x-5 leading-[1]">
           <span
-            class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-6"
+            class="font-normal text-lg md:text-xl lg:text-2xl xl:text-[1.875rem] pt-1 md:pt-1.5 -ml-px md:-ml-0.5"
+            >no mercado de</span
           >
-            [ Corretora de café ]
-          </span>
-
-          <h1
-            id="hero-titulo"
-            class="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-ink leading-[1.08] tracking-tight"
+          <span
+            class="font-bold italic text-[#E8C07A] text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] tracking-tight"
+            >café</span
           >
-            Tradição e confiança
-            <span class="text-brand">no mercado do café.</span>
-          </h1>
+        </span>
+      </h1>
 
-          <p class="mt-6 text-base md:text-lg text-ink-muted leading-relaxed max-w-lg">
-            Conectamos produtores, cooperativas, indústria e exportadores com
-            seriedade e proximidade — do grão à liquidação, em toda safra.
-          </p>
+      <div
+        class="mt-6 md:mt-8 lg:mt-10 ml-8 md:ml-10 lg:ml-12 xl:ml-14 flex items-stretch gap-4 md:gap-5 max-w-md md:max-w-lg"
+      >
+        <span
+          class="w-px bg-paper/40 shrink-0"
+          aria-hidden="true"
+        ></span>
+        <p
+          class="text-sm md:text-base lg:text-lg text-paper/90 leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
+        >
+          Conectamos origem e mercado<br />com seriedade e respeito pelo café.
+        </p>
+      </div>
+    </div>
 
-          <div class="mt-10 flex flex-wrap items-center gap-4">
+    <div class="relative bg-ink/55 backdrop-blur-[2px] text-paper">
+      <div
+        class="absolute inset-x-0 -top-72 md:-top-96 h-72 md:h-96 pointer-events-none"
+        style="background: linear-gradient(to bottom, rgba(20,19,17,0) 0%, rgba(20,19,17,0.02) 45%, rgba(20,19,17,0.08) 70%, rgba(20,19,17,0.28) 88%, rgba(20,19,17,0.55) 100%);"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="relative max-w-[100rem] mx-auto px-6 md:px-10 py-6 md:py-8 lg:py-9"
+      >
+        <div
+          class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-10 lg:gap-14 items-end"
+        >
+          <div
+            class="relative overflow-hidden md:mr-auto md:max-w-md"
+            aria-labelledby="parceiros-titulo"
+          >
+            <h2
+              id="parceiros-titulo"
+              class="text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/60 mb-4"
+            >
+              Quem confia na Safras
+            </h2>
+            <div
+              class="partners-marquee-mask relative"
+              role="region"
+              aria-label="Carrossel de parceiros"
+            >
+              <div class="partners-marquee-track flex gap-3 w-max">
+                {
+                  [
+                    ...partners,
+                    ...partners,
+                  ].map((name, i) => (
+                    <div
+                      class="partners-card shrink-0 rounded-xl px-7 py-5 border border-paper/15 bg-paper/5 backdrop-blur-md text-base font-medium text-paper/90 whitespace-nowrap"
+                      aria-hidden={i >= partners.length ? "true" : undefined}
+                    >
+                      {name}
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-center order-1 md:order-none">
             <button
               type="button"
-              data-open-contact
-              class="inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-sm md:text-base font-medium px-6 py-3 rounded-full transition-colors duration-200"
+              data-scroll-next
+              aria-label="Ir para a próxima seção"
+              class="scroll-down group inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full border border-paper/30 hover:border-paper text-paper/70 hover:text-paper transition-colors"
             >
-              Solicitar Serviço
-              <span aria-hidden="true">→</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="scroll-down__icon"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
             </button>
-            <a
-              href="/servicos"
-              class="inline-flex items-center gap-1.5 text-ink hover:text-brand text-sm md:text-base font-medium px-2 py-3 transition-colors"
+          </div>
+
+          <figure
+            class="flex flex-col gap-3 md:ml-auto md:max-w-[320px] order-2 md:order-none"
+            aria-labelledby="depoimento-titulo"
+          >
+            <h2 id="depoimento-titulo" class="sr-only">Palavra do fundador</h2>
+            <div class="self-end flex items-center gap-3">
+              <figcaption class="text-xs text-paper/70 text-right min-w-0">
+                <span class="block font-semibold text-paper">Gilson Aloise</span>
+                <span class="block text-paper/60 mt-0.5"
+                  >Fundador, Safras &amp; Negócios</span
+                >
+              </figcaption>
+              <span
+                class="w-px self-stretch bg-paper/40"
+                aria-hidden="true"></span>
+              <div
+                class="mr-6 md:mr-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-paper/10 border border-paper/25 shrink-0 flex items-center justify-center overflow-hidden"
+                aria-hidden="true"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-paper/60"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+            <blockquote
+              class="text-sm md:text-base font-medium text-paper leading-snug"
             >
-              Conheça nossos serviços
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
+              &ldquo;Palavra dada, safra entregue.<br />Tradição que atravessa
+              safras.&rdquo;
+            </blockquote>
+          </figure>
         </div>
 
-        <div class="relative">
-          <div
-            class="relative aspect-[5/4] lg:aspect-square rounded-xl overflow-hidden bg-paper-alt shadow-[0_30px_60px_-20px_rgba(20,19,17,0.25)]"
-          >
-            <Image
-              src={cafezalAereo}
-              alt="Vista aérea de cafezal com colheitadeira em operação"
-              widths={[600, 900, 1200]}
-              sizes="(max-width: 1024px) 92vw, 52vw"
-              class="w-full h-full object-cover"
-              loading="eager"
-            />
-          </div>
-
-          <div
-            class="absolute -bottom-16 md:-bottom-24 right-2 md:right-8 w-[58%] md:w-[50%] aspect-[4/5] rounded-xl overflow-hidden border-[6px] md:border-[10px] border-paper shadow-[0_24px_48px_-12px_rgba(20,19,17,0.35)]"
-          >
-            <Image
-              src={provaDeXicara}
-              alt="Prova de xícara — classificação sensorial de café por especialistas"
-              widths={[320, 480, 700]}
-              sizes="(max-width: 768px) 56vw, 30vw"
-              class="w-full h-full object-cover"
-              loading="eager"
-            />
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
   <section
-    class="bg-paper-alt border-t border-line"
-    aria-labelledby="depoimento-titulo"
-  >
-    <h2 id="depoimento-titulo" class="sr-only">Depoimento</h2>
-    <div class="max-w-4xl mx-auto px-6 md:px-10 py-16 md:py-24">
-      <figure>
-        <svg
-          class="w-10 h-10 text-brand/30 mb-6"
-          fill="currentColor"
-          viewBox="0 0 32 32"
-          aria-hidden="true"
-        >
-          <path
-            d="M10 8c-4.418 0-8 3.582-8 8 0 3.866 2.686 7 6 8v-2c-2.21-.88-4-3-4-6 0-3.314 2.686-6 6-6V8zm14 0c-4.418 0-8 3.582-8 8 0 3.866 2.686 7 6 8v-2c-2.21-.88-4-3-4-6 0-3.314 2.686-6 6-6V8z"
-          ></path>
-        </svg>
-        <blockquote
-          class="text-xl md:text-2xl lg:text-3xl font-medium text-ink leading-snug max-w-3xl"
-        >
-          Em 15 anos trabalhando com a Safras, nunca tive surpresa ruim.
-          Compromisso, clareza nos contratos e pagamento em dia. Não é só
-          vender café — é construir uma relação em que eu posso planejar
-          minha safra sem medo.
-        </blockquote>
-        <figcaption class="mt-8 text-sm text-ink-muted">
-          — <span class="font-semibold text-ink">João Batista Pereira</span>,
-          Produtor · Sul de Minas, MG
-        </figcaption>
-      </figure>
-      <p class="mt-6 text-xs italic text-ink-muted/70">
-        ⚠ Depoimento exemplo — substituir por depoimento real antes de publicar
-      </p>
-    </div>
-  </section>
-
-  <section
-    class="bg-paper border-t border-line"
+    id="proximo"
+    class="bg-paper border-t border-line scroll-mt-20 md:scroll-mt-28"
     aria-labelledby="servicos-titulo"
   >
-    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div
         class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 md:mb-20"
       >
@@ -331,7 +424,7 @@ const services = [
     class="bg-paper-alt border-t border-line"
     aria-labelledby="quem-somos-titulo"
   >
-    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div
         class="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-20 items-center"
       >
@@ -366,9 +459,8 @@ const services = [
             class="mt-6 space-y-5 text-base md:text-lg text-ink-muted leading-relaxed"
           >
             <p>
-              Conectamos produtores, cooperativas, indústria e exportadores
-              com a seriedade de quem entende o café por dentro. Acompanhamos
-              cada operação de ponta a ponta — da lavoura à liquidação.
+              Conectamos produtores, cooperativas e exportadores com a seriedade 
+              de quem entende de mercado e o prazer de quem aprecia um bom café.  
             </p>
             <p>
               Somos feitos de relação. Contratos claros, palavra cumprida,
@@ -400,7 +492,7 @@ const services = [
     class="bg-paper border-t border-line"
     aria-labelledby="numeros-titulo"
   >
-    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div class="max-w-2xl mb-14 md:mb-20">
         <span
           class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
@@ -459,7 +551,7 @@ const services = [
     class="bg-paper-alt border-t border-line"
     aria-labelledby="timeline-titulo"
   >
-    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div class="max-w-2xl mb-14 md:mb-20">
         <span
           class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
@@ -508,7 +600,7 @@ const services = [
     class="bg-paper border-t border-line"
     aria-labelledby="mercado-titulo"
   >
-    <div class="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div
         class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 md:mb-20"
       >
@@ -671,6 +763,157 @@ const services = [
       );
 
       counters.forEach((el) => observer.observe(el));
+    }
+  </script>
+
+  <style>
+    .word-rotator {
+      display: inline-grid;
+      grid-template-areas: "stack";
+      vertical-align: baseline;
+      overflow: hidden;
+      padding-top: 0.16em;
+      padding-bottom: 0.06em;
+    }
+    .word-rotator__word {
+      grid-area: stack;
+      transition:
+        transform 800ms cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 600ms cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform, opacity;
+    }
+    .word-rotator__word[data-state="active"] {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .word-rotator__word[data-state="exit"] {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    .word-rotator__word[data-state="queued"] {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .word-rotator__word {
+        transition: none;
+      }
+    }
+    .word-rotator-divider {
+      height: 1px;
+      max-width: 38%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.85) 40%,
+        rgba(255, 255, 255, 0.85) 60%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+
+    .partners-marquee-mask {
+      mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        black 6%,
+        black 94%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        black 6%,
+        black 94%,
+        transparent 100%
+      );
+    }
+    .partners-marquee-track {
+      animation: partners-marquee 28s linear infinite;
+    }
+    .scroll-down__icon {
+      animation: scroll-bounce 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-bounce {
+      0%,
+      100% {
+        transform: translateY(-2px);
+      }
+      50% {
+        transform: translateY(4px);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-down__icon {
+        animation: none;
+      }
+    }
+    .partners-marquee-mask:hover .partners-marquee-track {
+      animation-play-state: paused;
+    }
+    @keyframes partners-marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .partners-marquee-track {
+        animation: none;
+      }
+    }
+  </style>
+
+  <script>
+    const scrollNextBtn = document.querySelector<HTMLButtonElement>(
+      "[data-scroll-next]"
+    );
+    scrollNextBtn?.addEventListener("click", () => {
+      document
+        .getElementById("proximo")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
+
+  <script>
+    const rotator = document.querySelector<HTMLElement>(".word-rotator");
+    if (rotator) {
+      const words = Array.from(
+        rotator.querySelectorAll<HTMLElement>(".word-rotator__word")
+      );
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (words.length > 1 && !prefersReducedMotion) {
+        let activeIdx = 0;
+        const INTERVAL_MS = 3500;
+        const TRANSITION_MS = 750;
+
+        const rotate = () => {
+          const nextIdx = (activeIdx + 1) % words.length;
+          const current = words[activeIdx];
+          const next = words[nextIdx];
+
+          current.setAttribute("data-state", "exit");
+          next.setAttribute("data-state", "queued");
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              next.setAttribute("data-state", "active");
+            });
+          });
+
+          window.setTimeout(() => {
+            current.setAttribute("data-state", "queued");
+          }, TRANSITION_MS);
+
+          activeIdx = nextIdx;
+        };
+
+        window.setInterval(rotate, INTERVAL_MS);
+      }
     }
   </script>
 </BaseLayout>
