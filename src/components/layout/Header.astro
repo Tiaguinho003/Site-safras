@@ -6,37 +6,107 @@ import { mainNav } from "../../data/navigation";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = currentPath === "/";
-const initialMode = isHome ? "hero" : "normal";
 const isActive = (href: string) => {
   const normalized = href.replace(/\/$/, "") || "/";
   return normalized === currentPath;
 };
 ---
 
+{
+  isHome && (
+    <header
+      data-header-hero
+      class="site-header site-header--hero"
+      aria-label="Cabeçalho sobre o hero"
+    >
+      <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
+        <a
+          href="/"
+          class="site-header__logo flex items-center shrink-0"
+          aria-label="Safras & Negócios — Ir para a home"
+        >
+          <Image
+            src={logoBranco}
+            alt="Safras & Negócios"
+            height={56}
+            class="site-header__logo-img w-auto"
+            loading="eager"
+          />
+        </a>
+
+        <nav aria-label="Menu principal (hero)" class="hidden lg:block flex-1">
+          <ul class="flex items-center justify-center gap-10 lg:gap-14">
+            {mainNav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  data-active={isActive(item.href) ? "true" : undefined}
+                  class="site-header__nav-link inline-flex flex-col items-center gap-1.5 text-base font-medium tracking-wide"
+                >
+                  <span>{item.label}</span>
+                  <span class="site-header__nav-dot" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <button
+            type="button"
+            data-open-contact
+            class="site-header__cta hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full"
+          >
+            Solicitar Serviço
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <button
+            type="button"
+            class="js-menu-toggle site-header__menu-btn lg:hidden p-2 -m-2"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+  )
+}
+
 <header
-  data-header
-  data-mode={initialMode}
+  data-header-sticky
   data-scroll-aware={isHome ? "true" : undefined}
-  class="site-header sticky top-0 z-40"
+  data-visible={isHome ? "false" : "true"}
+  class="site-header site-header--sticky"
 >
   <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
     <a
       href="/"
-      class="site-header__logo flex items-center shrink-0 relative"
+      class="site-header__logo flex items-center shrink-0"
       aria-label="Safras & Negócios — Ir para a home"
     >
       <Image
-        src={logoBranco}
-        alt=""
-        height={56}
-        class="site-header__logo-img site-header__logo-img--white w-auto"
-        loading="eager"
-      />
-      <Image
         src={logoOri}
         alt="Safras & Negócios"
-        height={64}
-        class="site-header__logo-img site-header__logo-img--ori absolute inset-y-0 left-0 my-auto w-auto"
+        height={48}
+        class="site-header__logo-img w-auto"
         loading="eager"
       />
     </a>
@@ -73,11 +143,10 @@ const isActive = (href: string) => {
 
       <button
         type="button"
-        id="mobile-menu-toggle"
+        class="js-menu-toggle site-header__menu-btn lg:hidden p-2 -m-2"
         aria-label="Abrir menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
-        class="site-header__menu-btn lg:hidden p-2 -m-2"
       >
         <svg
           class="w-7 h-7"
@@ -95,157 +164,180 @@ const isActive = (href: string) => {
       </button>
     </div>
   </div>
-
-  <nav
-    id="mobile-menu"
-    aria-label="Menu principal (mobile)"
-    hidden
-    class="lg:hidden border-t border-line bg-paper"
-  >
-    <ul class="px-6 py-4 space-y-1">
-      {
-        mainNav.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              aria-current={isActive(item.href) ? "page" : undefined}
-              class:list={[
-                "block px-3 py-2.5 rounded-md text-base font-medium transition-colors",
-                isActive(item.href)
-                  ? "text-brand bg-paper-alt"
-                  : "text-ink hover:bg-paper-alt",
-              ]}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-      <li class="pt-3 sm:hidden">
-        <button
-          type="button"
-          data-open-contact
-          class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
-        >
-          Solicitar Serviço
-          <span aria-hidden="true">→</span>
-        </button>
-      </li>
-    </ul>
-  </nav>
 </header>
 
+<!-- Mobile dropdown lives outside the headers so either hamburger
+     (hero or sticky) can toggle it, even when one is off-screen. -->
+<nav
+  id="mobile-menu"
+  aria-label="Menu principal (mobile)"
+  hidden
+  class="site-mobile-menu lg:hidden"
+>
+  <ul class="px-6 py-4 space-y-1">
+    {
+      mainNav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class:list={[
+              "block px-3 py-2.5 rounded-md text-base font-medium transition-colors",
+              isActive(item.href)
+                ? "text-brand bg-paper-alt"
+                : "text-ink hover:bg-paper-alt",
+            ]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+    <li class="pt-3 sm:hidden">
+      <button
+        type="button"
+        data-open-contact
+        class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
+      >
+        Solicitar Serviço
+        <span aria-hidden="true">→</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
 <style>
+  /* ===========================================================
+     Two-layer header — Apexus-style.
+     The transition between the transparent hero header and the
+     solid sticky header is a pure CSS class toggle, fully
+     decoupled from scroll position. Scroll speed no longer
+     drives opacity, so the motion feels natural.
+     =========================================================== */
+
   .site-header {
-    transition: background-color 300ms ease, border-color 300ms ease;
-    will-change: opacity;
+    width: 100%;
+    left: 0;
+    right: 0;
   }
 
-  /* Sizing driven by CSS vars so hero/normal modes can differ with smooth transitions */
   .site-header__inner {
     height: var(--header-h);
     padding-inline: var(--header-px);
-    transition: height 300ms ease, padding 300ms ease;
-  }
-  .site-header__logo-img {
-    height: var(--logo-h);
-    transition: height 300ms ease, opacity 200ms ease;
   }
 
-  /* --- MODE: hero (over the dark image) — fully transparent, fused with hero --- */
-  .site-header[data-mode="hero"] {
-    --header-h: 128px;
-    --header-px: 2rem;
-    --logo-h: 40px;
-    background-color: transparent;
-    border-bottom: 0;
+  .site-header__logo-img {
+    height: var(--logo-h);
+  }
+
+  /* ---------- HERO HEADER (transparent, over the hero) ---------- */
+  .site-header--hero {
+    position: absolute;
+    top: 0;
+    z-index: 20;
+    background: transparent;
+    --header-h: 88px;
+    --header-px: 1.5rem;
+    --logo-h: 36px;
   }
   @media (min-width: 768px) {
-    .site-header[data-mode="hero"] {
+    .site-header--hero {
+      --header-h: 128px;
+      --header-px: 2rem;
+      --logo-h: 40px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .site-header--hero {
       --header-h: 144px;
       --header-px: 3.5rem;
       --logo-h: 56px;
     }
   }
-  .site-header[data-mode="hero"] .site-header__logo-img--white {
-    opacity: 1;
+  .site-header--hero .site-header__nav-link {
+    color: rgba(255, 255, 255, 0.78);
   }
-  .site-header[data-mode="hero"] .site-header__logo-img--ori {
-    opacity: 0;
-  }
-  .site-header[data-mode="hero"] .site-header__nav-link {
-    color: rgba(255, 255, 255, 0.75);
-  }
-  .site-header[data-mode="hero"] .site-header__nav-link:hover,
-  .site-header[data-mode="hero"] .site-header__nav-link[data-active] {
+  .site-header--hero .site-header__nav-link:hover,
+  .site-header--hero .site-header__nav-link[data-active] {
     color: #ffffff;
   }
-  .site-header[data-mode="hero"] .site-header__cta {
+  .site-header--hero .site-header__cta {
     background-color: var(--color-paper);
     color: var(--color-ink);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
       0 4px 6px -4px rgba(0, 0, 0, 0.1);
   }
-  .site-header[data-mode="hero"] .site-header__cta:hover {
+  .site-header--hero .site-header__cta:hover {
     background-color: rgba(255, 255, 255, 0.9);
   }
-  .site-header[data-mode="hero"] .site-header__menu-btn {
+  .site-header--hero .site-header__menu-btn {
     color: var(--color-paper);
   }
 
-  /* --- MODE: normal (over white content) — solid paper, no glass --- */
-  .site-header[data-mode="normal"] {
+  /* ---------- STICKY HEADER (solid, slides in from above) ---------- */
+  .site-header--sticky {
+    position: fixed;
+    top: 0;
+    z-index: 40;
+    background-color: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition:
+      transform 600ms cubic-bezier(0.43, 0.46, 0.64, 0.66),
+      opacity 600ms cubic-bezier(0.43, 0.46, 0.64, 0.66);
+    will-change: transform, opacity;
+
     --header-h: 56px;
     --header-px: 1.5rem;
     --logo-h: 32px;
-    background-color: var(--color-paper);
-    border-bottom: 1px solid var(--color-line);
   }
   @media (min-width: 768px) {
-    .site-header[data-mode="normal"] {
+    .site-header--sticky {
       --header-h: 64px;
       --header-px: 2.5rem;
       --logo-h: 48px;
     }
   }
-  .site-header[data-mode="normal"] .site-header__logo-img--white {
-    opacity: 0;
-  }
-  .site-header[data-mode="normal"] .site-header__logo-img--ori {
+  .site-header--sticky[data-visible="true"] {
     opacity: 1;
+    transform: translateY(0);
   }
-  .site-header[data-mode="normal"] .site-header__nav-link {
+  .site-header--sticky .site-header__nav-link {
     color: var(--color-ink-muted);
   }
-  .site-header[data-mode="normal"] .site-header__nav-link:hover {
+  .site-header--sticky .site-header__nav-link:hover {
     color: var(--color-ink);
   }
-  .site-header[data-mode="normal"] .site-header__nav-link[data-active] {
+  .site-header--sticky .site-header__nav-link[data-active] {
     color: var(--color-brand);
   }
-  .site-header[data-mode="normal"] .site-header__cta {
+  .site-header--sticky .site-header__cta {
     background-color: var(--color-brand);
     color: var(--color-paper);
   }
-  .site-header[data-mode="normal"] .site-header__cta:hover {
+  .site-header--sticky .site-header__cta:hover {
     background-color: var(--color-brand-dark);
   }
-  .site-header[data-mode="normal"] .site-header__menu-btn {
+  .site-header--sticky .site-header__menu-btn {
     color: var(--color-ink);
   }
 
-  /* Smooth transitions within each mode */
+  /* Shared transitions */
   .site-header__nav-link {
     transition: color 200ms ease;
   }
   .site-header__cta {
-    transition: background-color 200ms ease, color 200ms ease;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
   }
   .site-header__menu-btn {
     transition: color 200ms ease;
   }
 
-  /* Dot indicator below each nav item (Apexus-style) */
+  /* Dot indicator below each nav item */
   .site-header__nav-dot {
     width: 4px;
     height: 4px;
@@ -253,7 +345,10 @@ const isActive = (href: string) => {
     background: currentColor;
     opacity: 0.3;
     transform: scale(0.85);
-    transition: opacity 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    transition:
+      opacity 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
   }
   .site-header__nav-link:hover .site-header__nav-dot {
     opacity: 0.6;
@@ -261,54 +356,62 @@ const isActive = (href: string) => {
   .site-header__nav-link[data-active] .site-header__nav-dot {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 6px rgba(31, 107, 58, 0.55), 0 0 12px rgba(31, 107, 58, 0.28);
+    box-shadow:
+      0 0 6px rgba(31, 107, 58, 0.55),
+      0 0 12px rgba(31, 107, 58, 0.28);
+  }
+
+  /* Mobile dropdown, fixed below the sticky bar */
+  .site-mobile-menu {
+    position: fixed;
+    top: var(--header-h, 56px);
+    left: 0;
+    right: 0;
+    z-index: 35;
+    background-color: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+  @media (min-width: 768px) {
+    .site-mobile-menu {
+      top: 64px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header--sticky {
+      transition: opacity 200ms ease;
+      transform: none;
+    }
+    .site-header--sticky[data-visible="true"] {
+      transform: none;
+    }
   }
 </style>
 
 <script>
-  const header = document.querySelector<HTMLElement>("[data-header]");
-  const scrollAware = header?.dataset.scrollAware === "true";
-  const hero = document.querySelector<HTMLElement>(
-    'section[aria-labelledby="hero-titulo"]'
+  const stickyHeader = document.querySelector<HTMLElement>(
+    "[data-header-sticky]"
   );
+  const scrollAware = stickyHeader?.dataset.scrollAware === "true";
+  const heroHeader = document.querySelector<HTMLElement>("[data-header-hero]");
 
-  if (header && scrollAware && hero) {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+  if (stickyHeader && scrollAware && heroHeader) {
+    // Threshold = bottom edge of the hero header. Once scrolled past,
+    // the sticky variant slides in. Matches Apexus's ScrollTrigger
+    // `start: 'bottom 0'` on the transparent header.
+    const getThreshold = () => {
+      const rect = heroHeader.getBoundingClientRect();
+      return rect.bottom + window.scrollY;
+    };
 
-    const getHeroBottom = () =>
-      hero.getBoundingClientRect().bottom + window.scrollY;
-
-    let heroBottom = getHeroBottom();
-    const threshold = () => header.offsetHeight;
+    let threshold = getThreshold();
 
     const apply = () => {
-      const scroll = window.scrollY;
-      const bottom = heroBottom;
-      const fadeOutStart = bottom * 0.3;
-      const fadeOutEnd = bottom * 0.5;
-      const fadeInStart = bottom * 0.5;
-      const fadeInEnd = bottom * 0.7;
-
-      if (scroll < fadeOutStart) {
-        header.dataset.mode = "hero";
-        header.style.opacity = "1";
-      } else if (scroll < fadeOutEnd) {
-        // Fade out: 30% → 50% of hero
-        const p = (scroll - fadeOutStart) / (fadeOutEnd - fadeOutStart);
-        header.dataset.mode = "hero";
-        header.style.opacity = prefersReducedMotion
-          ? "1"
-          : String(Math.max(0, 1 - p));
-      } else if (scroll < fadeInEnd) {
-        // Fade in as normal: 50% → 70% of hero
-        const p = (scroll - fadeInStart) / (fadeInEnd - fadeInStart);
-        header.dataset.mode = "normal";
-        header.style.opacity = prefersReducedMotion ? "1" : String(p);
-      } else {
-        header.dataset.mode = "normal";
-        header.style.opacity = "1";
+      const visible = window.scrollY > threshold;
+      const current = stickyHeader.dataset.visible === "true";
+      if (visible !== current) {
+        stickyHeader.dataset.visible = visible ? "true" : "false";
       }
     };
 
@@ -325,26 +428,32 @@ const isActive = (href: string) => {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", () => {
-      heroBottom = getHeroBottom();
+      threshold = getThreshold();
       apply();
     });
 
-    // Initial
     apply();
   }
 
-  const toggle = document.getElementById("mobile-menu-toggle");
+  const toggles = document.querySelectorAll<HTMLButtonElement>(
+    ".js-menu-toggle"
+  );
   const menu = document.getElementById("mobile-menu");
 
-  toggle?.addEventListener("click", () => {
+  const setMenuState = (open: boolean) => {
     if (!menu) return;
-    const willOpen = menu.hasAttribute("hidden");
-    if (willOpen) {
-      menu.removeAttribute("hidden");
-    } else {
-      menu.setAttribute("hidden", "");
-    }
-    toggle.setAttribute("aria-expanded", String(willOpen));
-    toggle.setAttribute("aria-label", willOpen ? "Fechar menu" : "Abrir menu");
+    if (open) menu.removeAttribute("hidden");
+    else menu.setAttribute("hidden", "");
+    toggles.forEach((btn) => {
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    });
+  };
+
+  toggles.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const isOpen = menu && !menu.hasAttribute("hidden");
+      setMenuState(!isOpen);
+    });
   });
 </script>
