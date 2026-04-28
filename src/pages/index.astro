@@ -2,40 +2,12 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import lavouraDeCafe from "../assets/hero/lavoura-de-cafe.png";
-import provaDeXicara from "../assets/hero/prova-de-xicara.jpg";
+import lavouraSunset from "../assets/about/lavoura-cafe-sunset.webp";
 
 const stats = [
-  { target: 10, suffix: "+", label: "Anos de mercado" },
-  { target: 1200, suffix: "+", label: "Produtores atendidos" },
+  { target: 10, suffix: "+", label: "Anos de história" },
   { target: 500, suffix: "", label: "Mil sacas negociadas por ano" },
   { target: 8, suffix: "", label: "Estados de atuação" },
-];
-
-const steps = [
-  {
-    number: "01",
-    title: "Relacionamento",
-    description:
-      "Conhecemos o produtor, a cooperativa ou o comprador. Entendemos cada necessidade antes de qualquer número ir pro papel.",
-  },
-  {
-    number: "02",
-    title: "Negociação",
-    description:
-      "Levantamos preço, volume e condições. Conectamos as pontas no momento certo — sem afobação, sem prejuízo.",
-  },
-  {
-    number: "03",
-    title: "Logística",
-    description:
-      "Coordenamos armazenagem, transporte e entrega. Acompanhamos o café sair do terreiro até chegar onde precisa.",
-  },
-  {
-    number: "04",
-    title: "Liquidação",
-    description:
-      "Conferimos peso, classificação e pagamento. Relação que não termina no contrato — segue pra próxima safra.",
-  },
 ];
 
 const posts = [
@@ -68,31 +40,44 @@ const posts = [
 const services = [
   {
     number: "01",
-    title: "Corretagem de café",
-    description:
-      "Intermediamos a negociação entre produtor e comprador com neutralidade e leitura de mercado, assegurando preço justo, contrato claro e pagamento em dia.",
+    title: "Mercado e Negociação",
     iconSvg: `<path d="m11 17 2 2a1 1 0 1 0 3-3" /><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="m21 3 1 11h-2" /><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" /><path d="M3 4h8" />`,
   },
   {
     number: "02",
-    title: "Assessoria de mercado",
-    description:
-      "Inteligência de preços, análise de safra e acompanhamento macroeconômico para orientar decisões de venda, hedge e planejamento de longo prazo.",
-    iconSvg: `<polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" />`,
-  },
-  {
-    number: "03",
-    title: "Classificação e qualidade",
-    description:
-      "Prova de xícara e classificação sensorial executadas por profissionais experientes, lote por lote — agregando valor e garantindo padrão na entrega.",
+    title: "Análise de Qualidade",
     iconSvg: `<path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" />`,
   },
   {
-    number: "04",
-    title: "Seguros rurais",
-    description:
-      "Proteção do produtor contra adversidades climáticas e riscos de safra, com soluções desenhadas pra realidade do café — previsibilidade da lavoura à colheita.",
+    number: "03",
+    title: "Proteção Rural",
     iconSvg: `<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" />`,
+  },
+  {
+    number: "04",
+    title: "Suporte Logístico",
+    iconSvg: `<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" /><path d="M15 18H9" /><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" />`,
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Trabalho com a Safras desde 2021. O que mais valorizo é a clareza: o preço acertado é o preço pago, sem ajustes de última hora, sem chamada surpresa. No mercado de café, isso vale ouro.",
+    author: "José Carlos Moreira",
+    company: "Produtor — Cerrado Mineiro",
+  },
+  {
+    quote:
+      "Recebi os lotes na qualidade combinada, no prazo combinado, com a documentação em ordem. Em três operações seguidas. Numa atividade onde imprevisto é regra, isso é diferencial.",
+    author: "Ricardo Tavares",
+    company: "Tropical Trading",
+  },
+  {
+    quote:
+      "Conheço a Safras pela seriedade no relacionamento. Negociam com a paciência de quem entende a cooperativa por dentro — não jogam o produtor pra ver o que sobra. Parceria que se renova safra a safra.",
+    author: "Luísa Andrade",
+    company: "Coopcafé Vale",
   },
 ];
 ---
@@ -189,9 +174,9 @@ const services = [
   >
     <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
       <div
-        class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 md:mb-20"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-14 md:mb-20 lg:mb-24"
       >
-        <div class="max-w-2xl">
+        <div>
           <span
             class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
           >
@@ -199,54 +184,74 @@ const services = [
           </span>
           <h2
             id="servicos-titulo"
-            class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
+            class="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-semibold text-ink leading-[1.05] tracking-tight"
           >
-            Do grão ao negócio, com quem
-            <span class="text-brand">conhece o café por dentro.</span>
+            Soluções completas para o
+            <span class="text-brand">mercado cafeeiro.</span>
           </h2>
-          <p class="mt-5 text-base md:text-lg text-ink-muted leading-relaxed max-w-xl">
-            Três frentes de atuação que, juntas, garantem que cada saca saia
-            da lavoura pro mercado certo — no momento certo, no preço justo.
-          </p>
         </div>
 
-        <a
-          href="/servicos"
-          class="inline-flex items-center gap-1.5 text-brand hover:text-brand-dark font-medium text-sm whitespace-nowrap border-b border-brand/30 hover:border-brand pb-1 self-start md:self-auto md:mb-2 transition-colors"
-        >
-          Ver todos os serviços
-          <span aria-hidden="true">→</span>
-        </a>
+        <div class="lg:pt-3 max-w-xl">
+          <p
+            class="text-xl md:text-2xl lg:text-[1.625rem] text-ink-muted leading-[1.4]"
+          >
+            Da origem à comercialização, oferecemos
+            <span class="text-ink font-medium">suporte estratégico</span>
+            para produtores, compradores e empresas do mercado cafeeiro.
+          </p>
+
+          <hr class="mt-8 md:mt-10 border-t border-line" />
+
+          <a
+            href="/servicos"
+            class="mt-8 md:mt-10 inline-flex items-center px-7 py-3 rounded-full border border-ink text-ink text-sm font-medium hover:bg-ink hover:text-paper transition-colors duration-300"
+          >
+            Ver todos os serviços
+          </a>
+        </div>
       </div>
 
       <div
         id="servicos-accordion"
-        class="flex flex-col md:flex-row gap-4 md:gap-5 md:h-[500px] lg:h-[540px]"
+        class="flex flex-col md:flex-row gap-4 md:gap-5 md:h-[560px] lg:h-[640px] xl:h-[680px]"
       >
         {
           services.map((service, idx) => (
             <article
               data-service-card
               data-active={idx === 0 ? "true" : "false"}
-              class="group relative overflow-hidden rounded-xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[2.5_1_0%] data-[active=true]:border-solid data-[active=true]:border-brand-dark h-[320px] md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line h-[300px] md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
               tabindex="0"
               aria-label={`Serviço ${service.number}: ${service.title}`}
             >
+              <span
+                aria-hidden="true"
+                class="absolute inset-0 flex items-center justify-center text-xs italic text-ink-muted/60 select-none"
+              >
+                Imagem em breve
+              </span>
+
               <div
                 aria-hidden="true"
-                class="absolute inset-0 bg-paper/90 group-data-[active=true]:bg-[linear-gradient(180deg,rgba(19,64,36,0)_20%,rgba(1,61,1,0.95)_100%)] transition-all duration-[600ms] ease-[cubic-bezier(0.48,0,0.11,1)]"
+                class="absolute inset-0 bg-paper/85 transition-opacity duration-[600ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-0"
               />
 
-              <div class="relative h-full p-6 md:p-7 flex flex-col justify-between">
+              <div
+                aria-hidden="true"
+                class="absolute inset-0 opacity-0 transition-opacity duration-[600ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-100"
+                style="background: linear-gradient(180deg, rgba(20,19,17,0) 45%, rgba(20,19,17,0.85) 100%);"
+              />
+
+              <div class="relative h-full p-5 md:p-6 lg:p-7 flex flex-col justify-between">
                 <div class="flex items-start justify-between gap-4">
                   <div
-                    class="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center bg-ink text-brand group-data-[active=true]:bg-brand group-data-[active=true]:text-paper transition-colors duration-500 ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center bg-ink text-paper group-data-[active=true]:bg-brand transition-colors duration-500 ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
                     aria-hidden="true"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -257,7 +262,7 @@ const services = [
                     />
                   </div>
                   <span
-                    class="text-4xl md:text-5xl lg:text-6xl font-semibold text-paper leading-none tracking-tight opacity-0 group-data-[active=true]:opacity-100 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[700ms]"
+                    class="text-4xl md:text-5xl lg:text-6xl font-semibold text-brand leading-none tracking-tight opacity-0 group-data-[active=true]:opacity-100 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[400ms]"
                     aria-hidden="true"
                   >
                     {service.number}
@@ -274,21 +279,11 @@ const services = [
                       {service.title}
                     </span>
                     <span
-                      class="col-start-1 row-start-1 self-end text-xl md:text-2xl lg:text-3xl font-semibold text-paper leading-[1.15] tracking-tight line-clamp-2 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[300ms] group-data-[active=true]:opacity-100"
+                      class="col-start-1 row-start-1 self-end text-2xl md:text-3xl lg:text-[2.5rem] font-semibold text-paper leading-[1.1] tracking-tight line-clamp-2 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[300ms] group-data-[active=true]:opacity-100"
                     >
                       {service.title}
                     </span>
                   </div>
-
-                  <div
-                    class="h-px bg-paper/40 my-4 md:my-5 opacity-0 group-data-[active=true]:opacity-100 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[700ms]"
-                    aria-hidden="true"
-                  />
-                  <p
-                    class="text-sm md:text-base text-paper/90 leading-relaxed opacity-0 group-data-[active=true]:opacity-100 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[700ms]"
-                  >
-                    {service.description}
-                  </p>
                 </div>
               </div>
             </article>
@@ -297,23 +292,41 @@ const services = [
       </div>
 
       <p class="mt-10 text-xs italic text-ink-muted/70">
-        ⚠ Conteúdo dos serviços em rascunho — confirmar descrições com a
-        Safras antes de publicar.
+        ⚠ Imagens dos cards em placeholder — substituir por fotos reais antes
+        de publicar.
       </p>
     </div>
   </section>
 
   <section
-    class="bg-paper-alt border-t border-line"
+    class="bg-paper border-t border-line"
     aria-labelledby="quem-somos-titulo"
   >
-    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-14 md:py-20 lg:py-24">
       <div
-        class="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-20 items-center"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start"
       >
-        <div class="order-2 lg:order-1">
+        <div class="order-2 lg:order-1 max-w-2xl mx-auto lg:mx-0 lg:ml-32">
+          <h2
+            id="quem-somos-titulo"
+            class="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-ink leading-[1.1] tracking-tight whitespace-nowrap"
+          >
+            Conectamos o Café<br />
+            a <span class="text-brand font-bold">Grandes Oportunidades</span>,<br />
+            da Origem ao Mercado.
+          </h2>
+
+          <a
+            href="/quem-somos"
+            class="mt-10 md:mt-12 inline-flex items-center px-8 py-4 rounded-full bg-brand text-paper text-base font-semibold hover:bg-brand-dark transition-colors duration-300"
+          >
+            Conheça nossa história
+          </a>
+        </div>
+
+        <div class="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0 lg:ml-auto lg:mr-12">
           <div
-            class="relative aspect-[4/5] rounded-xl bg-paper border border-dashed border-line overflow-hidden flex items-center justify-center shadow-[0_30px_60px_-30px_rgba(20,19,17,0.2)]"
+            class="relative aspect-square rounded-xl bg-paper-alt border border-dashed border-line overflow-hidden flex items-center justify-center shadow-[0_30px_60px_-30px_rgba(20,19,17,0.2)]"
             role="img"
             aria-label="Imagem ilustrativa de Quem Somos — em breve"
           >
@@ -322,165 +335,316 @@ const services = [
             </span>
           </div>
         </div>
-
-        <div class="order-1 lg:order-2 max-w-2xl">
-          <span
-            class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
-          >
-            [ Quem somos ]
-          </span>
-
-          <h2
-            id="quem-somos-titulo"
-            class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
-          >
-            Uma casa feita de
-            <span class="text-brand">confiança e proximidade.</span>
-          </h2>
-
-          <div
-            class="mt-6 space-y-5 text-base md:text-lg text-ink-muted leading-relaxed"
-          >
-            <p>
-              Conectamos produtores, cooperativas e exportadores com a seriedade 
-              de quem entende de mercado e o prazer de quem aprecia um bom café.  
-            </p>
-            <p>
-              Somos feitos de relação. Contratos claros, palavra cumprida,
-              presença no campo e em cada mesa de negociação. Quando a Safras
-              entra numa operação, as duas pontas sabem o que esperar.
-            </p>
-          </div>
-
-          <div class="mt-10">
-            <a
-              href="/quem-somos"
-              class="inline-flex items-center gap-1.5 text-brand hover:text-brand-dark font-medium text-sm border-b border-brand/30 hover:border-brand pb-1 transition-colors"
-            >
-              Conheça nossa história
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <p class="mt-10 text-xs italic text-ink-muted/70">
-            ⚠ Conteúdo em rascunho — confirmar textos com a Safras antes de
-            publicar.
-          </p>
-        </div>
       </div>
-    </div>
-  </section>
-
-  <section
-    class="bg-paper border-t border-line"
-    aria-labelledby="numeros-titulo"
-  >
-    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
-      <div class="max-w-2xl mb-14 md:mb-20">
-        <span
-          class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
-        >
-          [ Números ]
-        </span>
-        <h2
-          id="numeros-titulo"
-          class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
-        >
-          Nossa história em <span class="text-brand">números.</span>
-        </h2>
-        <p class="mt-5 text-base md:text-lg text-ink-muted leading-relaxed">
-          Décadas de relação, milhares de produtores atendidos e centenas de
-          milhares de sacas negociadas — a seriedade da Safras medida no que
-          importa.
-        </p>
-      </div>
-
-      <div
-        class="grid grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-8 border-t border-line pt-12 md:pt-16"
-      >
-        {
-          stats.map((stat) => (
-            <div>
-              <div class="flex items-baseline tabular-nums">
-                <span
-                  data-counter
-                  data-target={stat.target}
-                  class="text-4xl md:text-5xl lg:text-[3.75rem] font-semibold text-brand leading-none tracking-tight"
-                >
-                  0
-                </span>
-                {stat.suffix && (
-                  <span class="text-2xl md:text-3xl lg:text-4xl font-semibold text-brand/70 leading-none tracking-tight ml-0.5">
-                    {stat.suffix}
-                  </span>
-                )}
-              </div>
-              <p class="mt-3 md:mt-4 text-sm md:text-base text-ink-muted leading-snug max-w-[20ch]">
-                {stat.label}
-              </p>
-            </div>
-          ))
-        }
-      </div>
-
-      <p class="mt-12 md:mt-16 text-xs italic text-ink-muted/70">
-        ⚠ Números em rascunho — substituir pelos valores reais da Safras
-        antes de publicar.
-      </p>
     </div>
   </section>
 
   <section
     class="bg-paper-alt border-t border-line"
-    aria-labelledby="timeline-titulo"
+    aria-label="Números da Safras"
   >
-    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
-      <div class="max-w-2xl mb-14 md:mb-20">
-        <span
-          class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand mb-5"
-        >
-          [ Como trabalhamos ]
-        </span>
-        <h2
-          id="timeline-titulo"
-          class="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-ink leading-[1.1] tracking-tight"
-        >
-          Do primeiro aperto de mão
-          <span class="text-brand">à última saca entregue.</span>
-        </h2>
-        <p class="mt-5 text-base md:text-lg text-ink-muted leading-relaxed">
-          Um fluxo claro, sem surpresas — com a Safras presente em cada
-          etapa da operação.
-        </p>
-      </div>
+    <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-16 md:py-20 lg:py-24">
+      <div class="stat-container relative">
+        <div class="stat-container__overlay" aria-hidden="true"></div>
 
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 lg:gap-10"
-      >
-        {
-          steps.map((step) => (
-            <div class="relative">
-              <div
-                class="w-14 h-14 rounded-full bg-brand flex items-center justify-center text-paper font-semibold text-base tracking-tight shadow-[0_12px_32px_-12px_rgba(2,92,0,0.55)]"
+        <div class="stat-col stat-col--1">
+          <span class="stat-divider stat-divider--right" aria-hidden="true"></span>
+          <div>
+            <div class="flex items-baseline tabular-nums">
+              <span
+                data-counter
+                data-target="10"
+                class="text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-light text-paper leading-none tracking-tight"
+                >0</span>
+              <span
+                class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-paper leading-none tracking-tight ml-1"
                 aria-hidden="true"
-              >
-                {step.number}
-              </div>
-              <h3 class="mt-6 text-xl md:text-2xl font-semibold text-ink leading-snug tracking-tight">
-                {step.title}
-              </h3>
-              <p class="mt-3 text-sm md:text-base text-ink-muted leading-relaxed">
-                {step.description}
-              </p>
+                >+</span>
             </div>
-          ))
-        }
+            <p class="mt-2 md:mt-3 text-sm md:text-base text-paper font-medium tracking-wide">
+              Anos de história
+            </p>
+          </div>
+        </div>
+
+        <div class="stat-col stat-col--2">
+          <span class="stat-divider stat-divider--right" aria-hidden="true"></span>
+          <div class="text-center">
+            <span
+              data-counter
+              data-target="500"
+              class="block text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-light text-paper leading-none tracking-tight tabular-nums"
+              >0</span>
+            <p class="mt-2 md:mt-3 text-sm md:text-base text-paper font-medium tracking-wide">
+              Mil sacas negociadas por ano
+            </p>
+          </div>
+        </div>
+
+        <div class="stat-col stat-col--3">
+          <div class="text-right">
+            <span
+              data-counter
+              data-target="8"
+              class="block text-7xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-light text-paper leading-none tracking-tight tabular-nums"
+              >0</span>
+            <p class="mt-2 md:mt-3 text-sm md:text-base text-paper font-medium tracking-wide">
+              Estados de atuação
+            </p>
+          </div>
+        </div>
       </div>
     </div>
+
+    <style define:vars={{ statBg: `url(${lavouraSunset.src})` }}>
+      .stat-container {
+        position: relative;
+        display: flex;
+        min-height: 460px;
+        background-image: var(--statBg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .stat-container__overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(2, 3, 8, 0.32);
+        pointer-events: none;
+        z-index: 1;
+      }
+      .stat-col {
+        position: relative;
+        z-index: 2;
+        flex: 1 1 0%;
+        display: flex;
+        padding: 25px;
+        min-width: 0;
+      }
+      .stat-col--1 { justify-content: flex-start; align-items: flex-end; }
+      .stat-col--2 { justify-content: center; align-items: center; }
+      .stat-col--3 { justify-content: flex-end; align-items: flex-start; }
+
+      .stat-divider {
+        position: absolute;
+        top: 0;
+        right: -6px;
+        width: 12px;
+        height: 100%;
+        background-color: #f6f6f4;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      @media (min-width: 768px) {
+        .stat-container {
+          min-height: 615px;
+          background-attachment: fixed;
+          clip-path: polygon(
+            2.5% 0,
+            100% 0,
+            100% 95%,
+            97.5% 100%,
+            0 100%,
+            0 5.5%
+          );
+        }
+        .stat-col {
+          padding: 32px;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .stat-container {
+          min-height: 680px;
+        }
+        .stat-col {
+          padding: 48px;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .stat-container {
+          flex-direction: column;
+          min-height: auto;
+          border-radius: 16px;
+          overflow: hidden;
+        }
+        .stat-col {
+          min-height: 240px;
+          padding: 28px;
+        }
+        .stat-divider {
+          right: 0;
+          left: 0;
+          top: auto;
+          bottom: -6px;
+          width: 100%;
+          height: 12px;
+        }
+      }
+    </style>
   </section>
 
   <section
     class="bg-paper border-t border-line"
+    aria-labelledby="depoimentos-titulo"
+  >
+    <h2 id="depoimentos-titulo" class="sr-only">Depoimentos</h2>
+    <div
+      class="max-w-[100rem] mx-auto px-6 md:px-10 py-24 md:py-32 lg:py-36"
+    >
+      <div class="relative max-w-4xl mx-auto">
+        <div
+          aria-hidden="true"
+          class="testimonial-quotes text-center text-ink leading-none mb-10 md:mb-14 select-none"
+        >
+          ”
+        </div>
+
+        <div class="relative">
+          <button
+            type="button"
+            data-testimonial-prev
+            aria-label="Depoimento anterior"
+            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 md:-translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+
+          <div class="testimonial-stack grid px-12 md:px-20 lg:px-24">
+            {
+              testimonials.map((t, idx) => (
+                <article
+                  data-testimonial-slide
+                  data-active={idx === 0 ? "true" : "false"}
+                  class="testimonial-slide text-center"
+                  aria-hidden={idx === 0 ? "false" : "true"}
+                >
+                  <blockquote>
+                    <p class="text-xl md:text-2xl lg:text-[1.75rem] text-ink leading-[1.45] font-medium tracking-tight">
+                      “{t.quote}”
+                    </p>
+                  </blockquote>
+
+                  <div
+                    class="mt-12 md:mt-14 flex flex-col items-center"
+                    aria-hidden="true"
+                  >
+                    <span class="block w-px h-5 bg-ink/30" />
+                    <span class="block w-40 md:w-56 h-px bg-ink/30" />
+                  </div>
+
+                  <footer class="mt-6 md:mt-7 text-base md:text-lg">
+                    <span class="text-ink font-medium">{t.author},</span>{" "}
+                    <span class="text-ink-muted">{t.company}</span>
+                  </footer>
+                </article>
+              ))
+            }
+          </div>
+
+          <button
+            type="button"
+            data-testimonial-next
+            aria-label="Próximo depoimento"
+            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 md:translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <p class="mt-16 text-xs italic text-ink-muted/70 text-center">
+        ⚠ Depoimentos placeholder — substituir por reais antes de publicar.
+      </p>
+    </div>
+
+    <script>
+      const slides = document.querySelectorAll<HTMLElement>(
+        "[data-testimonial-slide]"
+      );
+      const prevBtn = document.querySelector<HTMLButtonElement>(
+        "[data-testimonial-prev]"
+      );
+      const nextBtn = document.querySelector<HTMLButtonElement>(
+        "[data-testimonial-next]"
+      );
+
+      if (slides.length > 0) {
+        let activeIdx = 0;
+        const total = slides.length;
+
+        const goTo = (idx: number) => {
+          activeIdx = (idx + total) % total;
+          slides.forEach((slide, i) => {
+            const isActive = i === activeIdx;
+            slide.dataset.active = isActive ? "true" : "false";
+            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+          });
+        };
+
+        prevBtn?.addEventListener("click", () => goTo(activeIdx - 1));
+        nextBtn?.addEventListener("click", () => goTo(activeIdx + 1));
+      }
+    </script>
+
+    <style>
+      .testimonial-quotes {
+        font-size: clamp(4.5rem, 9vw, 8rem);
+        font-weight: 700;
+        font-feature-settings: "ss01";
+      }
+      .testimonial-stack {
+        grid-template-areas: "stack";
+      }
+      .testimonial-slide {
+        grid-area: stack;
+        transition: opacity 500ms cubic-bezier(0.65, 0, 0.35, 1);
+      }
+      .testimonial-slide[data-active="false"] {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .testimonial-slide[data-active="true"] {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .testimonial-slide {
+          transition: none;
+        }
+      }
+    </style>
+  </section>
+
+  <section
+    class="bg-paper-alt border-t border-line"
     aria-labelledby="mercado-titulo"
   >
     <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32">
