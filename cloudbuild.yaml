@@ -14,6 +14,11 @@ steps:
   - name: "node:22"
     id: "install-build-deploy"
     entrypoint: "bash"
+    env:
+      # MAINTENANCE=1 faz scripts/apply-maintenance.mjs reduzir o site
+      # publicado APENAS à página de manutenção. Pra relançar o site
+      # completo: remover essa env var (ou trocar pra "0") e mergear.
+      - "MAINTENANCE=1"
     args:
       - "-c"
       - |
