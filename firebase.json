@@ -20,6 +20,12 @@
         "type": 302
       }
     ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "headers": [
       {
         "source": "**/*.@(jpg|jpeg|png|gif|webp|avif|svg|ico|woff|woff2)",

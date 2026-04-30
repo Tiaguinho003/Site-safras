@@ -1,0 +1,200 @@
+---
+/**
+ * Página de manutenção. Standalone — não usa BaseLayout porque o site
+ * fica reduzido a esta página enquanto MAINTENANCE=1 no Cloud Build.
+ * Sem header, footer ou modal. Tokens hardcoded localmente pra a página
+ * não depender de global.css (mais leve e self-contained).
+ */
+import { Image } from "astro:assets";
+import logo from "../assets/branding/safras-logotipo.svg";
+import "@fontsource-variable/inter";
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#025c00" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Em breve | Safras & Negócios</title>
+    <meta
+      name="description"
+      content="Estamos preparando o novo site da Safras & Negócios. Em breve, voltamos."
+    />
+  </head>
+  <body>
+    <main class="page">
+      <div class="stack">
+        <Image
+          src={logo}
+          alt="Safras & Negócios"
+          width={140}
+          loading="eager"
+          class="logo"
+        />
+        <span class="eyebrow">Em breve</span>
+        <h1>Estamos preparando uma nova safra para você.</h1>
+        <p>Em breve, um novo site. Por enquanto, fale com a gente.</p>
+        <a href="mailto:contato@safrasenegocios.com.br" class="email">
+          contato@safrasenegocios.com.br
+        </a>
+      </div>
+      <footer class="signature">
+        © {new Date().getFullYear()} Safras &amp; Negócios
+      </footer>
+    </main>
+
+    <style>
+      :root {
+        --color-paper-alt: #f6f6f4;
+        --color-ink: #141311;
+        --color-ink-muted: #5a564f;
+        --color-brand: #025c00;
+        --color-brand-dark: #013d01;
+        --color-earth: #3c3424;
+        --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+          "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-sans);
+        color: var(--color-ink);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        background-color: var(--color-paper-alt);
+        background-image:
+          radial-gradient(
+            ellipse 70% 55% at 100% 0%,
+            rgba(60, 52, 36, 0.08) 0%,
+            rgba(60, 52, 36, 0) 65%
+          ),
+          radial-gradient(
+            ellipse 60% 50% at 0% 100%,
+            rgba(2, 92, 0, 0.04) 0%,
+            rgba(2, 92, 0, 0) 60%
+          );
+        padding: 2.5rem 1.5rem;
+      }
+
+      .stack {
+        max-width: 34rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        animation: fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        filter: drop-shadow(0 10px 30px rgba(60, 52, 36, 0.14));
+      }
+
+      .eyebrow {
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-brand);
+        font-weight: 600;
+        margin-top: 0.25rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.75rem, 4.5vw, 2.875rem);
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -0.012em;
+        color: var(--color-ink);
+        text-wrap: balance;
+      }
+
+      p {
+        margin: 0;
+        font-size: 1.0625rem;
+        line-height: 1.55;
+        color: var(--color-ink-muted);
+        text-wrap: balance;
+        max-width: 28rem;
+      }
+
+      .email {
+        margin-top: 0.75rem;
+        font-size: 0.9375rem;
+        color: var(--color-brand);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 5px;
+        transition: color 200ms ease;
+      }
+
+      .email:hover,
+      .email:focus-visible {
+        color: var(--color-brand-dark);
+      }
+
+      .signature {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--color-ink-muted);
+        opacity: 0.65;
+        letter-spacing: 0.04em;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-brand);
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+
+      @keyframes fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .stack {
+          animation: fade-in 400ms ease both;
+        }
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      }
+    </style>
+  </body>
+</html>
