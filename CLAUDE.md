@@ -48,13 +48,14 @@ Declarados em `src/styles/tokens.css` via `@theme` (Tailwind v4 gera utilities a
 - Brand: `--color-brand` `#1f6b3a` (marca) · `--color-brand-dark` `#134024` · `--color-earth` `#8b5e34`
 - **Única tipografia**: Inter (variable, via `@fontsource-variable/inter`). Hierarquia por peso e tamanho, sem segunda family.
 
-## Páginas planejadas (v1)
-- `/` — Home
-- `/quem-somos`
-- `/servicos`
-- `/noticias` + `/noticias/[slug]`
-- `/blog` + `/blog/[slug]`
-- `/contato`
+## Estrutura de páginas (v1 — single-page)
+Site institucional em página única (`/`) com navegação por anchors:
+- `/#hero` · `/#servicos` · `/#quem-somos` · `/#contato`
+
+Rotas adicionais (sem layout próprio):
+- `/contato` — redireciona pra `/#contato` (retrocompatibilidade)
+- `/qr` — redirect imutável (cartão físico, NÃO ALTERAR)
+- `/manutencao` — gate de manutenção em produção
 
 ## Estrutura de pastas
 Ver `docs/arquitetura.md` seção 4.

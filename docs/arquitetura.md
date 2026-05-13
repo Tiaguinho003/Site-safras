@@ -1,7 +1,7 @@
 # Arquitetura — Site Safras & Negócios
 
 Documento vivo. Fonte da verdade pras decisões arquiteturais do projeto.
-Última atualização: 2026-04-21 (v1 — fundação inicial).
+Última atualização: 2026-05-12 (v1 — single-page com navegação por anchors).
 
 ---
 
@@ -64,19 +64,10 @@ site-safras/
 │   ├── layouts/
 │   │   └── BaseLayout.astro      # template padrão de página
 │   ├── pages/
-│   │   ├── index.astro           # Home
-│   │   ├── quem-somos.astro
-│   │   ├── servicos.astro
-│   │   ├── noticias/
-│   │   │   ├── index.astro
-│   │   │   └── [slug].astro
-│   │   ├── blog/
-│   │   │   ├── index.astro
-│   │   │   └── [slug].astro
-│   │   └── contato.astro
-│   ├── content/                  # Astro Content Collections
-│   │   ├── blog/                 # markdown de posts
-│   │   └── noticias/             # markdown de notícias
+│   │   ├── index.astro           # Single-page: todas as seções, navegação por anchor
+│   │   ├── contato.astro         # redirect /contato → /#contato
+│   │   ├── qr.astro              # redirect imutável (cartão físico)
+│   │   └── manutencao.astro      # modo manutenção (gate de produção)
 │   ├── styles/
 │   │   ├── tokens.css            # CSS vars (cores, fontes, espaçamentos, shadows)
 │   │   └── global.css            # reset + base + utilities globais
@@ -147,7 +138,7 @@ Escala base 4pt: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128` (px).
 
 ### Componentes planejados (catalogação em `docs/design-system.md` quando existirem)
 
-`Button`, `Link`, `Badge`, `Input`, `Textarea`, `Hero`, `SectionIntro`, `ServiceCard`, `StatCard`, `FeatureCard`, `Testimonial`, `NewsCard`, `PostCard`, `ContactForm`, `Header`, `Footer`, `Breadcrumb`.
+`Button`, `Link`, `Badge`, `Input`, `Textarea`, `Hero`, `SectionIntro`, `ServiceCard`, `StatCard`, `FeatureCard`, `Testimonial`, `NewsCard`, `PostCard`, `ContactForm`, `Header`, `Footer`.
 
 ---
 
@@ -203,7 +194,7 @@ Detalhes operacionais em `docs/deploy.md` (a ser criado quando o pipeline estive
 - **OpenGraph** e **Twitter Cards** completos.
 - `sitemap.xml` gerado automaticamente (`@astrojs/sitemap`).
 - `robots.txt` permissivo (exceto rotas internas, quando existirem).
-- **Schema.org** JSON-LD: `Organization`, `WebSite`, `Article` (notícias/blog), `BreadcrumbList`.
+- **Schema.org** JSON-LD: `Organization`, `WebSite`, `BreadcrumbList`.
 - HTML semântico — `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>` corretamente aninhados.
 - Headings sequenciais sem pular níveis.
 

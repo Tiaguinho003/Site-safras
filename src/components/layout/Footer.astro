@@ -1,40 +1,107 @@
 ---
 import { Image } from "astro:assets";
-import logoOri from "../../assets/branding/safras-logo-ori.png";
+import logoCard from "../../assets/branding/safras-logo-card.png";
+import logoBranco from "../../assets/branding/safras-logo-branco.png";
+import lavouraAerea from "../../assets/about/lavoura-aerea.png";
 import { mainNav } from "../../data/navigation";
 
 const currentYear = new Date().getFullYear();
+
+const services = [
+  { label: "Mercado e Negociação", href: "/#servicos" },
+  { label: "Análise de Qualidade", href: "/#servicos" },
+  { label: "Suporte Logístico", href: "/#servicos" },
+];
+
+const socials = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/safrasnegocios",
+    external: true,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/5535999752377",
+    external: true,
+  },
+];
 ---
 
-<footer class="border-t border-line bg-paper">
-  <div class="max-w-[100rem] mx-auto px-6 md:px-10 py-14 md:py-20">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
-      <div class="space-y-5">
+<footer
+  class="relative overflow-hidden bg-cover bg-top text-paper"
+  style={`background-image: url(${lavouraAerea.src});`}
+>
+  {/* TOPO: fade branco longo — transição suave + reveal natural da imagem */}
+  <div
+    aria-hidden="true"
+    class="absolute inset-x-0 top-0 h-[55%] bg-gradient-to-b from-paper via-paper/80 to-transparent pointer-events-none z-10"
+  ></div>
+
+  {/* BASE: gradient escuro só na parte de baixo — legibilidade das colunas */}
+  <div
+    aria-hidden="true"
+    class="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-ink/90 via-ink/65 to-transparent pointer-events-none z-10"
+  ></div>
+
+  <div class="relative z-20 max-w-[100rem] mx-auto px-6 md:px-10 pt-10 md:pt-14 lg:pt-16 pb-[3.6rem] md:pb-[4.5rem] lg:pb-[5.4rem]">
+    {/* ====== Logo centralizada no topo do rodapé ====== */}
+    <div class="text-center mb-12 md:mb-16 lg:mb-20">
+      <Image
+        src={logoCard}
+        alt="Safras & Negócios"
+        widths={[200, 320, 480]}
+        sizes="(min-width: 1024px) 320px, (min-width: 768px) 260px, 200px"
+        class="h-auto w-[200px] md:w-[260px] lg:w-[320px] mx-auto"
+      />
+    </div>
+
+    {/* ====== 4 colunas ====== */}
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 md:gap-12 lg:gap-16"
+    >
+      {/* Col 1: Logo branco + tagline do hero */}
+      <div class="space-y-5 max-w-sm">
         <Image
-          src={logoOri}
+          src={logoBranco}
           alt="Safras & Negócios"
-          height={44}
-          widths={[160, 320]}
-          sizes="160px"
-          class="h-9 w-auto"
+          widths={[120, 200]}
+          sizes="140px"
+          class="h-auto w-[140px]"
         />
-        <p class="text-sm text-ink-muted leading-relaxed max-w-xs">
-          Corretora institucional no mercado de café, conectando produtores,
-          cooperativas, indústria e exportadores com seriedade e proximidade.
+        <p class="text-sm text-paper/60 leading-relaxed">
+          Tradição e Confiança no mercado cafeeiro.
         </p>
       </div>
 
-      <nav aria-label="Mapa do site">
-        <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted mb-5">
-          Navegação
-        </h2>
+      {/* Col 2: Serviços */}
+      <nav aria-label="Serviços">
+        <h3 class="text-base font-medium text-paper mb-5">Serviços</h3>
+        <ul class="space-y-3">
+          {
+            services.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  class="text-sm text-paper/60 hover:text-paper transition-colors"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      {/* Col 3: Navegação */}
+      <nav aria-label="Navegação principal">
+        <h3 class="text-base font-medium text-paper mb-5">Navegação</h3>
         <ul class="space-y-3">
           {
             mainNav.map((item) => (
               <li>
                 <a
                   href={item.href}
-                  class="text-sm text-ink hover:text-brand transition-colors"
+                  class="text-sm text-paper/60 hover:text-paper transition-colors"
                 >
                   {item.label}
                 </a>
@@ -44,47 +111,82 @@ const currentYear = new Date().getFullYear();
         </ul>
       </nav>
 
-      <div>
-        <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted mb-5">
-          Contato
-        </h2>
-        <ul class="space-y-3 text-sm text-ink">
-          <li>
-            <span class="text-ink-muted">E-mail:</span>
-            <a
-              href="mailto:contato@safrasenegocios.com.br"
-              class="hover:text-brand transition-colors ml-1"
-            >
-              contato@safrasenegocios.com.br
-            </a>
-          </li>
-          <li>
-            <span class="text-ink-muted">Telefone:</span>
-            <span class="ml-1">(00) 0000-0000</span>
-          </li>
-          <li class="text-ink-muted leading-relaxed">
-            Cidade / UF — Brasil
-          </li>
+      {/* Col 4: Sociais */}
+      <nav aria-label="Redes sociais">
+        <h3 class="text-base font-medium text-paper mb-5">Sociais</h3>
+        <ul class="space-y-3">
+          {
+            socials.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  target={s.external ? "_blank" : undefined}
+                  rel={s.external ? "noopener noreferrer" : undefined}
+                  class="text-sm text-paper/60 hover:text-paper transition-colors"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
         </ul>
-        <p class="mt-4 text-xs italic text-ink-muted/70">
-          ⚠ Placeholders de contato — substituir antes de publicar
-        </p>
+      </nav>
+    </div>
+
+    {/* ====== Bottom row ====== */}
+    <div
+      class="mt-14 md:mt-20 pt-6 md:pt-8 border-t border-paper/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-paper/50"
+    >
+      <p>
+        © {currentYear} Safras & Negócios. Todos os direitos reservados.
+      </p>
+      <div class="flex items-center gap-5">
         <button
           type="button"
-          data-open-contact
-          class="mt-5 inline-flex items-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
+          data-scroll-top
+          class="inline-flex items-center gap-1.5 hover:text-paper transition-colors"
+          aria-label="Voltar ao topo"
         >
-          Solicitar Serviço
-          <span aria-hidden="true">→</span>
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 19V5M5 12l7-7 7 7"></path>
+          </svg>
+          Topo
         </button>
       </div>
     </div>
 
-    <div
-      class="mt-14 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-muted"
-    >
-      <p>© {currentYear} Safras & Negócios. Todos os direitos reservados.</p>
-      <p>Brasil</p>
+    {/* ====== Credits row ====== */}
+    <div class="mt-5 md:mt-6 pt-4 md:pt-5 border-t border-paper/5 text-center">
+      <a
+        href="https://wa.me/5511910784384"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block text-xs text-paper/45 hover:text-paper/80 transition-colors"
+        aria-label="Falar com a Measy no WhatsApp"
+      >
+        Desenvolvido por <span class="font-semibold text-paper/70 underline underline-offset-4 decoration-paper/25">Measy</span>
+      </a>
     </div>
   </div>
 </footer>
+
+<script>
+  // Back-to-top
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-scroll-top]")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+</script>
