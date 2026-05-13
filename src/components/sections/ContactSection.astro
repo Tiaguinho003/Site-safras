@@ -1,0 +1,644 @@
+---
+import brasilMap from "../../assets/maps/brasil-pontilhado.png";
+
+/**
+ * Marcadores sobre o mapa. Coords em % relativo ao bounding box da imagem
+ * (capturadas via modo dev click-to-capture).
+ */
+const marcadores: { label: string; top: number; left: number }[] = [
+  { label: "São Sebastião do Paraíso, MG", top: 49.0, left: 33.0 },
+];
+---
+
+<section
+  id="contato"
+  aria-label="Contato"
+  class="bg-paper scroll-mt-20 md:scroll-mt-28"
+>
+  {/* ===== Row 1: Form (mapa do Brasil de fundo, ancorado à esquerda) ===== */}
+  <div class="relative overflow-x-clip">
+    {/* Wrapper dimensionado igual à img — markers % são relativos a este box.
+        -top/-bottom estendem o campo da imagem além da Row 1 (revelando mais
+        do PNG acima e abaixo). overflow-x-clip da Row 1 mantém clipping
+        horizontal mas libera o vertical. */}
+    <div
+      class="contact-map-area absolute -top-16 bottom-24 left-0 pointer-events-none translate-y-24"
+      aria-hidden="true"
+    >
+      <img
+        src={brasilMap.src}
+        alt=""
+        class="contact-map-bg w-full h-full select-none"
+      />
+      {marcadores.map((m) => (
+        <div class="map-marker" style={`top: ${m.top}%; left: ${m.left}%;`}>
+          <span class="map-marker-dot">
+            <span class="map-marker-ring"></span>
+            <span class="map-marker-ring map-marker-ring--delay"></span>
+          </span>
+          <svg
+            class="map-marker-leader"
+            viewBox="0 0 200 50"
+            width="200"
+            height="50"
+          >
+            <polyline
+              points="8,50 48,10 198,10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="map-marker-label">{m.label}</span>
+        </div>
+      ))}
+    </div>
+    <div class="relative max-w-[100rem] mx-auto px-6 md:px-10 pt-12 md:pt-16 lg:pt-20 pb-32 md:pb-40 lg:pb-48">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      {/* Header column — vazia por enquanto, só o tag (puxado pra cima no md+) */}
+      <div class="md:-mt-8 lg:-mt-12">
+        <span
+          class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand"
+        >
+          [ Contato ]
+        </span>
+      </div>
+
+      {/* Form column */}
+      <div class="fade-in-up relative" data-reveal="fade-in-up">
+        <form
+          id="contact-form"
+          novalidate
+          data-state="idle"
+          class="space-y-7 relative"
+        >
+          {/* Honeypot — bots preenchem, humanos não veem */}
+          <div
+            class="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden"
+            aria-hidden="true"
+          >
+            <label>
+              Não preencher
+              <input type="text" name="company" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+
+          {/* Nome + E-mail */}
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="contact-field">
+              <label for="cf-nome">Nome</label>
+              <input
+                id="cf-nome"
+                name="nome"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="Seu nome completo"
+              />
+            </div>
+            <div class="contact-field">
+              <label for="cf-email">E-mail</label>
+              <input
+                id="cf-email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                placeholder="seu@email.com"
+              />
+            </div>
+          </div>
+
+          {/* Telefone + Estado */}
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="contact-field">
+              <label for="cf-telefone">Telefone</label>
+              <input
+                id="cf-telefone"
+                name="telefone"
+                type="tel"
+                required
+                autocomplete="tel"
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+            <div class="contact-field">
+              <label for="cf-estado">Estado</label>
+              <input
+                id="cf-estado"
+                name="estado"
+                type="text"
+                autocomplete="address-level1"
+                placeholder="Ex: MG"
+              />
+            </div>
+          </div>
+
+          {/* Perfil + Interesse (selects — top label) */}
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="contact-field contact-field--select">
+              <label for="cf-perfil">Perfil</label>
+              <select id="cf-perfil" name="perfil" required>
+                <option value="">Selecione</option>
+                <option value="produtor">Produtor</option>
+                <option value="comprador">Comprador / Trader</option>
+                <option value="parceiro">Parceiro</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div class="contact-field contact-field--select">
+              <label for="cf-interesse">Interesse</label>
+              <select id="cf-interesse" name="interesse">
+                <option value="">Selecione</option>
+                <option value="corretagem">Corretagem</option>
+                <option value="assessoria">Assessoria comercial</option>
+                <option value="classificacao">Classificação</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Mensagem (textarea) */}
+          <div class="contact-field contact-field--textarea">
+            <label for="cf-mensagem">Mensagem</label>
+            <textarea
+              id="cf-mensagem"
+              name="mensagem"
+              rows="4"
+              placeholder="Descreva sua demanda (opcional)"></textarea>
+          </div>
+
+          {/* Erro */}
+          <div
+            data-form-error
+            hidden
+            class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-2xl px-4 py-3"
+          >
+          </div>
+
+          {/* Submit */}
+          <div class="pt-2">
+            <button
+              type="submit"
+              data-form-submit
+              class="w-full flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark disabled:opacity-60 disabled:cursor-not-allowed text-paper text-base font-medium px-8 py-4 rounded-full transition-colors duration-200"
+            >
+              <span data-submit-label>Enviar solicitação</span>
+              <span data-submit-arrow aria-hidden="true">→</span>
+              <span data-submit-spinner hidden aria-hidden="true" class="inline-flex">
+                <svg
+                  class="w-4 h-4 animate-spin"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    opacity="0.25"></circle>
+                  <path
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z"></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </form>
+
+        {/* Sucesso — overlay com check animado, dura 3s e some sozinho */}
+        <div
+          data-form-success
+          hidden
+          aria-live="polite"
+          class="success-overlay"
+        >
+          <svg
+            class="success-check"
+            viewBox="0 0 52 52"
+            aria-hidden="true"
+          >
+            <circle
+              class="success-check__circle"
+              cx="26"
+              cy="26"
+              r="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            ></circle>
+            <path
+              class="success-check__mark"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14 27 l8 8 l16-18"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</section>
+
+<style>
+  /* Wrapper do mapa: define o bounding box (markers % são relativos a este box) */
+  .contact-map-area {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .contact-map-area {
+      width: 65%;
+    }
+  }
+  @media (min-width: 1024px) {
+    .contact-map-area {
+      width: 55%;
+    }
+  }
+
+  /* Background mapa do Brasil — ocupa o wrapper, esfumaçado nas bordas */
+  .contact-map-bg {
+    object-fit: cover;
+    object-position: center 30%;
+    opacity: 0.85;
+    -webkit-mask-image:
+      linear-gradient(to right, black 65%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 10%),
+      linear-gradient(to top, transparent 0%, black 16%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, black 65%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 10%),
+      linear-gradient(to top, transparent 0%, black 16%);
+    mask-composite: intersect;
+  }
+
+  /* Marcadores sobre o mapa: dot pulsante + linha leader + label */
+  .map-marker {
+    position: absolute;
+    color: var(--color-brand);
+    z-index: 2;
+  }
+
+  /* Bolinha verde, centrada nas coords */
+  .map-marker-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 11px;
+    height: 11px;
+    background: currentColor;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 2.5px rgb(255 255 255 / 0.95);
+    z-index: 3;
+  }
+  .map-marker-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.55;
+    animation: map-pulse 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  .map-marker-ring--delay {
+    animation-delay: 1.2s;
+  }
+  @keyframes map-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    80% {
+      transform: scale(4);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  /* Leader: diagonal + horizontal saindo da bolinha pra cima-direita */
+  .map-marker-leader {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  /* Label em cima da linha horizontal */
+  .map-marker-label {
+    position: absolute;
+    top: -64px;
+    left: 50px;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+    background: rgb(255 255 255 / 0.92);
+    padding: 3px 8px;
+    border-radius: 3px;
+    backdrop-filter: blur(2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .map-marker-ring,
+    .map-marker-ring--delay {
+      animation: none;
+      opacity: 0;
+    }
+  }
+
+  /* Top labels (mobile + selects + textarea) */
+  .contact-field {
+    position: relative;
+  }
+  .contact-field > label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    pointer-events: none;
+  }
+  .contact-field input,
+  .contact-field select,
+  .contact-field textarea {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--color-ink);
+    background-color: var(--color-paper);
+    border: 1.5px solid rgb(20 19 17 / 0.22);
+    border-radius: 9999px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+  .contact-field input:hover:not(:focus),
+  .contact-field select:hover:not(:focus),
+  .contact-field textarea:hover:not(:focus) {
+    border-color: rgb(20 19 17 / 0.34);
+  }
+  .contact-field input::placeholder,
+  .contact-field textarea::placeholder {
+    color: var(--color-ink-muted);
+    opacity: 0.55;
+  }
+  .contact-field input:focus,
+  .contact-field select:focus,
+  .contact-field textarea:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgb(2 92 0 / 0.12);
+  }
+
+  /* Textarea — rounded mas não pill (impossível com min-h) */
+  .contact-field--textarea textarea {
+    border-radius: 1.5rem;
+    min-height: 140px;
+    resize: vertical;
+    padding: 1rem 1.25rem;
+  }
+
+  /* Select — chevron custom, top label sempre (validação flagou conflito de clique
+     com floating label em selects native) */
+  .contact-field--select select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%235a564f' stroke-width='1.75' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center;
+    padding-right: 2.75rem;
+  }
+
+  /* Floating labels — apenas md+ e apenas em inputs single-line text/email/tel.
+     Inspirado no padrão Apexus (label absoluta com divisor vertical). */
+  @media (min-width: 768px) {
+    .contact-field:not(.contact-field--select):not(.contact-field--textarea) > label {
+      position: absolute;
+      left: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      margin-bottom: 0;
+      padding: 0.5rem 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .contact-field:not(.contact-field--select):not(.contact-field--textarea)
+      > label::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 92px;
+      height: 100%;
+      width: 1px;
+      background-color: var(--color-line);
+    }
+    .contact-field:not(.contact-field--select):not(.contact-field--textarea) input {
+      padding-left: 108px;
+    }
+  }
+
+  /* ====== Success overlay — check animado sobre o form ====== */
+  .success-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255 255 255 / 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 1.5rem;
+    z-index: 5;
+    animation: success-overlay-show 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes success-overlay-show {
+    0% { opacity: 0; }
+    8% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .success-check {
+    width: 5rem;
+    height: 5rem;
+    color: var(--color-brand);
+  }
+  .success-check__circle {
+    stroke-dasharray: 151;
+    stroke-dashoffset: 151;
+    animation: success-circle-draw 0.55s cubic-bezier(0.65, 0, 0.45, 1) 0.15s forwards;
+  }
+  @keyframes success-circle-draw {
+    to { stroke-dashoffset: 0; }
+  }
+  .success-check__mark {
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+    animation: success-mark-draw 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.55s forwards;
+  }
+  @keyframes success-mark-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Reduced-motion: nada de animação extra (fade-in-up e split-text já tratados
+     no observer global de index.astro). */
+  @media (prefers-reduced-motion: reduce) {
+    .contact-field input,
+    .contact-field select,
+    .contact-field textarea {
+      transition: none;
+    }
+    .success-overlay,
+    .success-check__circle,
+    .success-check__mark {
+      animation: none;
+    }
+    .success-check__circle,
+    .success-check__mark {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+
+  if (form) {
+    const submitBtn = form.querySelector<HTMLButtonElement>("[data-form-submit]");
+    const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]");
+    const submitArrow = form.querySelector<HTMLElement>("[data-submit-arrow]");
+    const submitSpinner = form.querySelector<HTMLElement>("[data-submit-spinner]");
+    const errorBox = form.querySelector<HTMLElement>("[data-form-error]");
+    const successBox = document.querySelector<HTMLElement>("[data-form-success]");
+
+    function setSubmittingState(submitting: boolean) {
+      if (submitBtn) submitBtn.disabled = submitting;
+      if (submitSpinner) submitSpinner.hidden = !submitting;
+      if (submitArrow) submitArrow.hidden = submitting;
+      if (submitLabel)
+        submitLabel.textContent = submitting ? "Enviando..." : "Enviar solicitação";
+    }
+
+    function showSuccess() {
+      form!.setAttribute("data-state", "success");
+      if (successBox) {
+        // Reinicia animação caso seja o 2º+ envio na mesma sessão
+        successBox.hidden = false;
+        void successBox.offsetWidth;
+      }
+      window.setTimeout(() => {
+        if (successBox) successBox.hidden = true;
+        form!.reset();
+        form!.setAttribute("data-state", "idle");
+        setSubmittingState(false);
+      }, 3000);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Honeypot — bots preenchem, finge sucesso
+      const hp = (form.elements.namedItem("company") as HTMLInputElement)?.value;
+      if (hp) {
+        showSuccess();
+        return;
+      }
+
+      setSubmittingState(true);
+      if (errorBox) errorBox.hidden = true;
+      form.setAttribute("data-state", "submitting");
+
+      try {
+        const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+        if (!accessKey) throw new Error("PUBLIC_WEB3FORMS_KEY ausente");
+
+        const getField = (name: string): string =>
+          (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null)
+            ?.value.trim() || "";
+
+        const nome = getField("nome");
+        const email = getField("email");
+        const telefone = getField("telefone");
+        const estado = getField("estado") || "—";
+        const perfil = getField("perfil");
+        const interesse = getField("interesse") || "—";
+        const mensagem = getField("mensagem") || "—";
+
+        const enviadoEm = new Date().toLocaleString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "America/Sao_Paulo",
+        });
+
+        const body = [
+          "Novo contato pelo site Safras & Negócios",
+          "",
+          "CONTATO",
+          "────────────────",
+          `Nome:     ${nome}`,
+          `E-mail:   ${email}`,
+          `Telefone: ${telefone}`,
+          `Estado:   ${estado}`,
+          "",
+          "SOLICITAÇÃO",
+          "────────────────",
+          `Perfil:    ${perfil}`,
+          `Interesse: ${interesse}`,
+          "",
+          "MENSAGEM",
+          "────────────────",
+          mensagem,
+          "",
+          "─────────────────────────────",
+          `Enviado ${enviadoEm} pelo formulário do site`,
+        ].join("\n");
+
+        const payload = new FormData();
+        payload.append("access_key", accessKey);
+        payload.append("subject", `Novo contato — ${nome} (${perfil})`);
+        payload.append("from_name", "Site Safras & Negócios");
+        payload.append("replyto", email);
+        payload.append("message", body);
+
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: payload,
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || `HTTP ${res.status}`);
+        }
+        showSuccess();
+      } catch (err) {
+        if (errorBox) {
+          errorBox.hidden = false;
+          errorBox.textContent =
+            "Não foi possível enviar agora. Tente novamente em instantes.";
+        }
+        setSubmittingState(false);
+        form.setAttribute("data-state", "error");
+      }
+    });
+  }
+</script>

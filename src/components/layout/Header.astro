@@ -1,15 +1,11 @@
 ---
 import { Image } from "astro:assets";
-import logoOri from "../../assets/branding/safras-logo-ori.png";
+import logoCompleto from "../../assets/branding/safras-logo-completo.svg";
 import logoBranco from "../../assets/branding/safras-logo-branco.png";
 import { mainNav } from "../../data/navigation";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isHome = currentPath === "/";
-const isActive = (href: string) => {
-  const normalized = href.replace(/\/$/, "") || "/";
-  return normalized === currentPath;
-};
 ---
 
 {
@@ -21,14 +17,14 @@ const isActive = (href: string) => {
     >
       <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
         <a
-          href="/"
+          href="/#hero"
           class="site-header__logo flex items-center shrink-0"
-          aria-label="Safras & Negócios — Ir para a home"
+          aria-label="Safras & Negócios — Ir para o topo"
         >
           <Image
             src={logoBranco}
             alt="Safras & Negócios"
-            height={56}
+            height={224}
             class="site-header__logo-img w-auto"
             loading="eager"
           />
@@ -39,9 +35,8 @@ const isActive = (href: string) => {
             {mainNav.map((item) => (
               <li>
                 <a
+                  data-nav-link
                   href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  data-active={isActive(item.href) ? "true" : undefined}
                   class="site-header__nav-link inline-flex flex-col items-center gap-1.5 text-base font-medium tracking-wide"
                 >
                   <span>{item.label}</span>
@@ -53,14 +48,23 @@ const isActive = (href: string) => {
         </nav>
 
         <div class="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            data-open-contact
-            class="site-header__cta hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full"
+          <a
+            href="/#contato"
+            data-radial-button
+            class="site-header__cta group relative hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full overflow-hidden"
           >
-            Solicitar Serviço
-            <span aria-hidden="true">→</span>
-          </button>
+            <span class="relative z-10">Solicitar Serviço</span>
+            <span
+              aria-hidden="true"
+              class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
+            >→</span>
+            <span
+              aria-hidden="true"
+              data-radial-fill
+              style="left: 50%; top: 50%; transition: width 800ms ease-in-out;"
+              class="site-header__cta-radial absolute z-0 block aspect-square w-0 -translate-x-1/2 -translate-y-1/2 rounded-full group-hover:w-[225%]"
+            ></span>
+          </a>
 
           <button
             type="button"
@@ -98,14 +102,15 @@ const isActive = (href: string) => {
 >
   <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
     <a
-      href="/"
+      href="/#hero"
       class="site-header__logo flex items-center shrink-0"
-      aria-label="Safras & Negócios — Ir para a home"
+      aria-label="Safras & Negócios — Ir para o topo"
     >
-      <Image
-        src={logoOri}
+      <img
+        src={logoCompleto.src}
         alt="Safras & Negócios"
-        height={48}
+        width={logoCompleto.width}
+        height={logoCompleto.height}
         class="site-header__logo-img w-auto"
         loading="eager"
       />
@@ -117,9 +122,8 @@ const isActive = (href: string) => {
           mainNav.map((item) => (
             <li>
               <a
+                data-nav-link
                 href={item.href}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                data-active={isActive(item.href) ? "true" : undefined}
                 class="site-header__nav-link inline-flex flex-col items-center gap-1.5 text-base font-medium tracking-wide"
               >
                 <span>{item.label}</span>
@@ -132,14 +136,23 @@ const isActive = (href: string) => {
     </nav>
 
     <div class="flex items-center gap-3 shrink-0">
-      <button
-        type="button"
-        data-open-contact
-        class="site-header__cta hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full"
+      <a
+        href="/#contato"
+        data-radial-button
+        class="site-header__cta group relative hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full overflow-hidden"
       >
-        Solicitar Serviço
-        <span aria-hidden="true">→</span>
-      </button>
+        <span class="relative z-10">Solicitar Serviço</span>
+        <span
+          aria-hidden="true"
+          class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
+        >→</span>
+        <span
+          aria-hidden="true"
+          data-radial-fill
+          style="left: 50%; top: 50%; transition: width 800ms ease-in-out;"
+          class="site-header__cta-radial absolute z-0 block aspect-square w-0 -translate-x-1/2 -translate-y-1/2 rounded-full group-hover:w-[225%]"
+        ></span>
+      </a>
 
       <button
         type="button"
@@ -179,14 +192,9 @@ const isActive = (href: string) => {
       mainNav.map((item) => (
         <li>
           <a
+            data-nav-link
             href={item.href}
-            aria-current={isActive(item.href) ? "page" : undefined}
-            class:list={[
-              "block px-3 py-2.5 rounded-md text-base font-medium transition-colors",
-              isActive(item.href)
-                ? "text-brand bg-paper-alt"
-                : "text-ink hover:bg-paper-alt",
-            ]}
+            class="site-mobile-link block px-3 py-2.5 rounded-md text-base font-medium transition-colors"
           >
             {item.label}
           </a>
@@ -194,14 +202,13 @@ const isActive = (href: string) => {
       ))
     }
     <li class="pt-3 sm:hidden">
-      <button
-        type="button"
-        data-open-contact
+      <a
+        href="/#contato"
         class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
       >
         Solicitar Serviço
         <span aria-hidden="true">→</span>
-      </button>
+      </a>
     </li>
   </ul>
 </nav>
@@ -209,10 +216,8 @@ const isActive = (href: string) => {
 <style>
   /* ===========================================================
      Two-layer header — Apexus-style.
-     The transition between the transparent hero header and the
-     solid sticky header is a pure CSS class toggle, fully
-     decoupled from scroll position. Scroll speed no longer
-     drives opacity, so the motion feels natural.
+     Active state e fechamento do mobile menu são client-side
+     (scroll spy), já que o site é single-page com anchors.
      =========================================================== */
 
   .site-header {
@@ -238,20 +243,20 @@ const isActive = (href: string) => {
     background: transparent;
     --header-h: 88px;
     --header-px: 1.5rem;
-    --logo-h: 36px;
+    --logo-h: 48px;
   }
   @media (min-width: 768px) {
     .site-header--hero {
       --header-h: 128px;
       --header-px: 2rem;
-      --logo-h: 40px;
+      --logo-h: 56px;
     }
   }
   @media (min-width: 1024px) {
     .site-header--hero {
       --header-h: 144px;
       --header-px: 3.5rem;
-      --logo-h: 56px;
+      --logo-h: 76px;
     }
   }
   .site-header--hero .site-header__nav-link {
@@ -269,7 +274,10 @@ const isActive = (href: string) => {
       0 4px 6px -4px rgba(0, 0, 0, 0.1);
   }
   .site-header--hero .site-header__cta:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-paper);
+  }
+  .site-header--hero .site-header__cta-radial {
+    background-color: var(--color-brand);
   }
   .site-header--hero .site-header__menu-btn {
     color: var(--color-paper);
@@ -317,8 +325,12 @@ const isActive = (href: string) => {
     background-color: var(--color-brand);
     color: var(--color-paper);
   }
+  .site-header--sticky .site-header__cta-radial {
+    background-color: var(--color-paper);
+  }
   .site-header--sticky .site-header__cta:hover {
-    background-color: var(--color-brand-dark);
+    color: var(--color-brand);
+    border-color: var(--color-brand);
   }
   .site-header--sticky .site-header__menu-btn {
     color: var(--color-ink);
@@ -329,9 +341,8 @@ const isActive = (href: string) => {
     transition: color 200ms ease;
   }
   .site-header__cta {
-    transition:
-      background-color 200ms ease,
-      color 200ms ease;
+    border: 2px solid transparent;
+    transition: color 600ms ease, border-color 600ms ease;
   }
   .site-header__menu-btn {
     transition: color 200ms ease;
@@ -378,6 +389,18 @@ const isActive = (href: string) => {
     }
   }
 
+  /* Mobile nav link colors driven by data-active (set by scroll spy) */
+  .site-mobile-link {
+    color: var(--color-ink);
+  }
+  .site-mobile-link:hover {
+    background-color: var(--color-paper-alt);
+  }
+  .site-mobile-link[data-active] {
+    color: var(--color-brand);
+    background-color: var(--color-paper-alt);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .site-header--sticky {
       transition: opacity 200ms ease;
@@ -390,6 +413,7 @@ const isActive = (href: string) => {
 </style>
 
 <script>
+  // ---------- Scroll-aware sticky header (slides in past hero) ----------
   const stickyHeader = document.querySelector<HTMLElement>(
     "[data-header-sticky]"
   );
@@ -397,9 +421,6 @@ const isActive = (href: string) => {
   const heroHeader = document.querySelector<HTMLElement>("[data-header-hero]");
 
   if (stickyHeader && scrollAware && heroHeader) {
-    // Threshold = bottom edge of the hero header. Once scrolled past,
-    // the sticky variant slides in. Matches Apexus's ScrollTrigger
-    // `start: 'bottom 0'` on the transparent header.
     const getThreshold = () => {
       const rect = heroHeader.getBoundingClientRect();
       return rect.bottom + window.scrollY;
@@ -407,7 +428,7 @@ const isActive = (href: string) => {
 
     let threshold = getThreshold();
 
-    const apply = () => {
+    const applyStickyVisibility = () => {
       const visible = window.scrollY > threshold;
       const current = stickyHeader.dataset.visible === "true";
       if (visible !== current) {
@@ -415,26 +436,27 @@ const isActive = (href: string) => {
       }
     };
 
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
+    let stickyTicking = false;
+    const onScrollSticky = () => {
+      if (!stickyTicking) {
         requestAnimationFrame(() => {
-          apply();
-          ticking = false;
+          applyStickyVisibility();
+          stickyTicking = false;
         });
-        ticking = true;
+        stickyTicking = true;
       }
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScrollSticky, { passive: true });
     window.addEventListener("resize", () => {
       threshold = getThreshold();
-      apply();
+      applyStickyVisibility();
     });
 
-    apply();
+    applyStickyVisibility();
   }
 
+  // ---------- Mobile menu toggle ----------
   const toggles = document.querySelectorAll<HTMLButtonElement>(
     ".js-menu-toggle"
   );
@@ -454,6 +476,86 @@ const isActive = (href: string) => {
     btn.addEventListener("click", () => {
       const isOpen = menu && !menu.hasAttribute("hidden");
       setMenuState(!isOpen);
+    });
+  });
+
+  // ---------- Scroll spy (active state across all nav variants) ----------
+  const navLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]")
+  );
+
+  const getAnchorId = (link: HTMLAnchorElement): string | null => {
+    const href = link.getAttribute("href") ?? "";
+    const match = href.match(/#([\w-]+)$/);
+    return match ? match[1] : null;
+  };
+
+  const idToLinks = new Map<string, HTMLAnchorElement[]>();
+  navLinks.forEach((link) => {
+    const id = getAnchorId(link);
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id)!.push(link);
+  });
+
+  const sections: HTMLElement[] = [];
+  idToLinks.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) sections.push(el);
+  });
+
+  let activeId: string | null = null;
+
+  const setActiveId = (id: string | null) => {
+    if (id === activeId) return;
+    activeId = id;
+    idToLinks.forEach((links, sectionId) => {
+      links.forEach((link) => {
+        if (sectionId === id) {
+          link.setAttribute("data-active", "true");
+          link.setAttribute("aria-current", "true");
+        } else {
+          link.removeAttribute("data-active");
+          link.removeAttribute("aria-current");
+        }
+      });
+    });
+  };
+
+  const updateActive = () => {
+    const triggerLine = 100; // ~sticky header height + breathing room
+    let bestId: string | null = null;
+    let bestTop = -Infinity;
+    sections.forEach((section) => {
+      const top = section.getBoundingClientRect().top - triggerLine;
+      if (top <= 0 && top > bestTop) {
+        bestTop = top;
+        bestId = section.id;
+      }
+    });
+    setActiveId(bestId);
+  };
+
+  let activeTicking = false;
+  const onScrollActive = () => {
+    if (!activeTicking) {
+      requestAnimationFrame(() => {
+        updateActive();
+        activeTicking = false;
+      });
+      activeTicking = true;
+    }
+  };
+  window.addEventListener("scroll", onScrollActive, { passive: true });
+  window.addEventListener("resize", updateActive);
+  updateActive();
+
+  // ---------- Close mobile menu on anchor click ----------
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (menu && !menu.hasAttribute("hidden")) {
+        setMenuState(false);
+      }
     });
   });
 </script>
