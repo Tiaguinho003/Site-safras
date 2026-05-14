@@ -1,0 +1,477 @@
+---
+/**
+ * LanguageSwitcher — dropdown minimalista pra trocar idioma.
+ *
+ * Design:
+ * - Trigger compacto: bandeira + código 2-letras + chevron
+ * - Dropdown abre pra baixo com lista bandeira + nome nativo
+ * - Inherits color do header (funciona em hero transparente E sticky)
+ * - Item ativo destacado em text-brand
+ * - Animação 180ms scale+opacity, transform-origin top-right
+ *
+ * Comportamento client-side:
+ * - Click no trigger → toggle aberto/fechado
+ * - Click fora → fecha
+ * - ESC → fecha
+ * - Click numa opção:
+ *   - Salva cookie `safras_locale` (1 ano)
+ *   - Translada o hash atual pro anchor equivalente no idioma alvo
+ *   - Navega
+ *
+ * Acessibilidade:
+ * - aria-haspopup, aria-expanded, role=menu/menuitem
+ * - aria-current na opção ativa
+ * - Items recebem tabindex="-1" quando dropdown fechado (fora do tab order)
+ *
+ * Variante: `mode="inline"` renderiza 3 chips horizontais em vez de
+ * dropdown — usado no menu hamburger mobile.
+ */
+import {
+  useTranslation,
+  LOCALES,
+  LOCALE_LABELS,
+  localizeURL,
+  type Locale,
+} from "../../i18n";
+
+interface Props {
+  mode?: "dropdown" | "inline";
+}
+
+const { mode = "dropdown" } = Astro.props;
+
+const { t, locale: currentLocale } = useTranslation(Astro);
+const currentPath = Astro.url.pathname;
+
+// Códigos curtos pro trigger (PT/EN/ES)
+const SHORT_CODES: Record<Locale, string> = {
+  "pt-br": "PT",
+  en: "EN",
+  es: "ES",
+};
+
+const options = LOCALES.map((l) => ({
+  locale: l,
+  flag: LOCALE_LABELS[l].flag,
+  native: LOCALE_LABELS[l].native,
+  code: SHORT_CODES[l],
+  href: localizeURL(currentPath, l),
+  active: l === currentLocale,
+}));
+
+const current = options.find((o) => o.active)!;
+---
+
+{mode === "dropdown" ? (
+  <div class="lang-switcher" data-lang-switcher data-open="false">
+    <button
+      type="button"
+      class="lang-switcher__trigger"
+      aria-haspopup="menu"
+      aria-expanded="false"
+      aria-label={`${t("nav.languageSwitcherAriaLabel")}: ${current.native}`}
+      data-lang-trigger
+    >
+      <span class="lang-switcher__flag" aria-hidden="true">{current.flag}</span>
+      <span class="lang-switcher__code">{current.code}</span>
+      <svg
+        class="lang-switcher__chevron"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </button>
+
+    <ul
+      class="lang-switcher__menu"
+      role="menu"
+      aria-label={t("nav.languageSwitcherAriaLabel")}
+      data-lang-menu
+    >
+      {options.map((opt) => (
+        <li role="none">
+          <a
+            role="menuitem"
+            href={opt.href}
+            data-locale={opt.locale}
+            class="lang-switcher__option"
+            aria-current={opt.active ? "true" : undefined}
+            tabindex="-1"
+          >
+            <span class="lang-switcher__option-flag" aria-hidden="true">{opt.flag}</span>
+            <span class="lang-switcher__option-name">{opt.native}</span>
+            {opt.active && (
+              <svg
+                class="lang-switcher__check"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+) : (
+  /* Inline variant: chips horizontais (mobile dentro do hamburger) */
+  <div class="lang-switcher-inline" data-lang-switcher-inline>
+    <span class="lang-switcher-inline__label">{t("nav.language")}:</span>
+    <div class="lang-switcher-inline__chips" role="group" aria-label={t("nav.languageSwitcherAriaLabel")}>
+      {options.map((opt) => (
+        <a
+          href={opt.href}
+          data-locale={opt.locale}
+          class="lang-switcher-inline__chip"
+          aria-current={opt.active ? "true" : undefined}
+        >
+          <span aria-hidden="true">{opt.flag}</span>
+          <span>{opt.code}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  /* ===== Dropdown variant ===== */
+  .lang-switcher {
+    position: relative;
+    display: inline-block;
+  }
+
+  .lang-switcher__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.7rem;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 9999px;
+    transition:
+      background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .lang-switcher__trigger:hover {
+    background-color: rgb(0 0 0 / 0.06);
+  }
+  .lang-switcher__trigger:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  /* No hero header (texto branco), hover usa fundo claro */
+  :global(.site-header--hero) .lang-switcher__trigger:hover {
+    background-color: rgb(255 255 255 / 0.12);
+  }
+
+  .lang-switcher__flag {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .lang-switcher__code {
+    letter-spacing: 0.04em;
+  }
+
+  .lang-switcher__chevron {
+    width: 0.85rem;
+    height: 0.85rem;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.7;
+  }
+
+  .lang-switcher[data-open="true"] .lang-switcher__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ===== Menu ===== */
+  .lang-switcher__menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 12rem;
+    margin: 0;
+    padding: 0.4rem;
+    list-style: none;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    border-radius: 1rem;
+    box-shadow:
+      0 12px 28px -10px rgb(20 19 17 / 0.18),
+      0 4px 10px -4px rgb(20 19 17 / 0.08);
+
+    /* Estado fechado */
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+    transform-origin: top right;
+    pointer-events: none;
+    transition:
+      opacity 180ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Z-index alto pra ficar acima do sticky header */
+    z-index: 50;
+  }
+
+  .lang-switcher[data-open="true"] .lang-switcher__menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .lang-switcher__option {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.6rem;
+    color: var(--color-ink-muted);
+    font-size: 0.95rem;
+    font-weight: 400;
+    text-decoration: none;
+    transition:
+      background-color 140ms ease,
+      color 140ms ease;
+  }
+  .lang-switcher__option:hover {
+    background-color: var(--color-paper-alt);
+    color: var(--color-ink);
+  }
+  .lang-switcher__option:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: -2px;
+    background-color: var(--color-paper-alt);
+  }
+  .lang-switcher__option[aria-current="true"] {
+    color: var(--color-brand);
+    font-weight: 500;
+  }
+
+  .lang-switcher__option-flag {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .lang-switcher__option-name {
+    flex: 1;
+  }
+
+  .lang-switcher__check {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--color-brand);
+    flex-shrink: 0;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .lang-switcher__chevron,
+    .lang-switcher__menu,
+    .lang-switcher__option,
+    .lang-switcher__trigger {
+      transition: none;
+    }
+  }
+
+  /* ===== Inline variant (mobile menu) ===== */
+  .lang-switcher-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 0.25rem;
+  }
+
+  .lang-switcher-inline__label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-muted);
+    font-weight: 500;
+  }
+
+  .lang-switcher-inline__chips {
+    display: inline-flex;
+    gap: 0.3rem;
+  }
+
+  .lang-switcher-inline__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    background-color: var(--color-paper-alt);
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+  .lang-switcher-inline__chip:hover {
+    color: var(--color-ink);
+  }
+  .lang-switcher-inline__chip[aria-current="true"] {
+    background-color: var(--color-brand);
+    color: var(--color-paper);
+  }
+</style>
+
+<script>
+  import { getCanonicalKey, getAnchor, type Locale } from "../../i18n";
+
+  /* ===== Cookie persistence =====
+     Setado APENAS quando o usuário escolhe manualmente (não no auto-detect).
+     Isso permite que mudanças de idioma do browser re-acionem o detect. */
+  const COOKIE_NAME = "safras_locale";
+  const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 ano
+
+  function setLocaleCookie(locale: string) {
+    document.cookie = `${COOKIE_NAME}=${encodeURIComponent(locale)}; max-age=${COOKIE_MAX_AGE}; path=/; SameSite=Lax`;
+  }
+
+  /* ===== Dropdown variant ===== */
+  const switchers = document.querySelectorAll<HTMLElement>("[data-lang-switcher]");
+
+  switchers.forEach((switcher) => {
+    const trigger = switcher.querySelector<HTMLButtonElement>("[data-lang-trigger]");
+    const menu = switcher.querySelector<HTMLElement>("[data-lang-menu]");
+    if (!trigger || !menu) return;
+
+    const items = Array.from(
+      menu.querySelectorAll<HTMLAnchorElement>("[role='menuitem']")
+    );
+
+    const setOpen = (open: boolean) => {
+      switcher.dataset.open = open ? "true" : "false";
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      // Tab order: items só entram quando menu aberto
+      items.forEach((item) => {
+        item.tabIndex = open ? 0 : -1;
+      });
+      if (open) {
+        // Foca primeiro item ao abrir via teclado
+        window.setTimeout(() => items[0]?.focus(), 0);
+      }
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = switcher.dataset.open === "true";
+      setOpen(!isOpen);
+    });
+
+    // Click fora → fecha
+    document.addEventListener("click", (e) => {
+      if (switcher.dataset.open !== "true") return;
+      if (!switcher.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    });
+
+    // ESC → fecha + foca trigger
+    switcher.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && switcher.dataset.open === "true") {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+
+    // Setas + Enter pra navegação dentro do menu
+    menu.addEventListener("keydown", (e) => {
+      const idx = items.indexOf(document.activeElement as HTMLAnchorElement);
+      if (idx === -1) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        items[(idx + 1) % items.length]?.focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        items[(idx - 1 + items.length) % items.length]?.focus();
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        items[0]?.focus();
+      } else if (e.key === "End") {
+        e.preventDefault();
+        items[items.length - 1]?.focus();
+      }
+    });
+
+    // Click numa opção: salva cookie + translada anchor + navega
+    items.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const targetLocale = item.dataset.locale as Locale | undefined;
+        if (!targetLocale) return;
+
+        e.preventDefault();
+        setLocaleCookie(targetLocale);
+
+        // Translada o hash atual pro anchor equivalente no idioma alvo
+        let targetHash = "";
+        if (window.location.hash) {
+          const currentAnchor = window.location.hash.slice(1);
+          const canonicalKey = getCanonicalKey(currentAnchor);
+          if (canonicalKey) {
+            targetHash = "#" + getAnchor(canonicalKey, targetLocale);
+          } else {
+            // Anchor desconhecido — mantém como está
+            targetHash = window.location.hash;
+          }
+        }
+
+        window.location.href = item.href + targetHash;
+      });
+    });
+  });
+
+  /* ===== Inline variant (mobile) ===== */
+  const inlineSwitchers = document.querySelectorAll<HTMLElement>(
+    "[data-lang-switcher-inline]"
+  );
+  inlineSwitchers.forEach((switcher) => {
+    const chips = switcher.querySelectorAll<HTMLAnchorElement>(
+      "[data-locale]"
+    );
+    chips.forEach((chip) => {
+      chip.addEventListener("click", (e) => {
+        const targetLocale = chip.dataset.locale as Locale | undefined;
+        if (!targetLocale) return;
+
+        e.preventDefault();
+        setLocaleCookie(targetLocale);
+
+        let targetHash = "";
+        if (window.location.hash) {
+          const currentAnchor = window.location.hash.slice(1);
+          const canonicalKey = getCanonicalKey(currentAnchor);
+          if (canonicalKey) {
+            targetHash = "#" + getAnchor(canonicalKey, targetLocale);
+          } else {
+            targetHash = window.location.hash;
+          }
+        }
+
+        window.location.href = chip.href + targetHash;
+      });
+    });
+  });
+</script>
