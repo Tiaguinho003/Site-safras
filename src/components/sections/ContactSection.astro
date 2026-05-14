@@ -19,14 +19,49 @@ const marcadores: { label: string; top: number; left: number }[] = [
   aria-label={t("contact.sectionAriaLabel")}
   class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
 >
-  {/* ===== Row 1: Form (mapa do Brasil de fundo, ancorado à esquerda) ===== */}
+  {/* ===== Mobile-only: bloco do mapa do Brasil entre depoimentos e o form (edge-to-edge) ===== */}
+  <div class="contact-map-mobile md:hidden py-4" aria-hidden="true">
+    <div class="relative">
+      <img
+        src={brasilMap.src}
+        alt=""
+        class="contact-map-bg-mobile w-full h-auto select-none"
+      />
+      {marcadores.map((m) => (
+        <div class="map-marker" style={`top: ${m.top}%; left: ${m.left}%;`}>
+          <span class="map-marker-dot">
+            <span class="map-marker-ring"></span>
+            <span class="map-marker-ring map-marker-ring--delay"></span>
+          </span>
+          <svg
+            class="map-marker-leader"
+            viewBox="0 0 200 50"
+            width="200"
+            height="50"
+          >
+            <polyline
+              points="8,50 48,10 198,10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="map-marker-label">{m.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* ===== Row 1: Form (mapa do Brasil de fundo, ancorado à esquerda — desktop only) ===== */}
   <div class="relative overflow-x-clip">
     {/* Wrapper dimensionado igual à img — markers % são relativos a este box.
         -top/-bottom estendem o campo da imagem além da Row 1 (revelando mais
         do PNG acima e abaixo). overflow-x-clip da Row 1 mantém clipping
         horizontal mas libera o vertical. */}
     <div
-      class="contact-map-area absolute -top-16 bottom-24 left-0 pointer-events-none translate-y-24"
+      class="contact-map-area hidden md:block absolute -top-16 bottom-24 left-0 pointer-events-none translate-y-24"
       aria-hidden="true"
     >
       <img
@@ -118,8 +153,8 @@ const marcadores: { label: string; top: number; left: number }[] = [
             </div>
           </div>
 
-          {/* Telefone + Estado */}
-          <div class="grid md:grid-cols-2 gap-6">
+          {/* Telefone + Estado — sempre 2 colunas (mobile e desktop) */}
+          <div class="grid grid-cols-2 gap-4 md:gap-6">
             <div class="contact-field">
               <label for="cf-telefone">{t("contact.form.labels.phone")}</label>
               <input
@@ -143,8 +178,8 @@ const marcadores: { label: string; top: number; left: number }[] = [
             </div>
           </div>
 
-          {/* Perfil + Interesse (selects — top label) */}
-          <div class="grid md:grid-cols-2 gap-6">
+          {/* Perfil + Interesse — sempre 2 colunas (mobile e desktop) */}
+          <div class="grid grid-cols-2 gap-4 md:gap-6">
             <div class="contact-field contact-field--select">
               <label for="cf-perfil">{t("contact.form.labels.profile")}</label>
               <select id="cf-perfil" name="perfil" required>
@@ -269,6 +304,32 @@ const marcadores: { label: string; top: number; left: number }[] = [
     .contact-map-area {
       width: 55%;
     }
+  }
+
+  /* === Mobile-only: mapa como bloco próprio entre depoimentos e contato === */
+  .contact-map-mobile {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-map-mobile img {
+    width: 100%;
+    /* Corta 10% do rodapé via aspect-ratio + object-position top.
+       Natural é 1122/1402 (≈0.80); usamos 1122/1262 (≈0.89) pra cortar 10%
+       da altura. O efeito de fade vertical (mask gradient) acompanha a
+       nova altura, ficando mais perto do form do Contato. */
+    aspect-ratio: 1122 / 1262;
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0.85;
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+    mask-image:
+      linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+  }
+  .contact-map-mobile .map-marker {
+    position: absolute;
   }
 
   /* Background mapa do Brasil — ocupa o wrapper, esfumaçado nas bordas */
