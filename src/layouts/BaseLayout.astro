@@ -92,8 +92,9 @@ const xDefaultHref = siteUrl + localizeURL(currentPath, DEFAULT_LOCALE);
             return; // já em outro non-default — respeita
           }
 
-          // 4) Redirect — preserva hash. replace() pra não poluir histórico
-          var targetPath = "/" + matched + (path === "/" ? "/" : path);
+          // 4) Redirect — preserva hash. replace() pra não poluir histórico.
+          // SEM trailing slash (astro.config trailingSlash:"never" → /en/ dá 404)
+          var targetPath = path === "/" ? "/" + matched : "/" + matched + path;
           window.location.replace(targetPath + window.location.hash);
         } catch (e) {
           // Se algo falhar, fica em PT-BR (default). Failsafe.
