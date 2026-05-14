@@ -3,9 +3,21 @@ import { Image } from "astro:assets";
 import logoCompleto from "../../assets/branding/safras-logo-completo.svg";
 import logoBranco from "../../assets/branding/safras-logo-branco.png";
 import { mainNav } from "../../data/navigation";
+import { useTranslation, DEFAULT_LOCALE } from "../../i18n";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+const { t, locale, localizeAnchor } = useTranslation(Astro);
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isHome = currentPath === "/";
+// É a home da língua atual? (/, /en, /es)
+const localeHomeForCurrent =
+  locale === DEFAULT_LOCALE ? "/" : `/${locale}`;
+const isHome =
+  currentPath === localeHomeForCurrent ||
+  currentPath === `${localeHomeForCurrent}/`;
+
+const heroHref = localizeAnchor("hero");
+const contactHref = localizeAnchor("contato");
 ---
 
 {
@@ -13,33 +25,33 @@ const isHome = currentPath === "/";
     <header
       data-header-hero
       class="site-header site-header--hero"
-      aria-label="Cabeçalho sobre o hero"
+      aria-label={t("nav.heroHeaderAriaLabel")}
     >
       <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
         <a
-          href="/#hero"
+          href={heroHref}
           class="site-header__logo flex items-center shrink-0"
-          aria-label="Safras & Negócios — Ir para o topo"
+          aria-label={t("nav.logoAriaLabel")}
         >
           <Image
             src={logoBranco}
-            alt="Safras & Negócios"
+            alt={t("brand.logoAlt")}
             height={224}
             class="site-header__logo-img w-auto"
             loading="eager"
           />
         </a>
 
-        <nav aria-label="Menu principal (hero)" class="hidden lg:block flex-1">
+        <nav aria-label={t("nav.mainMenu")} class="hidden lg:block flex-1">
           <ul class="flex items-center justify-center gap-10 lg:gap-14">
             {mainNav.map((item) => (
               <li>
                 <a
                   data-nav-link
-                  href={item.href}
+                  href={localizeAnchor(item.anchor)}
                   class="site-header__nav-link inline-flex flex-col items-center gap-1.5 text-base font-medium tracking-wide"
                 >
-                  <span>{item.label}</span>
+                  <span>{t(item.labelKey)}</span>
                   <span class="site-header__nav-dot" aria-hidden="true" />
                 </a>
               </li>
@@ -49,11 +61,11 @@ const isHome = currentPath === "/";
 
         <div class="flex items-center gap-3 shrink-0">
           <a
-            href="/#contato"
+            href={contactHref}
             data-radial-button
             class="site-header__cta group relative hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full overflow-hidden"
           >
-            <span class="relative z-10">Solicitar Serviço</span>
+            <span class="relative z-10">{t("nav.cta")}</span>
             <span
               aria-hidden="true"
               class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
@@ -66,10 +78,17 @@ const isHome = currentPath === "/";
             ></span>
           </a>
 
+          {/* Language switcher — só desktop (mobile fica no hamburger menu) */}
+          <div class="hidden lg:block">
+            <LanguageSwitcher />
+          </div>
+
           <button
             type="button"
             class="js-menu-toggle site-header__menu-btn lg:hidden p-2 -m-2"
-            aria-label="Abrir menu"
+            aria-label={t("common.openMenu")}
+            data-label-open={t("common.openMenu")}
+            data-label-close={t("common.closeMenu")}
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
@@ -102,13 +121,13 @@ const isHome = currentPath === "/";
 >
   <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
     <a
-      href="/#hero"
+      href={heroHref}
       class="site-header__logo flex items-center shrink-0"
-      aria-label="Safras & Negócios — Ir para o topo"
+      aria-label={t("nav.logoAriaLabel")}
     >
       <img
         src={logoCompleto.src}
-        alt="Safras & Negócios"
+        alt={t("brand.logoAlt")}
         width={logoCompleto.width}
         height={logoCompleto.height}
         class="site-header__logo-img w-auto"
@@ -116,17 +135,17 @@ const isHome = currentPath === "/";
       />
     </a>
 
-    <nav aria-label="Menu principal" class="hidden lg:block flex-1">
+    <nav aria-label={t("nav.mainMenu")} class="hidden lg:block flex-1">
       <ul class="flex items-center justify-center gap-10 lg:gap-14">
         {
           mainNav.map((item) => (
             <li>
               <a
                 data-nav-link
-                href={item.href}
+                href={localizeAnchor(item.anchor)}
                 class="site-header__nav-link inline-flex flex-col items-center gap-1.5 text-base font-medium tracking-wide"
               >
-                <span>{item.label}</span>
+                <span>{t(item.labelKey)}</span>
                 <span class="site-header__nav-dot" aria-hidden="true" />
               </a>
             </li>
@@ -137,11 +156,11 @@ const isHome = currentPath === "/";
 
     <div class="flex items-center gap-3 shrink-0">
       <a
-        href="/#contato"
+        href={contactHref}
         data-radial-button
         class="site-header__cta group relative hidden sm:inline-flex items-center gap-1.5 text-base font-medium px-6 py-2.5 rounded-full overflow-hidden"
       >
-        <span class="relative z-10">Solicitar Serviço</span>
+        <span class="relative z-10">{t("nav.cta")}</span>
         <span
           aria-hidden="true"
           class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
@@ -154,10 +173,17 @@ const isHome = currentPath === "/";
         ></span>
       </a>
 
+      {/* Language switcher — só desktop */}
+      <div class="hidden lg:block">
+        <LanguageSwitcher />
+      </div>
+
       <button
         type="button"
         class="js-menu-toggle site-header__menu-btn lg:hidden p-2 -m-2"
-        aria-label="Abrir menu"
+        aria-label={t("common.openMenu")}
+        data-label-open={t("common.openMenu")}
+        data-label-close={t("common.closeMenu")}
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
@@ -183,7 +209,7 @@ const isHome = currentPath === "/";
      (hero or sticky) can toggle it, even when one is off-screen. -->
 <nav
   id="mobile-menu"
-  aria-label="Menu principal (mobile)"
+  aria-label={t("nav.mobileMenuAriaLabel")}
   hidden
   class="site-mobile-menu lg:hidden"
 >
@@ -193,22 +219,25 @@ const isHome = currentPath === "/";
         <li>
           <a
             data-nav-link
-            href={item.href}
+            href={localizeAnchor(item.anchor)}
             class="site-mobile-link block px-3 py-2.5 rounded-md text-base font-medium transition-colors"
           >
-            {item.label}
+            {t(item.labelKey)}
           </a>
         </li>
       ))
     }
     <li class="pt-3 sm:hidden">
       <a
-        href="/#contato"
+        href={contactHref}
         class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
       >
-        Solicitar Serviço
+        {t("nav.cta")}
         <span aria-hidden="true">→</span>
       </a>
+    </li>
+    <li class="pt-2 border-t border-line/60 mt-2">
+      <LanguageSwitcher mode="inline" />
     </li>
   </ul>
 </nav>
@@ -468,7 +497,11 @@ const isHome = currentPath === "/";
     else menu.setAttribute("hidden", "");
     toggles.forEach((btn) => {
       btn.setAttribute("aria-expanded", String(open));
-      btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      // Labels traduzidos vêm via data-attr setado pelo template (locale-aware)
+      const label = open
+        ? btn.dataset.labelClose ?? "Close menu"
+        : btn.dataset.labelOpen ?? "Open menu";
+      btn.setAttribute("aria-label", label);
     });
   };
 

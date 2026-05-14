@@ -1,0 +1,1311 @@
+---
+/**
+ * HomePage — single source of truth pro conteúdo da home em qualquer idioma.
+ *
+ * Usado por:
+ * - src/pages/index.astro       (PT-BR, /)
+ * - src/pages/en/index.astro    (EN, /en/)
+ * - src/pages/es/index.astro    (ES, /es/)
+ *
+ * Todas as 3 rotas renderizam ESTE componente. O locale vem de
+ * Astro.currentLocale automaticamente.
+ *
+ * Strings vêm do dicionário (src/i18n/*.ts) via useTranslation().
+ * Anchors/IDs de seção vêm de anchors.ts (servicos→services/servicios, etc.).
+ */
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactSection from "../sections/ContactSection.astro";
+import { useTranslation, getAnchor } from "../../i18n";
+
+import cafeCerejaMao from "../../assets/hero/cafe-cereja-mao.png";
+import saoSebastiaoParaiso from "../../assets/about/sao-sebastiao-paraiso.png";
+import lavouraCafeAerea from "../../assets/about/lavoura-cafe-aerea.png";
+import analiseQualidadeImg from "../../assets/services/analise-qualidade.png";
+import mercadoNegociacaoImg from "../../assets/services/mercado-negociacao.png";
+import suporteLogisticoImg from "../../assets/services/suporte-logistico.png";
+
+const { t, tArray, locale } = useTranslation(Astro);
+
+// IDs de seção localizados (#servicos em PT, #services em EN, #servicios em ES)
+const heroId = getAnchor("hero", locale);
+const servicosId = getAnchor("servicos", locale);
+const quemSomosId = getAnchor("quem-somos", locale);
+const depoimentosId = getAnchor("depoimentos", locale);
+
+// ===== Dados estruturais (não-traduzíveis: ícones/imagens/posições) =====
+// As strings vivem no dicionário; cada item tem uma `key` que mapeia
+// pra `dict.<section>.cards.<key>.*`
+
+const statsCards = [
+  {
+    type: "city" as const,
+    position: "top" as const,
+    dictPath: "about.stats.city",
+  },
+  {
+    type: "counter" as const,
+    target: 10,
+    position: "bottom" as const,
+    dictPath: "about.stats.years",
+  },
+];
+
+const differentialsData = [
+  {
+    key: "historia",
+    iconSvg: `<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" />`,
+  },
+  {
+    key: "missao",
+    iconSvg: `<circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />`,
+  },
+  {
+    key: "valores",
+    iconSvg: `<circle cx="12" cy="12" r="10" /><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" />`,
+  },
+];
+
+const servicesData = [
+  {
+    key: "mercadoNegociacao",
+    iconSvg: `<path d="m11 17 2 2a1 1 0 1 0 3-3" /><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="m21 3 1 11h-2" /><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" /><path d="M3 4h8" />`,
+    image: mercadoNegociacaoImg,
+    imagePosition: "50% 35%",
+  },
+  {
+    key: "analiseQualidade",
+    iconSvg: `<path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" />`,
+    image: analiseQualidadeImg,
+    imagePosition: "30% 25%",
+  },
+  {
+    key: "suporteLogistico",
+    iconSvg: `<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" /><path d="M15 18H9" /><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" />`,
+    image: suporteLogisticoImg,
+    imagePosition: "55% 50%",
+  },
+];
+
+interface TestimonialQuote {
+  quote: string;
+  author: string;
+  company: string;
+}
+
+const testimonials = tArray<TestimonialQuote>("testimonials.quotes");
+
+// SVG-friendly tokens em arrays do dict (split-text title lines)
+const servicesTitleLines = tArray<string[]>("services.titleLines");
+const aboutTitleLines = tArray<string[]>("about.titleLines");
+const principlesTitleLines = tArray<string[]>("principles.titleLines");
+
+const rotatingWords = tArray<string>("hero.rotatingWords");
+
+// Pré-computa estruturas de spans dos títulos split-text — evita JSX
+// com .map() aninhado e ternários complexos que confundem o parser.
+const servicesTitle = servicesTitleLines.map((line, lineIdx) => {
+  const baseDelay = lineIdx === 0 ? 0 : lineIdx === 1 ? 80 : 240;
+  const spans = line.map((word, wordIdx) => {
+    const delay = baseDelay + wordIdx * 80;
+    const isHighlight =
+      lineIdx === servicesTitleLines.length - 1 &&
+      wordIdx === line.length - 1;
+    const alignTop = lineIdx === 2 && !isHighlight;
+    let className = "split-text-word";
+    if (isHighlight) {
+      className =
+        "split-text-word text-brand text-3xl md:text-4xl lg:text-5xl xl:text-6xl relative";
+    } else if (alignTop) {
+      className = "split-text-word align-top";
+    }
+    const styleStr = isHighlight
+      ? "transition-delay: " + delay + "ms; top: -0.1em; left: 0.05em;"
+      : "transition-delay: " + delay + "ms;";
+    return { word, className, styleStr };
+  });
+  return { spans };
+});
+
+const aboutTitle = aboutTitleLines.map((line, lineIdx) => {
+  const baseDelay = lineIdx === 0 ? 0 : 240;
+  const spans = line.map((word, wordIdx) => {
+    const delay = baseDelay + wordIdx * 80;
+    const isHighlight = lineIdx === 0 && wordIdx === 0;
+    const className = isHighlight
+      ? "split-text-word text-brand"
+      : "split-text-word";
+    const styleStr = "transition-delay: " + delay + "ms;";
+    return { word, className, styleStr };
+  });
+  return { spans };
+});
+
+const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
+  const baseDelay = lineIdx === 0 ? 0 : 80;
+  const spans = line.map((word, wordIdx) => {
+    const delay = baseDelay + wordIdx * 80;
+    const isHighlight = lineIdx === principlesTitleLines.length - 1;
+    const className = isHighlight
+      ? "split-text-word text-brand"
+      : "split-text-word";
+    const styleStr = "transition-delay: " + delay + "ms;";
+    return { word, className, styleStr };
+  });
+  return { spans };
+});
+---
+
+<BaseLayout title={t("meta.siteTitle")} description={t("meta.siteDescription")}>
+  <section
+    id={heroId}
+    class="relative min-h-[97svh] flex flex-col items-center overflow-hidden"
+    aria-labelledby="hero-titulo"
+  >
+    <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <Image
+        src={cafeCerejaMao}
+        alt=""
+        widths={[1200, 1600, 2000]}
+        sizes="100vw"
+        class="w-full h-full object-cover opacity-90"
+        style="object-position: 88% center;"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-black/28"></div>
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 20%, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.45) 100%);"
+      >
+      </div>
+    </div>
+
+    <div
+      class="relative max-w-[100rem] w-full mx-auto px-6 md:px-10 pt-40 md:pt-52 text-paper"
+    >
+      <div class="text-center">
+        <span
+          class="inline-block text-[11px] md:text-xs font-semibold uppercase tracking-[0.28em] text-paper/85 mb-6 md:mb-8"
+        >
+          {t("hero.tag")}
+        </span>
+      </div>
+
+      <h1
+        id="hero-titulo"
+        class="uppercase md:normal-case leading-[0.95] mx-auto mt-6 md:mt-12 text-center font-light md:font-extralight text-paper text-4xl sm:text-5xl md:text-5xl lg:text-[64px] xl:text-[80px] 2xl:text-[150px] tracking-[-0.01em] md:tracking-[-0.03em]"
+      >
+        <span class="block">
+          <span
+            class="word-rotator uppercase font-extralight text-5xl sm:text-6xl md:text-6xl lg:text-[80px] xl:text-[150px] 2xl:text-[120px]"
+            aria-live="polite"
+          >
+            {rotatingWords.map((word, idx) => (
+              <span
+                class="word-rotator__word"
+                data-state={idx === 0 ? "active" : "queued"}
+                aria-hidden={idx === 0 ? "false" : "true"}
+              >
+                {word}
+              </span>
+            ))}
+          </span>
+        </span>
+        <span
+          class="block text-[#b08968] font-normal text-3xl sm:text-4xl md:text-4xl lg:text-[48px] xl:text-[64px] 2xl:text-[80px]"
+        >
+          {t("hero.suffix")}
+        </span>
+      </h1>
+    </div>
+
+    <div class="absolute bottom-12 md:bottom-2 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl">
+      <svg
+        viewBox="0 0 1000 480"
+        preserveAspectRatio="xMidYMid meet"
+        class="w-full h-auto block"
+        aria-hidden="true"
+        style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));"
+      >
+        <path
+          d="M 20 460 Q 500 5 980 460 Q 500 9 20 460 Z"
+          fill="rgba(255, 255, 255, 0.95)"
+        />
+      </svg>
+      <a
+        href={`#${servicosId}`}
+        data-radial-button
+        class="group absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-1.5 bg-paper border-2 border-transparent hover:border-paper text-ink hover:text-paper text-sm md:text-base font-medium px-5 py-2.5 rounded-full overflow-hidden whitespace-nowrap shadow-lg transition-colors duration-[600ms]"
+      >
+        <span class="relative z-10">{t("hero.cta")}</span>
+        <span
+          aria-hidden="true"
+          class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
+        >→</span>
+        <span
+          aria-hidden="true"
+          data-radial-fill
+          style="left: 50%; top: 50%; transition: width 800ms ease-in-out;"
+          class="absolute z-0 block aspect-square w-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand group-hover:w-[225%]"
+        ></span>
+      </a>
+    </div>
+
+    <button
+      type="button"
+      data-scroll-next
+      data-target-id={servicosId}
+      aria-label={t("hero.scrollNextLabel")}
+      class="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-paper/70 hover:text-paper transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-paper/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-full p-2"
+    >
+      <span
+        class="relative block w-6 h-10 rounded-full border border-paper/60"
+        aria-hidden="true"
+      >
+        <span
+          class="scroll-mouse-dot absolute top-2 inset-x-0 mx-auto w-1 h-2 bg-paper/85 rounded-full"
+        ></span>
+      </span>
+    </button>
+  </section>
+
+  <section
+    id={servicosId}
+    class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
+    aria-labelledby="servicos-titulo"
+  >
+    <div class="max-w-[88rem] mx-auto px-6 md:px-10 py-20 md:py-28 lg:py-32 pb-14 md:pb-20 lg:pb-24">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-20 md:mb-28 lg:mb-32"
+      >
+        <div>
+          <div class="flex items-start gap-6 md:gap-10 lg:gap-14">
+            <div class="flex flex-col items-start shrink-0 gap-6">
+              <span
+                class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand whitespace-nowrap shrink-0 mt-2 md:mt-3 lg:-mt-8"
+              >
+                {t("services.sectionLabel")}
+              </span>
+
+              <div
+                class="coffee-bean-float relative w-[100px] h-[100px] md:w-[120px] md:h-[120px] text-brand"
+                aria-hidden="true"
+              >
+                <div class="coffee-bean-tilt w-full h-full">
+                  <svg
+                    viewBox="0 0 160 160"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-full h-full"
+                  >
+                    <g transform="rotate(8 80 80)">
+                      <ellipse cx="80" cy="80" rx="36" ry="52" stroke-width="2.5" />
+                      <path d="M 80 30 C 98 48, 98 112, 80 130" stroke-width="2" />
+                      <path d="M 80 33 C 93 55, 73 105, 80 127" stroke-width="1.8" />
+                      <path d="M 80 33 C 87 55, 67 105, 80 127" stroke-width="1.8" />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <h2
+              id="servicos-titulo"
+              data-reveal="split-text"
+              class="split-text text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium text-ink leading-[1.05] tracking-[-0.03em] lg:-mt-8"
+            >
+              {servicesTitle.map((titleLine) => (
+                <span class="block">
+                  {titleLine.spans.map((s) => (
+                    <span class={s.className} style={s.styleStr}>{s.word}</span>
+                  ))}
+                </span>
+              ))}
+            </h2>
+          </div>
+        </div>
+
+        <div class="lg:-mt-8 max-w-xl fade-in-up" data-reveal="fade-in-up">
+          <p class="text-xl md:text-2xl lg:text-3xl text-ink/50 leading-[1.33]">
+            {t("services.intro.part1")}{" "}
+            <span class="text-brand font-medium">
+              {t("services.intro.highlight")}
+            </span>{" "}
+            {t("services.intro.part2")}
+          </p>
+          <div
+            aria-hidden="true"
+            class="mt-8 md:mt-10 h-px lg:h-0.5 w-full bg-ink opacity-20"
+          ></div>
+        </div>
+      </div>
+
+      <div
+        id="servicos-accordion"
+        class="flex flex-col md:flex-row gap-5 md:gap-6 md:h-[386px]"
+      >
+        {servicesData.map((service, idx) => {
+          const number = t(`services.cards.${service.key}.number`);
+          const title = t(`services.cards.${service.key}.title`);
+          const imageAlt = t(`services.cards.${service.key}.imageAlt`);
+          const description = t(`services.cards.${service.key}.description`);
+          return (
+            <article
+              data-service-card
+              data-active={idx === 0 ? "true" : "false"}
+              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line h-[300px] md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              tabindex="0"
+              aria-label={`${number}: ${title}`}
+            >
+              <Image
+                src={service.image}
+                alt={imageAlt}
+                widths={[600, 900, 1200]}
+                sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
+                class="absolute inset-0 w-full h-full object-cover"
+                style={`object-position: ${service.imagePosition};`}
+                loading="lazy"
+              />
+
+              <div
+                aria-hidden="true"
+                class="absolute inset-0 bg-paper-alt/70 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-0"
+              />
+
+              <div
+                aria-hidden="true"
+                class="absolute inset-0 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-100"
+                style="background: linear-gradient(180deg, rgba(0,0,0,0) 22%, rgba(0,0,0,0.4) 97%);"
+              />
+
+              <div class="relative h-full p-4 md:p-6 flex flex-col justify-between">
+                <div class="flex items-start justify-between gap-4">
+                  <div
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center bg-ink text-paper group-data-[active=true]:bg-paper group-data-[active=true]:text-[#8b5e34] transition-colors duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={service.iconSvg}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="sr-only">{title}</h3>
+
+                  <div class="grid" aria-hidden="true">
+                    <span
+                      class="col-start-1 row-start-1 self-end text-[26px] md:text-[28px] lg:text-[30px] font-medium text-ink leading-[1.2] tracking-[-0.02em] line-clamp-2 transition-opacity duration-[300ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-0"
+                    >
+                      {title}
+                    </span>
+                    <span
+                      class="col-start-1 row-start-1 self-end text-[35px] md:text-[40px] lg:text-[48px] font-medium text-paper leading-[1.08] tracking-[-0.05em] line-clamp-2 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[300ms] group-data-[active=true]:opacity-100"
+                    >
+                      {title}
+                    </span>
+                  </div>
+
+                  <div
+                    aria-hidden="true"
+                    class="mt-4 md:mt-6 h-1 w-[calc(100%-5px)] rounded bg-white/50 backdrop-blur-lg overflow-hidden opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-100"
+                  >
+                    <div
+                      class="h-full w-0 bg-white rounded transition-[width] duration-[650ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[550ms] group-data-[active=true]:w-full"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                aria-hidden="true"
+                class="absolute inset-y-0 right-0 w-[200px] bg-black/60 origin-right scale-x-0 transition-transform duration-[150ms] ease-out group-data-[active=true]:scale-x-100 group-data-[active=true]:duration-[900ms] group-data-[active=true]:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:delay-[500ms]"
+              ></div>
+
+              <div
+                class="absolute inset-y-0 right-0 w-[200px] p-5 md:p-6 flex items-center pointer-events-none"
+              >
+                <p class="text-paper/95 text-[14px] leading-[1.5] font-normal tracking-[0.005em]">
+                  {description.split(" ").flatMap((word, i) => [
+                    <span
+                      class="inline-block opacity-0 translate-y-1 blur-[2px] group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:blur-none group-data-[active=true]:transition-[opacity,transform,filter] group-data-[active=true]:duration-[550ms] group-data-[active=true]:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:[transition-delay:var(--word-delay)]"
+                      style={`--word-delay: ${900 + i * 32}ms;`}
+                    >
+                      {word}
+                    </span>,
+                    " ",
+                  ])}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {/* Divider sutil entre Serviços e Sobre nós */}
+  <div class="bg-paper">
+    <div class="max-w-[88rem] mx-auto px-6 md:px-10">
+      <div aria-hidden="true" class="h-px bg-line"></div>
+    </div>
+  </div>
+
+  <section
+    id={quemSomosId}
+    class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
+    aria-labelledby="quem-somos-titulo"
+  >
+    <div class="max-w-[88rem] mx-auto px-6 md:px-10 pt-14 md:pt-20 lg:pt-24">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-10 md:mb-14 lg:mb-20"
+      >
+        <div>
+          <div class="flex items-start gap-6 md:gap-10 lg:gap-14">
+            <div class="flex flex-col items-start shrink-0 gap-6">
+              <span
+                class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand whitespace-nowrap shrink-0 mt-2 md:mt-3 lg:mt-12"
+              >
+                {t("about.sectionLabel")}
+              </span>
+
+              <div
+                class="coffee-bean-float relative w-[100px] h-[100px] md:w-[120px] md:h-[120px] text-brand"
+                aria-hidden="true"
+              >
+                <div class="coffee-bean-tilt w-full h-full">
+                  <svg
+                    viewBox="0 0 160 160"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-full h-full"
+                  >
+                    <g transform="rotate(8 80 80)">
+                      <ellipse cx="80" cy="80" rx="36" ry="52" stroke-width="2.5" />
+                      <path d="M 80 30 C 98 48, 98 112, 80 130" stroke-width="2" />
+                      <path d="M 80 33 C 93 55, 73 105, 80 127" stroke-width="1.8" />
+                      <path d="M 80 33 C 87 55, 67 105, 80 127" stroke-width="1.8" />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <h2
+              id="quem-somos-titulo"
+              data-reveal="split-text"
+              class="split-text text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium text-ink leading-[1.05] tracking-[-0.03em] lg:mt-12"
+            >
+              {aboutTitle.map((titleLine) => (
+                <span class="block">
+                  {titleLine.spans.map((s) => (
+                    <span class={s.className} style={s.styleStr}>{s.word}</span>
+                  ))}
+                </span>
+              ))}
+            </h2>
+          </div>
+        </div>
+
+        <div class="lg:mt-12 max-w-xl fade-in-up" data-reveal="fade-in-up">
+          <p class="text-xl md:text-2xl lg:text-3xl text-ink/50 leading-[1.33]">
+            {t("about.intro.part1")}{" "}
+            <span class="text-brand font-medium">
+              {t("about.intro.highlight")}
+            </span>{" "}
+            {t("about.intro.part2")}
+          </p>
+          <div
+            aria-hidden="true"
+            class="mt-8 md:mt-10 h-px lg:h-0.5 w-full bg-ink opacity-20"
+          ></div>
+        </div>
+      </div>
+
+      {/* ===== Row 2: Stats — cidade (com imagem) + +10 (verde sólido) ===== */}
+      <div class="grid grid-cols-1 md:grid-cols-[2.64fr_1fr] gap-3 md:gap-4 lg:gap-5">
+        {statsCards.map((stat, i) => {
+          const clip =
+            i === 0
+              ? "polygon(28px 0, 100% 0, 100% 100%, 0 100%, 0 28px)"
+              : i === statsCards.length - 1
+                ? "polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)"
+                : null;
+          const isCity = stat.type === "city";
+          const cityLines: string[] = isCity
+            ? (tArray(`${stat.dictPath}.lines`) as string[])
+            : [];
+          const statLabel = t(`${stat.dictPath}.label`);
+          const counterSuffix = !isCity ? t(`${stat.dictPath}.suffix`) : "";
+          return (
+            <div
+              class={`relative overflow-hidden min-h-[280px] md:min-h-[420px] lg:min-h-[500px] shadow-[0_30px_60px_-30px_rgba(20,19,17,0.2)] ${isCity ? "stats-card" : "bg-brand"}`}
+              style={`${isCity ? `background-image: url(${saoSebastiaoParaiso.src});` : ""}${clip ? ` clip-path: ${clip};` : ""}`}
+            >
+              {isCity && <div aria-hidden="true" class="absolute inset-0 bg-ink/55" />}
+              <div
+                class={`relative h-full flex flex-col p-8 md:p-10 lg:p-12 text-paper ${stat.position === "top" ? "justify-start" : "justify-end"}`}
+              >
+                {isCity ? (
+                  <div data-reveal="city-name" class="city-name-wrap">
+                    <div class="text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-[-0.03em] font-normal">
+                      {cityLines.map((line, lineIdx) => (
+                        <span class="block overflow-hidden">
+                          <span
+                            class="city-line block"
+                            style={`transition-delay: ${lineIdx * 140}ms;`}
+                          >
+                            {line}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                    <p
+                      class="city-line-label mt-4 md:mt-6 text-xs md:text-sm font-medium tracking-[0.02em] text-paper/90 uppercase"
+                      style={`transition-delay: ${cityLines.length * 140 + 80}ms;`}
+                    >
+                      {statLabel}
+                    </p>
+                  </div>
+                ) : (
+                  <div data-reveal="counter-group" class="counter-group">
+                    <div class="flex items-start leading-none tracking-[-0.04em] font-normal text-[64px] md:text-[80px] lg:text-[112px]">
+                      {counterSuffix && <span class="mr-1">{counterSuffix}</span>}
+                      <span data-counter data-target={stat.target} data-duration="2200">0</span>
+                    </div>
+                    <p class="mt-4 md:mt-6 text-xs md:text-sm font-medium tracking-[0.02em] text-paper/90 uppercase">
+                      {statLabel}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Divider sutil entre stats cards e differentials */}
+      <div aria-hidden="true" class="mt-14 md:mt-20 lg:mt-24 h-px bg-line"></div>
+    </div>
+
+    {/* ===== Row 3: Differentials trio — full-bleed lateral ===== */}
+    <div class="relative mt-16 md:mt-24 lg:mt-28 pb-12 md:pb-16 lg:pb-20">
+      <div class="max-w-[88rem] mx-auto px-6 md:px-10 mb-10 md:mb-14 lg:mb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+          <div>
+            <div class="flex items-start gap-6 md:gap-10 lg:gap-14">
+              <div class="flex flex-col items-start shrink-0 gap-6">
+                <span
+                  class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand whitespace-nowrap shrink-0 mt-2 md:mt-3 lg:mt-4"
+                >
+                  {t("principles.sectionLabel")}
+                </span>
+
+                <div
+                  class="coffee-bean-float relative w-[100px] h-[100px] md:w-[120px] md:h-[120px] text-brand"
+                  aria-hidden="true"
+                >
+                  <div class="coffee-bean-tilt w-full h-full">
+                    <svg
+                      viewBox="0 0 160 160"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-full h-full"
+                    >
+                      <g transform="rotate(8 80 80)">
+                        <ellipse cx="80" cy="80" rx="36" ry="52" stroke-width="2.5" />
+                        <path d="M 80 30 C 98 48, 98 112, 80 130" stroke-width="2" />
+                        <path d="M 80 33 C 93 55, 73 105, 80 127" stroke-width="1.8" />
+                        <path d="M 80 33 C 87 55, 67 105, 80 127" stroke-width="1.8" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <h2
+                data-reveal="split-text"
+                class="split-text text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium text-ink leading-[1.05] tracking-[-0.03em]"
+              >
+                {principlesTitle.map((titleLine) => (
+                  <span class="block">
+                    {titleLine.spans.map((s) => (
+                      <span class={s.className} style={s.styleStr}>{s.word}</span>
+                    ))}
+                  </span>
+                ))}
+              </h2>
+            </div>
+          </div>
+
+          <div class="lg:mt-4 max-w-xl fade-in-up" data-reveal="fade-in-up">
+            <p class="text-xl md:text-2xl lg:text-3xl text-ink/50 leading-[1.33]">
+              {t("principles.intro.part1")}{" "}
+              <span class="text-brand font-medium">
+                {t("principles.intro.highlight")}
+              </span>{" "}
+              {t("principles.intro.part2")}
+            </p>
+            <div
+              aria-hidden="true"
+              class="mt-8 md:mt-10 h-px lg:h-0.5 w-full bg-ink opacity-20"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0.5">
+        {differentialsData.map((d, idx) => {
+          const dTitle = t(`principles.cards.${d.key}.title`);
+          const dDescription = t(`principles.cards.${d.key}.description`);
+          return (
+            <article
+              tabindex="0"
+              aria-label={dTitle}
+              class="group stats-card relative overflow-hidden border border-paper/20 cursor-pointer min-h-[340px] md:min-h-[360px] lg:min-h-[400px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              style={`background-image: url(${lavouraCafeAerea.src}); background-position: center;`}
+            >
+              <div
+                data-reveal="icon-box"
+                style={`transition-delay: ${200 + idx * 180}ms;`}
+                class="reveal-icon-box absolute inset-0"
+              >
+                <div
+                  aria-hidden="true"
+                  class="absolute inset-0 pointer-events-none"
+                  style="background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);"
+                />
+
+                <div
+                  aria-hidden="true"
+                  class="absolute left-0 bottom-0 w-full h-0 bg-paper transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:h-[78%] group-focus:h-[78%]"
+                />
+
+                <div class="relative z-10 h-full flex flex-col justify-end p-7 md:p-9 lg:p-11">
+                  <h3
+                    class="text-center text-2xl md:text-3xl lg:text-4xl font-medium text-paper leading-[1.15] tracking-[-0.01em] transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:text-ink group-focus:text-ink"
+                  >
+                    {dTitle}
+                  </h3>
+                  <div
+                    class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus:grid-rows-[1fr] transition-[grid-template-rows] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+                  >
+                    <div class="overflow-hidden">
+                      <p
+                        class="mt-4 md:mt-5 text-center text-sm md:text-base text-ink-muted leading-[1.55] opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-[300ms] ease-out delay-[150ms]"
+                      >
+                        {dDescription}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section
+    id={depoimentosId}
+    data-section-key="depoimentos"
+    class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px] overflow-x-clip"
+    aria-labelledby="depoimentos-titulo"
+  >
+    <h2 id="depoimentos-titulo" class="sr-only">{t("testimonials.sectionLabel")}</h2>
+    <div
+      class="max-w-[100rem] mx-auto px-6 md:px-10 pt-8 md:pt-12 lg:pt-14 pb-8 md:pb-12 lg:pb-14"
+    >
+      <div class="relative max-w-4xl mx-auto">
+        <div
+          aria-hidden="true"
+          class="mx-auto text-ink mb-10 md:mb-14 select-none"
+          style="width: clamp(6rem, 10vw, 10rem);"
+        >
+          <svg
+            viewBox="0 0 145 122"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="block w-full h-auto"
+          >
+            <path d="M 10,0 L 50,0 Q 60,0 60,10 L 60,65 Q 60,75 50,75 L 22,75 L 0,120 L 0,10 Q 0,0 10,0 Z" />
+            <path d="M 95,0 L 135,0 Q 145,0 145,10 L 145,65 Q 145,75 135,75 L 107,75 L 85,120 L 85,10 Q 85,0 95,0 Z" />
+          </svg>
+        </div>
+
+        <div class="relative">
+          <span
+            data-testimonial-line="left"
+            aria-hidden="true"
+            class="testimonial-line testimonial-line--left hidden lg:block"
+          ></span>
+          <span
+            data-testimonial-line="right"
+            aria-hidden="true"
+            class="testimonial-line testimonial-line--right hidden lg:block"
+          ></span>
+
+          <button
+            type="button"
+            data-testimonial-prev
+            aria-label={t("testimonials.prevAriaLabel")}
+            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 md:-translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+
+          <div class="testimonial-stack grid px-12 md:px-20 lg:px-24">
+            {testimonials.map((testimonial, idx) => (
+              <article
+                data-testimonial-slide
+                data-active={idx === 0 ? "true" : "false"}
+                class="testimonial-slide text-center"
+                aria-hidden={idx === 0 ? "false" : "true"}
+              >
+                <blockquote>
+                  <p class="text-xl md:text-2xl lg:text-[1.75rem] text-ink leading-[1.45] font-medium tracking-tight">
+                    “{testimonial.quote}”
+                  </p>
+                </blockquote>
+              </article>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            data-testimonial-next
+            aria-label={t("testimonials.nextAriaLabel")}
+            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 md:translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const slides = document.querySelectorAll<HTMLElement>(
+        "[data-testimonial-slide]"
+      );
+      const prevBtn = document.querySelector<HTMLButtonElement>(
+        "[data-testimonial-prev]"
+      );
+      const nextBtn = document.querySelector<HTMLButtonElement>(
+        "[data-testimonial-next]"
+      );
+      const lineLeft = document.querySelector<HTMLElement>(
+        "[data-testimonial-line='left']"
+      );
+      const lineRight = document.querySelector<HTMLElement>(
+        "[data-testimonial-line='right']"
+      );
+      const section = document.querySelector<HTMLElement>(
+        "[data-section-key='depoimentos']"
+      );
+
+      if (slides.length > 0) {
+        let activeIdx = 0;
+        const total = slides.length;
+        const AUTOPLAY_MS = 7000;
+        const COMPRESS_MS = 400;
+        let autoplayId: number | undefined;
+
+        const compressLines = () => {
+          [lineLeft, lineRight].forEach((line) =>
+            line?.classList.add("is-compressing")
+          );
+          window.setTimeout(() => {
+            [lineLeft, lineRight].forEach((line) =>
+              line?.classList.remove("is-compressing")
+            );
+          }, COMPRESS_MS);
+        };
+
+        const goTo = (idx: number) => {
+          compressLines();
+          activeIdx = (idx + total) % total;
+          slides.forEach((slide, i) => {
+            const isActive = i === activeIdx;
+            slide.dataset.active = isActive ? "true" : "false";
+            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+          });
+        };
+
+        const stopAutoplay = () => {
+          if (autoplayId !== undefined) {
+            window.clearInterval(autoplayId);
+            autoplayId = undefined;
+          }
+        };
+
+        const startAutoplay = () => {
+          stopAutoplay();
+          autoplayId = window.setInterval(
+            () => goTo(activeIdx + 1),
+            AUTOPLAY_MS
+          );
+        };
+
+        prevBtn?.addEventListener("click", () => {
+          goTo(activeIdx - 1);
+          startAutoplay();
+        });
+        nextBtn?.addEventListener("click", () => {
+          goTo(activeIdx + 1);
+          startAutoplay();
+        });
+
+        section?.addEventListener("mouseenter", stopAutoplay);
+        section?.addEventListener("mouseleave", startAutoplay);
+
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        if (!prefersReducedMotion) startAutoplay();
+      }
+    </script>
+
+    <style>
+      .testimonial-stack {
+        grid-template-areas: "stack";
+      }
+      .testimonial-line {
+        position: absolute;
+        top: 50%;
+        height: 1px;
+        background-color: rgb(20 19 17 / 0.32);
+        width: calc(50vw - 28rem - 4rem);
+        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .testimonial-line--left {
+        right: 100%;
+        margin-right: 4rem;
+        transform-origin: left center;
+      }
+      .testimonial-line--right {
+        left: 100%;
+        margin-left: 4rem;
+        transform-origin: right center;
+      }
+      .testimonial-line.is-compressing {
+        transform: scaleX(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .testimonial-line {
+          transition: none;
+        }
+      }
+      .testimonial-slide {
+        grid-area: stack;
+        transition: opacity 500ms cubic-bezier(0.65, 0, 0.35, 1);
+      }
+      .testimonial-slide[data-active="false"] {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .testimonial-slide[data-active="true"] {
+        opacity: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .testimonial-slide {
+          transition: none;
+        }
+      }
+    </style>
+  </section>
+
+  <ContactSection />
+
+  <script>
+    const cards = document.querySelectorAll<HTMLElement>("[data-service-card]");
+
+    const activate = (target: HTMLElement) => {
+      cards.forEach((card) => {
+        card.dataset.active = card === target ? "true" : "false";
+      });
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", () => activate(card));
+      card.addEventListener("focus", () => activate(card));
+    });
+  </script>
+
+  <script>
+    const counters = document.querySelectorAll<HTMLElement>("[data-counter]");
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Locale do BCP47 derivado do <html lang> — usado pro Intl.NumberFormat
+    const formatNum = (n: number) => {
+      const lang = document.documentElement.lang || "pt-BR";
+      return n.toLocaleString(lang);
+    };
+
+    if (prefersReducedMotion) {
+      counters.forEach((el) => {
+        const target = parseInt(el.dataset.target ?? "0", 10);
+        el.textContent = formatNum(target);
+      });
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target as HTMLElement;
+            const target = parseInt(el.dataset.target ?? "0", 10);
+            const duration = parseInt(el.dataset.duration ?? "1800", 10);
+            const start = performance.now();
+
+            const tick = (now: number) => {
+              const elapsed = now - start;
+              const progress = Math.min(elapsed / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 4);
+              const current = Math.floor(eased * target);
+              el.textContent = formatNum(current);
+              if (progress < 1) requestAnimationFrame(tick);
+            };
+
+            requestAnimationFrame(tick);
+            observer.unobserve(el);
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      counters.forEach((el) => observer.observe(el));
+    }
+  </script>
+
+  <style>
+    #hero-titulo {
+      text-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.45),
+        0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .word-rotator {
+      display: inline-grid;
+      grid-template-areas: "stack";
+      vertical-align: baseline;
+      overflow: hidden;
+      padding-top: 0.16em;
+      padding-bottom: 0.06em;
+      padding-left: 0.18em;
+    }
+    .word-rotator__word {
+      grid-area: stack;
+      transition:
+        transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 850ms cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, opacity;
+    }
+    .word-rotator__word[data-state="active"] {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .word-rotator__word[data-state="exit"] {
+      transform: translateY(-32%);
+      opacity: 0;
+    }
+    .word-rotator__word[data-state="queued"] {
+      transform: translateY(32%);
+      opacity: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .word-rotator__word {
+        transition: none;
+      }
+    }
+
+    .split-text-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateX(28px);
+      transition:
+        opacity 750ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 750ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .split-text.is-revealed .split-text-word {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) 200ms,
+        transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+    }
+    .fade-in-up.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stats-card {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    @media (min-width: 768px) {
+      .stats-card {
+        background-attachment: fixed;
+      }
+    }
+
+    .city-line {
+      transform: translateY(110%);
+      transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .city-name-wrap.is-revealed .city-line {
+      transform: translateY(0);
+    }
+    .city-line-label {
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .city-name-wrap.is-revealed .city-line-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .counter-group {
+      opacity: 0;
+      transform: translateY(12px);
+      transition:
+        opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .counter-group.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-icon-box {
+      opacity: 0;
+      transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-icon-box.is-revealed {
+      opacity: 1;
+    }
+
+    .icon-flag .flag-content {
+      transform: translateY(-100%);
+      transform-origin: top center;
+    }
+    .reveal-icon-box.is-revealed .icon-flag .flag-content {
+      animation: flag-drop 1100ms cubic-bezier(0.22, 1, 0.36, 1) var(--flag-delay, 0ms) forwards;
+    }
+    @keyframes flag-drop {
+      0%   { transform: translateY(-100%) rotate(0deg); }
+      55%  { transform: translateY(0)     rotate(0deg); }
+      72%  { transform: translateY(0)     rotate(2.5deg); }
+      86%  { transform: translateY(0)     rotate(-1.5deg); }
+      100% { transform: translateY(0)     rotate(0deg); }
+    }
+
+    .coffee-bean-float {
+      animation: coffee-bean-float 4s ease-in-out infinite;
+      will-change: transform;
+    }
+    .coffee-bean-tilt {
+      animation: coffee-bean-tilt 5s ease-in-out infinite;
+      will-change: transform;
+      transform-origin: center;
+    }
+    @keyframes coffee-bean-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes coffee-bean-tilt {
+      0%, 100% { transform: rotate(-10deg); }
+      50% { transform: rotate(10deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .split-text-word,
+      .fade-in-up,
+      .reveal-icon-box,
+      .city-line,
+      .city-line-label,
+      .counter-group {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .icon-flag .flag-content {
+        transform: none;
+        animation: none;
+      }
+      .coffee-bean-float,
+      .coffee-bean-tilt {
+        animation: none;
+      }
+    }
+
+    .scroll-mouse-dot {
+      animation: scroll-mouse-dot 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    @keyframes scroll-mouse-dot {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-mouse-dot {
+        animation: none;
+      }
+    }
+  </style>
+
+  <script>
+    // Scroll-next button — usa data-target-id setado pelo template (locale-aware)
+    const scrollNextBtn = document.querySelector<HTMLButtonElement>(
+      "[data-scroll-next]"
+    );
+    scrollNextBtn?.addEventListener("click", () => {
+      const targetId = scrollNextBtn.dataset.targetId;
+      if (!targetId) return;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      const smooth = (
+        window as Window & {
+          __smoothScrollTo?: (target: HTMLElement | number) => void;
+        }
+      ).__smoothScrollTo;
+      if (smooth) {
+        smooth(target);
+      } else {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  </script>
+
+  <script>
+    document
+      .querySelectorAll<HTMLElement>("[data-radial-button]")
+      .forEach((btn) => {
+        const fill = btn.querySelector<HTMLElement>("[data-radial-fill]");
+        if (!fill) return;
+        btn.addEventListener("mouseenter", (e) => {
+          const rect = btn.getBoundingClientRect();
+          fill.style.left = `${e.clientX - rect.left}px`;
+          fill.style.top = `${e.clientY - rect.top}px`;
+        });
+      });
+  </script>
+
+  <script>
+    const reveals = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (reveals.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      );
+      reveals.forEach((el) => observer.observe(el));
+    }
+  </script>
+
+  <script>
+    const rotator = document.querySelector<HTMLElement>(".word-rotator");
+    if (rotator) {
+      const words = Array.from(
+        rotator.querySelectorAll<HTMLElement>(".word-rotator__word")
+      );
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (words.length > 1 && !prefersReducedMotion) {
+        let activeIdx = 0;
+        const INTERVAL_MS = 3500;
+        const TRANSITION_MS = 1100;
+
+        const rotate = () => {
+          const nextIdx = (activeIdx + 1) % words.length;
+          const current = words[activeIdx];
+          const next = words[nextIdx];
+
+          current.setAttribute("data-state", "exit");
+          next.setAttribute("data-state", "queued");
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              next.setAttribute("data-state", "active");
+            });
+          });
+
+          window.setTimeout(() => {
+            current.setAttribute("data-state", "queued");
+          }, TRANSITION_MS);
+
+          activeIdx = nextIdx;
+        };
+
+        window.setInterval(rotate, INTERVAL_MS);
+      }
+    }
+  </script>
+</BaseLayout>

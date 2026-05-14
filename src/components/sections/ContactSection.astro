@@ -1,19 +1,23 @@
 ---
 import brasilMap from "../../assets/maps/brasil-pontilhado.png";
+import { useTranslation, getAnchor } from "../../i18n";
+
+const { t, locale } = useTranslation(Astro);
+const contatoId = getAnchor("contato", locale);
 
 /**
- * Marcadores sobre o mapa. Coords em % relativo ao bounding box da imagem
- * (capturadas via modo dev click-to-capture).
+ * Marcadores sobre o mapa. Label vem do dict (mantém São Sebastião do
+ * Paraíso como nome próprio mas pode ajustar formatação por idioma).
  */
 const marcadores: { label: string; top: number; left: number }[] = [
-  { label: "São Sebastião do Paraíso, MG", top: 49.0, left: 33.0 },
+  { label: t("contact.cityMarkerLabel"), top: 49.0, left: 33.0 },
 ];
 ---
 
 <section
-  id="contato"
-  aria-label="Contato"
-  class="bg-paper scroll-mt-20 md:scroll-mt-28"
+  id={contatoId}
+  aria-label={t("contact.sectionAriaLabel")}
+  class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
 >
   {/* ===== Row 1: Form (mapa do Brasil de fundo, ancorado à esquerda) ===== */}
   <div class="relative overflow-x-clip">
@@ -55,14 +59,14 @@ const marcadores: { label: string; top: number; left: number }[] = [
         </div>
       ))}
     </div>
-    <div class="relative max-w-[100rem] mx-auto px-6 md:px-10 pt-12 md:pt-16 lg:pt-20 pb-32 md:pb-40 lg:pb-48">
+    <div class="relative max-w-[100rem] mx-auto px-6 md:px-10 pt-12 md:pt-16 lg:pt-20 pb-16 md:pb-20 lg:pb-24">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
       {/* Header column — vazia por enquanto, só o tag (puxado pra cima no md+) */}
       <div class="md:-mt-8 lg:-mt-12">
         <span
           class="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-brand"
         >
-          [ Contato ]
+          {t("contact.sectionLabel")}
         </span>
       </div>
 
@@ -72,6 +76,9 @@ const marcadores: { label: string; top: number; left: number }[] = [
           id="contact-form"
           novalidate
           data-state="idle"
+          data-label-idle={t("contact.form.submitLabel")}
+          data-label-sending={t("contact.form.submitSending")}
+          data-error-message={t("contact.form.states.errorDetailed")}
           class="space-y-7 relative"
         >
           {/* Honeypot — bots preenchem, humanos não veem */}
@@ -80,7 +87,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
             aria-hidden="true"
           >
             <label>
-              Não preencher
+              {t("contact.form.honeypotLabel")}
               <input type="text" name="company" tabindex="-1" autocomplete="off" />
             </label>
           </div>
@@ -88,25 +95,25 @@ const marcadores: { label: string; top: number; left: number }[] = [
           {/* Nome + E-mail */}
           <div class="grid md:grid-cols-2 gap-6">
             <div class="contact-field">
-              <label for="cf-nome">Nome</label>
+              <label for="cf-nome">{t("contact.form.labels.name")}</label>
               <input
                 id="cf-nome"
                 name="nome"
                 type="text"
                 required
                 autocomplete="name"
-                placeholder="Seu nome completo"
+                placeholder={t("contact.form.placeholders.name")}
               />
             </div>
             <div class="contact-field">
-              <label for="cf-email">E-mail</label>
+              <label for="cf-email">{t("contact.form.labels.email")}</label>
               <input
                 id="cf-email"
                 name="email"
                 type="email"
                 required
                 autocomplete="email"
-                placeholder="seu@email.com"
+                placeholder={t("contact.form.placeholders.email")}
               />
             </div>
           </div>
@@ -114,24 +121,24 @@ const marcadores: { label: string; top: number; left: number }[] = [
           {/* Telefone + Estado */}
           <div class="grid md:grid-cols-2 gap-6">
             <div class="contact-field">
-              <label for="cf-telefone">Telefone</label>
+              <label for="cf-telefone">{t("contact.form.labels.phone")}</label>
               <input
                 id="cf-telefone"
                 name="telefone"
                 type="tel"
                 required
                 autocomplete="tel"
-                placeholder="(00) 00000-0000"
+                placeholder={t("contact.form.placeholders.phone")}
               />
             </div>
             <div class="contact-field">
-              <label for="cf-estado">Estado</label>
+              <label for="cf-estado">{t("contact.form.labels.state")}</label>
               <input
                 id="cf-estado"
                 name="estado"
                 type="text"
                 autocomplete="address-level1"
-                placeholder="Ex: MG"
+                placeholder={t("contact.form.placeholders.state")}
               />
             </div>
           </div>
@@ -139,35 +146,35 @@ const marcadores: { label: string; top: number; left: number }[] = [
           {/* Perfil + Interesse (selects — top label) */}
           <div class="grid md:grid-cols-2 gap-6">
             <div class="contact-field contact-field--select">
-              <label for="cf-perfil">Perfil</label>
+              <label for="cf-perfil">{t("contact.form.labels.profile")}</label>
               <select id="cf-perfil" name="perfil" required>
-                <option value="">Selecione</option>
-                <option value="produtor">Produtor</option>
-                <option value="comprador">Comprador / Trader</option>
-                <option value="parceiro">Parceiro</option>
-                <option value="outro">Outro</option>
+                <option value="">{t("contact.form.placeholders.select")}</option>
+                <option value="produtor">{t("contact.form.profileOptions.producer")}</option>
+                <option value="comprador">{t("contact.form.profileOptions.buyer")}</option>
+                <option value="parceiro">{t("contact.form.profileOptions.partner")}</option>
+                <option value="outro">{t("contact.form.profileOptions.other")}</option>
               </select>
             </div>
             <div class="contact-field contact-field--select">
-              <label for="cf-interesse">Interesse</label>
+              <label for="cf-interesse">{t("contact.form.labels.interest")}</label>
               <select id="cf-interesse" name="interesse">
-                <option value="">Selecione</option>
-                <option value="corretagem">Corretagem</option>
-                <option value="assessoria">Assessoria comercial</option>
-                <option value="classificacao">Classificação</option>
-                <option value="outro">Outro</option>
+                <option value="">{t("contact.form.placeholders.select")}</option>
+                <option value="corretagem">{t("contact.form.interestOptions.brokerage")}</option>
+                <option value="assessoria">{t("contact.form.interestOptions.advisory")}</option>
+                <option value="classificacao">{t("contact.form.interestOptions.grading")}</option>
+                <option value="outro">{t("contact.form.interestOptions.other")}</option>
               </select>
             </div>
           </div>
 
           {/* Mensagem (textarea) */}
           <div class="contact-field contact-field--textarea">
-            <label for="cf-mensagem">Mensagem</label>
+            <label for="cf-mensagem">{t("contact.form.labels.message")}</label>
             <textarea
               id="cf-mensagem"
               name="mensagem"
               rows="4"
-              placeholder="Descreva sua demanda (opcional)"></textarea>
+              placeholder={t("contact.form.placeholders.message")}></textarea>
           </div>
 
           {/* Erro */}
@@ -185,7 +192,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
               data-form-submit
               class="w-full flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark disabled:opacity-60 disabled:cursor-not-allowed text-paper text-base font-medium px-8 py-4 rounded-full transition-colors duration-200"
             >
-              <span data-submit-label>Enviar solicitação</span>
+              <span data-submit-label>{t("contact.form.submitLabel")}</span>
               <span data-submit-arrow aria-hidden="true">→</span>
               <span data-submit-spinner hidden aria-hidden="true" class="inline-flex">
                 <svg
@@ -525,12 +532,18 @@ const marcadores: { label: string; top: number; left: number }[] = [
     const errorBox = form.querySelector<HTMLElement>("[data-form-error]");
     const successBox = document.querySelector<HTMLElement>("[data-form-success]");
 
+    // Strings traduzidas vêm via data-attr (setadas pelo template, locale-aware)
+    const labelIdle = form.dataset.labelIdle ?? "Send";
+    const labelSending = form.dataset.labelSending ?? "Sending...";
+    const errorMessage =
+      form.dataset.errorMessage ?? "Could not send. Try again.";
+
     function setSubmittingState(submitting: boolean) {
       if (submitBtn) submitBtn.disabled = submitting;
       if (submitSpinner) submitSpinner.hidden = !submitting;
       if (submitArrow) submitArrow.hidden = submitting;
       if (submitLabel)
-        submitLabel.textContent = submitting ? "Enviando..." : "Enviar solicitação";
+        submitLabel.textContent = submitting ? labelSending : labelIdle;
     }
 
     function showSuccess() {
@@ -633,8 +646,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
       } catch (err) {
         if (errorBox) {
           errorBox.hidden = false;
-          errorBox.textContent =
-            "Não foi possível enviar agora. Tente novamente em instantes.";
+          errorBox.textContent = errorMessage;
         }
         setSubmittingState(false);
         form.setAttribute("data-state", "error");

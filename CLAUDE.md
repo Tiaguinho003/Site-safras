@@ -77,3 +77,42 @@ Ver `docs/arquitetura.md` seção 4.
 - `docs/arquitetura.md` — decisões arquiteturais e rationale (fonte da verdade)
 - `docs/design-system.md` — tokens e componentes (a ser criado quando surgirem componentes)
 - `docs/deploy.md` — fluxo de deploy detalhado (a ser criado quando pipeline existir)
+- `docs/i18n-glossary.md` — **glossário de tradução PT/EN/ES** (decisões locked) — sempre consultar antes de traduzir
+
+## i18n (internacionalização)
+
+### Stack
+- Astro i18n nativo: PT-BR default em `/`, EN em `/en/`, ES em `/es/`
+- Dicionários em `src/i18n/{pt-br,en,es}.ts` (objetos `as const`, source of truth = pt-br)
+- Helper público: `useTranslation(Astro)` retorna `{ t, tArray, locale, localizeAnchor }`
+- Anchors traduzidos via `src/i18n/anchors.ts` (#contato ⇄ #contact ⇄ #contacto)
+- Switcher: `src/components/layout/LanguageSwitcher.astro` (dropdown desktop + chips mobile)
+- Auto-detect: script inline em `BaseLayout.astro` (Accept-Language → redirect na 1ª visita; cookie `safras_locale` respeita escolha manual)
+
+### Workflow ao adicionar uma string nova
+1. **Adicionar em `src/i18n/pt-br.ts` primeiro** (source of truth)
+2. **Consultar `docs/i18n-glossary.md`** — termo de café? cargo/título? Já há decisão? Reusar
+3. Traduzir em `en.ts` e `es.ts` seguindo o glossário religiosamente
+4. Se termo novo (não documentado), adicionar entrada no glossário com rationale
+5. Usar em componente via `const { t } = useTranslation(Astro); t("chave.nova")`
+
+### Regras críticas
+- ❌ NUNCA usar `t<Type>("chave")` ou `tArray<Type>(...)` **dentro de JSX** — Astro v6/esbuild lê `<Type>` como tag JSX e quebra o build. Usar type assertion: `(tArray("chave") as string[])`. Em front-matter (.astro) generics funcionam normalmente.
+- ❌ NUNCA hardcoded strings traduzíveis em componentes — sempre `t()`
+- ❌ NÃO traduzir: nome da marca (Safras & Negócios), cidades (São Sebastião do Paraíso), nomes pessoais nos depoimentos
+- ✅ Strings dinâmicas que precisam ir pro client-side JS: passar via `data-*` attributes no markup (ex: form submit labels) — NÃO tentar usar `t()` em `<script>` blocks
+- ✅ Anchors traduzidos: usar `localizeAnchor("contato")` pra href, `getAnchor("contato", locale)` pra id de seção
+
+### Decisões locked do glossário (resumo executivo)
+| PT | EN | ES |
+|----|----|-----|
+| fazenda | estate | finca |
+| produtor | grower | productor |
+| corretora/intermediação | brokerage | corretaje |
+| análise sensorial | cupping | catación |
+| embarque | shipping | embarque |
+| seriedade | integrity | seriedad |
+| Anos de história | Years in business | Años de trayectoria |
+| Sobre nós | About | Sobre Nosotros |
+| Solicitar Serviço (CTA) | Get Started | Solicitar Cotización |
+| safra | harvest | cosecha |
