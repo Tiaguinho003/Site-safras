@@ -161,12 +161,24 @@ const dict = {
       missao: {
         title: "Nuestra misión",
         description:
-          "Acercar el café brasileño a los mercados que reconocen su valor, construyendo relaciones comerciales basadas en confianza, respeto y conocimiento. De la finca a la exportación, buscamos valorizar cada etapa que lleva el café de nuestro origen al mundo.",
+          "Atender con excelencia las demandas de nuestros clientes a partir de un servicio de calidad y la oferta de soluciones que contribuyan a la mejora de toda la cadena que involucra a nuestros socios. Proporcionando así, riqueza y desarrollo a la región.",
+      },
+      visao: {
+        title: "Nuestra visión",
+        description:
+          "Ser empresa de referencia en el sector de servicios, reconocida como una excelente opción por clientes, colaboradores, comunidad, proveedores e inversionistas, debido a la calidad de nuestros servicios y relaciones.",
       },
       valores: {
         title: "Nuestros valores",
-        description:
-          "Nuestros valores están presentes en cada etapa de la comercialización del café: transparencia en las negociaciones, respeto a las relaciones construidas, responsabilidad en la conducción de los procesos, compromiso con la calidad y confianza como base de cada alianza.",
+        lead: "Principios que sustentan cada relación:",
+        items: [
+          { name: "Valorización humana", body: "el ser humano como protagonista del negocio." },
+          { name: "Ética", body: "conducta correcta en la sociedad." },
+          { name: "Integridad", body: "rectitud en cada decisión." },
+          { name: "Compromiso", body: "dedicación genuina." },
+          { name: "Innovación", body: "diferenciales reconocidos." },
+          { name: "Superación de resultados", body: "evolución continua." },
+        ],
       },
     },
   },

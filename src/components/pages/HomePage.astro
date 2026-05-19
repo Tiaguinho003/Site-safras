@@ -61,10 +61,21 @@ const differentialsData = [
     iconSvg: `<circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />`,
   },
   {
+    key: "visao",
+    iconSvg: `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" />`,
+  },
+  {
     key: "valores",
     iconSvg: `<circle cx="12" cy="12" r="10" /><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" />`,
   },
 ];
+
+interface ValoresItem {
+  name: string;
+  body: string;
+}
+const valoresLead = t("principles.cards.valores.lead");
+const valoresItems = tArray<ValoresItem>("principles.cards.valores.items");
 
 const servicesData = [
   {
@@ -692,22 +703,25 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0.5">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-0.5">
         {differentialsData.map((d, idx) => {
           const dTitle = t(`principles.cards.${d.key}.title`);
-          const dDescription = t(`principles.cards.${d.key}.description`);
+          const isValores = d.key === "valores";
+          const dDescription = isValores
+            ? ""
+            : t(`principles.cards.${d.key}.description`);
           return (
             <article
               tabindex="0"
               data-scroll-active-card
               data-active="false"
               aria-label={dTitle}
-              class="group stats-card relative overflow-hidden border border-paper/20 cursor-pointer min-h-[340px] md:min-h-[360px] lg:min-h-[400px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              class="group stats-card relative overflow-hidden border border-paper/20 cursor-pointer min-h-[360px] md:min-h-[380px] lg:min-h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
               style={`background-image: url(${lavouraCafeAerea.src}); background-position: center;`}
             >
               <div
                 data-reveal="icon-box"
-                style={`transition-delay: ${200 + idx * 180}ms;`}
+                style={`transition-delay: ${200 + idx * 140}ms;`}
                 class="reveal-icon-box absolute inset-0"
               >
                 <div
@@ -718,12 +732,12 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 
                 <div
                   aria-hidden="true"
-                  class="absolute left-0 bottom-0 w-full h-0 bg-paper transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:h-[78%] group-focus:h-[78%] group-data-[active=true]:h-[78%]"
+                  class="absolute left-0 bottom-0 w-full h-0 bg-paper transition-[height] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:h-[82%] group-focus:h-[82%] group-data-[active=true]:h-[82%]"
                 />
 
-                <div class="relative z-10 h-full flex flex-col justify-end p-7 md:p-9 lg:p-11">
+                <div class="relative z-10 h-full flex flex-col justify-end p-7 md:p-7 lg:p-8 xl:p-10">
                   <h3
-                    class="text-center text-2xl md:text-3xl lg:text-4xl font-medium text-paper leading-[1.15] tracking-[-0.01em] transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:text-ink group-focus:text-ink group-data-[active=true]:text-ink"
+                    class="text-center text-2xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-medium text-paper leading-[1.15] tracking-[-0.01em] transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:text-ink group-focus:text-ink group-data-[active=true]:text-ink"
                   >
                     {dTitle}
                   </h3>
@@ -731,11 +745,33 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                     class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-focus:grid-rows-[1fr] group-data-[active=true]:grid-rows-[1fr] transition-[grid-template-rows] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     <div class="overflow-hidden">
-                      <p
-                        class="mt-4 md:mt-5 text-center text-sm md:text-base text-ink-muted leading-[1.55] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-data-[active=true]:opacity-100 transition-opacity duration-[300ms] ease-out delay-[150ms]"
-                      >
-                        {dDescription}
-                      </p>
+                      {isValores ? (
+                        <div
+                          class="mt-4 md:mt-5 opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-data-[active=true]:opacity-100 transition-opacity duration-[300ms] ease-out delay-[150ms]"
+                        >
+                          <p class="text-center text-sm md:text-base text-ink-muted leading-[1.4] mb-3">
+                            {valoresLead}
+                          </p>
+                          <ul class="space-y-1.5 text-left text-xs md:text-sm text-ink-muted leading-[1.45]">
+                            {valoresItems.map((item) => (
+                              <li class="flex gap-2">
+                                <span class="text-brand shrink-0" aria-hidden="true">•</span>
+                                <span>
+                                  <strong class="text-ink font-medium">{item.name}</strong>
+                                  {" — "}
+                                  {item.body}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : (
+                        <p
+                          class="mt-4 md:mt-5 text-center text-sm md:text-base text-ink-muted leading-[1.55] opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-data-[active=true]:opacity-100 transition-opacity duration-[300ms] ease-out delay-[150ms]"
+                        >
+                          {dDescription}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
