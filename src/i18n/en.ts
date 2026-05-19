@@ -156,12 +156,24 @@ const dict = {
       missao: {
         title: "Our mission",
         description:
-          "To bring Brazilian coffee closer to the markets that recognize its value, building commercial relationships based on trust, respect, and knowledge. From estate to export, we work to add value at every stage that carries coffee from our origin to the world.",
+          "To meet our clients' needs with excellence, through quality service and offerings that improve every stage of the chain involving our partners — generating wealth and development for the region.",
+      },
+      visao: {
+        title: "Our vision",
+        description:
+          "To be a reference company in the service sector, recognized as an excellent choice by clients, employees, the community, suppliers, and investors — through the quality of our work and relationships.",
       },
       valores: {
         title: "Our values",
-        description:
-          "Our values are present at every stage of coffee trade: transparency in negotiations, respect for the relationships built, accountability in conducting processes, commitment to quality, and trust as the foundation of every partnership.",
+        lead: "Principles that uphold every relationship:",
+        items: [
+          { name: "Valuing people", body: "people as the protagonists of business." },
+          { name: "Ethics", body: "right conduct in society." },
+          { name: "Integrity", body: "honesty in every decision." },
+          { name: "Commitment", body: "genuine dedication." },
+          { name: "Innovation", body: "recognized differentiators." },
+          { name: "Driving results", body: "continuous improvement." },
+        ],
       },
     },
   },
