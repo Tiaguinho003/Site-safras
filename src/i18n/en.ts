@@ -178,26 +178,6 @@ const dict = {
     },
   },
 
-  testimonials: {
-    sectionLabel: "Testimonials",
-    prevAriaLabel: "Previous testimonial",
-    nextAriaLabel: "Next testimonial",
-    quotes: [
-      {
-        quote:
-          "I've worked with Safras since 2021. What I value most is the clarity: the price agreed is the price paid — no last-minute adjustments, no surprise calls. In the coffee market, that's worth gold.",
-        author: "José Carlos Moreira",
-        company: "Grower — Cerrado Mineiro",
-      },
-      {
-        quote:
-          "I know Safras for their integrity in relationships. They negotiate with the patience of those who understand cooperatives from the inside — they don't toss the grower aside to see what's left. A partnership that renews harvest after harvest.",
-        author: "Luísa Andrade",
-        company: "Coopcafé Vale",
-      },
-    ],
-  },
-
   contact: {
     sectionLabel: "[ Contact ]",
     sectionAriaLabel: "Contact",

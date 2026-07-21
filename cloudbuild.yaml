@@ -21,7 +21,7 @@ steps:
       # PUBLIC_WEB3FORMS_KEY: chave pública do Web3Forms usada pelo form
       # de contato (#contato). Pública por design — fica no bundle do
       # client de qualquer jeito; domínio whitelistado no painel deles.
-      - "PUBLIC_WEB3FORMS_KEY=0247a07b-cb0e-4cc4-a38e-0fb2321dffee"
+      - "PUBLIC_WEB3FORMS_KEY=19f84f64-a60b-4447-a0d6-a858ba8a0482"
     args:
       - "-c"
       - |

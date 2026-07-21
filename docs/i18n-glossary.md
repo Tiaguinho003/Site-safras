@@ -2,7 +2,7 @@
 
 Documento de referência para internacionalização (i18n) do site safrasnegocios.com.br. Aqui ficam as decisões deliberadas de tradução para Inglês (EN) e Espanhol (ES), com justificativa por termo. **Toda nova string deve respeitar este glossário** — se aparecer um termo não documentado, adicionar aqui antes de traduzir.
 
-**Última atualização**: 2026-05-14
+**Última atualização**: 2026-07-20
 
 ---
 
@@ -42,8 +42,8 @@ A Safras é uma corretora de café institucional com 10+ anos de mercado em São
 | Minas Gerais | Nome de estado |
 | Cerrado Mineiro | Denominação de origem geográfica (DO) — termo técnico mantido |
 | Sul de Minas | Região cafeeira — termo técnico mantido |
-| Nomes nos depoimentos (José Carlos, Ricardo, Luísa, etc.) | Pessoas reais |
-| Coopcafé Vale, Tropical Trading, etc. | Empresas reais |
+| Nomes de pessoas em relatos reais e autorizados | Nomes próprios |
+| Nomes oficiais de organizações citadas com autorização | Nomes próprios |
 | WhatsApp, Instagram | Marcas |
 
 ---
@@ -207,7 +207,6 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | #hero | #home | #inicio |
 | #servicos | #services | #servicios |
 | #quem-somos | #about | #sobre-nosotros |
-| #depoimentos | #testimonials | #testimonios |
 | #contato | #contact | #contacto |
 
 ---
@@ -240,15 +239,6 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | Anos de história | Years in business 🟡 | Años de trayectoria |
 | Em breve | Coming soon | Próximamente |
 | Carregando | Loading | Cargando |
-
-### Carrossel de depoimentos
-
-| PT | EN | ES |
-|----|-----|-----|
-| Depoimentos | Testimonials | Testimonios |
-| Depoimento anterior | Previous testimonial | Testimonio anterior |
-| Próximo depoimento | Next testimonial | Próximo testimonio |
-| Produtor — Cerrado Mineiro | Grower — Cerrado Mineiro | Productor — Cerrado Mineiro |
 
 ### Cards de serviço — strips (lista de itens)
 
@@ -319,7 +309,7 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 | Número grande | 1.000 | 1,000 | 1.000 |
 | Decimal | 1,5 | 1.5 | 1,5 |
 | Moeda (se aparecer) | R$ 1.500,00 | R$ 1,500.00 ou US$ 1,500.00 | R$ 1.500,00 ou US$ 1.500,00 |
-| Telefone | (35) 9 9975-2377 | +55 35 9 9975-2377 | +55 35 9 9975-2377 |
+| Telefone | (35) 3531-4046 | +55 35 3531-4046 | +55 35 3531-4046 |
 
 ---
 

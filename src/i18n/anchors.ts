@@ -14,13 +14,12 @@
 import type { Locale } from "./types";
 import { DEFAULT_LOCALE } from "./types";
 
-export type AnchorKey = "hero" | "servicos" | "quem-somos" | "depoimentos" | "contato";
+export type AnchorKey = "hero" | "servicos" | "quem-somos" | "contato";
 
 const ANCHOR_MAP: Record<AnchorKey, Record<Locale, string>> = {
   hero: { "pt-br": "hero", en: "home", es: "inicio" },
   servicos: { "pt-br": "servicos", en: "services", es: "servicios" },
   "quem-somos": { "pt-br": "quem-somos", en: "about", es: "sobre-nosotros" },
-  depoimentos: { "pt-br": "depoimentos", en: "testimonials", es: "testimonios" },
   contato: { "pt-br": "contato", en: "contact", es: "contacto" },
 };
 

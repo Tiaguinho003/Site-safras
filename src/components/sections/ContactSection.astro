@@ -19,7 +19,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
   aria-label={t("contact.sectionAriaLabel")}
   class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
 >
-  {/* ===== Mobile-only: bloco do mapa do Brasil entre depoimentos e o form (edge-to-edge) ===== */}
+  {/* ===== Mobile-only: bloco do mapa do Brasil antes do form (edge-to-edge) ===== */}
   <div class="contact-map-mobile md:hidden py-4" aria-hidden="true">
     <div class="relative">
       <img
@@ -306,7 +306,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
     }
   }
 
-  /* === Mobile-only: mapa como bloco próprio entre depoimentos e contato === */
+  /* === Mobile-only: mapa como bloco próprio antes do contato === */
   .contact-map-mobile {
     width: 100%;
     position: relative;
