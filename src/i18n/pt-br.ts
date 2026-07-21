@@ -177,26 +177,6 @@ const dict = {
     },
   },
 
-  testimonials: {
-    sectionLabel: "Depoimentos",
-    prevAriaLabel: "Depoimento anterior",
-    nextAriaLabel: "Próximo depoimento",
-    quotes: [
-      {
-        quote:
-          "Trabalho com a Safras desde 2021. O que mais valorizo é a clareza: o preço acertado é o preço pago, sem ajustes de última hora, sem chamada surpresa. No mercado de café, isso vale ouro.",
-        author: "José Carlos Moreira",
-        company: "Produtor — Cerrado Mineiro",
-      },
-      {
-        quote:
-          "Conheço a Safras pela seriedade no relacionamento. Negociam com a paciência de quem entende a cooperativa por dentro — não jogam o produtor pra ver o que sobra. Parceria que se renova safra a safra.",
-        author: "Luísa Andrade",
-        company: "Coopcafé Vale",
-      },
-    ],
-  },
-
   contact: {
     sectionLabel: "[ Contato ]",
     sectionAriaLabel: "Contato",

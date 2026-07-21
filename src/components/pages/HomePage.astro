@@ -18,7 +18,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContactSection from "../sections/ContactSection.astro";
 import { useTranslation, getAnchor } from "../../i18n";
 
-import cafeCerejaMao from "../../assets/hero/cafe-cereja-mao.png";
+import fachadaSafras from "../../assets/hero/fachada-safras.jpg";
 import saoSebastiaoParaiso from "../../assets/about/sao-sebastiao-paraiso.png";
 import lavouraCafeAerea from "../../assets/about/lavoura-cafe-aerea.png";
 import analiseQualidadeImg from "../../assets/services/analise-qualidade.png";
@@ -31,7 +31,6 @@ const { t, tArray, locale } = useTranslation(Astro);
 const heroId = getAnchor("hero", locale);
 const servicosId = getAnchor("servicos", locale);
 const quemSomosId = getAnchor("quem-somos", locale);
-const depoimentosId = getAnchor("depoimentos", locale);
 
 // ===== Dados estruturais (não-traduzíveis: ícones/imagens/posições) =====
 // As strings vivem no dicionário; cada item tem uma `key` que mapeia
@@ -97,14 +96,6 @@ const servicesData = [
     imagePosition: "55% 50%",
   },
 ];
-
-interface TestimonialQuote {
-  quote: string;
-  author: string;
-  company: string;
-}
-
-const testimonials = tArray<TestimonialQuote>("testimonials.quotes");
 
 // SVG-friendly tokens em arrays do dict (split-text title lines)
 const servicesTitleLines = tArray<string[]>("services.titleLines");
@@ -175,11 +166,11 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
   >
     <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <Image
-        src={cafeCerejaMao}
+        src={fachadaSafras}
         alt=""
         widths={[1200, 1600, 2000]}
         sizes="100vw"
-        class="w-full h-full object-cover opacity-90 object-[70%_center] md:object-[88%_center]"
+        class="w-full h-full object-cover opacity-90 object-[72%_center] md:object-center"
         loading="eager"
       />
       <div class="absolute inset-0 bg-black/28"></div>
@@ -783,240 +774,6 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
     </div>
   </section>
 
-  <section
-    id={depoimentosId}
-    data-section-key="depoimentos"
-    class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px] overflow-x-clip"
-    aria-labelledby="depoimentos-titulo"
-  >
-    <h2 id="depoimentos-titulo" class="sr-only">{t("testimonials.sectionLabel")}</h2>
-    <div
-      class="max-w-[100rem] mx-auto px-6 md:px-10 pt-8 md:pt-12 lg:pt-14 pb-8 md:pb-12 lg:pb-14"
-    >
-      <div class="relative max-w-4xl mx-auto">
-        <div
-          aria-hidden="true"
-          class="mx-auto text-ink mb-10 md:mb-14 select-none"
-          style="width: clamp(6rem, 10vw, 10rem);"
-        >
-          <svg
-            viewBox="0 0 145 122"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            class="block w-full h-auto"
-          >
-            <path d="M 10,0 L 50,0 Q 60,0 60,10 L 60,65 Q 60,75 50,75 L 22,75 L 0,120 L 0,10 Q 0,0 10,0 Z" />
-            <path d="M 95,0 L 135,0 Q 145,0 145,10 L 145,65 Q 145,75 135,75 L 107,75 L 85,120 L 85,10 Q 85,0 95,0 Z" />
-          </svg>
-        </div>
-
-        <div class="relative">
-          <span
-            data-testimonial-line="left"
-            aria-hidden="true"
-            class="testimonial-line testimonial-line--left hidden lg:block"
-          ></span>
-          <span
-            data-testimonial-line="right"
-            aria-hidden="true"
-            class="testimonial-line testimonial-line--right hidden lg:block"
-          ></span>
-
-          <button
-            type="button"
-            data-testimonial-prev
-            aria-label={t("testimonials.prevAriaLabel")}
-            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 md:-translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
-
-          <div class="testimonial-stack grid px-12 md:px-20 lg:px-24">
-            {testimonials.map((testimonial, idx) => (
-              <article
-                data-testimonial-slide
-                data-active={idx === 0 ? "true" : "false"}
-                class="testimonial-slide text-center"
-                aria-hidden={idx === 0 ? "false" : "true"}
-              >
-                <blockquote>
-                  <p class="text-xl md:text-2xl lg:text-[1.75rem] text-ink leading-[1.45] font-medium tracking-tight">
-                    “{testimonial.quote}”
-                  </p>
-                </blockquote>
-              </article>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            data-testimonial-next
-            aria-label={t("testimonials.nextAriaLabel")}
-            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 md:translate-x-2 p-2 text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      const slides = document.querySelectorAll<HTMLElement>(
-        "[data-testimonial-slide]"
-      );
-      const prevBtn = document.querySelector<HTMLButtonElement>(
-        "[data-testimonial-prev]"
-      );
-      const nextBtn = document.querySelector<HTMLButtonElement>(
-        "[data-testimonial-next]"
-      );
-      const lineLeft = document.querySelector<HTMLElement>(
-        "[data-testimonial-line='left']"
-      );
-      const lineRight = document.querySelector<HTMLElement>(
-        "[data-testimonial-line='right']"
-      );
-      const section = document.querySelector<HTMLElement>(
-        "[data-section-key='depoimentos']"
-      );
-
-      if (slides.length > 0) {
-        let activeIdx = 0;
-        const total = slides.length;
-        const AUTOPLAY_MS = 7000;
-        const COMPRESS_MS = 400;
-        let autoplayId: number | undefined;
-
-        const compressLines = () => {
-          [lineLeft, lineRight].forEach((line) =>
-            line?.classList.add("is-compressing")
-          );
-          window.setTimeout(() => {
-            [lineLeft, lineRight].forEach((line) =>
-              line?.classList.remove("is-compressing")
-            );
-          }, COMPRESS_MS);
-        };
-
-        const goTo = (idx: number) => {
-          compressLines();
-          activeIdx = (idx + total) % total;
-          slides.forEach((slide, i) => {
-            const isActive = i === activeIdx;
-            slide.dataset.active = isActive ? "true" : "false";
-            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
-          });
-        };
-
-        const stopAutoplay = () => {
-          if (autoplayId !== undefined) {
-            window.clearInterval(autoplayId);
-            autoplayId = undefined;
-          }
-        };
-
-        const startAutoplay = () => {
-          stopAutoplay();
-          autoplayId = window.setInterval(
-            () => goTo(activeIdx + 1),
-            AUTOPLAY_MS
-          );
-        };
-
-        prevBtn?.addEventListener("click", () => {
-          goTo(activeIdx - 1);
-          startAutoplay();
-        });
-        nextBtn?.addEventListener("click", () => {
-          goTo(activeIdx + 1);
-          startAutoplay();
-        });
-
-        section?.addEventListener("mouseenter", stopAutoplay);
-        section?.addEventListener("mouseleave", startAutoplay);
-
-        const prefersReducedMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches;
-        if (!prefersReducedMotion) startAutoplay();
-      }
-    </script>
-
-    <style>
-      .testimonial-stack {
-        grid-template-areas: "stack";
-      }
-      .testimonial-line {
-        position: absolute;
-        top: 50%;
-        height: 1px;
-        background-color: rgb(20 19 17 / 0.32);
-        width: calc(50vw - 28rem - 4rem);
-        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .testimonial-line--left {
-        right: 100%;
-        margin-right: 4rem;
-        transform-origin: left center;
-      }
-      .testimonial-line--right {
-        left: 100%;
-        margin-left: 4rem;
-        transform-origin: right center;
-      }
-      .testimonial-line.is-compressing {
-        transform: scaleX(0);
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .testimonial-line {
-          transition: none;
-        }
-      }
-      .testimonial-slide {
-        grid-area: stack;
-        transition: opacity 500ms cubic-bezier(0.65, 0, 0.35, 1);
-      }
-      .testimonial-slide[data-active="false"] {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .testimonial-slide[data-active="true"] {
-        opacity: 1;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .testimonial-slide {
-          transition: none;
-        }
-      }
-    </style>
-  </section>
-
   <ContactSection />
 
   <script>
@@ -1529,7 +1286,6 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
       mql.addEventListener("change", apply);
     } else {
       // Fallback Safari < 14
-      // @ts-expect-error - older API
       mql.addListener(apply);
     }
     apply();
