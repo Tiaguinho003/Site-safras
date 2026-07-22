@@ -20,13 +20,20 @@
         "type": 302
       }
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
     "headers": [
+      {
+        "source": "404.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, must-revalidate"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          }
+        ]
+      },
       {
         "source": "**/*.@(jpg|jpeg|png|gif|webp|avif|svg|ico|woff|woff2)",
         "headers": [

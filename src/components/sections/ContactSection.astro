@@ -1,9 +1,19 @@
 ---
+import { Image } from "astro:assets";
 import brasilMap from "../../assets/maps/brasil-pontilhado.png";
 import { useTranslation, getAnchor } from "../../i18n";
 
 const { t, locale } = useTranslation(Astro);
 const contatoId = getAnchor("contato", locale);
+const publicEmail = t("contact.details.email");
+const publicPhone = t("contact.details.phone");
+const phoneHref = "tel:+553535314046";
+const whatsappHref = `https://wa.me/553535314046?text=${encodeURIComponent(
+  t("contact.whatsappPrefill"),
+)}`;
+const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  t("contact.details.address"),
+)}`;
 
 /**
  * Marcadores sobre o mapa. Label vem do dict (mantém São Sebastião do
@@ -16,16 +26,22 @@ const marcadores: { label: string; top: number; left: number }[] = [
 
 <section
   id={contatoId}
-  aria-label={t("contact.sectionAriaLabel")}
+  aria-labelledby="contact-title"
   class="bg-paper scroll-mt-[70px] md:scroll-mt-[90px]"
 >
+  <h2 id="contact-title" class="sr-only">{t("contact.sectionAriaLabel")}</h2>
   {/* ===== Mobile-only: bloco do mapa do Brasil antes do form (edge-to-edge) ===== */}
   <div class="contact-map-mobile md:hidden py-4" aria-hidden="true">
     <div class="relative">
-      <img
-        src={brasilMap.src}
+      <Image
+        src={brasilMap}
         alt=""
+        widths={[480, 720, 960]}
+        sizes="100vw"
         class="contact-map-bg-mobile w-full h-auto select-none"
+        loading="lazy"
+        fetchpriority="low"
+        quality={60}
       />
       {marcadores.map((m) => (
         <div class="map-marker" style={`top: ${m.top}%; left: ${m.left}%;`}>
@@ -64,10 +80,15 @@ const marcadores: { label: string; top: number; left: number }[] = [
       class="contact-map-area hidden md:block absolute -top-16 bottom-24 left-0 pointer-events-none translate-y-24"
       aria-hidden="true"
     >
-      <img
-        src={brasilMap.src}
+      <Image
+        src={brasilMap}
         alt=""
+        widths={[720, 960, 1200]}
+        sizes="(min-width: 1024px) 55vw, 65vw"
         class="contact-map-bg w-full h-full select-none"
+        loading="lazy"
+        fetchpriority="low"
+        quality={60}
       />
       {marcadores.map((m) => (
         <div class="map-marker" style={`top: ${m.top}%; left: ${m.left}%;`}>
@@ -103,6 +124,54 @@ const marcadores: { label: string; top: number; left: number }[] = [
         >
           {t("contact.sectionLabel")}
         </span>
+
+        <address class="mt-8 md:mt-10 not-italic max-w-md rounded-3xl border border-line bg-paper/90 p-6 md:p-7 backdrop-blur-sm shadow-[0_18px_50px_-35px_rgba(20,19,17,0.35)]">
+          <dl class="grid gap-5">
+            <div>
+              <dt class="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                {t("contact.details.emailLabel")}
+              </dt>
+              <dd class="mt-1.5 text-sm md:text-base text-ink">
+                <a class="hover:text-brand transition-colors break-all" href={`mailto:${publicEmail}`}>
+                  {publicEmail}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                {t("contact.details.phoneLabel")}
+              </dt>
+              <dd class="mt-1.5 text-sm md:text-base text-ink">
+                <a class="hover:text-brand transition-colors" href={phoneHref}>
+                  {t("contact.details.callAction")}: {publicPhone}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                {t("contact.details.addressLabel")}
+              </dt>
+              <dd class="mt-1.5 text-sm md:text-base leading-relaxed text-ink">
+                <a
+                  class="hover:text-brand transition-colors"
+                  href={mapHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t("contact.details.address")} <span aria-hidden="true">↗</span>
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+                {t("contact.details.hoursLabel")}
+              </dt>
+              <dd class="mt-1.5 text-sm md:text-base text-ink">
+                {t("contact.details.hours")}
+              </dd>
+            </div>
+          </dl>
+        </address>
       </div>
 
       {/* Form column */}
@@ -113,7 +182,8 @@ const marcadores: { label: string; top: number; left: number }[] = [
           data-state="idle"
           data-label-idle={t("contact.form.submitLabel")}
           data-label-sending={t("contact.form.submitSending")}
-          data-error-message={t("contact.form.states.errorDetailed")}
+          aria-describedby="contact-form-privacy"
+          aria-busy="false"
           class="space-y-7 relative"
         >
           {/* Honeypot — bots preenchem, humanos não veem */}
@@ -153,20 +223,19 @@ const marcadores: { label: string; top: number; left: number }[] = [
             </div>
           </div>
 
-          {/* Telefone + Estado — sempre 2 colunas (mobile e desktop) */}
-          <div class="grid grid-cols-2 gap-4 md:gap-6">
+          {/* Telefone + Estado — uma coluna no mobile para evitar campos comprimidos */}
+          <div class="grid md:grid-cols-2 gap-6">
             <div class="contact-field">
               <label for="cf-telefone">{t("contact.form.labels.phone")}</label>
               <input
                 id="cf-telefone"
                 name="telefone"
                 type="tel"
-                required
                 autocomplete="tel"
                 placeholder={t("contact.form.placeholders.phone")}
               />
             </div>
-            <div class="contact-field">
+            <div class="contact-field contact-field--wide-label">
               <label for="cf-estado">{t("contact.form.labels.state")}</label>
               <input
                 id="cf-estado"
@@ -178,14 +247,17 @@ const marcadores: { label: string; top: number; left: number }[] = [
             </div>
           </div>
 
-          {/* Perfil + Interesse — sempre 2 colunas (mobile e desktop) */}
-          <div class="grid grid-cols-2 gap-4 md:gap-6">
+          {/* Perfil + Interesse — uma coluna no mobile para acomodar opções longas */}
+          <div class="grid md:grid-cols-2 gap-6">
             <div class="contact-field contact-field--select">
               <label for="cf-perfil">{t("contact.form.labels.profile")}</label>
               <select id="cf-perfil" name="perfil" required>
                 <option value="">{t("contact.form.placeholders.select")}</option>
                 <option value="produtor">{t("contact.form.profileOptions.producer")}</option>
                 <option value="comprador">{t("contact.form.profileOptions.buyer")}</option>
+                <option value="exportador">{t("contact.form.profileOptions.exporter")}</option>
+                <option value="cooperativa">{t("contact.form.profileOptions.cooperative")}</option>
+                <option value="instituicao-financeira">{t("contact.form.profileOptions.financialInstitution")}</option>
                 <option value="parceiro">{t("contact.form.profileOptions.partner")}</option>
                 <option value="outro">{t("contact.form.profileOptions.other")}</option>
               </select>
@@ -195,8 +267,12 @@ const marcadores: { label: string; top: number; left: number }[] = [
               <select id="cf-interesse" name="interesse">
                 <option value="">{t("contact.form.placeholders.select")}</option>
                 <option value="corretagem">{t("contact.form.interestOptions.brokerage")}</option>
-                <option value="assessoria">{t("contact.form.interestOptions.advisory")}</option>
+                <option value="mercado-fisico">{t("contact.form.interestOptions.physicalMarket")}</option>
+                <option value="mercado-futuro">{t("contact.form.interestOptions.futuresMarket")}</option>
+                <option value="cpr">{t("contact.form.interestOptions.cpr")}</option>
                 <option value="classificacao">{t("contact.form.interestOptions.grading")}</option>
+                <option value="prova-sensorial">{t("contact.form.interestOptions.cupping")}</option>
+                <option value="embarques-conferencias">{t("contact.form.interestOptions.logistics")}</option>
                 <option value="outro">{t("contact.form.interestOptions.other")}</option>
               </select>
             </div>
@@ -216,9 +292,31 @@ const marcadores: { label: string; top: number; left: number }[] = [
           <div
             data-form-error
             hidden
+            role="alert"
+            tabindex="-1"
             class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-2xl px-4 py-3"
           >
+            <p>{t("contact.form.states.errorDetailed")}</p>
+            <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 font-medium">
+              <a class="underline underline-offset-2" href={`mailto:${publicEmail}`}>
+                {publicEmail}
+              </a>
+              <span aria-hidden="true">•</span>
+              <a
+                class="underline underline-offset-2"
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t("contact.details.whatsappAction")}
+              </a>
+            </p>
           </div>
+
+          {/* Aviso resumido sobre o uso dos dados enviados */}
+          <p id="contact-form-privacy" class="text-xs leading-relaxed text-ink-muted">
+            {t("contact.form.privacySummary")}
+          </p>
 
           {/* Submit */}
           <div class="pt-2">
@@ -251,37 +349,17 @@ const marcadores: { label: string; top: number; left: number }[] = [
           </div>
         </form>
 
-        {/* Sucesso — overlay com check animado, dura 3s e some sozinho */}
+        {/* Confirmação textual de envio */}
         <div
           data-form-success
           hidden
+          role="status"
           aria-live="polite"
           class="success-overlay"
         >
-          <svg
-            class="success-check"
-            viewBox="0 0 52 52"
-            aria-hidden="true"
-          >
-            <circle
-              class="success-check__circle"
-              cx="26"
-              cy="26"
-              r="24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            ></circle>
-            <path
-              class="success-check__mark"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M14 27 l8 8 l16-18"
-            ></path>
-          </svg>
+          <p class="max-w-md px-6 text-center text-lg md:text-xl font-medium leading-relaxed text-brand-dark">
+            {t("contact.form.successMessage")}
+          </p>
         </div>
       </div>
     </div>
@@ -517,9 +595,15 @@ const marcadores: { label: string; top: number; left: number }[] = [
     .contact-field:not(.contact-field--select):not(.contact-field--textarea) input {
       padding-left: 108px;
     }
+    .contact-field--wide-label > label::after {
+      left: 132px !important;
+    }
+    .contact-field--wide-label input {
+      padding-left: 148px !important;
+    }
   }
 
-  /* ====== Success overlay — check animado sobre o form ====== */
+  /* ====== Confirmação textual sobre o formulário ====== */
   .success-overlay {
     position: absolute;
     inset: 0;
@@ -531,35 +615,9 @@ const marcadores: { label: string; top: number; left: number }[] = [
     -webkit-backdrop-filter: blur(6px);
     border-radius: 1.5rem;
     z-index: 5;
-    animation: success-overlay-show 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
-  @keyframes success-overlay-show {
-    0% { opacity: 0; }
-    8% { opacity: 1; }
-    85% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  .success-check {
-    width: 5rem;
-    height: 5rem;
-    color: var(--color-brand);
-  }
-  .success-check__circle {
-    stroke-dasharray: 151;
-    stroke-dashoffset: 151;
-    animation: success-circle-draw 0.55s cubic-bezier(0.65, 0, 0.45, 1) 0.15s forwards;
-  }
-  @keyframes success-circle-draw {
-    to { stroke-dashoffset: 0; }
-  }
-  .success-check__mark {
-    stroke-dasharray: 36;
-    stroke-dashoffset: 36;
-    animation: success-mark-draw 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.55s forwards;
-  }
-  @keyframes success-mark-draw {
-    to { stroke-dashoffset: 0; }
+  .success-overlay[hidden] {
+    display: none;
   }
 
   /* Reduced-motion: nada de animação extra (fade-in-up e split-text já tratados
@@ -570,14 +628,13 @@ const marcadores: { label: string; top: number; left: number }[] = [
     .contact-field textarea {
       transition: none;
     }
-    .success-overlay,
-    .success-check__circle,
-    .success-check__mark {
+  }
+
+  @media (max-width: 767px) {
+    .map-marker-ring,
+    .map-marker-ring--delay {
       animation: none;
-    }
-    .success-check__circle,
-    .success-check__mark {
-      stroke-dashoffset: 0;
+      opacity: 0;
     }
   }
 </style>
@@ -596,10 +653,9 @@ const marcadores: { label: string; top: number; left: number }[] = [
     // Strings traduzidas vêm via data-attr (setadas pelo template, locale-aware)
     const labelIdle = form.dataset.labelIdle ?? "Send";
     const labelSending = form.dataset.labelSending ?? "Sending...";
-    const errorMessage =
-      form.dataset.errorMessage ?? "Could not send. Try again.";
 
     function setSubmittingState(submitting: boolean) {
+      form!.setAttribute("aria-busy", String(submitting));
       if (submitBtn) submitBtn.disabled = submitting;
       if (submitSpinner) submitSpinner.hidden = !submitting;
       if (submitArrow) submitArrow.hidden = submitting;
@@ -609,17 +665,13 @@ const marcadores: { label: string; top: number; left: number }[] = [
 
     function showSuccess() {
       form!.setAttribute("data-state", "success");
-      if (successBox) {
-        // Reinicia animação caso seja o 2º+ envio na mesma sessão
-        successBox.hidden = false;
-        void successBox.offsetWidth;
-      }
+      form!.reset();
+      if (successBox) successBox.hidden = false;
       window.setTimeout(() => {
         if (successBox) successBox.hidden = true;
-        form!.reset();
         form!.setAttribute("data-state", "idle");
         setSubmittingState(false);
-      }, 3000);
+      }, 5000);
     }
 
     form.addEventListener("submit", async (e) => {
@@ -648,13 +700,20 @@ const marcadores: { label: string; top: number; left: number }[] = [
           (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null)
             ?.value.trim() || "";
 
+        const getSelectLabel = (name: string): string => {
+          const select = form.elements.namedItem(name) as HTMLSelectElement | null;
+          if (!select?.value) return "";
+          return select.selectedOptions[0]?.textContent?.trim() || "";
+        };
+
         const nome = getField("nome");
         const email = getField("email");
-        const telefone = getField("telefone");
+        const telefone = getField("telefone") || "—";
         const estado = getField("estado") || "—";
-        const perfil = getField("perfil");
-        const interesse = getField("interesse") || "—";
+        const perfil = getSelectLabel("perfil") || getField("perfil");
+        const interesse = getSelectLabel("interesse") || "—";
         const mensagem = getField("mensagem") || "—";
+        const nomeAssunto = nome.replace(/[\r\n]+/g, " ").slice(0, 80);
 
         const enviadoEm = new Date().toLocaleString("pt-BR", {
           day: "2-digit",
@@ -690,7 +749,10 @@ const marcadores: { label: string; top: number; left: number }[] = [
 
         const payload = new FormData();
         payload.append("access_key", accessKey);
-        payload.append("subject", `Novo contato — ${nome} (${perfil})`);
+        payload.append(
+          "subject",
+          `[Site] Novo contato — ${perfil} — ${interesse} — ${nomeAssunto}`,
+        );
         payload.append("from_name", "Site Safras & Negócios");
         payload.append("replyto", email);
         payload.append("message", body);
@@ -707,7 +769,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
       } catch (err) {
         if (errorBox) {
           errorBox.hidden = false;
-          errorBox.textContent = errorMessage;
+          errorBox.focus();
         }
         setSubmittingState(false);
         form.setAttribute("data-state", "error");

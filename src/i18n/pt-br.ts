@@ -15,7 +15,9 @@ const dict = {
   meta: {
     siteTitle: "Safras & Negócios | Corretora de café",
     siteDescription:
-      "Safras & Negócios — corretora de café com tradição, confiança, clareza e praticidade.",
+      "Intermediação e serviços para o mercado de café, com suporte em mercado físico e futuro, CPR, qualidade, prova sensorial, embarques e conferências.",
+    socialImageAlt:
+      "Fachada da Safras & Negócios em São Sebastião do Paraíso, Minas Gerais",
   },
 
   brand: {
@@ -31,6 +33,26 @@ const dict = {
     backToTop: "Voltar ao topo",
     top: "Topo",
     send: "Enviar",
+  },
+
+  languageSuggestion: {
+    prompt: "Prefere ver esta página em português?",
+    accept: "Ver em português",
+    dismiss: "Agora não",
+  },
+
+  notFound: {
+    metaTitle: "Página não encontrada | Safras & Negócios",
+    eyebrow: "Erro 404",
+    title: "Esta página não foi encontrada.",
+    description:
+      "O endereço pode ter mudado ou não existir. Você pode voltar ao início, conhecer nossos serviços ou falar com a equipe.",
+    home: "Voltar ao início",
+    services: "Conhecer os serviços",
+    contact: "Entrar em contato",
+    whatsapp: "Falar pelo WhatsApp",
+    email: "Enviar e-mail",
+    languageLabel: "Idioma desta página",
   },
 
   nav: {
@@ -119,7 +141,7 @@ const dict = {
     ],
     intro: {
       part1:
-        "Com mais de 10 anos no mercado, oferecemos consultoria e intermediação de café com a",
+        "Desde 2015, oferecemos consultoria e intermediação de café com a",
       highlight: "transparência e seriedade",
       part2: "que produtores e compradores esperam.",
     },
@@ -129,8 +151,8 @@ const dict = {
         label: "Sediado em",
       },
       years: {
-        suffix: "+",
-        label: "Anos de história",
+        suffix: "",
+        label: "Desde",
       },
     },
   },
@@ -181,6 +203,22 @@ const dict = {
     sectionLabel: "[ Contato ]",
     sectionAriaLabel: "Contato",
     cityMarkerLabel: "São Sebastião do Paraíso, MG",
+    whatsappPrefill:
+      "Olá! Encontrei a Safras & Negócios pelo site e gostaria de mais informações.",
+    details: {
+      emailLabel: "E-mail",
+      phoneLabel: "Telefone",
+      addressLabel: "Endereço",
+      hoursLabel: "Horário",
+      email: "atendimento@safrasnegocios.com.br",
+      phone: "(35) 3531-4046",
+      address:
+        "Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso/MG",
+      hours: "Segunda a sexta-feira, das 8h às 18h.",
+      callAction: "Ligar",
+      mapAction: "Abrir no Google Maps",
+      whatsappAction: "Conversar pelo WhatsApp",
+    },
     form: {
       honeypotLabel: "Não preencher",
       labels: {
@@ -203,20 +241,31 @@ const dict = {
       profileOptions: {
         producer: "Produtor",
         buyer: "Comprador / Trader",
+        exporter: "Exportador",
+        cooperative: "Cooperativa",
+        financialInstitution: "Instituição financeira",
         partner: "Parceiro",
         other: "Outro",
       },
       interestOptions: {
-        brokerage: "Corretagem",
-        advisory: "Assessoria comercial",
-        grading: "Classificação",
-        other: "Outro",
+        brokerage: "Intermediação e negociação de café",
+        physicalMarket: "Mercado físico",
+        futuresMarket: "Mercado futuro",
+        cpr: "CPR",
+        grading: "Classificação e análise de qualidade",
+        cupping: "Prova sensorial",
+        logistics: "Embarques e conferências",
+        other: "Outro assunto",
       },
       submitLabel: "Enviar solicitação",
       submitSending: "Enviando...",
+      successMessage:
+        "Recebemos sua solicitação. Nossa equipe entrará em contato pelos dados informados.",
+      privacySummary:
+        "Ao enviar, você está ciente de que seus dados serão utilizados pela Safras & Negócios para analisar e responder ao seu contato.",
       states: {
         errorDetailed:
-          "Não foi possível enviar agora. Tente novamente em instantes.",
+          "Não foi possível enviar agora. Fale conosco por um dos canais abaixo:",
       },
     },
   },
@@ -226,7 +275,7 @@ const dict = {
     columns: {
       services: "Serviços",
       navigation: "Navegação",
-      socials: "Sociais",
+      contact: "Contato",
     },
     servicesLinks: [
       "Mercado e Negociação",
@@ -240,10 +289,6 @@ const dict = {
     developedBy: "Desenvolvido por",
     developerName: "Measy",
     developerAriaLabel: "Falar com a Measy no WhatsApp",
-  },
-
-  loader: {
-    ariaLabel: "Carregando",
   },
 } as const;
 

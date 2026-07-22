@@ -36,9 +36,11 @@ const contactHref = localizeAnchor("contato");
           <Image
             src={logoBranco}
             alt={t("brand.logoAlt")}
-            height={224}
+            widths={[160, 260, 420]}
+            sizes="(min-width: 1024px) 205px, (min-width: 768px) 152px, 130px"
             class="site-header__logo-img w-auto"
             loading="eager"
+            quality={72}
           />
         </a>
 
@@ -117,6 +119,8 @@ const contactHref = localizeAnchor("contato");
   data-header-sticky
   data-scroll-aware={isHome ? "true" : undefined}
   data-visible={isHome ? "false" : "true"}
+  aria-hidden={isHome ? "true" : undefined}
+  inert={isHome ? true : undefined}
   class="site-header site-header--sticky"
 >
   <div class="site-header__inner max-w-[100rem] mx-auto flex items-center justify-between gap-6">
@@ -432,7 +436,7 @@ const contactHref = localizeAnchor("contato");
 
   @media (prefers-reduced-motion: reduce) {
     .site-header--sticky {
-      transition: opacity 200ms ease;
+      transition: none;
       transform: none;
     }
     .site-header--sticky[data-visible="true"] {
@@ -462,6 +466,8 @@ const contactHref = localizeAnchor("contato");
       const current = stickyHeader.dataset.visible === "true";
       if (visible !== current) {
         stickyHeader.dataset.visible = visible ? "true" : "false";
+        stickyHeader.toggleAttribute("inert", !visible);
+        stickyHeader.setAttribute("aria-hidden", String(!visible));
       }
     };
 

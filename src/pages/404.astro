@@ -1,0 +1,340 @@
+---
+import { Image } from "astro:assets";
+import "@fontsource-variable/inter";
+import logo from "../assets/branding/safras-logotipo.svg";
+import {
+  LOCALES,
+  LOCALE_LABELS,
+  localizeAnchorURL,
+  t,
+} from "../i18n";
+
+const publicEmail = "atendimento@safrasnegocios.com.br";
+const whatsappHref = `https://wa.me/553535314046?text=${encodeURIComponent(
+  "Olá! Encontrei a Safras & Negócios pelo site e gostaria de mais informações.",
+)}`;
+
+const errorContent = Object.fromEntries(
+  LOCALES.map((item) => [
+    item,
+    {
+      bcp47: LOCALE_LABELS[item].bcp47,
+      metaTitle: t("notFound.metaTitle", item),
+      eyebrow: t("notFound.eyebrow", item),
+      title: t("notFound.title", item),
+      description: t("notFound.description", item),
+      home: t("notFound.home", item),
+      services: t("notFound.services", item),
+      contact: t("notFound.contact", item),
+      whatsapp: t("notFound.whatsapp", item),
+      email: t("notFound.email", item),
+      languageLabel: t("notFound.languageLabel", item),
+    },
+  ]),
+);
+
+const localeLinks = Object.fromEntries(
+  LOCALES.map((item) => [
+    item,
+    {
+      home: item === "pt-br" ? "/" : `/${item}`,
+      services: localizeAnchorURL("servicos", item),
+      contact: localizeAnchorURL("contato", item),
+    },
+  ]),
+);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#025c00" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{t("notFound.metaTitle", "pt-br")}</title>
+    <style>
+      :root {
+        font-family: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+        color: #141311;
+        background: #f6f6f4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+      }
+      a,
+      button {
+        font: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid #1f6b3a;
+        outline-offset: 3px;
+      }
+      .page {
+        min-height: 100svh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        background:
+          radial-gradient(circle at 100% 0%, rgba(31, 107, 58, 0.12), transparent 32rem),
+          radial-gradient(circle at 0% 100%, rgba(139, 94, 52, 0.1), transparent 30rem),
+          #f6f6f4;
+      }
+      .header,
+      .footer {
+        width: min(100% - 2rem, 72rem);
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-block: 1.25rem;
+      }
+      .logo {
+        width: 124px;
+        height: auto;
+      }
+      .languages {
+        display: flex;
+        gap: 0.35rem;
+      }
+      .language {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1px solid #e3e3df;
+        border-radius: 999px;
+        background: #fff;
+        color: #5a564f;
+        cursor: pointer;
+      }
+      .language[aria-current="true"] {
+        border-color: #1f6b3a;
+        background: #1f6b3a;
+        color: #fff;
+      }
+      .content {
+        width: min(100% - 2rem, 50rem);
+        margin: auto;
+        padding-block: 3rem;
+        text-align: center;
+      }
+      .code {
+        margin: 0 0 1rem;
+        color: #1f6b3a;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      h1 {
+        max-width: 12ch;
+        margin: 0 auto;
+        font-size: clamp(2.25rem, 8vw, 5.5rem);
+        font-weight: 500;
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+        text-wrap: balance;
+      }
+      .description {
+        max-width: 40rem;
+        margin: 1.5rem auto 0;
+        color: #5a564f;
+        font-size: clamp(1rem, 2vw, 1.125rem);
+        line-height: 1.7;
+        text-wrap: balance;
+      }
+      .actions {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+      .button {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #1f6b3a;
+        border-radius: 999px;
+        padding: 0.75rem 1.15rem;
+        color: #1f6b3a;
+        font-size: 0.9375rem;
+        font-weight: 650;
+        text-decoration: none;
+        transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+      }
+      .button:hover {
+        transform: translateY(-1px);
+        background: #e8f2eb;
+      }
+      .button--primary {
+        background: #1f6b3a;
+        color: #fff;
+      }
+      .button--primary:hover {
+        background: #134024;
+      }
+      .footer {
+        border-top: 1px solid #e3e3df;
+        color: #5a564f;
+        font-size: 0.875rem;
+      }
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.75rem 1rem;
+      }
+      .footer a {
+        color: inherit;
+        text-underline-offset: 4px;
+      }
+      @media (max-width: 40rem) {
+        .header,
+        .footer {
+          align-items: flex-start;
+        }
+        .footer {
+          flex-direction: column;
+        }
+        .footer-links {
+          justify-content: flex-start;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .button {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <a href="/" data-link="home" aria-label="Safras & Negócios">
+          <Image
+            src={logo}
+            alt="Safras & Negócios"
+            width={124}
+            loading="eager"
+            class="logo"
+          />
+        </a>
+        <nav
+          class="languages"
+          aria-label={t("notFound.languageLabel", "pt-br")}
+          data-language-nav
+        >
+          {LOCALES.map((item) => (
+            <button
+              type="button"
+              class="language"
+              data-locale={item}
+              aria-current={item === "pt-br" ? "true" : "false"}
+              title={LOCALE_LABELS[item].native}
+            >
+              {LOCALE_LABELS[item].flag}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <main class="content" id="conteudo">
+        <p class="code" data-text="eyebrow">
+          {t("notFound.eyebrow", "pt-br")}
+        </p>
+        <h1 data-text="title">{t("notFound.title", "pt-br")}</h1>
+        <p class="description" data-text="description">
+          {t("notFound.description", "pt-br")}
+        </p>
+        <div class="actions">
+          <a class="button button--primary" href="/" data-link="home" data-text="home">
+            {t("notFound.home", "pt-br")}
+          </a>
+          <a
+            class="button"
+            href="/#servicos"
+            data-link="services"
+            data-text="services"
+          >
+            {t("notFound.services", "pt-br")}
+          </a>
+          <a
+            class="button"
+            href="/#contato"
+            data-link="contact"
+            data-text="contact"
+          >
+            {t("notFound.contact", "pt-br")}
+          </a>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <span>© {new Date().getFullYear()} Safras &amp; Negócios</span>
+        <div class="footer-links">
+          <a href={whatsappHref} target="_blank" rel="noopener noreferrer" data-text="whatsapp">
+            {t("notFound.whatsapp", "pt-br")}
+          </a>
+          <a href={`mailto:${publicEmail}`} data-text="email">
+            {t("notFound.email", "pt-br")}
+          </a>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline define:vars={{ errorContent, localeLinks }}>
+      (function () {
+        var path = window.location.pathname;
+        var activeLocale = path === "/en" || path.indexOf("/en/") === 0
+          ? "en"
+          : path === "/es" || path.indexOf("/es/") === 0
+            ? "es"
+            : "pt-br";
+
+        function applyLocale(targetLocale) {
+          var content = errorContent[targetLocale];
+          var links = localeLinks[targetLocale];
+          if (!content || !links) return;
+
+          activeLocale = targetLocale;
+          document.documentElement.lang = content.bcp47;
+          document.title = content.metaTitle;
+          document.querySelectorAll("[data-text]").forEach(function (element) {
+            var key = element.getAttribute("data-text");
+            if (key && content[key]) element.textContent = content[key];
+          });
+          document.querySelectorAll('[data-link="home"]').forEach(function (element) {
+            element.setAttribute("href", links.home);
+          });
+          document.querySelector('[data-link="services"]')?.setAttribute("href", links.services);
+          document.querySelector('[data-link="contact"]')?.setAttribute("href", links.contact);
+          document.querySelector("[data-language-nav]")?.setAttribute(
+            "aria-label",
+            content.languageLabel,
+          );
+          document.querySelectorAll("[data-locale]").forEach(function (button) {
+            button.setAttribute(
+              "aria-current",
+              button.getAttribute("data-locale") === activeLocale ? "true" : "false",
+            );
+          });
+        }
+
+        document.querySelectorAll("[data-locale]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            applyLocale(button.getAttribute("data-locale"));
+          });
+        });
+
+        applyLocale(activeLocale);
+      })();
+    </script>
+  </body>
+</html>

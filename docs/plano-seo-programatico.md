@@ -11,12 +11,12 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 2.1 |
-| Fase ativa | Fase 0 — Governança, verdade comercial e preparação |
-| Ação extraordinária | H0 — Remoção de conteúdo não verificável |
-| Estado geral | EM ANDAMENTO — H0 validada localmente; publicação pendente |
-| Última revisão | 20/07/2026 |
-| Próxima revisão | Após publicação da H0 e conclusão das pendências obrigatórias da Fase 0 |
+| Versão | 2.6 |
+| Fase ativa | Fase 1 — Recuperação técnica |
+| Ação extraordinária | H0 — APROVADA e verificada em produção |
+| Estado geral | EM ANDAMENTO — recuperação técnica implementada e validada localmente; métricas de produção e deploy pendentes |
+| Última revisão | 21/07/2026 |
+| Próxima revisão | Após autorização de preview/deploy e medição da hospedagem publicada |
 
 ## 2. Objetivo
 
@@ -131,10 +131,10 @@ Estas regras valem em todas as fases:
 ### Problemas críticos confirmados ou a corrigir
 
 - [x] Confirmado em 20/07/2026: a regra curinga do Firebase envia URLs inexistentes para a página inicial com status 200.
-- [ ] Criar e validar um `404` real.
-- [ ] Criar e validar `robots.txt`.
-- [ ] Criar e validar o sitemap gerado, inicialmente `sitemap-index.xml`.
-- [ ] Garantir que URLs aleatórias não sejam tratadas como conteúdo válido.
+- [x] Criar e validar localmente um `404` real; publicação pendente.
+- [x] Criar e validar localmente `robots.txt`; publicação pendente.
+- [x] Criar e validar localmente `sitemap-index.xml`; publicação pendente.
+- [x] Garantir localmente que URLs aleatórias retornem 404; correção de produção pendente.
 - [ ] Confirmar propriedade e dados no Google Search Console.
 - [ ] Implantar mensuração de visitas e conversões.
 - [ ] Criar páginas próprias para serviços e intenções comerciais.
@@ -145,12 +145,16 @@ Estas regras valem em todas as fases:
 - [x] Confirmado: a detecção automática de idioma deve ser substituída por sugestão que respeite a URL solicitada.
 - [x] Confirmado: os depoimentos atuais não são reais.
 - [x] Remover integralmente os depoimentos não reais do código e do build nos três idiomas.
-- [ ] Confirmar a remoção em produção após PR e deploy autorizados.
-- [ ] Criar aviso de privacidade antes de ampliar coleta ou mensuração.
+- [x] Confirmar em produção a remoção dos depoimentos não verificáveis.
+- [x] Criar aviso resumido de privacidade junto ao formulário no código local; publicação pendente.
 - [ ] Revisar o uso do Web3Forms, sua retenção e transferência internacional de dados.
 - [ ] Diferenciar a entidade Safras & Negócios de marcas semelhantes nos metadados e presenças oficiais.
 
 > Evidência pública de 20/07/2026: `/` respondeu 200; `/robots.txt`, `/sitemap.xml` e uma URL aleatória também responderam 200 com `text/html`. A busca pública testada não apresentou o domínio da empresa para as consultas analisadas.
+
+> Auditoria pública repetida em 21/07/2026: `/`, `/en` e `/es` responderam 200; `/robots.txt`, `/sitemap.xml`, `/sitemap-index.xml` e uma URL aleatória continuaram respondendo 200 com a página inicial. `/contato` manteve 301 e `/qr` manteve 302. A produção já não continha os depoimentos não verificáveis.
+
+> Evidência local de 21/07/2026: após a recuperação técnica, o emulador do Firebase respondeu 404 para URL inexistente, 200 para as três páginas canônicas e arquivos de SEO, 301 para `/contato` e 302 para `/qr`. Nenhuma alteração dessa etapa foi publicada.
 
 ### Verdade comercial confirmada
 
@@ -161,63 +165,67 @@ Estas regras valem em todas as fases:
 | Endereço | Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso/MG |
 | Atendimento presencial | Sim, no endereço oficial |
 | Telefone e WhatsApp | (35) 3531-4046 |
-| E-mail atual | `flavio@safrasnegocios.com.br`; destinatário operacional controlado pelo usuário, mas ainda poderá mudar |
-| Web3Forms | A chave está configurada, porém não há conta administrativa confirmada; propriedade, destino e governança precisam ser recuperados e testados |
+| E-mails | `atendimento@safrasnegocios.com.br` é o canal público; `flavio@safrasnegocios.com.br` é o destinatário interno do formulário e não deve aparecer publicamente |
+| Web3Forms | Conta e chave administráveis confirmadas; destino atualizado para `flavio@safrasnegocios.com.br` e envio real validado pelo usuário |
 | Horário | Segunda a sexta-feira, das 8h às 18h |
 | Fundação | 19/10/2015 |
 | Proprietário | Gilson Souza |
-| Experiência | Gilson possui mais de 30 anos de atuação no mercado cafeeiro |
+| Experiência | Gilson possui mais de 30 anos de atuação no mercado cafeeiro; a apresentação nominal foi adiada para uma futura página de equipe |
 | Serviços | Intermediação de café no mercado físico e futuro; CPR em relação com instituições bancárias; classificação e análise de qualidade; prova sensorial; embarques e conferências |
 | Públicos | Vendedores e compradores, incluindo produtores, exportadores e multinacionais |
 | Cobertura | Atendimento em várias regiões; mapa e delimitação detalhada serão validados futuramente |
 | Idiomas | PT-BR como fonte; EN e ES têm finalidade comercial e institucional, sempre com revisão |
-| Equipe | Funcionários possuem capacidade técnica |
+| Equipe | Funcionários possuem capacidade técnica; nomes e perfis individuais não serão publicados nesta etapa |
 | Responsáveis | Gilson Souza: comercial, editorial, técnico e aprovador factual |
-| Registro de leads | E-mail e planilha privada aprovados; responsável operacional inicial: titular de `flavio@safrasnegocios.com.br` |
+| Registro de leads | E-mail e planilha privada aprovados; acesso por contas individuais para pessoas autorizadas dos setores de cadastro e comercial; retenção operacional de 12 meses após a última interação |
 | Acesso técnico | CLI do Firebase e do GCP `site-safras` confirmadas; domínio/DNS e Search Console ainda precisam ser verificados |
 | Google Business Profile | A empresa existe no Google Maps; acesso administrativo ainda precisa ser localizado |
 | Google Ads | Fora do escopo atual |
-| Custos | Priorizar recursos atuais e gratuitos; nenhuma mensalidade nova sem aprovação de benefício e custo |
-| Depoimentos | Os relatos não reais foram removidos localmente; só retornarão com origem e autorização registradas; produção aguarda publicação |
+| Custos | Teto atual de R$ 0 em novas mensalidades; qualquer recurso pago exige aprovação específica |
+| Depoimentos | Os relatos não reais foram removidos localmente; novos relatos dependerão de autorização registrada e serão buscados futuramente |
 
 ### Regras de redação institucional
 
 - Não confundir a idade da empresa com a experiência pessoal de Gilson.
 - Formulação segura: “A Safras & Negócios atua desde 19 de outubro de 2015.”
-- Formulação segura: “Gilson Souza, proprietário da Safras & Negócios, reúne mais de 30 anos de experiência no mercado cafeeiro.”
+- A experiência pessoal de Gilson permanece como fato interno validado, mas não será apresentada publicamente antes da futura página de equipe.
 - Conteúdo sobre mercado futuro, CPR, hedge ou preço deve ser educativo, sem promessa de rentabilidade, garantia de preço ou recomendação financeira individual.
 - Não afirmar exportação direta, representação ou presença física internacional sem documentar o modelo real da atuação.
+- Não publicar nomes, logotipos, contratos ou negociações de clientes, exportadores, multinacionais ou instituições financeiras sem autorização específica.
 
 ### Pendências obrigatórias da Fase 0
 
 - [x] Registrar a decisão de não publicar razão social e CNPJ neste momento.
 - [x] Confirmar telefone e WhatsApp oficial: `(35) 3531-4046`.
-- [ ] Definir o e-mail público definitivo; `flavio@safrasnegocios.com.br` é o endereço operacional atual.
+- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público e manter `flavio@safrasnegocios.com.br` somente como destinatário interno.
 - [x] Confirmar o destinatário operacional atual do formulário.
-- [ ] Recuperar ou criar conta Web3Forms administrável, documentar proprietário e chave, restringir domínio e realizar envio controlado.
+- [x] Confirmar conta Web3Forms administrável, destino interno e realizar envio controlado com recebimento validado.
+- [ ] Reavaliar restrição de domínio somente se um plano pago do Web3Forms for aprovado; o recurso não está disponível gratuitamente.
 - [x] Definir Gilson Souza como responsável comercial, editorial, técnico e aprovador factual.
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
 - [ ] Confirmar acessos ao domínio/DNS e Google Search Console.
 - [ ] Recuperar ou confirmar acesso administrativo ao Google Business Profile.
-- [ ] Decidir a base e o texto de privacidade com revisão adequada.
+- [x] Aprovar e implementar aviso resumido de uso dos dados junto ao formulário; página completa de privacidade conscientemente adiada.
 - [x] Aprovar a execução da ação extraordinária H0.
 - [x] Aprovar e-mail mais planilha privada como modelo operacional inicial de leads.
 
 ### Itens conscientemente adiados
 
 - mapa completo das regiões atendidas;
+- página de equipe e apresentação nominal de proprietário e funcionários;
 - localidades do Observatório;
 - quantidade mensal definitiva de conteúdo;
 - CRM ou automação completa do registro de leads;
 - ferramentas pagas;
+- Google Analytics, consentimento e mensuração, até a finalização da construção do site e da página completa de privacidade;
 - tradução de todo conteúdo futuro.
 
 ## 7. Visão geral das fases
 
 | Fase | Nome | Estado | Saída principal |
 |---:|---|---|---|
-| 0 | Governança e verdade comercial | EM ANDAMENTO | Dados, acessos, responsáveis e regras aprovados |
-| 1 | Recuperação técnica | NÃO INICIADA | Site rastreável, indexável, rápido e sem falsos 200 |
+| 0 | Governança e verdade comercial | APROVADA | Dados, acessos, responsáveis e regras aprovados |
+| 1 | Recuperação técnica | EM ANDAMENTO | Site rastreável, indexável, rápido e sem falsos 200 |
 | 2 | Mensuração e presença oficial | NÃO INICIADA | Baseline, Search Console, Analytics e perfil comercial |
 | 3 | Inteligência de demanda | NÃO INICIADA | Mapa de públicos, intenções e oportunidades |
 | 4 | Arquitetura da informação | NÃO INICIADA | Estrutura de URLs, hubs e links internos |
@@ -233,7 +241,7 @@ Estas regras valem em todas as fases:
 
 ## Fase 0 — Governança, verdade comercial e preparação
 
-**Estado:** EM ANDAMENTO
+**Estado:** APROVADA
 
 ### Objetivo
 
@@ -244,16 +252,16 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Aprovar o nome comercial e registrar a decisão de não publicar razão social/CNPJ neste momento.
 - [x] Registrar endereço, telefone, e-mail atual, horários e fundação confirmados.
 - [x] Confirmar telefone e WhatsApp oficial: `(35) 3531-4046`.
-- [ ] Definir o e-mail público definitivo; manter `flavio@safrasnegocios.com.br` como endereço operacional atual.
+- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público; manter `flavio@safrasnegocios.com.br` somente como destinatário interno do formulário.
 - [x] Confirmar atendimento presencial e cobertura de várias regiões; detalhamento geográfico formalmente adiado.
 - [x] Documentar os serviços atualmente confirmados; limites editoriais de CPR e mercado futuro registrados.
 - [x] Definir públicos: vendedores e compradores, incluindo produtores, exportadores e multinacionais.
-- [ ] Definir diferenciais que possam ser comprovados.
+- [x] Definir diferenciais comprováveis: atuação desde 2015, equipe tecnicamente capacitada, acompanhamento da negociação à logística, atendimento a vendedores e compradores e conhecimento aplicado à classificação e qualidade; não citar o proprietário nesta etapa.
 - [x] Confirmar fundação em 19/10/2015 e mais de 30 anos de experiência pessoal de Gilson.
 - [x] Confirmar que os depoimentos atuais não são reais.
 - [x] Executar e validar H0 localmente no código, build e navegador em PT-BR, EN e ES.
-- [ ] Publicar a H0 por PR/deploy e verificar a produção, após autorização específica.
-- [ ] Definir procedimento de autorização para futuros depoimentos e casos.
+- [x] Verificar em produção a remoção do conteúdo não verificável após a publicação autorizada.
+- [x] Definir procedimento para futuros depoimentos: texto e identificação aprovados, autorização de imagem e traduções quando aplicável e canal para alteração ou retirada.
 - [x] Confirmar capacidade técnica da equipe.
 - [x] Nomear Gilson Souza como autor/revisor técnico e aprovador factual inicial; redistribuir por tema quando necessário.
 - [x] Definir Gilson Souza como responsável comercial pelos contatos recebidos.
@@ -264,35 +272,35 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [ ] Confirmar acesso ao Google Search Console.
 - [x] Confirmar que a empresa possui perfil no Google Maps.
 - [ ] Recuperar ou confirmar acesso administrativo ao Google Business Profile.
-- [ ] Confirmar se existe Google Analytics ou outra ferramenta de métricas.
+- [x] Adiar Google Analytics e novas ferramentas de mensuração até a finalização da construção do site e da página completa de privacidade.
 - [x] Aprovar planilha privada como registro inicial; responsável operacional: titular de `flavio@safrasnegocios.com.br`.
-- [ ] Definir controles de acesso, retenção e exclusão da planilha.
+- [x] Definir controles da planilha: contas individuais, acesso restrito às pessoas autorizadas dos setores de cadastro e comercial, autenticação em duas etapas e exclusão ou anonimização 12 meses após a última interação, salvo negociação ativa ou obrigação legal.
 - [x] Definir princípio de não contratar mensalidades sem aprovação específica.
-- [ ] Definir teto financeiro antes de habilitar qualquer recurso pago.
-- [ ] Aprovar as práticas permitidas e proibidas deste plano.
+- [x] Definir teto de R$ 0 em novas mensalidades na fase atual; qualquer exceção exige aprovação específica.
+- [x] Aprovar as práticas permitidas e proibidas deste plano, incluindo a proibição de páginas duplicadas, texto oculto, avaliações falsas, compra de links e expansão sem revisão humana.
 
 ### Gate da Fase 0
 
-- [ ] Dados oficiais registrados e aprovados.
-- [ ] Serviços e cobertura geográfica comprovados.
+- [x] Dados oficiais registrados e aprovados.
+- [x] Serviços confirmados e cobertura geral registrada; delimitação geográfica detalhada formalmente adiada.
 - [x] Responsáveis técnico, editorial e comercial definidos.
-- [ ] Acessos essenciais disponíveis ou com plano de obtenção.
-- [ ] Limite de gastos aprovado.
-- [ ] Riscos legais e de reputação tratados.
+- [x] Acessos essenciais disponíveis ou com plano de obtenção.
+- [x] Limite de gastos aprovado.
+- [x] Riscos legais e de reputação tratados ou conscientemente adiados com controles.
 
 ### Registro de encerramento
 
-- **Data:** —
-- **Aprovado por:** —
-- **Evidências:** —
-- **Pendências aceitas:** —
-- **Decisão:** —
+- **Data:** 21/07/2026
+- **Aprovado por:** empresa, por aprovação explícita das recomendações nesta conversa
+- **Evidências:** verdade comercial registrada; responsáveis definidos; envio real do Web3Forms confirmado; acesso ao GCP/Firebase `site-safras` validado; DNS público verificado; H0 confirmada em produção; teto de R$ 0 aprovado
+- **Pendências aceitas:** acesso administrativo ao DNS, Search Console e Google Business Profile; detalhamento das regiões; planilha de leads; página completa de privacidade; Analytics adiado
+- **Decisão:** Fase 0 aprovada; Fase 1 autorizada somente para implementação e testes locais, sem commit, PR ou deploy
 
 ---
 
 ## Ação extraordinária H0 — Remoção de conteúdo não verificável
 
-**Estado:** EM VALIDAÇÃO — implementação local concluída; PR, deploy e produção pendentes
+**Estado:** APROVADA — implementação e produção verificadas
 
 **Autorização recebida:** 20/07/2026
 
@@ -318,13 +326,13 @@ Foi confirmado que os depoimentos atualmente publicados não são reais. Eles en
 - [x] Contato sucede diretamente a seção anterior; nenhuma seção vazia ou overflow horizontal.
 - [x] Nenhum erro JavaScript observado nos seis cenários de navegador.
 - [x] WhatsApp oficial presente e contato antigo ausente do build.
-- [ ] Produção verificada depois de PR e deploy aprovados.
+- [x] Produção verificada em 21/07/2026 sem depoimentos não verificáveis.
 
 ### Gate H0
 
 - [x] Autorização explícita recebida.
 - [x] Nenhum depoimento não verificável permanece no código ou no build local.
-- [ ] Nenhum depoimento não verificável permanece em produção; depende de publicação autorizada.
+- [x] Nenhum depoimento não verificável permanece em produção.
 - [x] Nenhuma lacuna visual ou regressão funcional nos cenários locais testados.
 - [x] Incidente registrado no Histórico e no Log de decisões.
 - [x] Regra permanente de autorização de depoimentos documentada.
@@ -333,51 +341,131 @@ Foi confirmado que os depoimentos atualmente publicados não são reais. Eles en
 
 ## Fase 1 — Recuperação técnica
 
-**Estado:** NÃO INICIADA
+**Estado:** EM ANDAMENTO — implementação e auditoria local concluídas; validação publicada pendente
 
 ### Objetivo
 
 Garantir que mecanismos de busca encontrem, entendam e indexem apenas URLs válidas, com excelente experiência para usuários.
 
+### Auditoria de entrada — 21/07/2026
+
+- produção em PT-BR, EN e ES respondendo 200;
+- `robots.txt`, sitemap e URL inexistente respondendo incorretamente 200 com a home;
+- regra `rewrites: ** → /index.html` confirmada como causa do falso 200;
+- canonical e quatro alternates presentes nas três páginas principais;
+- redirecionamento automático de idioma confirmado no layout;
+- Open Graph, Twitter Cards e dados estruturados ausentes;
+- `www` configurado por CNAME para `site-safras.web.app`; HTTP redireciona ao domínio sem `www`, mas a resposta HTTPS com `www` deverá ser revalidada antes do gate;
+- GCP `site-safras` ativo, gatilho regional `deploy-main` ligado a `main` e Firebase Hosting com somente o canal `live`;
+- última publicação regional identificada: build bem-sucedido do commit `d253e446aa1431f2b655d7b293b60c8abc155b9d` em 21/07/2026.
+
+### Especificações aprovadas para implementação
+
+**Aprovação recebida em:** 21/07/2026
+
+Estas decisões estão aprovadas. Cada item só será considerado concluído após implementação, testes e evidências.
+
+1. **Domínio canônico:** usar `https://safrasenegocios.com.br`; a variante `www` deverá redirecionar permanentemente para o domínio sem `www`.
+2. **Idiomas:** manter URLs separadas em PT-BR, EN e ES, com `hreflang` e seletor visível; substituir o redirecionamento automático por uma sugestão que dependa da escolha do visitante.
+3. **Erro 404:** criar página real e útil nos três idiomas, com identidade da marca, mensagem curta, retorno ao início, serviços, contato, e-mail e WhatsApp.
+4. **Títulos da página inicial:** PT `Safras & Negócios | Corretora de café`; EN `Safras & Negócios | Coffee Brokerage`; ES `Safras & Negócios | Corretaje de Café`.
+5. **Descrição PT da página inicial:** “Intermediação e serviços para o mercado de café, com suporte em mercado físico e futuro, CPR, qualidade, prova sensorial, embarques e conferências.” EN e ES terão traduções equivalentes e revisadas.
+6. **Imagem social:** criar posteriormente uma imagem horizontal própria, em alta resolução, baseada em atividade ou ambiente real da empresa e com marca discreta; evitar arte composta apenas por logotipo ou excesso de texto.
+7. **Dados estruturados:** implementar `LocalBusiness` com nome, endereço, telefone internacional, e-mail público, horário, URL canônica, fundação em 19/10/2015 e imagem real da empresa. Não incluir proprietário, funcionários, avaliações, clientes, preços ou logotipos de terceiros.
+8. **Sitemap inicial:** incluir somente `/`, `/en` e `/es`. Excluir `/contato`, `/qr`, `/manutencao`, 404, redirecionamentos, URLs experimentais e inexistentes.
+9. **Robots e indexação:** permitir rastreamento das páginas públicas, indicar o sitemap em `robots.txt` e usar `noindex` nas páginas que não devem aparecer, sem tentar usar `robots.txt` como substituto de `noindex`.
+10. **Publicação:** implementar e testar localmente junto das demais mudanças; commit, PR e deploy somente quando o conjunto estiver pronto e houver nova autorização.
+
+### Implementação local concluída nesta etapa
+
+- fallback curinga removido do Firebase Hosting;
+- 404 trilíngue, responsivo e com `noindex`;
+- `robots.txt` explícito e sitemap oficial com somente `/`, `/en` e `/es`;
+- canonical normalizado, `hreflang`, Open Graph e Twitter Cards validados nos três idiomas;
+- imagem social real da fachada gerada em 1200 × 630, reduzida de aproximadamente 525 KB para 60 KB;
+- `LocalBusiness` com dados públicos aprovados, sem proprietário, avaliações, clientes ou terceiros;
+- redirecionamento automático substituído por sugestão que depende da escolha da pessoa;
+- `noindex` nas rotas auxiliares e de manutenção;
+- tela de carregamento artificial retirada do caminho visual, eliminando o bloqueio mínimo de 900 ms;
+- títulos e descrições iniciais revisados em PT-BR, EN e ES.
+- transição visual da barra superior preservada; a biblioteca de rolagem foi substituída pela rolagem nativa do navegador, com os mesmos deslocamentos de navegação e respeito à preferência de movimento reduzido;
+- dependência `lenis` e o carregador oculto sem função removidos, reduzindo JavaScript e trabalho da página;
+- imagens do hero, serviços, mapa, diferenciais, rodapé e logotipos convertidas para variantes responsivas e otimizadas, com dimensões explícitas, carregamento prioritário apenas no hero e carregamento tardio no conteúdo fora da primeira tela;
+- imagens brutas de vários megabytes deixaram de ser entregues diretamente como fundos CSS;
+- animações mais custosas simplificadas ou desativadas no celular quando não acrescentavam informação;
+- estilos críticos incorporados ao HTML para retirar o bloqueio de renderização da folha principal nesta arquitetura de página única;
+- hierarquia de títulos, nomes acessíveis de links, estado da barra oculta, contato e tratamento de erro do formulário revisados;
+- formulário passou a expor o resumo de privacidade como descrição, estado de envio e foco no aviso de erro, sem alterar seu destino nem realizar novo envio real durante a auditoria.
+
+### Evidências de desempenho e experiência — 21/07/2026
+
+Auditoria Lighthouse mobile executada localmente com build de produção:
+
+| Indicador | Antes | Melhor execução após as alterações | Mediana local após as alterações |
+|---|---:|---:|---:|
+| Performance | 53 | 95 | 94 em PT, EN e ES |
+| Acessibilidade | 97 | 100 | 100 em PT, EN e ES |
+| Boas práticas | 100 | 100 | 100 em PT, EN e ES |
+| SEO técnico | 100 | 100 | 100 em PT, EN e ES |
+| LCP | 17,6 s | 2,7 s | 2,93 s PT; 2,93 s EN; 2,86 s ES |
+| FCP | — | 1,8 s | aproximadamente 1,8 s nos três idiomas |
+| CLS | — | 0,002 | inferior a 0,001 nas três medianas |
+| TBT | 830 ms | 50 ms | 45 ms PT; 100 ms EN; 31 ms ES |
+| Transferência inicial aproximada | 10,8 MiB | 580 KiB | aproximadamente 593 KiB |
+
+As medianas foram obtidas em três execuções por idioma usando servidor local simples, sem compressão de transporte. A melhor execução já atingiu 95, mas o gate de desempenho continuará aberto até a medição em preview ou produção confirmar Lighthouse mobile igual ou superior a 95 e LCP igual ou inferior a 2,5 s de forma representativa.
+
+Validações locais adicionais:
+
+- `/`, `/en` e `/es` respondem 200; `robots.txt`, `sitemap-index.xml` e `sitemap-0.xml` respondem 200;
+- `/contato` responde 301, `/qr` responde 302 e uma URL inexistente responde 404;
+- uma única H1, headings complementares, navegação por anchors e ausência de overflow horizontal foram verificadas nos três idiomas;
+- a barra superior mantém sua transição visual atual e passa a alternar corretamente seus estados acessíveis conforme aparece;
+- menu móvel abre, fecha e conduz à seção selecionada; navegação nativa mantém o conteúdo abaixo da barra;
+- contraste, nomes acessíveis e dimensões de imagens passaram nas auditorias automatizadas;
+- nenhuma publicação, commit ou envio de formulário foi realizado nesta etapa.
+
 ### Checklist
 
-- [ ] Auditar configuração do Firebase Hosting.
-- [ ] Corrigir fallback de SPA se estiver produzindo falsos status 200.
-- [ ] Implementar página 404 real e útil nos três idiomas.
-- [ ] Implementar `robots.txt` explícito.
-- [ ] Instalar a integração oficial e gerar `sitemap-index.xml` somente com URLs canônicas e indexáveis.
-- [ ] Validar `canonical`, idioma e alternates.
-- [ ] Criar registro explícito de rotas e traduções; nenhuma tradução inexistente gera `hreflang`.
-- [ ] Substituir o redirecionamento automático por sugestão de idioma.
-- [ ] Revisar códigos HTTP, redirects e cadeias de redirecionamento.
-- [ ] Bloquear indexação de ambientes, buscas internas e páginas sem valor.
-- [ ] Revisar títulos, descrições, headings e links rastreáveis.
-- [ ] Implementar metadados Open Graph e imagem social adequada.
-- [ ] Implementar dados estruturados institucionais válidos.
-- [ ] Padronizar nome, endereço e telefone em todas as presenças.
-- [ ] Converter e dimensionar imagens corretamente.
-- [ ] Remover atrasos artificiais e recursos que prejudiquem Core Web Vitals.
-- [ ] Testar mobile, teclado, leitor de tela e redução de movimento.
-- [ ] Rodar build, testes de links e auditoria Lighthouse.
+- [x] Auditar configuração do Firebase Hosting.
+- [x] Corrigir localmente o fallback que produzia falsos status 200.
+- [x] Implementar página 404 real e útil nos três idiomas.
+- [x] Implementar `robots.txt` explícito.
+- [x] Instalar a integração oficial e gerar `sitemap-index.xml` somente com URLs canônicas e indexáveis.
+- [x] Validar `canonical`, idioma e alternates nas três páginas principais.
+- [x] Manter registro explícito das três URLs indexáveis e traduções correspondentes.
+- [x] Substituir o redirecionamento automático por sugestão de idioma.
+- [x] Revisar localmente códigos HTTP e redirects; revalidação pública permanece para o deploy.
+- [x] Aplicar `noindex` ao 404, manutenção e fallbacks das rotas auxiliares.
+- [x] Revisar títulos, descrições, headings e links rastreáveis.
+- [x] Implementar metadados Open Graph, Twitter Cards e imagem social real otimizada.
+- [x] Implementar dados estruturados institucionais válidos.
+- [x] Padronizar localmente nome, endereço, telefone e e-mail público.
+- [x] Converter e dimensionar imagens corretamente.
+- [x] Remover o atraso visual artificial mínimo de 900 ms.
+- [x] Auditar os demais recursos que possam prejudicar Core Web Vitals.
+- [x] Testar mobile, teclado, semântica acessível e redução de movimento no ambiente local.
+- [x] Rodar checagem, build, validação de metadados, teste visual responsivo e teste local de códigos HTTP.
+- [x] Rodar auditoria Lighthouse e concluir testes locais de links e acessibilidade.
 - [ ] Validar produção após o deploy aprovado.
 
 ### Gate da Fase 1
 
-- [ ] URL inexistente retorna 404, não a página inicial.
-- [ ] `robots.txt` e `sitemap-index.xml` respondem corretamente.
-- [ ] Nenhum erro crítico de canonical ou `hreflang`.
+- [x] URL inexistente retorna 404, não a página inicial, no emulador local.
+- [x] `robots.txt` e `sitemap-index.xml` respondem corretamente no emulador local.
+- [x] Nenhum erro crítico de canonical ou `hreflang` no build local.
 - [ ] Lighthouse mobile igual ou superior a 95 nas páginas principais.
 - [ ] LCP e CLS dentro das metas em laboratório; INP será validado com dados de campo quando disponível.
-- [ ] Checklist básico de acessibilidade aprovado.
-- [ ] Build de produção aprovado.
+- [x] Checklist básico local de acessibilidade aprovado.
+- [x] Build de produção local aprovado.
 
 ### Registro de encerramento
 
 - **Data:** —
-- **Relatório técnico:** —
-- **Métricas antes/depois:** —
-- **Pendências:** —
-- **Decisão:** —
+- **Relatório técnico:** implementação local e auditorias concluídas em 21/07/2026; publicação não autorizada nesta etapa.
+- **Métricas antes/depois:** performance 53 → até 95; acessibilidade 97 → 100; transferência aproximada 10,8 MiB → 580 KiB; LCP 17,6 s → 2,7 s na melhor execução.
+- **Pendências:** preview/deploy autorizado, medição representativa na hospedagem publicada, validação HTTPS de `www`, teste final de produção e INP com dados de campo.
+- **Decisão:** manter a Fase 1 em andamento até que os critérios publicados e de desempenho sejam comprovados; não realizar deploy agora.
 
 ---
 
@@ -410,12 +498,14 @@ Modelo inicial aprovado, de baixo custo:
 1. manter o formulário como canal de entrega por e-mail durante uma fase curta;
 2. registrar manualmente os contatos em planilha privada e protegida, controlada pela empresa;
 3. manter dados pessoais somente na camada operacional;
-4. enviar ao Analytics apenas conversões agregadas e categorias predefinidas;
+4. quando o Analytics for futuramente aprovado, enviar somente conversões agregadas e categorias predefinidas;
 5. avaliar backend próprio no GCP ou CRM somente quando volume, risco ou operação justificarem.
 
-Gilson Souza será o responsável comercial. A operação inicial da planilha ficará com o titular de `flavio@safrasnegocios.com.br`; o nome civil desse responsável ainda deve ser registrado.
+Gilson Souza será o responsável comercial inicial. A planilha poderá ser acessada por pessoas autorizadas dos setores de cadastro e comercial, sempre por contas individuais, com autenticação em duas etapas e privilégio mínimo. Os nomes e responsabilidades serão registrados quando a planilha for criada.
 
-O destinatário operacional informado para o formulário é `flavio@safrasnegocios.com.br`, e há uma chave pública do Web3Forms configurada no projeto. Entretanto, não há conta administrativa confirmada. Antes de ampliar o tráfego, será necessário recuperar ou criar a conta, documentar proprietário e responsável reserva, restringir o domínio, realizar um envio controlado e definir rotação da chave. O Web3Forms declara que pode reter submissões por até três anos e processá-las em infraestrutura internacional; o plano gratuito aceita até 250 submissões mensais e mostra 30 dias de histórico no painel. DPA, transferência internacional, exclusão e continuidade continuam pendentes antes de tratá-lo como solução permanente.
+Os registros serão excluídos ou anonimizados 12 meses após a última interação, salvo negociação ativa ou obrigação legal aplicável.
+
+O destinatário operacional do formulário é `flavio@safrasnegocios.com.br`. A conta, a chave e o destino do Web3Forms foram confirmados, e o usuário validou um envio real. A restrição por domínio é um recurso pago e não será contratada nesta etapa. Retenção do fornecedor, transferência internacional, exclusão e continuidade continuarão sendo avaliadas antes de tratá-lo como solução permanente.
 
 #### Separação obrigatória
 
@@ -1028,6 +1118,26 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 | 20/07/2026 | 4 | Usar URLs sem barra final | Convenção já adotada pelo Astro e Firebase | Técnico | Permanente |
 | 20/07/2026 | 6 | PT-BR primeiro; EN/ES somente com revisão | Preserva qualidade e alternates corretos | Editorial | Por lote |
 | 20/07/2026 | Geral | Não contratar mensalidade sem aprovação específica | Custo deve ter benefício demonstrável | Proprietário | Antes de contratar |
+| 21/07/2026 | 0 | Separar o e-mail público `atendimento@` do destinatário interno `flavio@` | Preserva clareza comercial e evita expor o canal operacional do formulário | Gilson Souza | Quando houver mudança oficial |
+| 21/07/2026 | 0 | Aprovar o pacote de contatos, campos do formulário, mensagem de sucesso textual e canais alternativos | Reduz atrito, melhora organização dos leads e evita perda de contato em caso de falha | Gilson Souza | Após validação em produção |
+| 21/07/2026 | 0 | Adotar publicamente “Desde 2015” | Evita confundir a idade da empresa com a experiência pessoal de Gilson | Gilson Souza | Permanente |
+| 21/07/2026 | 0 | Não contratar o plano pago do Web3Forms apenas para restrição de domínio nesta etapa | O recurso é pago e qualquer mensalidade exige aprovação específica | Gilson Souza | Se spam ou volume justificarem |
+| 21/07/2026 | 0 | Adiar a apresentação nominal do proprietário e dos funcionários para uma futura página de equipe | A estrutura e o conteúdo dessa apresentação ainda serão planejados | Empresa | Ao planejar a página de equipe |
+| 21/07/2026 | 0 | Aprovar diferenciais verificáveis sem citar o proprietário | Mantém a comunicação factual e compatível com a etapa atual do site | Empresa | Ao revisar conteúdo institucional |
+| 21/07/2026 | 0 | Publicar depoimentos futuros somente com autorização registrada | Protege a integridade, a imagem e o direito de retirada | Empresa | Antes de cada publicação |
+| 21/07/2026 | 0 | Não apresentar nomes, logotipos, contratos ou negociações de clientes e entidades sem autorização específica | Preserva confidencialidade e evita uso indevido de marca | Empresa | Permanente |
+| 21/07/2026 | 0 | Reter leads por 12 meses após a última interação | Equilibra continuidade comercial e minimização de dados | Cadastro e Comercial | Ao implementar a planilha |
+| 21/07/2026 | 0 | Permitir acesso à planilha para pessoas autorizadas dos setores de cadastro e comercial | O processo envolve mais de uma função operacional | Empresa | Ao nomear usuários e responsabilidades |
+| 21/07/2026 | 0 | Adotar meta interna de resposta em até um dia útil, sem promessa pública nesta etapa | Cria padrão operacional sem publicar compromisso ainda não medido | Comercial | Após medir o atendimento |
+| 21/07/2026 | 0 | Fixar o teto atual em R$ 0 de novas mensalidades | Prioriza recursos existentes e exige aprovação para qualquer exceção | Empresa | Antes de contratar recurso pago |
+| 21/07/2026 | 2 | Adiar Google Analytics até a finalização do site e da privacidade | A mensuração deve entrar com governança e transparência adequadas | Empresa | Após finalizar o site |
+| 21/07/2026 | 0 | Manter Search Console e Google Business Profile pendentes até localizar os acessos administrativos | Ainda não foi identificado quem controla essas propriedades | Empresa | Assim que os acessos forem localizados |
+| 21/07/2026 | Geral | Aprovar as práticas permitidas e proibidas do plano de SEO | Impede atalhos que prejudiquem reputação, qualidade ou indexação | Empresa | Permanente |
+| 21/07/2026 | 1 | Aprovar as especificações técnicas da Fase 1 | Define antecipadamente domínio canônico, idiomas, 404, metadados, imagem social, dados estruturados, sitemap, robots e regra de publicação | Empresa | Durante a implementação e no gate da Fase 1 |
+| 21/07/2026 | 0 | Aprovar a Fase 0 com pendências externas formalmente aceitas | Dados, responsáveis, orçamento e riscos foram tratados; os acessos pendentes possuem plano e não impedem o trabalho local | Empresa | Ao recuperar cada acesso |
+| 21/07/2026 | 1 | Iniciar a Fase 1 somente no ambiente local | Permite corrigir e validar a base técnica antes de qualquer nova publicação | Empresa | Antes de commit, PR ou deploy |
+| 21/07/2026 | 1 | Usar a foto real da fachada como imagem social inicial otimizada | Há um ativo verdadeiro e coerente com a entidade, sem criar imagem ou alegação artificial | Empresa / Técnico | Quando houver nova imagem institucional aprovada |
+| 21/07/2026 | 1 | Remover a tela de carregamento artificial do caminho visual | O bloqueio mínimo de 900 ms atrasava a percepção de carregamento e podia prejudicar métricas | Técnico | No gate da Fase 1 |
 
 ## 13. Histórico de execução
 
@@ -1040,6 +1150,13 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 | 20/07/2026 | 0 | Novas confirmações empresariais registradas | WhatsApp, publicação de dados legais, responsáveis, GCP/Firebase, Web3Forms e planilha documentados | Resolver acessos e privacidade restantes |
 | 20/07/2026 | H0 | Depoimentos fictícios removidos localmente nos três idiomas | Dados, markup, JS, CSS, anchors e referências enganosas removidos; contatos oficiais alinhados | Validar e publicar por PR autorizado |
 | 20/07/2026 | H0 | Validação local concluída | `pnpm check` com 0 erros; build de 6 rotas; PT/EN/ES aprovados em mobile e desktop sem erro de runtime; diretiva TypeScript obsoleta removida | Solicitar autorização específica para commit, PR e deploy |
+| 21/07/2026 | 0 | Governança do formulário confirmada | Destino alterado para `flavio@safrasnegocios.com.br` e recebimento real validado pelo usuário | Manter chave sob controle e acompanhar spam |
+| 21/07/2026 | 0 | Pacote de contato e formulário aprovado para implementação | Quinze decisões comerciais e de apresentação aprovadas em conjunto | Validar código, build e apresentação antes de publicar |
+| 21/07/2026 | 1 | Especificações da recuperação técnica registradas | Dez decisões aprovadas e documentadas sem iniciar a execução nem alterar o site | Encerrar ou aceitar formalmente as pendências da Fase 0 antes de iniciar a Fase 1 |
+| 21/07/2026 | 0 | Gate de governança encerrado | Fase 0 aprovada com dados, responsáveis, teto de gastos, controles e pendências externas aceitas | Iniciar a Fase 1 localmente |
+| 21/07/2026 | 1 | Auditoria local, pública e do GCP/Firebase concluída | Falso 200, ausência real de robots/sitemap, metadados incompletos, fluxo de deploy e estado da produção documentados | Implementar a base técnica |
+| 21/07/2026 | 1 | Base técnica de recuperação implementada localmente | 404, robots, sitemap, canonical, hreflang, sugestão de idioma, metadados sociais, LocalBusiness, noindex e imagem social concluídos | Validar build, HTTP e experiência |
+| 21/07/2026 | 1 | Validação técnica e visual local concluída | 0 erros; 7 rotas; sitemap com 3 URLs; URL inexistente 404; redirects 301/302; 404 e sugestão testados em desktop/mobile e em três idiomas | Auditar Lighthouse, acessibilidade e demais recursos |
 
 ### Modelo para novas entradas
 
@@ -1077,19 +1194,19 @@ Preencher ao final de cada fase:
 - **Responsáveis pela decisão:**
 - **Data da próxima revisão:**
 
-## 15. Próximas ações da Fase 0
+## 15. Próximas ações da Fase 1
 
-A H0 está concluída e validada localmente. Commit, PR, deploy e alteração da produção não foram realizados e exigem autorização específica.
+A base técnica foi implementada e validada localmente. As mudanças permanecem sem commit, PR ou deploy e serão acumuladas com os demais ajustes do site até nova autorização específica.
 
-1. autorizar, quando desejado, o commit e a abertura de PR da H0; depois do deploy, verificar a produção e encerrar o gate H0;
-2. confirmar acesso ao domínio/DNS e ao Google Search Console;
-3. recuperar ou confirmar acesso administrativo ao Google Business Profile;
-4. recuperar ou criar uma conta Web3Forms administrável, documentar a chave e realizar envio controlado;
-5. definir o e-mail público definitivo;
-6. definir aviso de privacidade, retenção, exclusão e responsáveis;
-7. criar a planilha privada aprovada com controles de acesso e registrar nominalmente seu responsável;
-8. definir teto financeiro e aprovar as regras operacionais restantes;
-9. preencher o gate antes de iniciar a Fase 1.
+1. executar Lighthouse local em PT-BR, EN e ES, priorizando mobile;
+2. revisar LCP, CLS, scripts, imagens e recursos ainda pesados;
+3. concluir testes de teclado, foco, leitor de tela e redução de movimento;
+4. revisar headings, links internos, contraste e textos alternativos de toda a home;
+5. revalidar o domínio `www`, o certificado e todos os códigos HTTP antes do gate;
+6. manter Search Console e Google Business Profile como pendências acompanhadas, sem bloquear os testes locais;
+7. continuar os ajustes institucionais e do formulário já aprovados;
+8. criar futuramente a página completa de privacidade antes de instalar o Google Analytics;
+9. não realizar commit, PR ou deploy até o conjunto estar revisado e houver autorização específica.
 
 ## 16. Referências oficiais
 
