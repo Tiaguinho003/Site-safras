@@ -8,6 +8,11 @@
 import { Image } from "astro:assets";
 import logo from "../assets/branding/safras-logotipo.svg";
 import "@fontsource-variable/inter";
+
+const publicEmail = "atendimento@safrasnegocios.com.br";
+const whatsappHref = `https://wa.me/553535314046?text=${encodeURIComponent(
+  "Olá! Encontrei a Safras & Negócios pelo site e gostaria de mais informações.",
+)}`;
 ---
 
 <!doctype html>
@@ -40,7 +45,7 @@ import "@fontsource-variable/inter";
         <div class="contact">
           <a
             class="cta-whatsapp"
-            href="https://wa.me/553535314046"
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -57,8 +62,8 @@ import "@fontsource-variable/inter";
             </svg>
             <span>(35) 3531-4046</span>
           </a>
-          <a href="mailto:flavio@safrasnegocios.com.br" class="email">
-            flavio@safrasnegocios.com.br
+          <a href={`mailto:${publicEmail}`} class="email">
+            {publicEmail}
           </a>
         </div>
       </div>

@@ -13,7 +13,7 @@
  * Strings vêm do dicionário (src/i18n/*.ts) via useTranslation().
  * Anchors/IDs de seção vêm de anchors.ts (servicos→services/servicios, etc.).
  */
-import { Image } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContactSection from "../sections/ContactSection.astro";
 import { useTranslation, getAnchor } from "../../i18n";
@@ -26,6 +26,45 @@ import mercadoNegociacaoImg from "../../assets/services/mercado-negociacao.png";
 import suporteLogisticoImg from "../../assets/services/suporte-logistico.png";
 
 const { t, tArray, locale } = useTranslation(Astro);
+const baseUrl = Astro.site ?? new URL("https://safrasenegocios.com.br");
+const socialImage = await getImage({
+  src: fachadaSafras,
+  width: 1200,
+  height: 630,
+  fit: "cover",
+  position: "center",
+  format: "jpg",
+  quality: 85,
+});
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Safras & Negócios",
+  url: new URL(locale === "pt-br" ? "/" : `/${locale}`, baseUrl).href,
+  image: new URL(socialImage.src, baseUrl).href,
+  email: "atendimento@safrasnegocios.com.br",
+  telephone: "+55 35 3531-4046",
+  foundingDate: "2015-10-19",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Av. Oliveira Rezende, 1397 — Jardim Bernadete",
+    addressLocality: "São Sebastião do Paraíso",
+    addressRegion: "MG",
+    addressCountry: "BR",
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [
+      "https://schema.org/Monday",
+      "https://schema.org/Tuesday",
+      "https://schema.org/Wednesday",
+      "https://schema.org/Thursday",
+      "https://schema.org/Friday",
+    ],
+    opens: "08:00",
+    closes: "18:00",
+  },
+};
 
 // IDs de seção localizados (#servicos em PT, #services em EN, #servicios em ES)
 const heroId = getAnchor("hero", locale);
@@ -44,7 +83,7 @@ const statsCards = [
   },
   {
     type: "counter" as const,
-    target: 10,
+    target: 2015,
     position: "bottom" as const,
     dictPath: "about.stats.years",
   },
@@ -158,7 +197,15 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 });
 ---
 
-<BaseLayout title={t("meta.siteTitle")} description={t("meta.siteDescription")}>
+<BaseLayout
+  title={t("meta.siteTitle")}
+  description={t("meta.siteDescription")}
+  socialImage={socialImage.src}
+  socialImageAlt={t("meta.socialImageAlt")}
+  socialImageWidth={1200}
+  socialImageHeight={630}
+  structuredData={localBusinessSchema}
+>
   <section
     id={heroId}
     class="relative min-h-[97svh] flex flex-col items-center overflow-hidden"
@@ -168,10 +215,12 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
       <Image
         src={fachadaSafras}
         alt=""
-        widths={[1200, 1600, 2000]}
+        widths={[640, 828, 1200, 1600, 2000]}
         sizes="100vw"
         class="w-full h-full object-cover opacity-90 object-[72%_center] md:object-center"
         loading="eager"
+        fetchpriority="high"
+        quality={75}
       />
       <div class="absolute inset-0 bg-black/28"></div>
       <div
@@ -199,7 +248,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
         <span class="block">
           <span
             class="word-rotator uppercase font-extralight text-5xl sm:text-6xl md:text-6xl lg:text-[80px] xl:text-[150px] 2xl:text-[120px]"
-            aria-live="polite"
+            aria-live="off"
           >
             {rotatingWords.map((word, idx) => (
               <span
@@ -212,10 +261,10 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
             ))}
           </span>
         </span>
-        <span
-          class="block text-[#b08968] font-normal text-3xl sm:text-4xl md:text-4xl lg:text-[48px] xl:text-[64px] 2xl:text-[80px]"
-        >
-          {t("hero.suffix")}
+        <span class="block font-normal text-3xl sm:text-4xl md:text-4xl lg:text-[48px] xl:text-[64px] 2xl:text-[80px]">
+          <span class="inline-block text-[#f0c89b]">
+            {t("hero.suffix")}
+          </span>
         </span>
       </h1>
     </div>
@@ -366,11 +415,13 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
               <Image
                 src={service.image}
                 alt={imageAlt}
-                widths={[600, 900, 1200]}
+                widths={[400, 640, 768, 960]}
                 sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
                 class="absolute inset-0 w-full h-full object-cover"
                 style={`object-position: ${service.imagePosition};`}
                 loading="lazy"
+                fetchpriority="low"
+                quality={62}
               />
 
               {/* Light overlay (visível em compacto, some quando focado/hover) */}
@@ -456,16 +507,8 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
               <div
                 class="hidden md:flex absolute inset-y-0 right-0 w-[200px] p-5 md:p-6 items-center pointer-events-none"
               >
-                <p class="text-paper/95 text-[14px] leading-[1.5] font-normal tracking-[0.005em]">
-                  {description.split(" ").flatMap((word, i) => [
-                    <span
-                      class="inline-block opacity-0 translate-y-1 blur-[2px] group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:blur-none group-data-[active=true]:transition-[opacity,transform,filter] group-data-[active=true]:duration-[550ms] group-data-[active=true]:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:[transition-delay:var(--word-delay)]"
-                      style={`--word-delay: ${900 + i * 32}ms;`}
-                    >
-                      {word}
-                    </span>,
-                    " ",
-                  ])}
+                <p class="text-paper/95 text-[14px] leading-[1.5] font-normal tracking-[0.005em] opacity-0 translate-y-1 group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:transition-[opacity,transform] group-data-[active=true]:duration-500 group-data-[active=true]:delay-700">
+                  {description}
                 </p>
               </div>
             </article>
@@ -576,8 +619,20 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
           return (
             <div
               class={`relative overflow-hidden ${isCity ? "min-h-[280px]" : "min-h-[140px]"} md:min-h-[420px] lg:min-h-[500px] shadow-[0_30px_60px_-30px_rgba(20,19,17,0.2)] ${isCity ? "stats-card" : "bg-brand"}`}
-              style={`${isCity ? `background-image: url(${saoSebastiaoParaiso.src});` : ""}${clip ? ` clip-path: ${clip};` : ""}`}
+              style={clip ? `clip-path: ${clip};` : undefined}
             >
+              {isCity && (
+                <Image
+                  src={saoSebastiaoParaiso}
+                  alt=""
+                  widths={[480, 768, 1024]}
+                  sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
+                  class="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
+                  fetchpriority="low"
+                  quality={60}
+                />
+              )}
               {isCity && <div aria-hidden="true" class="absolute inset-0 bg-ink/55" />}
               <div
                 class={`relative h-full flex flex-col ${isCity ? "p-8" : "p-6"} md:p-10 lg:p-12 text-paper ${stat.position === "top" ? "justify-start" : "justify-end"} ${!isCity ? "items-end md:items-stretch" : ""}`}
@@ -607,7 +662,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                   <div data-reveal="counter-group" class="counter-group text-right md:text-left">
                     <div class="flex items-start justify-end md:justify-start leading-none tracking-[-0.04em] font-normal text-[44px] sm:text-[52px] md:text-[80px] lg:text-[112px]">
                       {counterSuffix && <span class="mr-1">{counterSuffix}</span>}
-                      <span data-counter data-target={stat.target} data-duration="2200">0</span>
+          <span>{stat.target}</span>
                     </div>
                     <p class="mt-1.5 md:mt-6 text-[10px] md:text-sm font-medium tracking-[0.02em] text-paper/90 uppercase">
                       {statLabel}
@@ -708,8 +763,17 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
               data-active="false"
               aria-label={dTitle}
               class="group stats-card relative overflow-hidden border border-paper/20 cursor-pointer min-h-[360px] md:min-h-[380px] lg:min-h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
-              style={`background-image: url(${lavouraCafeAerea.src}); background-position: center;`}
             >
+              <Image
+                src={lavouraCafeAerea}
+                alt=""
+                widths={[480, 768, 1200]}
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+                class="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                fetchpriority="low"
+                quality={58}
+              />
               <div
                 data-reveal="icon-box"
                 style={`transition-delay: ${200 + idx * 140}ms;`}
@@ -791,60 +855,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
     });
   </script>
 
-  <script>
-    const counters = document.querySelectorAll<HTMLElement>("[data-counter]");
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    // Locale do BCP47 derivado do <html lang> — usado pro Intl.NumberFormat
-    const formatNum = (n: number) => {
-      const lang = document.documentElement.lang || "pt-BR";
-      return n.toLocaleString(lang);
-    };
-
-    if (prefersReducedMotion) {
-      counters.forEach((el) => {
-        const target = parseInt(el.dataset.target ?? "0", 10);
-        el.textContent = formatNum(target);
-      });
-    } else {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const el = entry.target as HTMLElement;
-            const target = parseInt(el.dataset.target ?? "0", 10);
-            const duration = parseInt(el.dataset.duration ?? "1800", 10);
-            const start = performance.now();
-
-            const tick = (now: number) => {
-              const elapsed = now - start;
-              const progress = Math.min(elapsed / duration, 1);
-              const eased = 1 - Math.pow(1 - progress, 4);
-              const current = Math.floor(eased * target);
-              el.textContent = formatNum(current);
-              if (progress < 1) requestAnimationFrame(tick);
-            };
-
-            requestAnimationFrame(tick);
-            observer.unobserve(el);
-          });
-        },
-        { threshold: 0.3 }
-      );
-
-      counters.forEach((el) => observer.observe(el));
-    }
-  </script>
-
   <style>
-    #hero-titulo {
-      text-shadow:
-        0 2px 6px rgba(0, 0, 0, 0.45),
-        0 6px 20px rgba(0, 0, 0, 0.3);
-    }
-
     .word-rotator {
       display: inline-grid;
       grid-template-areas: "stack";
@@ -902,17 +913,6 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
     .fade-in-up.is-revealed {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    .stats-card {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    @media (min-width: 768px) {
-      .stats-card {
-        background-attachment: fixed;
-      }
     }
 
     .city-line {
@@ -1005,6 +1005,14 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
       .coffee-bean-float,
       .coffee-bean-tilt {
         animation: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .coffee-bean-float,
+      .coffee-bean-tilt {
+        animation: none;
+        will-change: auto;
       }
     }
 
@@ -1282,12 +1290,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
     };
 
     // Listener de mudança de viewport (rotação, resize, devtools)
-    if (mql.addEventListener) {
-      mql.addEventListener("change", apply);
-    } else {
-      // Fallback Safari < 14
-      mql.addListener(apply);
-    }
+    mql.addEventListener("change", apply);
     apply();
   </script>
 </BaseLayout>

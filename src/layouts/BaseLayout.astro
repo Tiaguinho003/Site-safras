@@ -14,6 +14,14 @@ import {
 interface Props {
   title: string;
   description?: string;
+  socialImage?: string;
+  socialImageAlt?: string;
+  socialImageWidth?: number;
+  socialImageHeight?: number;
+  canonical?: boolean;
+  alternates?: boolean;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown>;
 }
 
 const locale = getCurrentLocale(Astro);
@@ -22,200 +30,172 @@ const bcp47 = LOCALE_LABELS[locale].bcp47;
 const {
   title,
   description = t("meta.siteDescription", locale),
+  socialImage,
+  socialImageAlt = t("meta.socialImageAlt", locale),
+  socialImageWidth,
+  socialImageHeight,
+  canonical = true,
+  alternates = true,
+  noindex = false,
+  structuredData,
 } = Astro.props;
 
 // SEO multi-idioma: hreflang alternates pra cada locale + x-default.
 // Astro.site é a URL base (https://safrasenegocios.com.br).
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const baseUrl = Astro.site ?? new URL("https://safrasenegocios.com.br");
+const siteUrl = baseUrl.toString().replace(/\/$/, "");
 const currentPath = Astro.url.pathname;
+const canonicalHref = new URL(currentPath, baseUrl).href;
+const socialImageHref = socialImage
+  ? new URL(socialImage, baseUrl).href
+  : undefined;
 const hreflangs = LOCALES.map((l) => ({
   hreflang: LOCALE_LABELS[l].bcp47,
   href: siteUrl + localizeURL(currentPath, l),
 }));
 const xDefaultHref = siteUrl + localizeURL(currentPath, DEFAULT_LOCALE);
+const languageOptions = LOCALES.map((targetLocale) => ({
+  locale: targetLocale,
+  browserBase: targetLocale === "pt-br" ? "pt" : targetLocale,
+  href: localizeURL(currentPath, targetLocale),
+  prompt: t("languageSuggestion.prompt", targetLocale),
+  accept: t("languageSuggestion.accept", targetLocale),
+  dismiss: t("languageSuggestion.dismiss", targetLocale),
+}));
 ---
 
 <!doctype html>
-<html lang={bcp47} class="is-loading">
+<html lang={bcp47}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#025c00" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="canonical" href={Astro.url.href} />
+    {canonical && <link rel="canonical" href={canonicalHref} />}
     {/* hreflang alternates pra SEO multi-idioma */}
-    {hreflangs.map((alt) => (
+    {alternates && hreflangs.map((alt) => (
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+    {alternates && <link rel="alternate" hreflang="x-default" href={xDefaultHref} />}
 
-    {/* Auto-detect de idioma na primeira visita — script inline ANTES do body
-        pra redirect ser invisível (sem flash de conteúdo). Respeita cookie
-        de escolha manual; sem cookie, lê navigator.languages e mapeia pra
-        en/es se houver match. */}
-    <script is:inline>
+    <title>{title}</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Safras & Negócios" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:locale" content={bcp47.replace("-", "_")} />
+    {LOCALES.filter((item) => item !== locale).map((item) => (
+      <meta
+        property="og:locale:alternate"
+        content={LOCALE_LABELS[item].bcp47.replace("-", "_")}
+      />
+    ))}
+    {socialImageHref && <meta property="og:image" content={socialImageHref} />}
+    {socialImageHref && <meta property="og:image:alt" content={socialImageAlt} />}
+    {socialImageHref && socialImageWidth && (
+      <meta property="og:image:width" content={String(socialImageWidth)} />
+    )}
+    {socialImageHref && socialImageHeight && (
+      <meta property="og:image:height" content={String(socialImageHeight)} />
+    )}
+    <meta
+      name="twitter:card"
+      content={socialImageHref ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImageHref && <meta name="twitter:image" content={socialImageHref} />}
+    {socialImageHref && <meta name="twitter:image:alt" content={socialImageAlt} />}
+    {structuredData && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData)}
+      />
+    )}
+
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <aside
+      id="language-suggestion"
+      class="fixed inset-x-4 top-4 z-[80] mx-auto max-w-2xl rounded-2xl border border-line bg-paper/95 p-4 shadow-xl backdrop-blur-md md:flex md:items-center md:gap-5 md:px-5"
+      role="status"
+      aria-live="polite"
+      hidden
+    >
+      <p
+        class="flex-1 text-sm font-medium text-ink"
+        data-language-suggestion-prompt
+      ></p>
+      <div class="mt-3 flex flex-wrap items-center gap-2 md:mt-0">
+        <a
+          class="inline-flex min-h-11 items-center justify-center rounded-full bg-brand px-4 py-2 text-sm font-semibold text-paper transition-colors hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          data-language-suggestion-accept
+        ></a>
+        <button
+          type="button"
+          class="inline-flex min-h-11 items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-paper-alt hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          data-language-suggestion-dismiss
+        ></button>
+      </div>
+    </aside>
+
+    <script is:inline define:vars={{ locale, languageOptions }}>
       (function () {
         try {
-          // 1) Cookie manual sempre vence
-          var hasCookie = /(?:^|;\s*)safras_locale=/.test(document.cookie);
-          if (hasCookie) return;
+          if (/(?:^|;\s*)safras_locale=/.test(document.cookie)) return;
+          if (sessionStorage.getItem("safras_language_suggestion_dismissed")) return;
 
-          // 2) Browser locale → en ou es?
-          var langs = navigator.languages && navigator.languages.length
-            ? navigator.languages
-            : [navigator.language || "pt-BR"];
+          var languages =
+            navigator.languages && navigator.languages.length
+              ? navigator.languages
+              : [navigator.language || "pt-BR"];
+          var target = null;
 
-          var matched = null;
-          for (var i = 0; i < langs.length; i++) {
-            var base = (langs[i] || "").toLowerCase().split("-")[0];
-            if (base === "en" || base === "es") {
-              matched = base;
+          for (var i = 0; i < languages.length; i++) {
+            var base = (languages[i] || "").toLowerCase().split("-")[0];
+            var candidate = languageOptions.find(function (option) {
+              return option.browserBase === base;
+            });
+            if (candidate) {
+              target = candidate;
               break;
             }
-            if (base === "pt") {
-              // pt-* → fica em PT-BR (default), sem redirect
-              return;
-            }
-          }
-          if (!matched) return;
-
-          // 3) Já está em /en/ ou /es/? Sem redirect (evita loop)
-          var path = window.location.pathname;
-          if (
-            path === "/" + matched ||
-            path.indexOf("/" + matched + "/") === 0
-          ) {
-            return;
-          }
-          if (path.indexOf("/en") === 0 || path.indexOf("/es") === 0) {
-            return; // já em outro non-default — respeita
           }
 
-          // 4) Redirect — preserva hash. replace() pra não poluir histórico.
-          // SEM trailing slash (astro.config trailingSlash:"never" → /en/ dá 404)
-          var targetPath = path === "/" ? "/" + matched : "/" + matched + path;
-          window.location.replace(targetPath + window.location.hash);
-        } catch (e) {
-          // Se algo falhar, fica em PT-BR (default). Failsafe.
+          if (!target || target.locale === locale) return;
+
+          var banner = document.getElementById("language-suggestion");
+          if (!banner) return;
+          var prompt = banner.querySelector("[data-language-suggestion-prompt]");
+          var accept = banner.querySelector("[data-language-suggestion-accept]");
+          var dismiss = banner.querySelector("[data-language-suggestion-dismiss]");
+          if (!prompt || !accept || !dismiss) return;
+
+          prompt.textContent = target.prompt;
+          accept.textContent = target.accept;
+          accept.setAttribute("href", target.href + window.location.hash);
+          dismiss.textContent = target.dismiss;
+          banner.hidden = false;
+
+          accept.addEventListener("click", function () {
+            document.cookie =
+              "safras_locale=" +
+              encodeURIComponent(target.locale) +
+              "; path=/; max-age=31536000; SameSite=Lax";
+          });
+          dismiss.addEventListener("click", function () {
+            sessionStorage.setItem("safras_language_suggestion_dismissed", "1");
+            banner.hidden = true;
+          });
+        } catch (error) {
+          // A sugestão é progressiva; qualquer falha mantém a URL solicitada.
         }
       })();
     </script>
-
-    <title>{title}</title>
-
-    {/* Loader inline — paint instantâneo, sem round-trip nem dependência externa */}
-    <style>
-      html.is-loading,
-      html.is-loading body {
-        overflow: hidden;
-      }
-      .site-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        background-color: #ffffff; /* fallback p/ browsers sem backdrop-filter */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        will-change: opacity; /* hint pro browser manter em layer GPU dedicada */
-        transition:
-          opacity 450ms cubic-bezier(0.4, 0, 0.2, 1),
-          visibility 0s linear 450ms;
-      }
-      /* Frost glass — single filter (blur só) pra minimizar custo no GPU.
-         Saturate/brightness multiplicariam passes — fora durante o load crítico. */
-      @supports (
-        (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
-      ) {
-        .site-loader {
-          background-color: rgba(255, 255, 255, 0.55);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-        }
-      }
-      html.is-loaded .site-loader {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      .site-loader__logo {
-        width: 96px;
-        height: 96px;
-        color: #1f6b3a;
-        opacity: 0;
-        /* translateZ força layer GPU própria — isola o logo do repaint do backdrop-filter */
-        transform: translateZ(0) scale(0.94);
-        will-change: transform, opacity;
-        animation:
-          loader-in 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-          loader-pulse 2.4s ease-in-out 600ms infinite;
-      }
-      @keyframes loader-in {
-        to {
-          opacity: 1;
-          transform: translateZ(0) scale(1);
-        }
-      }
-      @keyframes loader-pulse {
-        0%,
-        100% {
-          transform: translateZ(0) scale(1);
-        }
-        50% {
-          transform: translateZ(0) scale(1.04);
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .site-loader {
-          background-color: #ffffff;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          transition:
-            opacity 200ms linear,
-            visibility 0s linear 200ms;
-        }
-        .site-loader__logo {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-      }
-    </style>
-  </head>
-  <body class="flex flex-col min-h-screen">
-    {/* Loader — primeira coisa do body, cobre tudo até as fontes/hero estarem prontos */}
-    <div
-      class="site-loader"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-      aria-label={t("loader.ariaLabel", locale)}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 224 224"
-        fill="currentColor"
-        aria-hidden="true"
-        class="site-loader__logo"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M 97.500 15.896 C 75.705 21.340, 59.598 36.259, 52.416 57.655 C 46.329 75.787, 49.400 95.958, 60.656 111.790 C 62.495 114.377, 64 116.813, 64 117.203 C 64 117.593, 60.737 118.045, 56.750 118.206 L 49.500 118.500 49.787 123 C 50.287 130.835, 52.085 137.250, 56.215 145.923 C 63.803 161.863, 81.390 175.812, 98.025 179.085 L 104 180.260 104 194.630 C 104 202.534, 104.338 209.047, 104.750 209.105 C 107.890 209.545, 118.241 209.469, 118.998 209.001 C 119.517 208.681, 120.067 202.169, 120.220 194.531 L 120.500 180.644 127.797 178.852 C 149.805 173.446, 167.904 155.496, 173.485 133.540 C 175.269 126.521, 175.464 112.293, 173.879 104.799 C 172.416 97.885, 167.947 88.058, 163.526 82.036 C 161.587 79.394, 160 76.955, 160 76.616 C 160 76.277, 163.600 76, 168 76 C 175.635 76, 175.999 75.897, 175.983 73.750 C 175.939 68.112, 172.674 56.763, 168.862 49 C 156.161 23.132, 125.490 8.904, 97.500 15.896 M 101.698 31.096 C 89.701 33.919, 76.750 44.238, 70.661 55.826 C 61.477 73.303, 64.656 93.830, 78.722 107.872 C 84.492 113.633, 94.384 119.380, 100.608 120.589 C 103.273 121.107, 103.806 120.858, 104.344 118.847 C 104.690 117.556, 104.979 102.888, 104.986 86.250 L 105 56 111.542 56 C 126.977 56, 142.857 61.772, 153.487 71.246 L 159.269 76.400 158.838 70.432 C 157.589 53.171, 140.630 34.969, 122.201 31.110 C 116.048 29.821, 107.139 29.815, 101.698 31.096 M 120.643 84.144 C 120.278 90.390, 119.994 110.961, 120.013 129.857 L 120.046 164.214 123.773 163.516 C 133.905 161.620, 147.955 151.011, 153.270 141.244 C 160.808 127.396, 160.787 109.668, 153.217 95.601 C 147.712 85.372, 134.224 74.884, 124.555 73.315 L 121.306 72.788 120.643 84.144 M 65.626 119.797 C 64.420 121.747, 67.121 132.825, 70.449 139.575 C 76.109 151.057, 88.960 161.247, 100.750 163.601 L 104 164.250 104 151.734 L 104 139.217 97.048 137.647 C 87.540 135.500, 78.718 130.827, 71.907 124.329 C 68.764 121.332, 65.937 119.292, 65.626 119.797"
-        />
-      </svg>
-    </div>
-    <noscript>
-      <style>
-        .site-loader {
-          display: none !important;
-        }
-        html.is-loading,
-        html.is-loading body {
-          overflow: visible !important;
-        }
-      </style>
-    </noscript>
 
     <a
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-brand focus:text-paper focus:px-4 focus:py-2 focus:rounded-md focus:font-medium"
@@ -232,87 +212,29 @@ const xDefaultHref = siteUrl + localizeURL(currentPath, DEFAULT_LOCALE);
 
     <Footer />
 
-    {/* Controller do loader — espera fonts.ready + hero image, segura por mín. 900ms,
-        falha-segura aos 3000ms se algo travar. */}
     <script>
-      const MIN_DURATION = 900;
-      const MAX_DURATION = 3000;
-      const startTime = performance.now();
-
-      const finishLoader = () => {
-        const elapsed = performance.now() - startTime;
-        const remaining = Math.max(0, MIN_DURATION - elapsed);
-        window.setTimeout(() => {
-          document.documentElement.classList.remove("is-loading");
-          document.documentElement.classList.add("is-loaded");
-        }, remaining);
-      };
-
-      const failsafe = window.setTimeout(finishLoader, MAX_DURATION);
-
-      const heroImageReady = () =>
-        new Promise<void>((resolve) => {
-          const heroImg = document.querySelector<HTMLImageElement>("#hero img");
-          if (!heroImg || heroImg.complete) return resolve();
-          heroImg.addEventListener("load", () => resolve(), { once: true });
-          heroImg.addEventListener("error", () => resolve(), { once: true });
-        });
-
-      Promise.all([document.fonts.ready, heroImageReady()]).then(() => {
-        window.clearTimeout(failsafe);
-        finishLoader();
-      });
-    </script>
-
-    <script>
-      import Lenis from "lenis";
-      import "lenis/dist/lenis.css";
-
-      const prefersReduced = window.matchMedia(
+      const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
-      ).matches;
-
-      let lenis: Lenis | null = null;
-
-      if (!prefersReduced) {
-        lenis = new Lenis({
-          duration: 1.1,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true,
-        });
-
-        const raf = (time: number) => {
-          lenis!.raf(time);
-          requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
-      }
+      );
 
       /* ===== Smooth-scroll unificado pra anchors/buttons =====
          Offset calibrado pra section.top cair ABAIXO da linha de trigger do
          scroll-spy (100px) — assim a seção ativa o estado verde no header.
-         Usa Lenis se disponível; fallback instantâneo em reduced-motion. */
+         Usa a rolagem nativa e respeita reduced-motion. */
       const getScrollOffset = (): number =>
         window.matchMedia("(min-width: 768px)").matches ? -90 : -70;
 
       const smoothScrollTo = (target: HTMLElement | number) => {
-        if (lenis) {
-          const isElement = typeof target !== "number";
-          lenis.scrollTo(target, {
-            offset: isElement ? getScrollOffset() : 0,
-            duration: 1.2,
-            easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic — chegada suave
-          });
-        } else {
-          // Reduced-motion: jump instantâneo (respeita preferência do usuário)
-          const top =
-            typeof target === "number"
-              ? target
-              : target.getBoundingClientRect().top +
-                window.scrollY +
-                getScrollOffset();
-          window.scrollTo({ top, behavior: "auto" });
-        }
+        const top =
+          typeof target === "number"
+            ? target
+            : target.getBoundingClientRect().top +
+              window.scrollY +
+              getScrollOffset();
+        window.scrollTo({
+          top,
+          behavior: reducedMotion.matches ? "auto" : "smooth",
+        });
       };
 
       // Expõe pra Footer "Topo", hero "Explorar Serviços", scroll-next etc.

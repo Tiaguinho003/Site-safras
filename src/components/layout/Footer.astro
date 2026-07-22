@@ -10,6 +10,11 @@ const { t, localizeAnchor } = useTranslation(Astro);
 const currentYear = new Date().getFullYear();
 
 const servicesHref = localizeAnchor("servicos");
+const publicEmail = t("contact.details.email");
+const publicPhone = t("contact.details.phone");
+const whatsappHref = `https://wa.me/553535314046?text=${encodeURIComponent(
+  t("contact.whatsappPrefill"),
+)}`;
 
 // Cada link da coluna "Serviços" no footer aponta pra um dos cards
 // da seção #servicos. Reusamos as chaves do dict pra manter consistência
@@ -20,7 +25,17 @@ const servicesLinks: { dictKey: string; href: string }[] = [
   { dictKey: "services.cards.suporteLogistico.title", href: servicesHref },
 ];
 
-const socials = [
+const contactLinks = [
+  {
+    label: publicEmail,
+    href: `mailto:${publicEmail}`,
+    external: false,
+  },
+  {
+    label: publicPhone,
+    href: "tel:+553535314046",
+    external: false,
+  },
   {
     label: "Instagram",
     href: "https://instagram.com/safrasnegocios",
@@ -28,16 +43,25 @@ const socials = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/553535314046",
+    href: whatsappHref,
     external: true,
   },
 ];
 ---
 
 <footer
-  class="relative overflow-hidden bg-cover bg-top text-paper"
-  style={`background-image: url(${lavouraAerea.src});`}
+  class="relative overflow-hidden text-paper"
 >
+  <Image
+    src={lavouraAerea}
+    alt=""
+    widths={[640, 960, 1280, 1600]}
+    sizes="100vw"
+    class="absolute inset-0 h-full w-full object-cover object-top"
+    loading="lazy"
+    fetchpriority="low"
+    quality={60}
+  />
   {/* TOPO: fade branco longo — transição suave + reveal natural da imagem */}
   <div
     aria-hidden="true"
@@ -59,6 +83,9 @@ const socials = [
         widths={[200, 320, 480]}
         sizes="(min-width: 1024px) 320px, (min-width: 768px) 260px, 200px"
         class="h-auto w-[200px] md:w-[260px] lg:w-[320px] mx-auto"
+        loading="lazy"
+        fetchpriority="low"
+        quality={72}
       />
     </div>
 
@@ -82,9 +109,9 @@ const socials = [
 
       {/* Col 2: Serviços (escondido no mobile) */}
       <nav aria-label={t("footer.columns.services")} class="hidden md:block">
-        <h3 class="text-base font-medium text-paper mb-5">
+        <h2 class="text-base font-medium text-paper mb-5">
           {t("footer.columns.services")}
-        </h3>
+        </h2>
         <ul class="space-y-3">
           {
             servicesLinks.map((s) => (
@@ -103,9 +130,9 @@ const socials = [
 
       {/* Col 3: Navegação */}
       <nav aria-label={t("footer.columns.navigation")}>
-        <h3 class="text-base font-medium text-paper mb-5">
+        <h2 class="text-base font-medium text-paper mb-5">
           {t("footer.columns.navigation")}
-        </h3>
+        </h2>
         <ul class="space-y-3">
           {
             mainNav.map((item) => (
@@ -122,14 +149,14 @@ const socials = [
         </ul>
       </nav>
 
-      {/* Col 4: Sociais */}
-      <nav aria-label={t("footer.columns.socials")}>
-        <h3 class="text-base font-medium text-paper mb-5">
-          {t("footer.columns.socials")}
-        </h3>
+      {/* Col 4: Contato */}
+      <nav aria-label={t("footer.columns.contact")}>
+        <h2 class="text-base font-medium text-paper mb-5">
+          {t("footer.columns.contact")}
+        </h2>
         <ul class="space-y-3">
           {
-            socials.map((s) => (
+            contactLinks.map((s) => (
               <li>
                 <a
                   href={s.href}
@@ -185,7 +212,6 @@ const socials = [
         target="_blank"
         rel="noopener noreferrer"
         class="inline-block text-xs text-paper/45 hover:text-paper/80 transition-colors"
-        aria-label={t("footer.developerAriaLabel")}
       >
         {t("footer.developedBy")} <span class="font-semibold text-paper/70 underline underline-offset-4 decoration-paper/25">{t("footer.developerName")}</span>
       </a>
@@ -194,7 +220,7 @@ const socials = [
 </footer>
 
 <script>
-  // Back-to-top — usa o helper unificado do BaseLayout (Lenis + fallback)
+  // Back-to-top — usa o helper de rolagem nativa do BaseLayout
   document
     .querySelectorAll<HTMLButtonElement>("[data-scroll-top]")
     .forEach((btn) => {
