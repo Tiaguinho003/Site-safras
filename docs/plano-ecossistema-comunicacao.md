@@ -75,7 +75,9 @@ mensuração —, não mais dados da empresa.
 | Canal | Situação hoje | Medido? | Dono |
 |---|---|---|---|
 | Site (3 URLs indexáveis) | Em produção, saudável | Não | Técnico |
-| WhatsApp (`wa.me`) | Links no header, contato, rodapé e 404 | Não | Comercial |
+| WhatsApp (`wa.me`) | Links no rodapé e na caixa de erro do formulário; também em 404 e manutenção, que não têm medição. **Não há link no header** — o CTA do header aponta para o formulário | Não | Comercial |
+| Canal do WhatsApp | A criar. Divulgado pelo site | Não | Marketing |
+| Comunidade do WhatsApp | 3 grupos existentes, anteriores ao programa, a serem reunidos em uma comunidade. **Não divulgada publicamente** | Não | Comercial |
 | Formulário (Web3Forms) | Funcional; coleta perfil e interesse | Não | Comercial |
 | Telefone | Publicado no site | Não | Comercial |
 | E-mail público | Publicado no site | Não | Comercial |
@@ -126,6 +128,30 @@ Um evento por ação de contato. Nomes estáveis, definidos uma vez.
 | `contato_email` | clique em `mailto:` | `origem_secao`, `idioma` |
 | `formulario_envio` | envio bem-sucedido | `perfil`, `interesse`, `estado_uf`, `idioma` |
 | `formulario_erro` | falha no envio | `motivo`, `idioma` |
+| `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` |
+
+### Regras de implementação
+
+Decididas em 20/08/2026, ao analisar a Fase E sobre o código real.
+
+- **Ancorar por atributo explícito**, nunca por padrão de `href`. O rodapé contém um `wa.me` que é
+  o contato do desenvolvedor, no crédito "desenvolvido por" — amarrar por "qualquer link `wa.me`"
+  contaria cliques nele como lead do cliente.
+- **Enviar o `value` do campo, nunca o rótulo visível.** Os rótulos são traduzidos; os `value` são
+  slugs estáveis (`produtor`, `comprador`, `corretagem`…). Mandar o rótulo fragmentaria cada
+  categoria em três no relatório, uma por idioma. O e-mail do formulário continua usando o rótulo,
+  que é o certo para quem lê.
+- **404 e manutenção ficam sem medição.** São standalone, não usam o `BaseLayout` e não têm tag nem
+  consentimento. Instrumentar exigiria levar as duas coisas para lá, por um dado que não usaríamos.
+- **`formulario_erro` não é conversão.** É diagnóstico. Marcá-lo como *key event* no painel sujaria
+  a métrica que o cliente lê.
+- **`canal_whatsapp` também não é lead.** O administrador de um canal não vê quem segue, então não
+  existe contato identificável do outro lado. O evento serve para saber se o site alimenta o canal,
+  que é o papel atribuído a ele.
+- **A medição subnotifica, por desenho.** Evento só existe se a pessoa aceitou cookies. Quem recusa
+  ou usa Global Privacy Control clica e não conta. O número real de contatos é sempre maior que o
+  reportado, e isso precisa estar escrito no relatório — sem essa frase, o cliente lê queda onde não
+  houve.
 
 ### Regra inegociável de privacidade
 
