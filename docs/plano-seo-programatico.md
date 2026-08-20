@@ -170,14 +170,14 @@ Estas regras valem em todas as fases:
 | Razão social e CNPJ | Não serão publicados neste momento; o nome comercial foi aprovado como identificação pública |
 | Endereço | Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso/MG |
 | Atendimento presencial | Sim, no endereço oficial |
-| Telefone e WhatsApp | (35) 3531-4046 |
+| Telefone e WhatsApp | (35) 98461-7193 — número único para ligação e WhatsApp, confirmado em 20/08/2026. Substitui o (35) 3531-4046 adotado em 20/07/2026 |
 | E-mails | `atendimento@safrasnegocios.com.br` é o canal público; `flavio@safrasnegocios.com.br` é o destinatário interno do formulário e não deve aparecer publicamente |
 | Web3Forms | Conta e chave administráveis confirmadas; destino atualizado para `flavio@safrasnegocios.com.br` e envio real validado pelo usuário |
 | Horário | Segunda a sexta-feira, das 8h às 18h |
-| Fundação | 19/10/2015 |
-| Proprietário | Gilson Souza |
+| Fundação | 19/10/2015 — confirmada em 20/08/2026 como pertencente à entidade pública; a alegação “Desde 2015” está correta |
+| Proprietário | Sócio proprietário único, confirmado em 20/08/2026 |
 | Experiência | Gilson possui mais de 30 anos de atuação no mercado cafeeiro; a apresentação nominal foi adiada para uma futura página de equipe |
-| Serviços | Intermediação de café no mercado físico e futuro; CPR em relação com instituições bancárias; classificação e análise de qualidade; prova sensorial; embarques e conferências |
+| Serviços | **Atuação exclusiva em café**, confirmada em 20/08/2026. Intermediação de café no mercado físico e futuro; CPR em relação com instituições bancárias; classificação e análise de qualidade; prova sensorial; embarques e conferências |
 | Públicos | Vendedores e compradores, incluindo produtores, exportadores e multinacionais |
 | Cobertura | Atendimento em várias regiões; mapa e delimitação detalhada serão validados futuramente |
 | Idiomas | PT-BR como fonte; EN e ES têm finalidade comercial e institucional, sempre com revisão |
@@ -202,7 +202,7 @@ Estas regras valem em todas as fases:
 ### Pendências obrigatórias da Fase 0
 
 - [x] Registrar a decisão de não publicar razão social e CNPJ neste momento.
-- [x] Confirmar telefone e WhatsApp oficial: `(35) 3531-4046`.
+- [x] Confirmar telefone e WhatsApp oficial: `(35) 98461-7193` (revisado em 20/08/2026).
 - [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público e manter `flavio@safrasnegocios.com.br` somente como destinatário interno.
 - [x] Confirmar o destinatário operacional atual do formulário.
 - [x] Confirmar conta Web3Forms administrável, destino interno e realizar envio controlado com recebimento validado.
@@ -257,7 +257,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 
 - [x] Aprovar o nome comercial e registrar a decisão de não publicar razão social/CNPJ neste momento.
 - [x] Registrar endereço, telefone, e-mail atual, horários e fundação confirmados.
-- [x] Confirmar telefone e WhatsApp oficial: `(35) 3531-4046`.
+- [x] Confirmar telefone e WhatsApp oficial: `(35) 98461-7193` (revisado em 20/08/2026).
 - [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público; manter `flavio@safrasnegocios.com.br` somente como destinatário interno do formulário.
 - [x] Confirmar atendimento presencial e cobertura de várias regiões; detalhamento geográfico formalmente adiado.
 - [x] Documentar os serviços atualmente confirmados; limites editoriais de CPR e mercado futuro registrados.

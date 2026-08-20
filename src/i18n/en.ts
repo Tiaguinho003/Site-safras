@@ -212,7 +212,7 @@ const dict = {
       addressLabel: "Address",
       hoursLabel: "Business hours",
       email: "atendimento@safrasnegocios.com.br",
-      phone: "+55 (35) 3531-4046",
+      phone: "+55 (35) 98461-7193",
       address:
         "Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso/MG, Brazil",
       hours: "Monday through Friday, 8:00 a.m. to 6:00 p.m. (BRT).",

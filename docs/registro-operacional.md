@@ -29,7 +29,7 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/07/2026 | Geral | Executar uma fase por vez | Permite aprender e melhorar antes de ampliar | A definir | A cada gate |
 | 20/07/2026 | 0 | Remover depoimentos não reais; autorização recebida e execução local concluída | Integridade e confiança são pré-condições do programa | Gilson Souza | Após publicação |
 | 20/07/2026 | 0 | Não publicar razão social e CNPJ neste momento | O nome comercial foi considerado suficiente para a comunicação pública atual | Gilson Souza | Ao revisar identidade institucional |
-| 20/07/2026 | 0 | Adotar `(35) 3531-4046` como telefone e WhatsApp oficial | Eliminar divergência de contato no site | Gilson Souza | Quando houver mudança oficial |
+| 20/07/2026 | 0 | ~~Adotar `(35) 3531-4046` como telefone e WhatsApp oficial~~ — **superada em 20/08/2026** | Eliminar divergência de contato no site | Gilson Souza | Quando houver mudança oficial |
 | 20/07/2026 | 0 | Gilson Souza assume inicialmente as responsabilidades comercial, editorial, técnica e factual | Há um responsável nominal único nesta fase | Gilson Souza | Ao ampliar a equipe editorial |
 | 20/07/2026 | 2 | Tratar a configuração atual do Web3Forms como temporária até recuperar sua governança | Não há conta administrativa confirmada para a chave existente | Gilson Souza | Antes de ampliar tráfego |
 | 20/07/2026 | 0 | Distinguir empresa fundada em 2015 da experiência de 30+ anos de Gilson | Evita alegação institucional incorreta | Editorial | Permanente |
@@ -59,6 +59,12 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 21/07/2026 | 1 | Usar a foto real da fachada como imagem social inicial otimizada | Há um ativo verdadeiro e coerente com a entidade, sem criar imagem ou alegação artificial | Empresa / Técnico | Quando houver nova imagem institucional aprovada |
 | 21/07/2026 | 1 | Remover a tela de carregamento artificial do caminho visual | O bloqueio mínimo de 900 ms atrasava a percepção de carregamento e podia prejudicar métricas | Técnico | No gate da Fase 1 |
 
+| 20/08/2026 | 0 | Adotar a entidade fundada em 19/10/2015 como **única** entidade pública, com atendimento presencial na Av. Oliveira Resende, 1397 — Jardim Bernadete | Existiam duas empresas registradas sob a mesma marca; o site misturava dados das duas. A segunda não será usada na comunicação | Proprietário | Se a estrutura societária mudar |
+| 20/08/2026 | 0 | Confirmar que a alegação pública “Desde 2015” está correta | A data de fundação pertence à entidade pública adotada | Proprietário | Permanente |
+| 20/08/2026 | 0 | Confirmar sócio proprietário **único** | Corrige a leitura de fontes públicas que sugeriam mais de um sócio | Proprietário | Se a estrutura societária mudar |
+| 20/08/2026 | 0 | Adotar `(35) 98461-7193` como telefone e WhatsApp **único**, substituindo `(35) 3531-4046` em todo o site | O número anterior não é o canal principal de atendimento. Número único para ligação e WhatsApp reduz atrito e evita NAP divergente | Proprietário | Ao incluir contatos de funcionários |
+| 20/08/2026 | 0 | Confirmar **atuação exclusiva em café** | Define o descritor da marca como corretora de café, sem outras commodities | Proprietário | Se a atuação for ampliada |
+| 20/08/2026 | 4 | Não incluir a cidade no título das páginas | Decisão do cliente, ciente da recomendação de SEO local. O descritor geográfico segue disponível como opção futura | Proprietário | Ao revisar títulos com dados do Search Console |
 ## Histórico de execução
 
 | Data | Fase | Ação | Resultado/evidência | Próximo passo |
@@ -83,6 +89,7 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/08/2026 | Geral | Reorganização da documentação | Criados `AGENTS.md` + `CLAUDE.md` espelhados, `registro-operacional.md`, `deploy.md` e `plano-ecossistema-comunicacao.md`; corrigido o drift factual de `arquitetura.md` e `design-system.md` (paleta, versão do Astro, estrutura de pastas, CI e preview deploy inexistentes, schema, i18n); plano reduzido e reindexado | Obter autorização para commit e PR |
 | 20/08/2026 | Geral | Modo manutenção identificado como quebrado | `apply-maintenance.mjs` depende do rewrite curinga removido na Fase 1 e não remove as rotas `/en` e `/es` | Corrigido no mesmo dia |
 | 20/08/2026 | Geral | Modo manutenção corrigido | Manutenção passa a ser servida em `/`, `/en` e `/es`; lista de permitidos substitui a de removidos; validação falha o build se o resultado não bater. Testado no emulador: 200 nas três homes, 302 em `/qr`, 301 em `/contato`, 404 real em URL desconhecida; build normal sem regressão (7 páginas) | Ativar só quando houver necessidade real |
+| 20/08/2026 | 0 | Respostas do cliente às decisões bloqueantes registradas | Entidade pública única, endereço de atendimento, sócio único, “Desde 2015” validado, telefone `(35) 98461-7193` como número único e atuação exclusiva em café. Telefone substituído em 11 pontos do código, nos três idiomas | Credenciais setoriais e redação do descritor seguem em aberto |
 ### Modelo para novas entradas
 
 Copiar uma linha para o Histórico de execução e registrar:
@@ -108,13 +115,17 @@ não forem respondidas, nenhum agente deve alterar os itens dependentes.
 
 | Aberta em | Tema | Pergunta | Bloqueia | Responsável |
 |---|---|---|---|---|
-| 20/08/2026 | Identidade da entidade | Existem duas empresas registradas sob a mesma marca na cidade, com datas de fundação e endereços diferentes. Qual delas é a entidade pública, e em qual endereço há atendimento? Dados no registro privado da empresa. | `LocalBusiness` (endereço, telefone, `foundingDate`), reivindicação do Google Business Profile, padronização de NAP, alegação pública "Desde 2015" | Gilson Souza |
-| 20/08/2026 | Telefone oficial | Circulam três telefones da empresa em diretórios públicos, sendo um deles o publicado no site. Qual é o oficial, e os demais devem ser corrigidos ou removidos na origem? | NAP consistente, GBP, `LocalBusiness` | Gilson Souza |
-| 20/08/2026 | Credenciais setoriais | A empresa possui registro, associação ou credenciamento setorial (ex.: centro de comércio de café estadual) que possa ser exibido? | Conteúdo de autoridade (E-E-A-T), páginas institucionais da Fase 6, backlinks legítimos da Fase 10 | Gilson Souza |
-| 20/08/2026 | Descritor da marca | O site descreve a empresa como corretora de café; o perfil oficial em rede social usa um descritor diferente e mais amplo. Qual descritor único adotar em todos os canais? | Consistência de entidade, títulos, GBP, bio das redes | Gilson Souza |
+| 20/08/2026 | Credenciais setoriais | A empresa possui registro, associação ou credenciamento setorial (ex.: centro de comércio de café estadual) que possa ser exibido? Também vale para certificações ou qualificações técnicas da equipe. | Conteúdo de autoridade (E-E-A-T), páginas institucionais da Fase 6, backlinks legítimos da Fase 10 | Proprietário |
+| 20/08/2026 | Redação do descritor | A atuação exclusiva em café está confirmada e a cidade não entra no título. Falta definir a redação final do descritor, que hoje difere entre o site (“corretora de café”) e o perfil social (“corretora e consultora de multimercados”). | Padronização do descritor entre canais, bio das redes, perfil comercial | Proprietário |
 
 Ao responder qualquer uma, mover a decisão para a tabela de Registro de decisões acima, com data e
 motivo, e remover a linha daqui.
+
+### Resolvidas em 20/08/2026
+
+- **Identidade da entidade** — resolvida: entidade única definida, endereço de atendimento
+  confirmado, “Desde 2015” validado.
+- **Telefone oficial** — resolvida: `(35) 98461-7193` como número único.
 
 ---
 
