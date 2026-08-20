@@ -287,6 +287,26 @@ Composição da home. Recebe o locale do contexto e monta hero, serviços, sobre
 - **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
 - **Observação:** é um arquivo grande (≈1.300 linhas). Ver dívidas conhecidas.
 
+### `layout/CookieConsent.astro`
+
+Banner de consentimento e painel de preferências, no rodapé da viewport. Renderizado pelo
+`BaseLayout` nas seis páginas reais — `404.astro` e `manutencao.astro` são standalone e não gravam
+cookie.
+
+- **Props:** nenhuma.
+- **Onde está a lógica:** **não está aqui.** O estado, o cookie e o sinal do Consent Mode vivem no
+  bootstrap inline do `<head>` do `BaseLayout`, que precisa rodar antes de qualquer tag. Este
+  componente é só a interface: lê `window.__consent` e chama `set()`.
+- **Falha segura:** se o bootstrap não tiver rodado, o banner não aparece e nada é liberado.
+- **Aceitar e Recusar têm o mesmo tamanho, peso e contraste.** Não é preferência estética: recusar
+  precisa ser tão fácil quanto aceitar. Verificado por teste automatizado, não por inspeção visual.
+- **Preferências** expande no próprio banner. Sem modal e sem armadilha de foco — hoje há uma única
+  chave, e um modal seria complexidade sem contrapartida.
+- **`role="dialog"` com `aria-modal="false"`:** não bloqueia a navegação nem rouba o foco.
+- **Camada:** `z-[90]`, acima do `z-[80]` da sugestão de idioma. Um fica embaixo, o outro em cima —
+  conferido no mobile, sem sobreposição.
+- **Reabertura:** qualquer elemento com `data-consent-open` reabre o painel. Hoje, o link do rodapé.
+
 ### `pages/PrivacyPage.astro`
 
 Política de privacidade, fonte única para os três idiomas. Primeira página do site que usa

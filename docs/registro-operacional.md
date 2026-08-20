@@ -73,6 +73,17 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/08/2026 | 2 | Identificar o controlador na política por **nome fantasia, endereço e e-mail**, sem CNPJ nem razão social | Atende à exigência de identificação da LGPD sem versionar dado societário em repositório público. Ver os boundaries do `CLAUDE.md` | Proprietário | Se a identificação for questionada juridicamente |
 | 20/08/2026 | 2 | A política descreve **apenas o que existe hoje** e será atualizada antes de qualquer medição entrar | Descrever cookie ou analytics inexistente seria declaração falsa. O compromisso de atualizar antes está escrito na própria página | Técnico | A cada mudança no tratamento de dados |
 | 20/08/2026 | 0 | Grafia oficial do endereço: **Oliveira Rezende**, com Z | O código usava Z em 5 pontos e está em produção desde o lançamento; a documentação usava S em 2. Divergência levada ao cliente, que confirmou o Z | Proprietário | Permanente |
+| 20/08/2026 | 2 | Adotar **GA4 com Consent Mode v2** como ferramenta de medição | Única opção sem custo que registra os eventos de conversão da Fase E. Alternativas cookieless gratuitas medem visitas, mas não medem contato gerado — o que inviabilizaria o objetivo do programa | Proprietário | Se o custo ou a política do Google mudarem |
+| 20/08/2026 | 2 | Banner com **Aceitar e Recusar de peso visual idêntico**, mais Preferências | Recusar precisa ser tão fácil quanto aceitar. Botão de recusa discreto cumpre a letra e burla o propósito da regra. A paridade é verificada por teste automatizado, não por inspeção visual | Proprietário | Permanente |
+| 20/08/2026 | 2 | Negar **permanentemente** os sinais de publicidade do Consent Mode | O site não faz publicidade nem remarketing. Travar no código impede que uma configuração descuidada do GA4 conceda o que nunca foi pedido, e evita oferecer na interface um controle que não corresponde a nada | Técnico | Se a empresa passar a anunciar |
+| 20/08/2026 | 2 | Respeitar o **Global Privacy Control** como recusa, sem exibir o banner | O visitante já declarou a escolha no navegador; perguntar de novo seria ignorá-la. O link do rodapé permanece para quem quiser mudar de ideia | Técnico | Permanente |
+| 20/08/2026 | 2 | Cookie de consentimento **sem identificador**: só decisão, data e versão | Um cookie de consentimento que carrega ID vira ele mesmo um dado pessoal. Contrapartida assumida: não há prova individual de consentimento, apenas a decisão e a data | Técnico | Se houver exigência legal de prova individual |
+| 20/08/2026 | 2 | Cookie funcional de idioma **fora** do consentimento | `safras_locale` é preferência do usuário, não rastreamento. Colocá-lo sob consentimento faria o site esquecer o idioma de quem recusa — regressão visível num site trilíngue | Técnico | Permanente |
+| 20/08/2026 | 2 | Publicar a CSP do analytics **antes** de instalar o GA4 | CSP desatualizada bloqueia o script sem erro visível: a ferramenta parece instalada e não coleta nada. Com a permissão publicada, a Fase D vira mudança puramente aditiva | Técnico | A cada serviço externo novo |
+| 20/08/2026 | Geral | **Não** usar login como estratégia de SEO nem de captação de dados | Conteúdo atrás de autenticação é invisível ao buscador — o Googlebot não faz login, então uma biblioteca trancada contribui com zero para o ranqueamento. Some-se a isso que volume de páginas não melhora posição desde que o critério passou a ser propósito e valor | Proprietário | Se o modelo de negócio passar a depender de assinatura |
+| 20/08/2026 | Geral | Captar lead por **troca de valor**, não por pedágio | A pessoa entrega o dado em troca de algo que quer — boletim de preços, alerta por praça —, não porque existe um campo. Formulário obrigatório antes do conteúdo derruba permanência na página, que é sinal de qualidade lido pelo buscador | Proprietário | Permanente |
+| 20/08/2026 | 2 | Consentimento de **marketing separado** do consentimento de contato | O formulário declara que os dados servem "para analisar e responder ao seu contato". Usar os mesmos e-mails para boletim excede a finalidade declarada, e finalidade é limite na LGPD. A caixa de opt-in nasce separada e desmarcada — implantar antes de existir lista, porque depois obrigaria a descartá-la | Técnico | Ao criar o boletim |
+| 20/08/2026 | Geral | Preferir **canal** de WhatsApp a grupo | Em grupo, todo participante vê o telefone dos demais. Com produtores e compradores na mesma sala, isso é exposição comercial além de questão de privacidade. Canal é transmissão de ida só, gratuito e sem expor ninguém | Proprietário | Se houver necessidade real de conversa entre participantes |
 ## Histórico de execução
 
 | Data | Fase | Ação | Resultado/evidência | Próximo passo |
@@ -105,6 +116,8 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/08/2026 | 2 | **Política de privacidade publicada nos três idiomas** | `/privacidade`, `/en/privacy`, `/es/privacidad`. Descreve os 7 campos do formulário, o encaminhamento por serviço externo, o cookie `safras_locale` e a ausência de analytics. Encerra o pré-requisito legal aberto desde 21/07/2026 | Implementar o consentimento de cookies |
 | 20/08/2026 | 2 | Defeito do modo manutenção corrigido pela segunda vez | A poda só varria o primeiro nível: `/en/privacy` e `/es/privacidad` continuariam no ar enquanto `/privacidade` já teria sido removida. A poda agora desce um nível dentro das homes de idioma, com validação equivalente | Revalidar a cada rota nova sob `/en` ou `/es` |
 | 20/08/2026 | 0 | E-mail interno removido da documentação | O endereço destinatário do formulário aparecia em 6 pontos do `plano-seo-programatico.md`, em repositório público — inclusive numa linha que dizia que ele *não deve aparecer publicamente*. Substituído por referência ao registro privado. Os arquivos atuais estão limpos, mas o endereço **permanece no histórico do Git** — o risco fica mitigado, não encerrado | Decidir se vale reescrever o histórico |
+| 20/08/2026 | 2 | **Consentimento de cookies implantado** | Bootstrap inline como primeiro script da página, banner com Aceitar/Recusar de tamanho idêntico (144×44 medidos), painel de preferências em linha, revogação pelo rodapé e CSP publicada. 24 verificações automatizadas passaram, incluindo os casos que mais falham na prática: recusar grava recusa, GPC não é interrompido e o cookie de idioma sobrevive à recusa | Instalar o GA4 sob a comporta (Fase D) |
+| 20/08/2026 | 2 | Política de privacidade atualizada no mesmo dia da publicação | A Fase C criou um segundo cookie, e a política dizia "um único cookie". Reescrita nos três idiomas descrevendo os dois, a revogação pelo rodapé e o respeito ao GPC | Atualizar de novo quando o GA4 entrar |
 
 ### Modelo para novas entradas
 
@@ -136,6 +149,16 @@ não forem respondidas, nenhum agente deve alterar os itens dependentes.
 
 Ao responder qualquer uma, mover a decisão para a tabela de Registro de decisões acima, com data e
 motivo, e remover a linha daqui.
+
+### Ideias registradas, fora de escopo
+
+Não bloqueiam nada e não estão planejadas. Ficam aqui para não serem redescobertas do zero.
+
+| Registrada em | Ideia | Situação |
+|---|---|---|
+| 20/08/2026 | **Área do cliente** — produtor acompanhando os próprios lotes, resultados de classificação e alertas de preço por praça | Faz sentido como relacionamento, **não** como SEO. Só depois de existir conteúdo aberto que traga o público que talvez queira uma conta. O custo real não é infraestrutura — o Firebase Authentication tem camada gratuita e o projeto GCP já existe —, é a responsabilidade de manter base de identidades e senhas |
+| 20/08/2026 | **Boletim de preços por e-mail**, alimentado pelo Observatório da Fase 7 | Depende do consentimento de marketing separado e de ferramenta de envio. Camadas gratuitas existem, mas **os limites não foram verificados** — verificar antes de qualquer decisão, o teto de R$ 0 continua valendo |
+| 20/08/2026 | **Canal do WhatsApp** para transmissão de preços e informações de mercado | Gratuito e independente do site. Pode começar antes de qualquer fase técnica |
 
 ### Resolvidas em 20/08/2026
 

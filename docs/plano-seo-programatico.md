@@ -581,7 +581,7 @@ para o domínio antes de alterar a zona.
 
 Criar uma linha de base confiável. Sem mensuração, não há como distinguir crescimento real de impressão subjetiva.
 
-### Pré-requisito legal — CONCLUÍDO em 20/08/2026
+### Política de privacidade — CONCLUÍDA em 20/08/2026 (Fase B)
 
 A decisão de 21/07/2026 condiciona qualquer mensuração à publicação da política de privacidade.
 Publicada nos três idiomas em `/privacidade`, `/en/privacy` e `/es/privacidad`, descrevendo
@@ -592,11 +592,30 @@ atualizá-la **antes** de instalar qualquer medição, não depois.
 Junto com ela veio o registro de rotas (`src/i18n/routes.ts`), que passa a ser a fonte da verdade
 das URLs por idioma e alimenta canonical, `hreflang`, o switcher e o sitemap.
 
+### Consentimento — CONCLUÍDO em 20/08/2026 (Fase C)
+
+O consentimento entrou **antes** de existir o que medir. É a única ordem segura: com o analytics
+primeiro, haveria uma janela em que o site mede pessoas sem base para isso, e essa janela não teria
+como ser desfeita.
+
+O que ficou pronto:
+
+- `gtag('consent','default', …)` com tudo negado, emitido como **primeiro script da página** — sem
+  isso o sinal do Consent Mode não é válido;
+- sinais de publicidade negados **permanentemente**, sem controle na interface: o site não faz
+  publicidade, e travar no código impede concessão por descuido de configuração;
+- **Global Privacy Control respeitado** — quem já sinalizou a escolha no navegador não é
+  interrompido;
+- revogação pelo rodapé, em qualquer página;
+- CSP publicada, de modo que a instalação do GA4 seja puramente aditiva.
+
+A comporta que a Fase D vai consumir é `window.__consent.onChange()`.
+
 ### Checklist
 
 - [x] Publicar a política de privacidade completa nos três idiomas.
-- [ ] Implementar o consentimento de cookies, granular e com estado persistido.
-- [ ] Atualizar a CSP do `firebase.json` para o domínio de analytics.
+- [x] Implementar o consentimento de cookies, com estado persistido e revogação disponível.
+- [x] Atualizar a CSP do `firebase.json` para o domínio de analytics.
 - [ ] Verificar todas as variantes necessárias no Search Console.
 - [ ] Enviar o sitemap.
 - [ ] Registrar páginas indexadas, excluídas e erros.

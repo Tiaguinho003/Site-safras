@@ -188,6 +188,18 @@ const contactLinks = [
         >
           {t("footer.privacy")}
         </a>
+        <span class="hidden md:inline text-paper/25" aria-hidden="true">·</span>
+        {/* Reabre o painel de consentimento. É um <button> porque abre uma
+            interface, não navega. Revogar precisa ser tão fácil quanto
+            consentir — sem este ponto de entrada, a primeira escolha viraria
+            definitiva na prática. */}
+        <button
+          type="button"
+          data-consent-open
+          class="underline underline-offset-4 decoration-paper/25 hover:text-paper hover:decoration-paper/60 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+        >
+          {t("consent.footerLink")}
+        </button>
       </p>
       <div class="flex items-center gap-5">
         <button

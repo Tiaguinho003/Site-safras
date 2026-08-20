@@ -325,6 +325,18 @@ público estrangeiro reconhece; em ES, a terminologia hispano-americana de prote
 | política de privacidade | privacy policy | política de privacidad | OK |
 | cookie | cookie | cookie | Termo internacional, não se traduz |
 | armazenamento de sessão | session storage | almacenamiento de sesión | Termo técnico do navegador |
+| preferências (de cookies) | cookie preferences | preferencias de cookies | Rótulo do painel e do link do rodapé |
+| necessários | necessary | necesarias | Categoria de cookie. ❗ Nunca "essential" em EN nesta interface — "necessary" é o termo do GDPR |
+| medição de audiência | audience measurement | medición de audiencia | ❗ Preferido a "analytics" na interface. O visitante entende a finalidade, não a ferramenta |
+| sempre ativo | always on | siempre activa | Estado da categoria necessária. ES concorda com "cookie", que é feminino |
+| aceitar / recusar | accept / reject | aceptar / rechazar | ❗ Em EN, **"reject"**, não "decline" nem "manage" — recusar precisa ser explícito |
+
+### Aceitar e recusar têm o mesmo peso
+
+O par **Aceitar / Recusar** é uma exigência legal antes de ser uma decisão de design: recusar
+precisa ser tão fácil quanto aceitar. Isso vale para a tradução também — nada de suavizar o verbo
+de recusa em nenhum idioma. "Reject", "Rechazar", "Recusar". Sem eufemismo, sem "Gerenciar", sem
+transformar a recusa num link discreto enquanto o aceite é um botão.
 
 ### Regra de tom para a política
 
