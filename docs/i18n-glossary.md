@@ -219,7 +219,7 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 |----|-----|-----|
 | Home | Home | Inicio |
 | Serviços | Services | Servicios |
-| Sobre nós | About | About Us 🟡 | Sobre nosotros |
+| Sobre nós | About / About Us 🟡 | Sobre nosotros |
 | Contato | Contact | Contacto |
 | Solicitar Serviço (CTA) | Request a Quote 🟡 | Solicitar Cotización |
 | Pular para o conteúdo | Skip to content | Saltar al contenido |
