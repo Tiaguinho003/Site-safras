@@ -11,12 +11,18 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 2.7 |
+| Versão | 3.0 |
 | Fase ativa | Fase 1 — Recuperação técnica |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | EM VALIDAÇÃO — recuperação técnica publicada; estabilidade de desempenho em ES e dados de campo pendentes |
-| Última revisão | 21/07/2026 |
-| Próxima revisão | Após nova rodada representativa do Lighthouse em ES e início da coleta de dados de campo |
+| Estado geral | EM VALIDAÇÃO — recuperação técnica publicada e reconfirmada em produção; gate aberto por desempenho em ES e ausência de dados de campo |
+| Última revisão | 20/08/2026 |
+| Próxima revisão | Após nova rodada representativa do Lighthouse em ES e resposta às decisões em aberto |
+| Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.0 (20/08/2026):** registro de decisões e histórico de execução migraram
+para o registro operacional; §14 reescrita (descrevia como pendente uma publicação já feita);
+nova §15 com a primeira auditoria de presença externa; acessos ao Search Console, perfil comercial,
+rede social e DNS confirmados como disponíveis, encerrando a pendência mais antiga do programa.
 
 ## 2. Objetivo
 
@@ -135,7 +141,7 @@ Estas regras valem em todas as fases:
 - [x] Criar e validar localmente `robots.txt`; publicação pendente.
 - [x] Criar e validar localmente `sitemap-index.xml`; publicação pendente.
 - [x] Garantir localmente que URLs aleatórias retornem 404; correção de produção pendente.
-- [ ] Confirmar propriedade e dados no Google Search Console.
+- [ ] Confirmar propriedade e dados no Google Search Console — acesso disponível desde 20/08/2026; verificação da propriedade ainda não executada.
 - [ ] Implantar mensuração de visitas e conversões.
 - [ ] Criar páginas próprias para serviços e intenções comerciais.
 - [ ] Revisar títulos, descrições e H1 ainda genéricos.
@@ -179,7 +185,7 @@ Estas regras valem em todas as fases:
 | Responsáveis | Gilson Souza: comercial, editorial, técnico e aprovador factual |
 | Registro de leads | E-mail e planilha privada aprovados; acesso por contas individuais para pessoas autorizadas dos setores de cadastro e comercial; retenção operacional de 12 meses após a última interação |
 | Acesso técnico | CLI do Firebase e do GCP `site-safras` confirmadas; domínio/DNS e Search Console ainda precisam ser verificados |
-| Google Business Profile | A empresa existe no Google Maps; acesso administrativo ainda precisa ser localizado |
+| Google Business Profile | A empresa existe no Google Maps; acesso administrativo confirmado como disponível em 20/08/2026. Ajustar o perfil depende de definir qual entidade é a pública — ver decisões em aberto |
 | Google Ads | Fora do escopo atual |
 | Custos | Teto atual de R$ 0 em novas mensalidades; qualquer recurso pago exige aprovação específica |
 | Depoimentos | Os relatos não reais foram removidos localmente; novos relatos dependerão de autorização registrada e serão buscados futuramente |
@@ -203,8 +209,8 @@ Estas regras valem em todas as fases:
 - [ ] Reavaliar restrição de domínio somente se um plano pago do Web3Forms for aprovado; o recurso não está disponível gratuitamente.
 - [x] Definir Gilson Souza como responsável comercial, editorial, técnico e aprovador factual.
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
-- [ ] Confirmar acessos ao domínio/DNS e Google Search Console.
-- [ ] Recuperar ou confirmar acesso administrativo ao Google Business Profile.
+- [x] Confirmar acessos ao domínio/DNS e Google Search Console — disponíveis (20/08/2026).
+- [x] Recuperar ou confirmar acesso administrativo ao Google Business Profile — disponível (20/08/2026); a reivindicação depende da definição da entidade pública.
 - [x] Aprovar e implementar aviso resumido de uso dos dados junto ao formulário; página completa de privacidade conscientemente adiada.
 - [x] Aprovar a execução da ação extraordinária H0.
 - [x] Aprovar e-mail mais planilha privada como modelo operacional inicial de leads.
@@ -271,7 +277,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
 - [ ] Confirmar acesso ao Google Search Console.
 - [x] Confirmar que a empresa possui perfil no Google Maps.
-- [ ] Recuperar ou confirmar acesso administrativo ao Google Business Profile.
+- [x] Recuperar ou confirmar acesso administrativo ao Google Business Profile — disponível (20/08/2026); a reivindicação depende da definição da entidade pública.
 - [x] Adiar Google Analytics e novas ferramentas de mensuração até a finalização da construção do site e da página completa de privacidade.
 - [x] Aprovar planilha privada como registro inicial; responsável operacional: titular de `flavio@safrasnegocios.com.br`.
 - [x] Definir controles da planilha: contas individuais, acesso restrito às pessoas autorizadas dos setores de cadastro e comercial, autenticação em duas etapas e exclusão ou anonimização 12 meses após a última interação, salvo negociação ativa ou obrigação legal.
@@ -1125,80 +1131,26 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 | Retenção excessiva | cópias antigas em fornecedor, e-mail ou planilha | política de retenção e exclusão em todas as cópias |
 | Confusão de marca | resultados associam a empresa a outra organização | nome completo, descritor, NAP e entidade consistente |
 
-## 12. Registro de decisões
+## 12. Registro de decisões e histórico de execução
 
-| Data | Fase | Decisão | Motivo | Responsável | Revisar em |
-|---|---:|---|---|---|---|
-| 20/07/2026 | Geral | Adotar SEO programático assistido | Permite escala controlada com revisão e valor real | A definir | Encerramento da Fase 0 |
-| 20/07/2026 | Geral | Não criar uma página para cada palavra-chave | Evita duplicidade, doorway pages e risco de spam | A definir | Permanente |
-| 20/07/2026 | Geral | Executar uma fase por vez | Permite aprender e melhorar antes de ampliar | A definir | A cada gate |
-| 20/07/2026 | 0 | Remover depoimentos não reais; autorização recebida e execução local concluída | Integridade e confiança são pré-condições do programa | Gilson Souza | Após publicação |
-| 20/07/2026 | 0 | Não publicar razão social e CNPJ neste momento | O nome comercial foi considerado suficiente para a comunicação pública atual | Gilson Souza | Ao revisar identidade institucional |
-| 20/07/2026 | 0 | Adotar `(35) 3531-4046` como telefone e WhatsApp oficial | Eliminar divergência de contato no site | Gilson Souza | Quando houver mudança oficial |
-| 20/07/2026 | 0 | Gilson Souza assume inicialmente as responsabilidades comercial, editorial, técnica e factual | Há um responsável nominal único nesta fase | Gilson Souza | Ao ampliar a equipe editorial |
-| 20/07/2026 | 2 | Tratar a configuração atual do Web3Forms como temporária até recuperar sua governança | Não há conta administrativa confirmada para a chave existente | Gilson Souza | Antes de ampliar tráfego |
-| 20/07/2026 | 0 | Distinguir empresa fundada em 2015 da experiência de 30+ anos de Gilson | Evita alegação institucional incorreta | Editorial | Permanente |
-| 20/07/2026 | 2 | Não enviar PII ao Analytics ou BigQuery de SEO | Política do Google, minimização e privacidade | Técnico | Permanente |
-| 20/07/2026 | 2 | Iniciar com e-mail e planilha privada manual | Baixo custo e controle operacional inicial | Gilson Souza / titular de `flavio@safrasnegocios.com.br` | Ao atingir gatilhos |
-| 20/07/2026 | 4 | Usar URLs sem barra final | Convenção já adotada pelo Astro e Firebase | Técnico | Permanente |
-| 20/07/2026 | 6 | PT-BR primeiro; EN/ES somente com revisão | Preserva qualidade e alternates corretos | Editorial | Por lote |
-| 20/07/2026 | Geral | Não contratar mensalidade sem aprovação específica | Custo deve ter benefício demonstrável | Proprietário | Antes de contratar |
-| 21/07/2026 | 0 | Separar o e-mail público `atendimento@` do destinatário interno `flavio@` | Preserva clareza comercial e evita expor o canal operacional do formulário | Gilson Souza | Quando houver mudança oficial |
-| 21/07/2026 | 0 | Aprovar o pacote de contatos, campos do formulário, mensagem de sucesso textual e canais alternativos | Reduz atrito, melhora organização dos leads e evita perda de contato em caso de falha | Gilson Souza | Após validação em produção |
-| 21/07/2026 | 0 | Adotar publicamente “Desde 2015” | Evita confundir a idade da empresa com a experiência pessoal de Gilson | Gilson Souza | Permanente |
-| 21/07/2026 | 0 | Não contratar o plano pago do Web3Forms apenas para restrição de domínio nesta etapa | O recurso é pago e qualquer mensalidade exige aprovação específica | Gilson Souza | Se spam ou volume justificarem |
-| 21/07/2026 | 0 | Adiar a apresentação nominal do proprietário e dos funcionários para uma futura página de equipe | A estrutura e o conteúdo dessa apresentação ainda serão planejados | Empresa | Ao planejar a página de equipe |
-| 21/07/2026 | 0 | Aprovar diferenciais verificáveis sem citar o proprietário | Mantém a comunicação factual e compatível com a etapa atual do site | Empresa | Ao revisar conteúdo institucional |
-| 21/07/2026 | 0 | Publicar depoimentos futuros somente com autorização registrada | Protege a integridade, a imagem e o direito de retirada | Empresa | Antes de cada publicação |
-| 21/07/2026 | 0 | Não apresentar nomes, logotipos, contratos ou negociações de clientes e entidades sem autorização específica | Preserva confidencialidade e evita uso indevido de marca | Empresa | Permanente |
-| 21/07/2026 | 0 | Reter leads por 12 meses após a última interação | Equilibra continuidade comercial e minimização de dados | Cadastro e Comercial | Ao implementar a planilha |
-| 21/07/2026 | 0 | Permitir acesso à planilha para pessoas autorizadas dos setores de cadastro e comercial | O processo envolve mais de uma função operacional | Empresa | Ao nomear usuários e responsabilidades |
-| 21/07/2026 | 0 | Adotar meta interna de resposta em até um dia útil, sem promessa pública nesta etapa | Cria padrão operacional sem publicar compromisso ainda não medido | Comercial | Após medir o atendimento |
-| 21/07/2026 | 0 | Fixar o teto atual em R$ 0 de novas mensalidades | Prioriza recursos existentes e exige aprovação para qualquer exceção | Empresa | Antes de contratar recurso pago |
-| 21/07/2026 | 2 | Adiar Google Analytics até a finalização do site e da privacidade | A mensuração deve entrar com governança e transparência adequadas | Empresa | Após finalizar o site |
-| 21/07/2026 | 0 | Manter Search Console e Google Business Profile pendentes até localizar os acessos administrativos | Ainda não foi identificado quem controla essas propriedades | Empresa | Assim que os acessos forem localizados |
-| 21/07/2026 | Geral | Aprovar as práticas permitidas e proibidas do plano de SEO | Impede atalhos que prejudiquem reputação, qualidade ou indexação | Empresa | Permanente |
-| 21/07/2026 | 1 | Aprovar as especificações técnicas da Fase 1 | Define antecipadamente domínio canônico, idiomas, 404, metadados, imagem social, dados estruturados, sitemap, robots e regra de publicação | Empresa | Durante a implementação e no gate da Fase 1 |
-| 21/07/2026 | 0 | Aprovar a Fase 0 com pendências externas formalmente aceitas | Dados, responsáveis, orçamento e riscos foram tratados; os acessos pendentes possuem plano e não impedem o trabalho local | Empresa | Ao recuperar cada acesso |
-| 21/07/2026 | 1 | Iniciar a Fase 1 somente no ambiente local | Permite corrigir e validar a base técnica antes de qualquer nova publicação | Empresa | Antes de commit, PR ou deploy |
-| 21/07/2026 | 1 | Usar a foto real da fachada como imagem social inicial otimizada | Há um ativo verdadeiro e coerente com a entidade, sem criar imagem ou alegação artificial | Empresa / Técnico | Quando houver nova imagem institucional aprovada |
-| 21/07/2026 | 1 | Remover a tela de carregamento artificial do caminho visual | O bloqueio mínimo de 900 ms atrasava a percepção de carregamento e podia prejudicar métricas | Técnico | No gate da Fase 1 |
+Ambos migraram para **[`registro-operacional.md`](./registro-operacional.md)** em 20/08/2026.
 
-## 13. Histórico de execução
+O motivo: as duas listas crescem a cada entrega e empurravam o roadmap para o fim de um arquivo de
+1.258 linhas. Este documento passa a responder *"para onde vamos"*; o registro operacional responde
+*"o que já decidimos e fizemos"*.
 
-| Data | Fase | Ação | Resultado/evidência | Próximo passo |
-|---|---:|---|---|---|
-| 20/07/2026 | 0 | Criação deste plano operacional | Roadmap, gates e controles documentados | Levantar dados e acessos da Fase 0 |
-| 20/07/2026 | 0 | Auditoria técnica e pesquisa oficial | Soft 404, sitemap/robots ausentes, lacunas de entidade, privacidade e i18n confirmadas | Consolidar respostas empresariais |
-| 20/07/2026 | 0 | Respostas empresariais registradas | Dados institucionais, serviços, públicos, idiomas e restrições de custo documentados | Resolver pendências e autorizar H0 |
-| 20/07/2026 | 0 | Plano atualizado para versão 2.0 | H0, lead mínimo viável e gates refinados | Aprovar ações da Fase 0 |
-| 20/07/2026 | 0 | Novas confirmações empresariais registradas | WhatsApp, publicação de dados legais, responsáveis, GCP/Firebase, Web3Forms e planilha documentados | Resolver acessos e privacidade restantes |
-| 20/07/2026 | H0 | Depoimentos fictícios removidos localmente nos três idiomas | Dados, markup, JS, CSS, anchors e referências enganosas removidos; contatos oficiais alinhados | Validar e publicar por PR autorizado |
-| 20/07/2026 | H0 | Validação local concluída | `pnpm check` com 0 erros; build de 6 rotas; PT/EN/ES aprovados em mobile e desktop sem erro de runtime; diretiva TypeScript obsoleta removida | Solicitar autorização específica para commit, PR e deploy |
-| 21/07/2026 | 0 | Governança do formulário confirmada | Destino alterado para `flavio@safrasnegocios.com.br` e recebimento real validado pelo usuário | Manter chave sob controle e acompanhar spam |
-| 21/07/2026 | 0 | Pacote de contato e formulário aprovado para implementação | Quinze decisões comerciais e de apresentação aprovadas em conjunto | Validar código, build e apresentação antes de publicar |
-| 21/07/2026 | 1 | Especificações da recuperação técnica registradas | Dez decisões aprovadas e documentadas sem iniciar a execução nem alterar o site | Encerrar ou aceitar formalmente as pendências da Fase 0 antes de iniciar a Fase 1 |
-| 21/07/2026 | 0 | Gate de governança encerrado | Fase 0 aprovada com dados, responsáveis, teto de gastos, controles e pendências externas aceitas | Iniciar a Fase 1 localmente |
-| 21/07/2026 | 1 | Auditoria local, pública e do GCP/Firebase concluída | Falso 200, ausência real de robots/sitemap, metadados incompletos, fluxo de deploy e estado da produção documentados | Implementar a base técnica |
-| 21/07/2026 | 1 | Base técnica de recuperação implementada localmente | 404, robots, sitemap, canonical, hreflang, sugestão de idioma, metadados sociais, LocalBusiness, noindex e imagem social concluídos | Validar build, HTTP e experiência |
-| 21/07/2026 | 1 | Validação técnica e visual local concluída | 0 erros; 7 rotas; sitemap com 3 URLs; URL inexistente 404; redirects 301/302; 404 e sugestão testados em desktop/mobile e em três idiomas | Auditar Lighthouse, acessibilidade e demais recursos |
+O registro operacional contém:
 
-### Modelo para novas entradas
+- **Registro de decisões** — decisões tomadas, com motivo, responsável e data de revisão;
+- **Decisões em aberto** — o que depende de confirmação externa e **bloqueia** trabalho já
+  identificado;
+- **Histórico de execução** — ações, evidências e próximos passos;
+- **Riscos registrados fora do plano**;
+- o modelo para novas entradas.
 
-Copiar uma linha para o Histórico de execução e registrar:
+**Ao concluir qualquer trabalho deste plano, registrar lá — não aqui.**
 
-- data;
-- fase;
-- ação realizada;
-- responsável;
-- arquivos ou páginas alterados;
-- evidência antes e depois;
-- métricas observadas;
-- custo, se houver;
-- risco ou pendência;
-- próximo passo.
-
-## 14. Revisão de encerramento de fase
+## 13. Revisão de encerramento de fase
 
 Preencher ao final de cada fase:
 
@@ -1219,19 +1171,106 @@ Preencher ao final de cada fase:
 - **Responsáveis pela decisão:**
 - **Data da próxima revisão:**
 
-## 15. Próximas ações da Fase 1
+## 14. Próximas ações
 
-A base técnica foi implementada e validada localmente. As mudanças permanecem sem commit, PR ou deploy e serão acumuladas com os demais ajustes do site até nova autorização específica.
+Atualizado em 20/08/2026. A redação anterior descrevia a base técnica como pendente de publicação —
+ela já foi publicada pelas PRs #18, #19 e #20, e a produção foi auditada. O que segue é o que
+realmente resta.
 
-1. executar Lighthouse local em PT-BR, EN e ES, priorizando mobile;
-2. revisar LCP, CLS, scripts, imagens e recursos ainda pesados;
-3. concluir testes de teclado, foco, leitor de tela e redução de movimento;
-4. revisar headings, links internos, contraste e textos alternativos de toda a home;
-5. revalidar o domínio `www`, o certificado e todos os códigos HTTP antes do gate;
-6. manter Search Console e Google Business Profile como pendências acompanhadas, sem bloquear os testes locais;
-7. continuar os ajustes institucionais e do formulário já aprovados;
-8. criar futuramente a página completa de privacidade antes de instalar o Google Analytics;
-9. não realizar commit, PR ou deploy até o conjunto estar revisado e houver autorização específica.
+### Para fechar o gate da Fase 1
+
+1. repetir o Lighthouse mobile de **ES** em condições controladas — a mediana ficou em 90, com
+   execuções entre 89 e 99, e o gate exige 95;
+2. revalidar externamente o caminho **IPv6 de `www`**, para separar limitação da rede de teste de
+   um problema real de rota;
+3. coletar **INP de campo** quando houver dados (depende da Fase 2).
+
+### Desbloqueadas em 20/08/2026
+
+Os acessos ao Google Search Console, ao Google Business Profile, ao Instagram e ao DNS foram
+confirmados como disponíveis. Isso remove a pendência mais antiga do programa, aberta desde a
+Fase 0, e viabiliza a Fase 2.
+
+### Antes de iniciar a Fase 2
+
+4. responder as **decisões em aberto** do
+   [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto) — em especial a
+   identidade da entidade pública. Enquanto não houver resposta, não alterar `LocalBusiness`,
+   não reivindicar o perfil comercial e não padronizar NAP;
+5. criar a **página completa de privacidade** — pré-requisito registrado para instalar analytics;
+6. definir o consentimento de cookies antes de qualquer mensuração.
+
+### Em paralelo
+
+7. a trilha de canais e atribuição foi destacada para
+   [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md), que depende da Fase 2
+   e não deve ser executada antes dela.
+
+**Regra mantida:** nenhum commit, PR ou deploy sem autorização específica.
+
+---
+
+## 15. Auditoria externa — 20/08/2026
+
+Primeira auditoria de presença fora do site. Complementa o diagnóstico da §6, que olhava apenas
+para o código e para a resposta HTTP.
+
+### Estado técnico confirmado em produção
+
+`/`, `/en`, `/es`, `robots.txt` e `sitemap-index.xml` responderam 200; URL inexistente respondeu
+404 real; `/contato` respondeu 301 e `/qr` respondeu 302. Canonical, quatro alternates, Open Graph
+e `LocalBusiness` presentes e coerentes nos três idiomas. **A Fase 1 se sustenta em produção.**
+
+### Achados
+
+**1. Conflito de entidade — bloqueante.** Existem duas empresas registradas sob a mesma marca na
+cidade, com datas de fundação e endereços diferentes. O site combina dados das duas: publica
+"Desde 2015" e um endereço que pertencem a registros distintos. Isso impede o casamento da
+entidade pelo buscador e compromete a reivindicação do perfil comercial. Registrado como decisão
+em aberto. Identificadores no registro privado da empresa — não neste repositório.
+
+**2. NAP inconsistente.** Três telefones diferentes circulam em diretórios públicos, um deles o
+publicado no site. Consistência de nome, endereço e telefone é pilar de presença local.
+
+**3. Confusão de marca confirmada.** O termo "Safras" no setor agro é dominado por uma consultoria
+nacional de grande porte, com décadas de operação e presença internacional, além de outras
+empresas com nomes semelhantes. Disputar o termo genérico é inviável. O caminho é o descritor
+geográfico e a desambiguação de entidade — títulos com a cidade, `sameAs` ligando perfis oficiais e
+perfil comercial consistente.
+
+**4. Ausência em diretório setorial.** A empresa não consta na lista de corretores do centro de
+comércio de café estadual, onde constam concorrentes diretos. É credencial de autoridade e fonte
+legítima de link. Registrado como decisão em aberto.
+
+**5. Superfície de conteúdo insuficiente.** O site tem **uma** URL indexável por idioma. O
+concorrente digital de referência do setor mantém **dez**, com hub editorial e slugs orientados a
+intenção de busca. Não há o que ranquear além da home — este é o principal limitador de
+posicionamento hoje, acima de design e de performance.
+
+**6. Canal social subaproveitado.** O perfil oficial em rede social tem audiência real de quase dois
+mil seguidores e já aponta para o site, mas nenhum acesso vindo dele é medido ou atribuído. Além
+disso, o descritor da marca no perfil difere do descritor do site.
+
+### Vantagens competitivas observadas
+
+- O site é estático e entrega HTML completo; o concorrente de referência renderiza o conteúdo por
+  JavaScript, entregando poucos KB de HTML inicial.
+- Desempenho, acessibilidade e trilinguismo já estão acima do padrão observado no setor.
+- Nenhum concorrente analisado publica dados regionais ou cotações — o espaço previsto para o
+  Observatório (Fase 7) está aberto.
+
+### Consequências para o plano
+
+- A Fase 4 (arquitetura da informação) ganha prioridade estratégica: é ela que resolve o achado 5.
+- A Fase 2 passa a depender da resposta ao achado 1 para as ações de presença oficial.
+- Os achados 3 e 6 alimentam a trilha do
+  [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md).
+- O risco "Confusão de marca" da §11 deixa de ser hipótese e passa a fato observado.
+
+**Método:** consulta a buscador público, diretórios de empresas, perfis públicos e sites de
+concorrentes, mais verificação direta de códigos HTTP e metadados em produção. As consultas usaram
+índice de busca não regionalizado — servem como direção, **não** como medida de posicionamento no
+Brasil. A medida real virá do Search Console, agora acessível.
 
 ## 16. Referências oficiais
 
