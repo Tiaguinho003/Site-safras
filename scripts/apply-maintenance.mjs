@@ -94,6 +94,22 @@ async function main() {
     removed.push(entry.name);
   }
 
+  // 2b. Dentro de cada home de idioma, só o index.html sobrevive.
+  //
+  // As homes de idioma são preservadas por inteiro no passo anterior, então
+  // qualquer sub-rota delas — /en/privacy, /es/privacidad — continuaria no ar
+  // enquanto a equivalente em PT já teria sido removida. O site ficaria meio
+  // aberto em dois idiomas, que é a mesma classe de defeito corrigida na
+  // Fase 1. A poda precisa descer um nível.
+  for (const locale of LOCALE_HOMES) {
+    const dir = resolve(DIST, locale);
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      await rm(resolve(dir, entry.name), { recursive: true, force: true });
+      removed.push(`${locale}/${entry.name}`);
+    }
+  }
+
   // 3. Valida — build quebrado é melhor que site meio no ar.
   const failures = [];
 
@@ -111,6 +127,14 @@ async function main() {
   for (const entry of await readdir(DIST, { withFileTypes: true })) {
     if (entry.isDirectory() && !KEEP_DIRS.has(entry.name)) {
       failures.push(`${entry.name}/ deveria ter sido removido`);
+    }
+  }
+
+  for (const locale of LOCALE_HOMES) {
+    for (const entry of await readdir(resolve(DIST, locale), { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        failures.push(`${locale}/${entry.name}/ deveria ter sido removido`);
+      }
     }
   }
 

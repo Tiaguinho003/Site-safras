@@ -66,7 +66,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| produtor (de café) | coffee grower 🟡 / producer | productor (cafetero) | "Grower" eleva o tom (specialty/premium). "Producer" é mais genérico. **Ver §10** |
+| produtor (de café) | coffee grower 🟡 / producer | productor (cafetero) | "Grower" eleva o tom (specialty/premium). "Producer" é mais genérico. **Ver §11** |
 | comprador | buyer | comprador | OK |
 | exportadora | exporter / export company | exportadora | "Exporter" é mais curto e idiomático |
 | importadora | importer | importadora | OK |
@@ -79,7 +79,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| fazenda | estate 🟡 / farm | finca 🟡 / hacienda | "Estate" é premium specialty; "farm" é genérico. **Ver §10** |
+| fazenda | estate 🟡 / farm | finca 🟡 / hacienda | "Estate" é premium specialty; "farm" é genérico. **Ver §11** |
 | lavoura | crop fields / coffee fields | cultivo cafetero | "Crop" sozinho é confuso (= colheita também) |
 | safra | harvest | cosecha | "Crop" em EN pode confundir com "cultivo". "Harvest" é específico. |
 | colheita | harvest (action) | cosecha (acción) | mesmo termo, contexto distingue |
@@ -185,7 +185,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| Solicitar Serviço | Request a Quote 🟡 / Get Started | Solicitar Servicio / Solicitar Cotización | "Service" sozinho em EN é fraco. "Request a Quote" é B2B clássico. "Get Started" é mais punchy. **Ver §10** |
+| Solicitar Serviço | Request a Quote 🟡 / Get Started | Solicitar Servicio / Solicitar Cotización | "Service" sozinho em EN é fraco. "Request a Quote" é B2B clássico. "Get Started" é mais punchy. **Ver §11** |
 | Falar no WhatsApp | Chat on WhatsApp | Chatear por WhatsApp | "Message us on WhatsApp" também funciona |
 | Voltar ao topo | Back to top | Volver arriba | OK |
 | Enviar mensagem | Send message | Enviar mensaje | OK |
@@ -300,7 +300,50 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 
 ---
 
-## 9. Formatos locais (datas, números, telefone)
+## 9. Termos jurídicos e de privacidade
+
+Vocabulário da política de privacidade, adicionado em 20/08/2026. A referência em PT é a
+**LGPD (Lei nº 13.709/2018)**; em EN, o vocabulário do **GDPR**, que é o padrão internacional que o
+público estrangeiro reconhece; em ES, a terminologia hispano-americana de proteção de dados.
+
+| PT | EN | ES | Justificativa |
+|----|-----|-----|---------------|
+| dados pessoais | personal data 🟡 / personal information | datos personales | "Personal data" é o termo do GDPR. "Personal information" é o uso norte-americano — mais coloquial, menos preciso |
+| titular (dos dados) | data subject | titular (de los datos) | "Data subject" é o termo técnico consagrado. "Owner" seria errado: o titular não é proprietário no sentido patrimonial |
+| tratamento (de dados) | processing | tratamiento | ❗ **Nunca "treatment"** — em EN significa tratamento médico ou modo de lidar com alguém. "Processing" é o termo legal |
+| controlador | controller | responsable (del tratamiento) | ES hispano-americano usa "responsable", não "controlador" |
+| operador | processor | encargado (del tratamiento) | Segue o par controller/processor do GDPR |
+| base legal | legal basis | base legal | OK |
+| consentimento | consent | consentimiento | OK |
+| finalidade | purpose | finalidad | ❗ Nunca "finality" |
+| compartilhamento | sharing / disclosure | compartición / comunicación | "Disclosure" quando for revelação a terceiro; "sharing" no uso corrente |
+| eliminação | erasure 🟡 / deletion | eliminación / supresión | "Erasure" é o termo do GDPR ("right to erasure"); "deletion" é o corrente |
+| anonimização | anonymization | anonimización | OK |
+| portabilidade | portability | portabilidad | OK |
+| revogar o consentimento | withdraw consent | revocar el consentimiento | ❗ Nunca "revoke consent" em EN — "withdraw" é o verbo do GDPR |
+| prazo de guarda / retenção | retention period | plazo de conservación | ES prefere "conservación" a "retención" |
+| política de privacidade | privacy policy | política de privacidad | OK |
+| cookie | cookie | cookie | Termo internacional, não se traduz |
+| armazenamento de sessão | session storage | almacenamiento de sesión | Termo técnico do navegador |
+
+### Regra de tom para a política
+
+Texto jurídico neste site é **explicativo, não defensivo**. Frase curta, voz ativa, sem
+"outrossim", sem "o presente instrumento". O leitor é um produtor ou comprador de café, não um
+advogado. Em EN e ES vale o mesmo: clareza acima de formalidade.
+
+### Rota da página
+
+| Chave | PT | EN | ES |
+|-------|-----|-----|-----|
+| `privacidade` | `/privacidade` | `/en/privacy` | `/es/privacidad` |
+
+Registrada em `src/i18n/routes.ts`, que é a fonte da verdade das rotas traduzidas — o equivalente
+de `anchors.ts` para páginas. Ver §6.
+
+---
+
+## 10. Formatos locais (datas, números, telefone)
 
 | | PT-BR | EN (US English) | ES |
 |---|-------|-----------------|-----|
@@ -313,7 +356,7 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 
 ---
 
-## 10. Decisões finais (resolvidas em 2026-05-14)
+## 11. Decisões finais (resolvidas em 2026-05-14)
 
 ✅ **Todas as decisões abaixo foram tomadas e estão locked**. Manter como referência histórica.
 
@@ -385,7 +428,7 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 
 ---
 
-## 11. Workflow de manutenção (futura)
+## 12. Workflow de manutenção (futura)
 
 Quando adicionar nova string ao site:
 1. Adicionar a chave em `src/i18n/pt-br.ts` primeiro.
@@ -397,7 +440,7 @@ Quando adicionar nova string ao site:
 
 ---
 
-## 12. Referências consultadas
+## 13. Referências consultadas
 
 - SCA (Specialty Coffee Association) — vocabulário oficial: cupping, grading, scoring.
 - Volcafe, Sucafina, Cafe Imports — tom B2B internacional.

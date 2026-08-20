@@ -6,10 +6,12 @@ import lavouraAerea from "../../assets/about/lavoura-aerea.png";
 import { mainNav } from "../../data/navigation";
 import { useTranslation } from "../../i18n";
 
-const { t, localizeAnchor } = useTranslation(Astro);
+const { t, localizeAnchor, route } = useTranslation(Astro);
 const currentYear = new Date().getFullYear();
 
 const servicesHref = localizeAnchor("servicos");
+// Slug traduzido por idioma — /privacidade, /en/privacy, /es/privacidad.
+const privacyHref = route("privacidade");
 const publicEmail = t("contact.details.email");
 const publicPhone = t("contact.details.phone");
 const whatsappHref = `https://wa.me/5535984617193?text=${encodeURIComponent(
@@ -177,8 +179,15 @@ const contactLinks = [
     <div
       class="mt-8 md:mt-20 pt-5 md:pt-8 border-t border-paper/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-paper/50"
     >
-      <p>
-        © {currentYear} {t("brand.name")}. {t("footer.copyright")}
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span>© {currentYear} {t("brand.name")}. {t("footer.copyright")}</span>
+        <span class="hidden md:inline text-paper/25" aria-hidden="true">·</span>
+        <a
+          href={privacyHref}
+          class="underline underline-offset-4 decoration-paper/25 hover:text-paper hover:decoration-paper/60 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+        >
+          {t("footer.privacy")}
+        </a>
       </p>
       <div class="flex items-center gap-5">
         <button

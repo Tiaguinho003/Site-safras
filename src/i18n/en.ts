@@ -271,6 +271,122 @@ const dict = {
     },
   },
 
+  privacy: {
+    meta: {
+      title: "Privacy Policy | Safras & Negócios",
+      description:
+        "How Safras & Negócios handles the data submitted through this site: what is collected, why, who it is shared with, and how to exercise your rights.",
+    },
+    title: "Privacy Policy",
+    updatedLabel: "Last updated",
+    updatedAt: "August 20, 2026",
+    intro:
+      "This policy explains, in plain language, how Safras & Negócios processes the personal data received through this website, under Brazil's General Data Protection Law (Lei nº 13.709/2018, the LGPD).",
+    sections: [
+      {
+        title: "Who processes your data",
+        body: [
+          "The controller is Safras & Negócios, a coffee brokerage that receives clients at Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso, Minas Gerais, Brazil.",
+          "For anything related to this policy, including exercising your rights, write to atendimento@safrasnegocios.com.br.",
+          "This policy covers safrasenegocios.com.br. It does not cover third-party sites you may reach through links published here.",
+        ],
+      },
+      {
+        title: "What we collect",
+        body: [
+          "We collect only what you type into the contact form yourself:",
+        ],
+        list: [
+          "name",
+          "email",
+          "phone",
+          "state",
+          "profile — grower, buyer, exporter, cooperative, financial institution, partner or other",
+          "interest — the subject that prompted your enquiry",
+          "message, when you choose to write one",
+        ],
+        after: [
+          "There is no account, no login and no restricted area. Browsing the site requires no data from you.",
+          "The form contains a hidden field whose only purpose is to block automated submissions. It is ignored when filled in by a person and holds no information about you.",
+        ],
+      },
+      {
+        title: "Why we use it",
+        body: [
+          "We use the form data to review your enquiry, prepare a proper answer and reach you through the channels you provided. The processing follows from your own request to be contacted.",
+          "We do not use this data for advertising. We do not sell, rent or trade your data.",
+        ],
+      },
+      {
+        title: "Who we share it with",
+        body: [
+          "Form submissions are handled by Web3Forms, an external service that receives what you filled in and forwards it to the Safras & Negócios inbox. The data also passes through the company's email provider.",
+          "Beyond that, we do not disclose your data to third parties, except where required by law or by a competent authority.",
+        ],
+      },
+      {
+        title: "Cookies and similar technologies",
+        body: [
+          "This site uses a single cookie, named safras_locale. It stores only the language you chose — Portuguese, English or Spanish — so your preference is respected on your next visit. It lasts one year.",
+          "It is written only when you act: switching language in the selector, or accepting the language suggestion. If you do neither, no cookie is written.",
+          "The site also uses the browser's session storage to remember that you dismissed the language suggestion. That record is cleared when you close the tab.",
+          "This site currently uses no audience analytics, no social media pixel and no advertising cookie. Should that change, this policy will be updated, and you will be asked beforehand where the law requires it.",
+        ],
+      },
+      {
+        title: "How long we keep it",
+        body: [
+          "Messages remain in the company inbox for as long as needed to answer your enquiry and keep a record of the business relationship, or for as long as the law requires.",
+          "You may request erasure at any time, and we comply, except where we are legally required to retain the data.",
+        ],
+      },
+      {
+        title: "Your rights",
+        body: ["The law grants you the right to:"],
+        list: [
+          "confirm whether we process your data, and access it",
+          "correct incomplete, inaccurate or outdated data",
+          "request anonymization, blocking or erasure of unnecessary or excessive data",
+          "request data portability",
+          "know who we share your data with",
+          "withdraw consent and request erasure of data processed on that basis",
+          "object to processing you consider unlawful",
+        ],
+        after: [
+          "To exercise any of them, write to atendimento@safrasnegocios.com.br. We may ask for information confirming your identity, so that we do not hand data to the wrong person.",
+        ],
+      },
+      {
+        title: "Security",
+        body: [
+          "The site is served exclusively over an encrypted connection (HTTPS) and stores no personal data in a database of its own: form content goes straight to the company inbox.",
+          "Access to those messages is restricted to the people handling the enquiry.",
+        ],
+      },
+      {
+        title: "Children and teenagers",
+        body: [
+          "This site addresses coffee growers, buyers and partners. We do not knowingly collect data from children or teenagers. If we identify such a record, we erase it.",
+        ],
+      },
+      {
+        title: "Changes to this policy",
+        body: [
+          "When this policy changes, the new version takes effect once published on this page, and the update date at the top changes with it.",
+          "Changes that widen data processing — installing a measurement tool, for instance — are published here before they go live.",
+        ],
+      },
+    ],
+    contact: {
+      title: "Talk to us",
+      body: "Questions about this policy or about your data:",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      addressLabel: "Address",
+    },
+    backHome: "Back to the home page",
+  },
+
   footer: {
     tagline: "Tradition and Trust in the coffee market.",
     columns: {
@@ -283,6 +399,7 @@ const dict = {
     backToTop: "Top",
     backToTopAriaLabel: "Back to top",
     copyright: "All rights reserved.",
+    privacy: "Privacy Policy",
     developedBy: "Developed by",
     developerName: "Measy",
     developerAriaLabel: "Chat with Measy on WhatsApp",
