@@ -642,8 +642,10 @@ O que ficou pronto:
 Verificado com Playwright, com um ID de teste: recusa não carrega, aceite carrega, aceite anterior
 carrega sozinho, GPC não carrega, e a configuração emitida traz os dois sinais desligados.
 
-**Bloqueio remanescente, do lado do cliente:** criar a propriedade GA4 e gerar o código de
-verificação. Enquanto não vierem, a fase está pronta mas desligada.
+**Estado em 20/08/2026:** a propriedade GA4 foi criada e o `PUBLIC_GA4_MEASUREMENT_ID` está
+preenchido — a medição está **ativa sob consentimento**, com retenção de 14 meses confirmada no
+painel antes da publicação. Permanece pendente apenas o código de verificação do Search Console,
+que mantém `PUBLIC_GSC_VERIFICATION` vazia sem afetar a medição.
 
 **Nota sobre desempenho:** o Lighthouse não clica em "Aceitar", então a nota continuará 100 mesmo
 depois da ativação. O custo real do GA4 recai sobre quem consente e **não aparece no laboratório** —
@@ -657,8 +659,8 @@ registrado para que o 100 não seja lido como ausência de custo.
 - [ ] Verificar todas as variantes necessárias no Search Console.
 - [ ] Enviar o sitemap.
 - [ ] Registrar páginas indexadas, excluídas e erros.
-- [x] Configurar analytics com consentimento apropriado — código pronto e verificado, inerte até o `G-XXXXXXXXXX` existir (Fase D).
-- [ ] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — depende do cliente.
+- [x] Configurar analytics com consentimento apropriado (Fase D).
+- [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
 - [ ] Preencher `PUBLIC_GSC_VERIFICATION` com o código do Search Console — depende do cliente.
 - [ ] Definir conversões: WhatsApp, telefone, formulário e e-mail.
 - [ ] Excluir acessos internos quando possível.
