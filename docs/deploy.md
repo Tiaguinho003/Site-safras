@@ -210,8 +210,27 @@ done
 
 Esperado: `200` nas cinco primeiras · `404` na inexistente · `301` em `/contato` · `302` em `/qr`.
 
-Conferir também: canonical e quatro alternates presentes; uma única `<h1>`; nenhum erro de console;
-e Lighthouse mobile quando a entrega tocar performance.
+Conferir também: canonical e quatro alternates presentes; uma única `<h1>`; nenhum erro de console.
+
+### Medição de performance
+
+Performance é medida pela **API do PageSpeed Insights**, não por Lighthouse local. O Lighthouse do
+PSI roda em infraestrutura padronizada do Google; o local herda a contenção de CPU da máquina, e foi
+exatamente esse ruído que travou o gate da Fase 1 por semanas, com a mesma URL oscilando entre 89 e
+99.
+
+```bash
+set -a; . ./.env; set +a          # carrega PAGESPEED_API_KEY
+node scripts/measure-psi.mjs --runs=3
+```
+
+O script mede `/`, `/en` e `/es`, reporta a **mediana** de cada métrica mais a amplitude entre
+execuções, e sai com código 1 se alguma página reprovar no gate. Amplitude alta significa que a
+própria medição não é confiável — aumentar `--runs` antes de concluir qualquer coisa.
+
+A chave vive em `PAGESPEED_API_KEY` no `.env` (não versionado; ver `.env.example`). Foi criada no
+projeto GCP `site-safras` e é **restrita à API do PageSpeed**. É uma credencial: não imprimir, não
+commitar.
 
 ---
 
@@ -221,5 +240,8 @@ e Lighthouse mobile quando a entrega tocar performance.
 |---|---|
 | Sem canal de preview | Nada é visto em ambiente real antes de virar produção |
 | Sem CI de qualidade | Lighthouse, acessibilidade e lint dependem de disciplina manual |
-| Modo manutenção quebrado | Não pode ser acionado sem correção prévia — ver §4 |
 | Chave do Web3Forms versionada em repo público | Vetor de spam quando o tráfego crescer |
+| Sem registro `AAAA` no domínio apex | Rede exclusivamente IPv6 não alcança o apex; `www` tem IPv6 |
+
+> O modo manutenção constava aqui como quebrado. **Corrigido em 20/08/2026** (PR #23): hoje é
+> uma lista de permitidos, com validação que derruba o build se o resultado não bater — ver §4.

@@ -11,13 +11,20 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.0 |
-| Fase ativa | Fase 1 — Recuperação técnica |
+| Versão | 3.1 |
+| Fase ativa | Fase 2 — Mensuração e presença oficial |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | EM VALIDAÇÃO — recuperação técnica publicada e reconfirmada em produção; gate aberto por desempenho em ES e ausência de dados de campo |
+| Estado geral | **Fase 1 APROVADA em 20/08/2026** — gate integralmente atendido, com performance 100 nos três idiomas medida no PageSpeed Insights. Fase 2 autorizada a iniciar |
 | Última revisão | 20/08/2026 |
-| Próxima revisão | Após nova rodada representativa do Lighthouse em ES e resposta às decisões em aberto |
+| Próxima revisão | Ao concluir a página de privacidade e o consentimento, pré-requisitos do analytics |
 | Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.1 (20/08/2026):** Fase 1 encerrada como APROVADA — o item de performance
+que faltava foi resolvido por método de medição, não por alteração de código; adotada a API do
+PageSpeed Insights com mediana e amplitude registradas; pendência de IPv6 encerrada, com o novo
+achado do `AAAA` ausente no apex; §14 reescrita com a sequência acordada até o fim da Fase 2; §15
+atualizada — achados 1 e 2 marcados como resolvidos e a recomendação de cidade no título revogada
+por decisão do cliente.
 
 **Mudanças da versão 3.0 (20/08/2026):** registro de decisões e histórico de execução migraram
 para o registro operacional; §14 reescrita (descrevia como pendente uma publicação já feita);
@@ -231,8 +238,8 @@ Estas regras valem em todas as fases:
 | Fase | Nome | Estado | Saída principal |
 |---:|---|---|---|
 | 0 | Governança e verdade comercial | APROVADA | Dados, acessos, responsáveis e regras aprovados |
-| 1 | Recuperação técnica | EM ANDAMENTO | Site rastreável, indexável, rápido e sem falsos 200 |
-| 2 | Mensuração e presença oficial | NÃO INICIADA | Baseline, Search Console, Analytics e perfil comercial |
+| 1 | Recuperação técnica | **APROVADA** | Site rastreável, indexável, rápido e sem falsos 200 |
+| 2 | Mensuração e presença oficial | **EM ANDAMENTO** | Baseline, Search Console, Analytics e perfil comercial |
 | 3 | Inteligência de demanda | NÃO INICIADA | Mapa de públicos, intenções e oportunidades |
 | 4 | Arquitetura da informação | NÃO INICIADA | Estrutura de URLs, hubs e links internos |
 | 5 | Plataforma editorial | NÃO INICIADA | Conteúdo validado, versionado e publicável com segurança |
@@ -347,7 +354,7 @@ Foi confirmado que os depoimentos atualmente publicados não são reais. Eles en
 
 ## Fase 1 — Recuperação técnica
 
-**Estado:** EM VALIDAÇÃO — implementação publicada e produção auditada; estabilidade de desempenho em ES pendente
+**Estado:** APROVADA — 20/08/2026. Gate integralmente atendido; ver “Medição definitiva” abaixo.
 
 ### Objetivo
 
@@ -480,12 +487,65 @@ As três execuções de ES variaram entre 89, 90 e 99 de performance, com TBT en
 - [x] Rodar auditoria Lighthouse e concluir testes locais de links e acessibilidade.
 - [x] Validar produção após o deploy aprovado, mantendo as pendências explícitas de ES, IPv6 de `www` e INP de campo.
 
+### Medição definitiva — 20/08/2026
+
+A medição de 21/07/2026 deixou o gate aberto: o espanhol marcou mediana 90, com execuções entre 89
+e 99 e TBT oscilando de 95 a 403 ms. A suspeita era um defeito específico do ES.
+
+**A comparação estrutural dos três idiomas no build derrubou essa hipótese:**
+
+| | PT | EN | ES |
+|---|---:|---:|---:|
+| HTML | 167.991 b | 167.227 b | 168.192 b |
+| Tags no DOM | 631 | 629 | 630 |
+| Scripts | 13 | 13 | 13 |
+| JS inline | 13.605 b | 13.604 b | 13.604 b |
+
+São praticamente o mesmo documento — 2 tags e 1 byte de diferença. Não há nada estruturalmente
+específico do espanhol. A variação de 89 a 99 na mesma URL é assinatura de contenção de CPU na
+máquina de teste, não de diferença no site.
+
+**Nova medição, via PageSpeed Insights API**, que roda o Lighthouse nos servidores do Google, com
+CPU e rede padronizadas — eliminando exatamente a variável suspeita:
+
+| Idioma | Performance | LCP | FCP | TBT | CLS | Amplitude |
+|---|---:|---:|---:|---:|---:|---:|
+| PT-BR | **100** | 1,43 s | 1,20 s | 0 ms | 0,0009 | 0 |
+| EN | **100** | 1,43 s | 1,20 s | 0 ms | 0,0008 | 0 |
+| ES | **100** | 1,43 s | 1,20 s | 0 ms | 0,0006 | 0 |
+
+**Método:** `scripts/measure-psi.mjs`, estratégia mobile, mediana de 3 execuções por URL, em **duas
+rodadas independentes** — 18 execuções ao todo. Todas retornaram 100, com amplitude 0 em cada URL.
+A medição local que gerou o impasse não era reprodutível; esta é.
+
+**Conclusão:** não havia problema de performance em espanhol. Havia problema de medição. Nenhuma
+otimização foi necessária e nenhum código de `src/` foi alterado.
+
+> Toda medição futura deve usar este script e reportar **mediana**, nunca a melhor execução. Foi a
+> ausência desse critério que manteve o gate aberto por um mês.
+
+### Desfecho do IPv6 de `www` — 20/08/2026
+
+A pendência registrava que a conexão IPv6 de `www` havia sido reiniciada no computador de teste.
+Verificado:
+
+- a máquina de teste **não possui endereço IPv6 global** — o erro era local, como se suspeitava;
+- `www.safrasenegocios.com.br` **tem IPv6**, via `CNAME` para `site-safras.web.app`, que publica
+  registro `AAAA`;
+- `www` responde 301 para o domínio sem `www`, como esperado.
+
+**Achado novo:** o domínio apex `safrasenegocios.com.br` possui apenas registro `A`, **sem `AAAA`**.
+Clientes exclusivamente IPv6 não alcançam o domínio principal de forma direta. Não é regressão —
+sempre foi assim — mas é uma lacuna de configuração de DNS, registrada para tratamento na Fase 2,
+quando os acessos de DNS forem usados. Confirmar no console do Firebase quais registros ele indica
+para o domínio antes de alterar a zona.
+
 ### Gate da Fase 1
 
 - [x] URL inexistente retorna 404, não a página inicial, em produção.
 - [x] `robots.txt` e `sitemap-index.xml` respondem corretamente em produção.
 - [x] Nenhum erro crítico de canonical ou `hreflang` em produção.
-- [ ] Lighthouse mobile igual ou superior a 95 nas páginas principais.
+- [x] Lighthouse mobile igual ou superior a 95 nas páginas principais — **100 em PT, EN e ES** (PageSpeed Insights, mediana de 3 execuções, duas rodadas independentes).
 - [x] LCP e CLS dentro das metas em laboratório; INP será validado com dados de campo quando disponível.
 - [x] Checklist básico de acessibilidade aprovado em produção.
 - [x] Build e deploy de produção aprovados.
@@ -496,13 +556,26 @@ As três execuções de ES variaram entre 89, 90 e 99 de performance, com TBT en
 - **Relatório técnico:** implementação, PRs #18 e #19, dois Cloud Builds e auditoria pública concluídos; site principal publicado e funcional.
 - **Métricas antes/depois:** performance PT 53 → 97; acessibilidade 97 → 100; transferência aproximada 10,8 MiB → 441 KB; LCP 17,6 s → 1,95 s em PT.
 - **Pendências:** repetir Lighthouse de ES em condições controladas, validar INP com dados de campo e revalidar externamente o caminho IPv6 de `www`.
-- **Decisão:** mover a Fase 1 para EM VALIDAÇÃO; não aprovar o gate integral enquanto a mediana de performance em ES permanecer abaixo de 95.
+- **Decisão:** mover a Fase 1 para EM VALIDAÇÃO; não aprovar o gate integral enquanto a mediana de performance em ES permanecer abaixo de 95. *(Registro histórico — superado pelo encerramento final de 20/08/2026, logo abaixo.)*
+
+#### Encerramento final — 20/08/2026
+
+- **Relatório técnico:** o único item pendente do gate era o desempenho em espanhol. A comparação
+  estrutural dos três idiomas e a nova medição via PageSpeed Insights demonstraram que não havia
+  defeito no site, e sim medição não reprodutível.
+- **Métricas finais:** performance **100** em PT, EN e ES; LCP 1,43 s; TBT 0 ms; CLS abaixo de
+  0,001. Mediana de 3 execuções por URL, em duas rodadas independentes.
+- **Pendências resolvidas:** desempenho em ES e IPv6 de `www`.
+- **Pendências transferidas para a Fase 2:** INP de campo, que depende de dados reais de usuário, e
+  o registro `AAAA` ausente no domínio apex.
+- **Código alterado:** nenhum em `src/`. A correção foi de método, não de implementação.
+- **Decisão:** **Fase 1 APROVADA.** Fase 2 autorizada a iniciar.
 
 ---
 
 ## Fase 2 — Mensuração e presença oficial
 
-**Estado:** NÃO INICIADA
+**Estado:** EM ANDAMENTO desde 20/08/2026
 
 ### Objetivo
 
@@ -1173,38 +1246,40 @@ Preencher ao final de cada fase:
 
 ## 14. Próximas ações
 
-Atualizado em 20/08/2026. A redação anterior descrevia a base técnica como pendente de publicação —
-ela já foi publicada pelas PRs #18, #19 e #20, e a produção foi auditada. O que segue é o que
-realmente resta.
+Atualizado em 20/08/2026, com a Fase 1 aprovada.
 
-### Para fechar o gate da Fase 1
+A sequência acordada com o cliente: **Fase 1 (concluída) → privacidade e consentimento → Search
+Console e analytics → eventos de conversão.** Ao fim, a Fase 2 encerra e a trilha do ecossistema
+destrava. Cada etapa tem análise e plano próprios antes da implementação.
 
-1. repetir o Lighthouse mobile de **ES** em condições controladas — a mediana ficou em 90, com
-   execuções entre 89 e 99, e o gate exige 95;
-2. revalidar externamente o caminho **IPv6 de `www`**, para separar limitação da rede de teste de
-   um problema real de rota;
-3. coletar **INP de campo** quando houver dados (depende da Fase 2).
+### Etapa em andamento — infraestrutura de rotas e privacidade
 
-### Desbloqueadas em 20/08/2026
+1. criar o registro `routeKey → locale → pathname`, item já previsto no checklist da Fase 4 e
+   antecipado porque a primeira página nova o exige de qualquer forma;
+2. publicar a **página completa de privacidade** nos três idiomas — pré-requisito registrado para
+   qualquer mensuração;
+3. ajustar o filtro do sitemap em `astro.config.mjs`, hoje uma lista fixa de três URLs.
 
-Os acessos ao Google Search Console, ao Google Business Profile, ao Instagram e ao DNS foram
-confirmados como disponíveis. Isso remove a pendência mais antiga do programa, aberta desde a
-Fase 0, e viabiliza a Fase 2.
+### Na sequência
 
-### Antes de iniciar a Fase 2
+4. **consentimento de cookies**, granular e com estado persistido;
+5. atualizar a **CSP** do `firebase.json` para o domínio de analytics — sem isso o recurso é
+   bloqueado silenciosamente pelo navegador;
+6. verificar a propriedade no **Search Console** e enviar o sitemap;
+7. instalar **analytics sob consentimento** e preencher o baseline;
+8. instrumentar os **eventos de conversão** — WhatsApp, telefone, e-mail, envio e erro de
+   formulário, sempre sem dado pessoal.
 
-4. responder as **decisões em aberto** do
-   [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto) — em especial a
-   identidade da entidade pública. Enquanto não houver resposta, não alterar `LocalBusiness`,
-   não reivindicar o perfil comercial e não padronizar NAP;
-5. criar a **página completa de privacidade** — pré-requisito registrado para instalar analytics;
-6. definir o consentimento de cookies antes de qualquer mensuração.
+### Pendências herdadas da Fase 1
 
-### Em paralelo
+9. **INP de campo** — depende de dados reais de usuário, disponíveis após a etapa 7;
+10. **registro `AAAA` ausente no domínio apex** — o `www` tem IPv6, o domínio principal não.
+    Tratar quando a zona de DNS for tocada, confirmando antes no console do Firebase.
 
-7. a trilha de canais e atribuição foi destacada para
-   [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md), que depende da Fase 2
-   e não deve ser executada antes dela.
+### Adiadas por decisão do cliente
+
+11. credenciais setoriais e redação final do descritor da marca — ver
+    [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto).
 
 **Regra mantida:** nenhum commit, PR ou deploy sem autorização específica.
 
@@ -1223,20 +1298,32 @@ e `LocalBusiness` presentes e coerentes nos três idiomas. **A Fase 1 se sustent
 
 ### Achados
 
-**1. Conflito de entidade — bloqueante.** Existem duas empresas registradas sob a mesma marca na
-cidade, com datas de fundação e endereços diferentes. O site combina dados das duas: publica
-"Desde 2015" e um endereço que pertencem a registros distintos. Isso impede o casamento da
-entidade pelo buscador e compromete a reivindicação do perfil comercial. Registrado como decisão
-em aberto. Identificadores no registro privado da empresa — não neste repositório.
+**1. Conflito de entidade — RESOLVIDO em 20/08/2026.** A auditoria encontrou duas empresas
+registradas sob a mesma marca na cidade, com datas de fundação e endereços diferentes, e o site
+combinava dados das duas. **O cliente confirmou a entidade única e oficial**: fundação em 2015,
+endereço de atendimento na Av. Oliveira Resende, sócio proprietário único. A alegação "Desde 2015"
+está correta e o endereço publicado é o certo. A segunda inscrição não é usada publicamente e não
+entra em nenhuma superfície do site. Identificadores permanecem no registro privado da empresa —
+não neste repositório.
 
-**2. NAP inconsistente.** Três telefones diferentes circulam em diretórios públicos, um deles o
-publicado no site. Consistência de nome, endereço e telefone é pilar de presença local.
+**2. NAP inconsistente — RESOLVIDO em 20/08/2026.** Nenhum dos três telefones que circulavam em
+diretórios públicos era o oficial, e o que estava publicado no site era um **fixo** — o que
+significa que os botões de WhatsApp apontavam para um número sem WhatsApp, provavelmente desde o
+lançamento. O cliente informou o número oficial único, para ligação e para WhatsApp, e ele
+substituiu o fixo em todas as onze ocorrências do site (PR #24). **Ação remanescente, fora do
+código:** corrigir o número nos diretórios externos, para que o NAP fique consistente também fora
+do site.
 
 **3. Confusão de marca confirmada.** O termo "Safras" no setor agro é dominado por uma consultoria
 nacional de grande porte, com décadas de operação e presença internacional, além de outras
-empresas com nomes semelhantes. Disputar o termo genérico é inviável. O caminho é o descritor
-geográfico e a desambiguação de entidade — títulos com a cidade, `sameAs` ligando perfis oficiais e
-perfil comercial consistente.
+empresas com nomes semelhantes. Disputar o termo genérico é inviável. O caminho é a desambiguação
+de entidade: `sameAs` ligando perfis oficiais, perfil comercial consistente e descritor próprio.
+
+> **Correção de 20/08/2026 —** esta seção recomendava incluir a cidade nos títulos das páginas.
+> **Decidido não fazer.** Os títulos atuais já são específicos e a inserção da cidade encurtaria o
+> espaço útil do título em troca de ganho incerto; o cliente também indicou que a cidade não é
+> necessária nessa posição. A desambiguação de entidade fica por conta de `sameAs` e do perfil
+> comercial. A redação final do descritor da marca segue em aberto por decisão do cliente.
 
 **4. Ausência em diretório setorial.** A empresa não consta na lista de corretores do centro de
 comércio de café estadual, onde constam concorrentes diretos. É credencial de autoridade e fonte
@@ -1262,7 +1349,8 @@ disso, o descritor da marca no perfil difere do descritor do site.
 ### Consequências para o plano
 
 - A Fase 4 (arquitetura da informação) ganha prioridade estratégica: é ela que resolve o achado 5.
-- A Fase 2 passa a depender da resposta ao achado 1 para as ações de presença oficial.
+- A Fase 2 estava travada pelo achado 1; **com a entidade e o telefone confirmados, o bloqueio caiu**
+  e as ações de presença oficial estão liberadas.
 - Os achados 3 e 6 alimentam a trilha do
   [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md).
 - O risco "Confusão de marca" da §11 deixa de ser hipótese e passa a fato observado.
