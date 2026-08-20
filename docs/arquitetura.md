@@ -70,13 +70,14 @@ site-safras/
 │   │   ├── about/ branding/ hero/ maps/ services/
 │   ├── components/
 │   │   ├── layout/               # Header, Footer, LanguageSwitcher
-│   │   ├── pages/                # HomePage.astro (composição da home)
+│   │   ├── pages/                # HomePage.astro, PrivacyPage.astro
 │   │   └── sections/             # ContactSection.astro
 │   ├── data/
 │   │   └── navigation.ts         # itens do menu (anchor + labelKey)
 │   ├── i18n/                     # dicionários e helpers de tradução
 │   │   ├── pt-br.ts en.ts es.ts  # pt-br é source of truth
-│   │   ├── anchors.ts            # mapa de anchors traduzidos
+│   │   ├── anchors.ts            # mapa de anchors traduzidos (#contato/#contact)
+│   │   ├── routes.ts             # mapa de rotas traduzidas (/privacidade, /en/privacy)
 │   │   ├── index.ts types.ts
 │   ├── layouts/
 │   │   └── BaseLayout.astro      # head, meta, hreflang, schema, sugestão de idioma
@@ -84,6 +85,9 @@ site-safras/
 │   │   ├── index.astro           # home PT-BR
 │   │   ├── en/index.astro        # home EN
 │   │   ├── es/index.astro        # home ES
+│   │   ├── privacidade.astro     # política de privacidade PT-BR
+│   │   ├── en/privacy.astro      # política EN
+│   │   ├── es/privacidad.astro   # política ES
 │   │   ├── 404.astro             # 404 real trilíngue (noindex)
 │   │   ├── contato.astro         # fallback do redirect /contato → /#contato
 │   │   ├── qr.astro              # redirect imutável (cartão físico)
@@ -211,11 +215,18 @@ Implementado e verificado em produção (Fase 1):
 - `<link rel="canonical">` em todas as páginas.
 - `hreflang` para `pt-BR`, `en-US`, `es-ES` + `x-default`.
 - **Open Graph** e **Twitter Cards** completos, com imagem social real 1200×630.
-- `sitemap-index.xml` via `@astrojs/sitemap`, filtrado para conter **apenas** `/`, `/en` e `/es`.
+- `sitemap-index.xml` via `@astrojs/sitemap`, filtrado pelo registro de rotas (`src/i18n/routes.ts`).
+  Página nova entra por construção; antes era uma lista literal de três URLs.
 - `robots.txt` explícito, apontando o sitemap.
 - `noindex` em 404, `/manutencao` e rotas auxiliares.
 - 404 real — URL inexistente retorna 404, não a home (o fallback curinga do Firebase foi removido).
 - HTML semântico e headings sequenciais, com uma única `<h1>` por página.
+
+**Rotas traduzidas:** `src/i18n/routes.ts` mapeia `routeKey → locale → pathname` — é a fonte da
+verdade das URLs por idioma (`/privacidade` · `/en/privacy` · `/es/privacidad`). É o mesmo desenho
+de `anchors.ts`, um nível acima. `localizeURL()` consulta esse mapa, e por isso canonical,
+`hreflang`, `x-default` e o switcher acompanham o slug traduzido em vez de trocar só o prefixo.
+Rota não registrada cai no comportamento antigo de prefixo.
 
 **Schema.org — estado real:** existe **apenas `LocalBusiness`** (nome, endereço, telefone, e-mail
 público, horário, URL canônica, fundação, imagem). Declarado em `HomePage.astro` e injetado pelo
@@ -227,9 +238,9 @@ Pendências registradas, ainda **não** implementadas:
   alta prioridade para desambiguar a entidade, dado o conflito de marca documentado no plano.
 - `Organization`, `WebSite` e `BreadcrumbList` — só fazem sentido quando houver mais páginas
   (Fase 4). Não devem ser adicionados antes de existir conteúdo visível correspondente.
-- `LocalBusiness` depende da **confirmação de qual entidade jurídica é a pública** — decisão em
-  aberto no `registro-operacional.md`. Não alterar endereço, telefone ou data de fundação no
-  schema antes dessa resposta.
+- `LocalBusiness` dependia da confirmação de qual entidade jurídica é a pública. **Resolvido em
+  20/08/2026:** entidade única confirmada, endereço e telefone corretos no schema. Ver
+  `registro-operacional.md`.
 
 ---
 

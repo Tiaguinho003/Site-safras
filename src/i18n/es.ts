@@ -276,6 +276,122 @@ const dict = {
     },
   },
 
+  privacy: {
+    meta: {
+      title: "Política de Privacidad | Safras & Negócios",
+      description:
+        "Cómo Safras & Negócios trata los datos enviados por este sitio: qué se recoge, para qué, con quién se comparte y cómo ejercer sus derechos.",
+    },
+    title: "Política de Privacidad",
+    updatedLabel: "Última actualización",
+    updatedAt: "20 de agosto de 2026",
+    intro:
+      "Esta política explica, en lenguaje directo, cómo Safras & Negócios trata los datos personales recibidos a través de este sitio, conforme a la Ley General de Protección de Datos de Brasil (Ley nº 13.709/2018, la LGPD).",
+    sections: [
+      {
+        title: "Quién trata sus datos",
+        body: [
+          "La responsable del tratamiento es Safras & Negócios, corretaje de café que atiende presencialmente en la Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso, Minas Gerais, Brasil.",
+          "Para cualquier asunto relacionado con esta política, incluido el ejercicio de sus derechos, el canal es atendimento@safrasnegocios.com.br.",
+          "Esta política se aplica a safrasenegocios.com.br. No se aplica a sitios de terceros a los que usted acceda desde enlaces publicados aquí.",
+        ],
+      },
+      {
+        title: "Qué datos recogemos",
+        body: [
+          "Recogemos únicamente lo que usted mismo escribe en el formulario de contacto:",
+        ],
+        list: [
+          "nombre",
+          "correo electrónico",
+          "teléfono",
+          "estado",
+          "perfil — productor, comprador, exportador, cooperativa, institución financiera, socio u otro",
+          "interés — el asunto que motivó el contacto",
+          "mensaje, cuando usted opta por escribir uno",
+        ],
+        after: [
+          "No hay registro, ni inicio de sesión, ni área restringida. Navegar por el sitio no exige que usted facilite dato alguno.",
+          "El formulario tiene un campo oculto cuya única función es bloquear envíos automatizados. Se ignora cuando lo rellena una persona y no guarda información sobre usted.",
+        ],
+      },
+      {
+        title: "Para qué los usamos",
+        body: [
+          "Usamos los datos del formulario para analizar su solicitud, preparar una respuesta adecuada y contactarle por los canales que usted indicó. El tratamiento deriva de su propia solicitud de contacto.",
+          "No usamos estos datos con fines publicitarios. No vendemos, no alquilamos y no cedemos sus datos.",
+        ],
+      },
+      {
+        title: "Con quién los compartimos",
+        body: [
+          "El envío del formulario lo gestiona Web3Forms, servicio externo que recibe el contenido rellenado y lo reenvía al correo de Safras & Negócios. Los datos también pasan por el proveedor de correo que utiliza la empresa.",
+          "Fuera de eso, no comunicamos sus datos a terceros, salvo obligación legal o requerimiento de autoridad competente.",
+        ],
+      },
+      {
+        title: "Cookies y tecnologías similares",
+        body: [
+          "Este sitio usa una sola cookie, llamada safras_locale. Guarda únicamente el idioma que usted eligió — portugués, inglés o español — para respetar su preferencia en la próxima visita. Dura un año.",
+          "Se graba solo cuando usted actúa: al cambiar de idioma en el selector o al aceptar la sugerencia de idioma. Si no hace ninguna de las dos cosas, no se graba ninguna cookie.",
+          "El sitio también usa el almacenamiento de sesión del navegador para recordar que usted descartó la sugerencia de idioma. Ese registro se borra al cerrar la pestaña.",
+          "Este sitio no utiliza hoy ninguna herramienta de analítica de audiencia, ni píxel de redes sociales, ni cookie publicitaria. Si eso cambia, esta política se actualizará y se le consultará antes, cuando la ley lo exija.",
+        ],
+      },
+      {
+        title: "Cuánto tiempo los conservamos",
+        body: [
+          "Los mensajes recibidos permanecen en el correo de la empresa durante el tiempo necesario para responder a la solicitud y mantener el registro de la relación comercial, o durante el plazo que la ley exija.",
+          "Usted puede solicitar la eliminación en cualquier momento, y la atendemos, salvo cuando exista obligación legal de conservación.",
+        ],
+      },
+      {
+        title: "Sus derechos",
+        body: ["La ley le garantiza el derecho a:"],
+        list: [
+          "confirmar si tratamos datos suyos y acceder a ellos",
+          "corregir datos incompletos, inexactos o desactualizados",
+          "solicitar la anonimización, el bloqueo o la eliminación de datos innecesarios o excesivos",
+          "solicitar la portabilidad de los datos",
+          "saber con quién compartimos sus datos",
+          "revocar el consentimiento y solicitar la eliminación de los datos tratados con esa base",
+          "oponerse a un tratamiento que considere irregular",
+        ],
+        after: [
+          "Para ejercer cualquiera de ellos, escriba a atendimento@safrasnegocios.com.br. Podemos pedirle información que confirme su identidad, para no entregar datos a la persona equivocada.",
+        ],
+      },
+      {
+        title: "Seguridad",
+        body: [
+          "El sitio se sirve exclusivamente por conexión cifrada (HTTPS) y no almacena datos personales en una base de datos propia: el contenido del formulario va directo al correo de la empresa.",
+          "El acceso a esos mensajes está restringido a las personas que atienden la solicitud.",
+        ],
+      },
+      {
+        title: "Niños y adolescentes",
+        body: [
+          "El sitio se dirige a productores, compradores y socios del mercado del café. No recogemos intencionadamente datos de niños ni adolescentes. Si identificamos un registro en esa condición, lo eliminamos.",
+        ],
+      },
+      {
+        title: "Cambios en esta política",
+        body: [
+          "Cuando esta política cambie, la nueva versión rige desde su publicación en esta página, y la fecha de actualización del encabezado se modifica con ella.",
+          "Los cambios que amplíen el tratamiento de datos — la instalación de una herramienta de medición, por ejemplo — se publican aquí antes de entrar en funcionamiento.",
+        ],
+      },
+    ],
+    contact: {
+      title: "Hable con nosotros",
+      body: "Dudas sobre esta política o sobre sus datos:",
+      emailLabel: "Correo electrónico",
+      phoneLabel: "Teléfono",
+      addressLabel: "Dirección",
+    },
+    backHome: "Volver a la página de inicio",
+  },
+
   footer: {
     tagline: "Tradición y Confianza en el mercado cafetero.",
     columns: {
@@ -292,6 +408,7 @@ const dict = {
     backToTop: "Arriba",
     backToTopAriaLabel: "Volver arriba",
     copyright: "Todos los derechos reservados.",
+    privacy: "Política de Privacidad",
     developedBy: "Desarrollado por",
     developerName: "Measy",
     developerAriaLabel: "Chatear con Measy por WhatsApp",

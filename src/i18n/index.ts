@@ -18,9 +18,11 @@ import es from "./es";
 import { DEFAULT_LOCALE, isLocale } from "./types";
 import type { Locale } from "./types";
 import { localizeAnchorURL, type AnchorKey } from "./anchors";
+import { localizeRoute, getRoute, type RouteKey } from "./routes";
 
 export type { Locale } from "./types";
 export type { AnchorKey } from "./anchors";
+export type { RouteKey } from "./routes";
 export {
   LOCALES,
   NON_DEFAULT_LOCALES,
@@ -29,6 +31,7 @@ export {
   isLocale,
 } from "./types";
 export { localizeAnchorURL, getAnchor, getCanonicalKey, getAllAnchors } from "./anchors";
+export { getRoute, getRouteKey, localizeRoute, getAllRoutes } from "./routes";
 
 /**
  * Mapeamento de Locale → dicionário. PT-BR é sempre o fallback.
@@ -149,10 +152,14 @@ export function getCurrentLocale(astro: {
  * e `localizeAnchor` já vinculados ao locale atual da página — evita
  * repetir `locale` em cada chamada.
  *
+ * `route` faz o mesmo para páginas: devolve o pathname da rota no idioma
+ * atual, com o slug traduzido que estiver no registro.
+ *
  * @example
- *   const { t, locale, localizeAnchor } = useTranslation(Astro);
+ *   const { t, locale, localizeAnchor, route } = useTranslation(Astro);
  *   <h1>{t("hero.tag")}</h1>
  *   <a href={localizeAnchor("contato")}>Contato</a>
+ *   <a href={route("privacidade")}>Privacidade</a>
  */
 export function useTranslation(astro: { currentLocale: string | undefined }): {
   locale: Locale;
@@ -160,6 +167,7 @@ export function useTranslation(astro: { currentLocale: string | undefined }): {
   tArray: <T = string>(key: string) => T[];
   tObject: <T = Record<string, unknown>>(key: string) => T;
   localizeAnchor: (key: AnchorKey) => string;
+  route: (key: RouteKey) => string;
 } {
   const locale = getCurrentLocale(astro);
   return {
@@ -168,6 +176,7 @@ export function useTranslation(astro: { currentLocale: string | undefined }): {
     tArray: <T = string>(key: string) => tArray<T>(key, locale),
     tObject: <T = Record<string, unknown>>(key: string) => tObject<T>(key, locale),
     localizeAnchor: (key) => localizeAnchorURL(key, locale),
+    route: (key) => getRoute(key, locale),
   };
 }
 
@@ -175,14 +184,28 @@ export function useTranslation(astro: { currentLocale: string | undefined }): {
  * Constrói URL pra mesma rota em outro idioma. Útil pro switcher
  * (mantém o anchor atual se houver).
  *
+ * Consulta primeiro o registro de rotas (`routes.ts`), que é quem sabe
+ * que /privacidade em PT é /en/privacy em EN — slug traduzido, não só
+ * prefixo trocado. Rota não registrada (/404, /manutencao, /qr) cai no
+ * comportamento antigo de troca de prefixo.
+ *
+ * É esta função que alimenta canonical, hreflang, x-default, o switcher
+ * e a sugestão de idioma. Traduzir slug sem passar por aqui produziria
+ * hreflang apontando pra 404.
+ *
  * IMPORTANTE: alinhado com astro.config `trailingSlash: "never"`.
  * NUNCA adiciona barra final — `/en/` dá 404 no Astro com essa config.
  *
  * Ex: localizeURL("/", "en") → "/en"
  * Ex: localizeURL("/en", "pt-br") → "/"
- * Ex: localizeURL("/contato", "en") → "/en/contato"
+ * Ex: localizeURL("/privacidade", "en") → "/en/privacy"
+ * Ex: localizeURL("/manutencao", "en") → "/en/manutencao" (não registrada)
  */
 export function localizeURL(currentPath: string, targetLocale: Locale): string {
+  // Rota registrada: o slug do idioma alvo vem do mapa, não de heurística.
+  const registered = localizeRoute(currentPath, targetLocale);
+  if (registered !== null) return registered;
+
   // Strip prefix de idioma existente
   let cleanPath = currentPath.replace(/^\/(en|es)(\/|$)/, "/");
   if (!cleanPath.startsWith("/")) cleanPath = "/" + cleanPath;

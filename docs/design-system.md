@@ -287,6 +287,21 @@ Composição da home. Recebe o locale do contexto e monta hero, serviços, sobre
 - **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
 - **Observação:** é um arquivo grande (≈1.300 linhas). Ver dívidas conhecidas.
 
+### `pages/PrivacyPage.astro`
+
+Política de privacidade, fonte única para os três idiomas. Primeira página do site que usa
+`BaseLayout` **sem ser a home**.
+
+- **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
+- **Conteúdo:** 100% do dicionário (`privacy.*`), incluindo a lista de seções. Nenhum texto
+  jurídico no componente.
+- **Medida de leitura:** `max-w-[46rem]`, mais estreita que o `max-w-[88rem]` das seções da home.
+  Texto corrido longo pede linha curta.
+- **Atenção ao header:** fora da home o header é `position: fixed` e opaco (56 px no mobile, 64 px
+  a partir de `md`). A página abre com `pt-28 md:pt-36` para dar folga. **Toda página nova fora da
+  home precisa dessa folga** — o `BaseLayout` não a fornece.
+- **Rotas:** `/privacidade` · `/en/privacy` · `/es/privacidad`, registradas em `src/i18n/routes.ts`.
+
 ### `layouts/BaseLayout.astro`
 
 Não é um componente de UI, mas é o contrato de toda página.

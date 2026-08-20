@@ -1,0 +1,167 @@
+---
+/**
+ * PrivacyPage — política de privacidade, fonte única para os três idiomas.
+ *
+ * Usada por:
+ * - src/pages/privacidade.astro      (PT-BR, /privacidade)
+ * - src/pages/en/privacy.astro       (EN, /en/privacy)
+ * - src/pages/es/privacidad.astro    (ES, /es/privacidad)
+ *
+ * Slugs traduzidos: o mapa vive em src/i18n/routes.ts, que é quem alimenta
+ * canonical, hreflang e o switcher. Sem ele, o hreflang desta página
+ * apontaria pra URL inexistente.
+ *
+ * Todo o texto vem do dicionário. Nada de string jurídica hardcoded aqui —
+ * o conteúdo é revisado por idioma em src/i18n/*.ts.
+ *
+ * É a primeira página que usa BaseLayout fora da home. Como o header vira
+ * fixo e opaco fora da home (ver Header.astro), o topo precisa de folga
+ * própria — daí o padding-top desta seção.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { useTranslation } from "../../i18n";
+
+interface PrivacySection {
+  title: string;
+  body: string[];
+  list?: string[];
+  after?: string[];
+}
+
+interface PrivacyContact {
+  title: string;
+  body: string;
+  emailLabel: string;
+  phoneLabel: string;
+  addressLabel: string;
+}
+
+const { t, tArray, tObject, route } = useTranslation(Astro);
+
+const sections = tArray<PrivacySection>("privacy.sections");
+const contact = tObject<PrivacyContact>("privacy.contact");
+
+// Reaproveita os dados de contato já mantidos no bloco `contact` do
+// dicionário — um só lugar para atualizar telefone, e-mail e endereço.
+const email = t("contact.details.email");
+const phone = t("contact.details.phone");
+const address = t("contact.details.address");
+
+const homeHref = route("home");
+---
+
+<BaseLayout
+  title={t("privacy.meta.title")}
+  description={t("privacy.meta.description")}
+>
+  <article class="bg-paper">
+    <div
+      class="mx-auto w-full max-w-[46rem] px-6 md:px-10 pt-28 pb-20 md:pt-36 md:pb-28"
+    >
+      <header class="border-b border-line pb-8 md:pb-10">
+        <h1
+          class="text-3xl md:text-4xl lg:text-[2.75rem] font-light tracking-[-0.02em] text-ink"
+        >
+          {t("privacy.title")}
+        </h1>
+        <p class="mt-4 text-sm text-ink-muted">
+          {t("privacy.updatedLabel")}: <time>{t("privacy.updatedAt")}</time>
+        </p>
+      </header>
+
+      <p class="mt-8 md:mt-10 text-base md:text-lg leading-relaxed text-ink">
+        {t("privacy.intro")}
+      </p>
+
+      {
+        sections.map((section) => (
+          <section class="mt-10 md:mt-14">
+            <h2 class="text-xl md:text-2xl font-medium tracking-[-0.01em] text-ink">
+              {section.title}
+            </h2>
+
+            {section.body.map((paragraph) => (
+              <p class="mt-4 text-base leading-relaxed text-ink-muted">
+                {paragraph}
+              </p>
+            ))}
+
+            {section.list && (
+              <ul class="mt-4 space-y-2">
+                {section.list.map((item) => (
+                  <li class="relative pl-5 text-base leading-relaxed text-ink-muted">
+                    <span
+                      class="absolute left-0 top-[0.7em] block h-1.5 w-1.5 rounded-full bg-brand"
+                      aria-hidden="true"
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {section.after?.map((paragraph) => (
+              <p class="mt-4 text-base leading-relaxed text-ink-muted">
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        ))
+      }
+
+      <aside
+        class="mt-14 md:mt-20 rounded-2xl border border-line bg-paper-alt p-6 md:p-8"
+      >
+        <h2 class="text-lg md:text-xl font-medium text-ink">{contact.title}</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink-muted">
+          {contact.body}
+        </p>
+
+        <dl class="mt-6 space-y-4 text-base">
+          <div>
+            <dt class="text-sm font-medium text-ink-muted">
+              {contact.emailLabel}
+            </dt>
+            <dd class="mt-1">
+              <a
+                href={`mailto:${email}`}
+                class="text-brand underline underline-offset-4 decoration-brand/30 transition-colors hover:text-brand-dark hover:decoration-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              >
+                {email}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-ink-muted">
+              {contact.phoneLabel}
+            </dt>
+            <dd class="mt-1">
+              <a
+                href="tel:+5535984617193"
+                class="text-brand underline underline-offset-4 decoration-brand/30 transition-colors hover:text-brand-dark hover:decoration-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              >
+                {phone}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-ink-muted">
+              {contact.addressLabel}
+            </dt>
+            <dd class="mt-1 text-ink">{address}</dd>
+          </div>
+        </dl>
+      </aside>
+
+      <p class="mt-10 md:mt-12">
+        <a
+          href={homeHref}
+          class="inline-flex min-h-11 items-center gap-2 text-base font-medium text-brand transition-colors hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          <span aria-hidden="true">←</span>
+          {t("privacy.backHome")}
+        </a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>

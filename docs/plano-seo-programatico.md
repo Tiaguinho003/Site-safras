@@ -178,8 +178,8 @@ Estas regras valem em todas as fases:
 | Endereço | Av. Oliveira Rezende, 1397 — Jardim Bernadete, São Sebastião do Paraíso/MG |
 | Atendimento presencial | Sim, no endereço oficial |
 | Telefone e WhatsApp | (35) 98461-7193 — número único para ligação e WhatsApp, confirmado em 20/08/2026. Substitui o (35) 3531-4046 adotado em 20/07/2026 |
-| E-mails | `atendimento@safrasnegocios.com.br` é o canal público; `flavio@safrasnegocios.com.br` é o destinatário interno do formulário e não deve aparecer publicamente |
-| Web3Forms | Conta e chave administráveis confirmadas; destino atualizado para `flavio@safrasnegocios.com.br` e envio real validado pelo usuário |
+| E-mails | `atendimento@safrasnegocios.com.br` é o canal público; o destinatário interno do formulário está no registro privado da empresa e não aparece neste repositório |
+| Web3Forms | Conta e chave administráveis confirmadas; destino atualizado para o e-mail interno definido no registro privado da empresa e envio real validado pelo usuário |
 | Horário | Segunda a sexta-feira, das 8h às 18h |
 | Fundação | 19/10/2015 — confirmada em 20/08/2026 como pertencente à entidade pública; a alegação “Desde 2015” está correta |
 | Proprietário | Sócio proprietário único, confirmado em 20/08/2026 |
@@ -210,7 +210,7 @@ Estas regras valem em todas as fases:
 
 - [x] Registrar a decisão de não publicar razão social e CNPJ neste momento.
 - [x] Confirmar telefone e WhatsApp oficial: `(35) 98461-7193` (revisado em 20/08/2026).
-- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público e manter `flavio@safrasnegocios.com.br` somente como destinatário interno.
+- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público e manter o endereço do registro privado somente como destinatário interno.
 - [x] Confirmar o destinatário operacional atual do formulário.
 - [x] Confirmar conta Web3Forms administrável, destino interno e realizar envio controlado com recebimento validado.
 - [ ] Reavaliar restrição de domínio somente se um plano pago do Web3Forms for aprovado; o recurso não está disponível gratuitamente.
@@ -265,7 +265,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Aprovar o nome comercial e registrar a decisão de não publicar razão social/CNPJ neste momento.
 - [x] Registrar endereço, telefone, e-mail atual, horários e fundação confirmados.
 - [x] Confirmar telefone e WhatsApp oficial: `(35) 98461-7193` (revisado em 20/08/2026).
-- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público; manter `flavio@safrasnegocios.com.br` somente como destinatário interno do formulário.
+- [x] Definir `atendimento@safrasnegocios.com.br` como e-mail público; manter o endereço do registro privado somente como destinatário interno do formulário.
 - [x] Confirmar atendimento presencial e cobertura de várias regiões; detalhamento geográfico formalmente adiado.
 - [x] Documentar os serviços atualmente confirmados; limites editoriais de CPR e mercado futuro registrados.
 - [x] Definir públicos: vendedores e compradores, incluindo produtores, exportadores e multinacionais.
@@ -286,7 +286,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Confirmar que a empresa possui perfil no Google Maps.
 - [x] Recuperar ou confirmar acesso administrativo ao Google Business Profile — disponível (20/08/2026); a reivindicação depende da definição da entidade pública.
 - [x] Adiar Google Analytics e novas ferramentas de mensuração até a finalização da construção do site e da página completa de privacidade.
-- [x] Aprovar planilha privada como registro inicial; responsável operacional: titular de `flavio@safrasnegocios.com.br`.
+- [x] Aprovar planilha privada como registro inicial; responsável operacional: titular do e-mail interno definido no registro privado da empresa.
 - [x] Definir controles da planilha: contas individuais, acesso restrito às pessoas autorizadas dos setores de cadastro e comercial, autenticação em duas etapas e exclusão ou anonimização 12 meses após a última interação, salvo negociação ativa ou obrigação legal.
 - [x] Definir princípio de não contratar mensalidades sem aprovação específica.
 - [x] Definir teto de R$ 0 em novas mensalidades na fase atual; qualquer exceção exige aprovação específica.
@@ -581,8 +581,22 @@ para o domínio antes de alterar a zona.
 
 Criar uma linha de base confiável. Sem mensuração, não há como distinguir crescimento real de impressão subjetiva.
 
+### Pré-requisito legal — CONCLUÍDO em 20/08/2026
+
+A decisão de 21/07/2026 condiciona qualquer mensuração à publicação da política de privacidade.
+Publicada nos três idiomas em `/privacidade`, `/en/privacy` e `/es/privacidad`, descrevendo
+**apenas o que existe hoje**: o formulário de contato e o cookie de idioma. Ela declara
+explicitamente que o site não usa analytics, pixel nem cookie de publicidade — o que obriga a
+atualizá-la **antes** de instalar qualquer medição, não depois.
+
+Junto com ela veio o registro de rotas (`src/i18n/routes.ts`), que passa a ser a fonte da verdade
+das URLs por idioma e alimenta canonical, `hreflang`, o switcher e o sitemap.
+
 ### Checklist
 
+- [x] Publicar a política de privacidade completa nos três idiomas.
+- [ ] Implementar o consentimento de cookies, granular e com estado persistido.
+- [ ] Atualizar a CSP do `firebase.json` para o domínio de analytics.
 - [ ] Verificar todas as variantes necessárias no Search Console.
 - [ ] Enviar o sitemap.
 - [ ] Registrar páginas indexadas, excluídas e erros.
@@ -609,7 +623,7 @@ Gilson Souza será o responsável comercial inicial. A planilha poderá ser aces
 
 Os registros serão excluídos ou anonimizados 12 meses após a última interação, salvo negociação ativa ou obrigação legal aplicável.
 
-O destinatário operacional do formulário é `flavio@safrasnegocios.com.br`. A conta, a chave e o destino do Web3Forms foram confirmados, e o usuário validou um envio real. A restrição por domínio é um recurso pago e não será contratada nesta etapa. Retenção do fornecedor, transferência internacional, exclusão e continuidade continuarão sendo avaliadas antes de tratá-lo como solução permanente.
+O destinatário operacional do formulário é o e-mail interno definido no registro privado da empresa. A conta, a chave e o destino do Web3Forms foram confirmados, e o usuário validou um envio real. A restrição por domínio é um recurso pago e não será contratada nesta etapa. Retenção do fornecedor, transferência internacional, exclusão e continuidade continuarão sendo avaliadas antes de tratá-lo como solução permanente.
 
 #### Separação obrigatória
 
@@ -1301,7 +1315,7 @@ e `LocalBusiness` presentes e coerentes nos três idiomas. **A Fase 1 se sustent
 **1. Conflito de entidade — RESOLVIDO em 20/08/2026.** A auditoria encontrou duas empresas
 registradas sob a mesma marca na cidade, com datas de fundação e endereços diferentes, e o site
 combinava dados das duas. **O cliente confirmou a entidade única e oficial**: fundação em 2015,
-endereço de atendimento na Av. Oliveira Resende, sócio proprietário único. A alegação "Desde 2015"
+endereço de atendimento na Av. Oliveira Rezende, sócio proprietário único. A alegação "Desde 2015"
 está correta e o endereço publicado é o certo. A segunda inscrição não é usada publicamente e não
 entra em nenhuma superfície do site. Identificadores permanecem no registro privado da empresa —
 não neste repositório.
