@@ -1,23 +1,35 @@
 /**
- * Pós-processa o dist/ pra deixar SOMENTE a página de manutenção
- * acessível em produção. Roda depois de `astro build`.
+ * Pós-processa o dist/ pra deixar SOMENTE a página de manutenção acessível
+ * em produção. Roda depois de `astro build`, no fim de `pnpm build`.
  *
  * - Sem MAINTENANCE=1 no env: no-op (early exit). Build normal segue.
- * - Com MAINTENANCE=1: move dist/manutencao/index.html → dist/index.html
- *   (preserva os hashes que o Astro gerou pros assets dessa página)
- *   e remove os diretórios das outras páginas.
+ * - Com MAINTENANCE=1:
+ *     1. copia dist/manutencao/index.html pra dist/index.html e pras homes
+ *        de cada idioma (dist/en/, dist/es/) — preserva os hashes que o
+ *        Astro gerou pros assets dessa página;
+ *     2. remove todo diretório de rota que não esteja na lista de preservados;
+ *     3. valida o resultado e falha o build se algo não bateu.
  *
- * NÃO mexe em: _astro/, qr/, favicon.png ou outros assets em public/.
+ * PRESERVA: _astro/ (assets), qr/ (redirect imutável do cartão físico),
+ * en/ e es/ (agora servindo a manutenção), e os arquivos de raiz
+ * (404.html, favicon.png, robots.txt, sitemaps).
  *
- * O catch-all rewrite no firebase.json (`** → /index.html`) garante que
- * qualquer URL morta cai na página de manutenção. Os redirects existentes
- * (/qr, /contato) tem precedência sobre rewrites no Firebase Hosting.
+ * ── Por que NÃO existe rewrite curinga ──────────────────────────────────
+ * Versões anteriores deste script dependiam de `** → /index.html` no
+ * firebase.json pra que qualquer URL caísse na manutenção. Esse rewrite foi
+ * REMOVIDO na Fase 1 do plano de SEO: ele fazia URLs inexistentes
+ * responderem 200 com a home (falso 200 / soft 404), que era justamente o
+ * problema crítico que a fase corrigiu.
  *
- * Pra reverter pra modo normal: remover MAINTENANCE=1 do cloudbuild.yaml.
+ * Não reintroduzir. Durante a manutenção, URL desconhecida retorna 404 real
+ * — comportamento correto. O que precisa continuar respondendo são as URLs
+ * que as pessoas realmente têm: as três homes, e /qr (impresso no cartão).
+ *
+ * Pra reverter pro modo normal: trocar MAINTENANCE=1 por 0 no cloudbuild.yaml.
  */
 
 import { existsSync } from "node:fs";
-import { copyFile, rm } from "node:fs/promises";
+import { copyFile, mkdir, readdir, rm, stat } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -25,14 +37,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DIST = resolve(__dirname, "..", "dist");
 
-const PAGES_TO_REMOVE = [
-  "quem-somos",
-  "servicos",
-  "blog",
-  "noticias",
-  "contato",
-  "manutencao",
-];
+/**
+ * Homes de idioma que também devem servir a manutenção.
+ * Espelha `locales` em astro.config.mjs, menos o default (que é a raiz).
+ */
+const LOCALE_HOMES = ["en", "es"];
+
+/**
+ * Diretórios preservados. Tudo que não estiver aqui é removido.
+ *
+ * Lista de PERMITIDOS em vez de lista de REMOVIDOS: assim uma rota nova
+ * criada no futuro é removida automaticamente durante a manutenção, em vez
+ * de continuar acessível porque ninguém lembrou de atualizar este arquivo.
+ * A versão anterior tinha exatamente esse bug — listava rotas que já não
+ * existiam e não listava `en` e `es`, deixando o site inteiro no ar em dois
+ * idiomas durante a "manutenção".
+ */
+const KEEP_DIRS = new Set(["_astro", "qr", ...LOCALE_HOMES]);
 
 async function main() {
   if (process.env.MAINTENANCE !== "1") {
@@ -40,7 +61,6 @@ async function main() {
   }
 
   const sourceHtml = resolve(DIST, "manutencao", "index.html");
-  const targetHtml = resolve(DIST, "index.html");
 
   if (!existsSync(sourceHtml)) {
     console.error(
@@ -49,15 +69,65 @@ async function main() {
     process.exit(1);
   }
 
-  await copyFile(sourceHtml, targetHtml);
+  // 1. Manutenção na raiz e em cada home de idioma.
+  const targets = [resolve(DIST, "index.html")];
 
-  for (const dir of PAGES_TO_REMOVE) {
-    const path = resolve(DIST, dir);
-    await rm(path, { recursive: true, force: true });
+  for (const locale of LOCALE_HOMES) {
+    const dir = resolve(DIST, locale);
+    await mkdir(dir, { recursive: true });
+    targets.push(resolve(dir, "index.html"));
+  }
+
+  for (const target of targets) {
+    await copyFile(sourceHtml, target);
+  }
+
+  // Tamanho lido AGORA: o passo 2 apaga dist/manutencao/, que é a origem.
+  const { size: expectedSize } = await stat(sourceHtml);
+
+  // 2. Remove toda rota que não esteja preservada.
+  const removed = [];
+
+  for (const entry of await readdir(DIST, { withFileTypes: true })) {
+    if (!entry.isDirectory() || KEEP_DIRS.has(entry.name)) continue;
+    await rm(resolve(DIST, entry.name), { recursive: true, force: true });
+    removed.push(entry.name);
+  }
+
+  // 3. Valida — build quebrado é melhor que site meio no ar.
+  const failures = [];
+
+  for (const target of targets) {
+    if (!existsSync(target)) {
+      failures.push(`${target} não foi criado`);
+      continue;
+    }
+    const { size } = await stat(target);
+    if (size !== expectedSize) {
+      failures.push(`${target} não é a página de manutenção (${size}b ≠ ${expectedSize}b)`);
+    }
+  }
+
+  for (const entry of await readdir(DIST, { withFileTypes: true })) {
+    if (entry.isDirectory() && !KEEP_DIRS.has(entry.name)) {
+      failures.push(`${entry.name}/ deveria ter sido removido`);
+    }
+  }
+
+  if (failures.length > 0) {
+    console.error("[maintenance] ERRO: verificação falhou.");
+    for (const failure of failures) console.error(`  - ${failure}`);
+    process.exit(1);
   }
 
   console.log(
-    "[maintenance] Mode ON — dist/index.html é a página de manutenção; outras rotas removidas.",
+    `[maintenance] Mode ON — manutenção em / e em ${LOCALE_HOMES.map((l) => `/${l}`).join(", ")}.`,
+  );
+  console.log(
+    `[maintenance] Removido: ${removed.length > 0 ? removed.join(", ") : "nada"}. Preservado: ${[...KEEP_DIRS].join(", ")}.`,
+  );
+  console.log(
+    "[maintenance] URL desconhecida retorna 404 real — não há rewrite curinga, por decisão da Fase 1.",
   );
 }
 
