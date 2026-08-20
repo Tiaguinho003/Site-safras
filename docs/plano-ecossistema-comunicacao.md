@@ -50,12 +50,23 @@ consentimento instalados. Instrumentar canais sem ter onde registrar o dado é r
 | Página completa de privacidade publicada | Decisão de 21/07/2026 | Pendente |
 | Consentimento de cookies implementado | Regra permanente de privacidade | Pendente |
 | Analytics instalado com consentimento | Fase 2 | Pendente |
-| Entidade pública definida | Decisão em aberto | **Bloqueante** |
-| Telefone oficial confirmado | Decisão em aberto | **Bloqueante** |
+| Entidade pública definida | Cliente, 20/08/2026 | **Resolvida** |
+| Telefone oficial confirmado | Cliente, 20/08/2026 | **Resolvida** — publicado no site via PR #24 |
 | CSP do `firebase.json` atualizada para o domínio de analytics | [`deploy.md §5`](./deploy.md) | Pendente |
 
-As duas decisões em aberto bloqueiam especificamente o perfil comercial e a padronização de NAP.
-O restante da trilha pode avançar sem elas.
+As duas pré-condições que bloqueavam o perfil comercial e a padronização de NAP **caíram em
+20/08/2026**: o cliente confirmou a entidade única e oficial e o telefone único para ligação e
+WhatsApp. Detalhe em [`registro-operacional.md`](./registro-operacional.md).
+
+Duas consequências para esta trilha:
+
+1. **Reivindicação do perfil comercial está liberada** — a entidade não é mais ambígua.
+2. **Padronização de NAP virou tarefa concreta**: o número oficial precisa substituir os três
+   números divergentes que circulam em diretórios externos. É trabalho fora do repositório e
+   depende do cliente.
+
+O que segue bloqueando a trilha é a Fase 2 do plano de SEO — privacidade, consentimento e
+mensuração —, não mais dados da empresa.
 
 ---
 
