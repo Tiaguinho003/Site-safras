@@ -81,7 +81,8 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/08/2026 | Geral | Auditoria de presença externa | Conflito de entidade, NAP divergente, confusão de marca confirmada, ausência em diretório setorial, superfície de 1 URL contra 10 do concorrente de referência e canal social sem atribuição | Responder as decisões em aberto |
 | 20/08/2026 | Geral | Acessos externos confirmados como disponíveis | Search Console, perfil comercial, rede social e DNS — encerra a pendência mais antiga do programa, aberta desde a Fase 0 | Verificar a propriedade no Search Console |
 | 20/08/2026 | Geral | Reorganização da documentação | Criados `AGENTS.md` + `CLAUDE.md` espelhados, `registro-operacional.md`, `deploy.md` e `plano-ecossistema-comunicacao.md`; corrigido o drift factual de `arquitetura.md` e `design-system.md` (paleta, versão do Astro, estrutura de pastas, CI e preview deploy inexistentes, schema, i18n); plano reduzido e reindexado | Obter autorização para commit e PR |
-| 20/08/2026 | Geral | Modo manutenção identificado como quebrado | `apply-maintenance.mjs` depende do rewrite curinga removido na Fase 1 e não remove as rotas `/en` e `/es` | Corrigir antes de qualquer uso; registrado em `deploy.md` §4 |
+| 20/08/2026 | Geral | Modo manutenção identificado como quebrado | `apply-maintenance.mjs` depende do rewrite curinga removido na Fase 1 e não remove as rotas `/en` e `/es` | Corrigido no mesmo dia |
+| 20/08/2026 | Geral | Modo manutenção corrigido | Manutenção passa a ser servida em `/`, `/en` e `/es`; lista de permitidos substitui a de removidos; validação falha o build se o resultado não bater. Testado no emulador: 200 nas três homes, 302 em `/qr`, 301 em `/contato`, 404 real em URL desconhecida; build normal sem regressão (7 páginas) | Ativar só quando houver necessidade real |
 ### Modelo para novas entradas
 
 Copiar uma linha para o Histórico de execução e registrar:

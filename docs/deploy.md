@@ -83,26 +83,51 @@ Localmente a chave vem de `.env` (ver `.env.example`), que não é versionado.
 `pnpm build` roda `astro build` e, em seguida, `scripts/apply-maintenance.mjs`.
 
 - `MAINTENANCE` diferente de `1` → o script sai imediatamente. Build normal.
-- `MAINTENANCE=1` → copia `dist/manutencao/index.html` para `dist/index.html` e apaga os
-  diretórios listados em `PAGES_TO_REMOVE`.
+- `MAINTENANCE=1` → a manutenção passa a ser servida em `/`, `/en` e `/es`; todo diretório de rota
+  fora da lista de preservados é removido; o resultado é validado e o build falha se algo não bater.
+
+Preservados: `_astro/` (assets), `qr/` (redirect impresso no cartão físico) e as homes de idioma.
 
 Para ativar: trocar `MAINTENANCE=0` por `MAINTENANCE=1` em `cloudbuild.yaml` e publicar.
 
-### ⚠️ O modo manutenção está quebrado desde a Fase 1
+### Comportamento em manutenção
 
-Não foi testado após as mudanças de julho de 2026, e duas premissas dele deixaram de valer:
+Validado no emulador do Firebase:
 
-1. **O rewrite curinga não existe mais.** O script depende de `** → /index.html` no
-   `firebase.json` para que qualquer URL caia na página de manutenção. Esse rewrite foi
-   **removido na Fase 1** — ele era exatamente a causa dos falsos 200 que a fase corrigiu.
-   Hoje uma URL fora da lista retorna 404 em vez da página de manutenção.
-2. **As rotas de idioma não são removidas.** `PAGES_TO_REMOVE` lista `quem-somos`, `servicos`,
-   `blog`, `noticias`, `contato` e `manutencao` — três das quais nem existem mais. **`en` e `es`
-   não estão na lista**, então o site seguiria totalmente acessível em inglês e espanhol durante a
-   "manutenção".
+| URL | Resposta |
+|---|---|
+| `/`, `/en`, `/es` | 200 com a página de manutenção |
+| `/qr` | 302 — o cartão físico continua funcionando |
+| `/contato` | 301 |
+| URL desconhecida | **404 real** |
 
-**Não ativar o modo manutenção sem corrigir o script antes.** A correção não foi feita aqui porque
-este ciclo é exclusivamente documental; está registrada como dívida.
+### Por que não há rewrite curinga
+
+Versões anteriores do script dependiam de `** → /index.html` no `firebase.json` para que qualquer
+URL caísse na manutenção. Esse rewrite foi **removido na Fase 1**: ele fazia URLs inexistentes
+responderem 200 com a home — o falso 200 que era o problema crítico da fase.
+
+**Não reintroduzir.** Durante a manutenção, URL desconhecida retornando 404 é o comportamento
+correto. O que precisa continuar respondendo são as URLs que as pessoas de fato têm: as três homes
+e `/qr`.
+
+### Lista de permitidos, não de removidos
+
+O script preserva o que está em `KEEP_DIRS` e remove todo o resto. É deliberado: uma rota nova
+criada no futuro é removida automaticamente durante a manutenção, em vez de continuar no ar porque
+ninguém lembrou de atualizar o script.
+
+A versão anterior fazia o inverso — listava rotas a remover — e tinha exatamente esse defeito:
+listava quatro rotas que já não existiam e não listava `en` nem `es`, de modo que o site seguiria
+totalmente acessível em dois idiomas durante a "manutenção". Corrigido em 20/08/2026.
+
+### Limitação conhecida
+
+A página de manutenção é **PT-BR apenas** e é servida como está nas três homes. Aceitável para um
+estado temporário; se a manutenção passar a ser longa, traduzir antes.
+
+A resposta é HTTP 200, não 503. Hospedagem estática não permite código de status por rota. Para uma
+janela curta é irrelevante; para uma parada longa, considerar.
 
 ---
 
