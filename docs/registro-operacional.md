@@ -80,6 +80,10 @@ que a substitui, e a antiga permanece para preservar o rastro.
 | 20/08/2026 | 2 | Cookie de consentimento **sem identificador**: só decisão, data e versão | Um cookie de consentimento que carrega ID vira ele mesmo um dado pessoal. Contrapartida assumida: não há prova individual de consentimento, apenas a decisão e a data | Técnico | Se houver exigência legal de prova individual |
 | 20/08/2026 | 2 | Cookie funcional de idioma **fora** do consentimento | `safras_locale` é preferência do usuário, não rastreamento. Colocá-lo sob consentimento faria o site esquecer o idioma de quem recusa — regressão visível num site trilíngue | Técnico | Permanente |
 | 20/08/2026 | 2 | Publicar a CSP do analytics **antes** de instalar o GA4 | CSP desatualizada bloqueia o script sem erro visível: a ferramenta parece instalada e não coleta nada. Com a permissão publicada, a Fase D vira mudança puramente aditiva | Técnico | A cada serviço externo novo |
+| 20/08/2026 | Geral | **Não** usar login como estratégia de SEO nem de captação de dados | Conteúdo atrás de autenticação é invisível ao buscador — o Googlebot não faz login, então uma biblioteca trancada contribui com zero para o ranqueamento. Some-se a isso que volume de páginas não melhora posição desde que o critério passou a ser propósito e valor | Proprietário | Se o modelo de negócio passar a depender de assinatura |
+| 20/08/2026 | Geral | Captar lead por **troca de valor**, não por pedágio | A pessoa entrega o dado em troca de algo que quer — boletim de preços, alerta por praça —, não porque existe um campo. Formulário obrigatório antes do conteúdo derruba permanência na página, que é sinal de qualidade lido pelo buscador | Proprietário | Permanente |
+| 20/08/2026 | 2 | Consentimento de **marketing separado** do consentimento de contato | O formulário declara que os dados servem "para analisar e responder ao seu contato". Usar os mesmos e-mails para boletim excede a finalidade declarada, e finalidade é limite na LGPD. A caixa de opt-in nasce separada e desmarcada — implantar antes de existir lista, porque depois obrigaria a descartá-la | Técnico | Ao criar o boletim |
+| 20/08/2026 | Geral | Preferir **canal** de WhatsApp a grupo | Em grupo, todo participante vê o telefone dos demais. Com produtores e compradores na mesma sala, isso é exposição comercial além de questão de privacidade. Canal é transmissão de ida só, gratuito e sem expor ninguém | Proprietário | Se houver necessidade real de conversa entre participantes |
 ## Histórico de execução
 
 | Data | Fase | Ação | Resultado/evidência | Próximo passo |
@@ -145,6 +149,16 @@ não forem respondidas, nenhum agente deve alterar os itens dependentes.
 
 Ao responder qualquer uma, mover a decisão para a tabela de Registro de decisões acima, com data e
 motivo, e remover a linha daqui.
+
+### Ideias registradas, fora de escopo
+
+Não bloqueiam nada e não estão planejadas. Ficam aqui para não serem redescobertas do zero.
+
+| Registrada em | Ideia | Situação |
+|---|---|---|
+| 20/08/2026 | **Área do cliente** — produtor acompanhando os próprios lotes, resultados de classificação e alertas de preço por praça | Faz sentido como relacionamento, **não** como SEO. Só depois de existir conteúdo aberto que traga o público que talvez queira uma conta. O custo real não é infraestrutura — o Firebase Authentication tem camada gratuita e o projeto GCP já existe —, é a responsabilidade de manter base de identidades e senhas |
+| 20/08/2026 | **Boletim de preços por e-mail**, alimentado pelo Observatório da Fase 7 | Depende do consentimento de marketing separado e de ferramenta de envio. Camadas gratuitas existem, mas **os limites não foram verificados** — verificar antes de qualquer decisão, o teto de R$ 0 continua valendo |
+| 20/08/2026 | **Canal do WhatsApp** para transmissão de preços e informações de mercado | Gratuito e independente do site. Pode começar antes de qualquer fase técnica |
 
 ### Resolvidas em 20/08/2026
 
