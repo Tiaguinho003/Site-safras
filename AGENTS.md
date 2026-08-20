@@ -1,4 +1,4 @@
-# CLAUDE.md — Contrato operacional dos agentes
+# AGENTS.md — Contrato operacional dos agentes
 
 > **Este arquivo é espelhado.** `AGENTS.md` e `CLAUDE.md` têm conteúdo idêntico, diferindo apenas
 > na primeira linha. Claude Code lê `CLAUDE.md`; os demais agentes leem `AGENTS.md`.
