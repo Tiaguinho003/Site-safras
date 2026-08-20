@@ -1,0 +1,98 @@
+---
+/**
+ * Analytics — carrega o GA4 depois do consentimento, nunca antes.
+ *
+ * Renderizado pelo BaseLayout, no fim do `<body>`. Se
+ * `PUBLIC_GA4_MEASUREMENT_ID` estiver vazia, este componente não emite
+ * nada: sem a variável, o HTML da página fica idêntico ao de antes desta
+ * fase. É assim que o código pôde ser mesclado e testado antes de a
+ * propriedade do GA4 existir.
+ *
+ * A decisão do visitante NÃO é lida aqui. Ela vive em `window.__consent`,
+ * publicado pelo bootstrap inline do `<head>` (BaseLayout), que é quem
+ * grava o cookie e emite os sinais do Consent Mode. Este componente só
+ * pergunta "posso?" e reage a mudanças.
+ *
+ * Ordem que importa: `gtag('consent','default', …)` já rodou no `<head>`,
+ * antes de qualquer tag. Quando o gtag.js finalmente carrega, ele lê um
+ * estado de consentimento que já existe — e não o contrário.
+ *
+ * Por que o script é uma string e entra por `set:html`, em vez de ficar
+ * escrito no template: dentro de uma expressão `{cond && <script>…}` o
+ * compilador do Astro trataria `{ timeout: 3000 }` como expressão da
+ * template e quebraria o build. `set:html` injeta texto cru e não passa
+ * pelo parser de JSX. Mesma família da armadilha de generics documentada
+ * no CLAUDE.md §7.
+ */
+import { CONSENT_MAX_AGE } from "../../data/consent";
+
+const measurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+
+/**
+ * O cookie de medição não pode sobreviver ao consentimento que o autorizou.
+ * O padrão do GA4 é dois anos; aqui ele expira junto com a decisão, aos 182
+ * dias, quando o banner volta a perguntar.
+ */
+const cookieExpires = CONSENT_MAX_AGE;
+
+const script = `(function () {
+  var w = window;
+  var consent = w.__consent;
+
+  /* Sem o bootstrap não há decisão registrada, e sem decisão não se mede.
+     Falhar para o lado de não medir é o lado certo de falhar. */
+  if (!consent) return;
+
+  var id = ${JSON.stringify(measurementId)};
+  var loaded = false;
+
+  function load() {
+    if (loaded) return;
+    loaded = true;
+
+    var script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+    document.head.appendChild(script);
+
+    w.gtag("js", new Date());
+    w.gtag("config", id, {
+      /* Ambos vêm LIGADOS por padrão no GA4. Desligar aqui é o que mantém a
+         implementação igual ao que a política declara: sem sinais de
+         publicidade, sem remarketing, sem públicos semelhantes. O Consent
+         Mode já nega ad_*, mas o GA4 tem a própria chave, e ela ignora
+         aquela. */
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      cookie_expires: ${cookieExpires},
+      cookie_flags:
+        location.protocol === "https:" ? "SameSite=Lax;Secure" : "SameSite=Lax"
+    });
+  }
+
+  /* Ocioso, não imediato: a medição não disputa banda nem CPU com a
+     renderização. O timeout garante que "ocioso" não vire "nunca" numa
+     página que nunca fica ociosa. */
+  function schedule() {
+    if (w.requestIdleCallback) {
+      w.requestIdleCallback(load, { timeout: 3000 });
+    } else {
+      setTimeout(load, 1200);
+    }
+  }
+
+  /* Quem já aceitou numa visita anterior não precisa aceitar de novo: o
+     cookie de consentimento continua valendo e o banner nem aparece. */
+  if (consent.get().analytics === "granted") schedule();
+
+  /* E quem aceita agora, no banner, passa a ser medido sem recarregar a
+     página. Revogar depois não descarrega o gtag.js já em memória; o que
+     muda é o sinal do Consent Mode, emitido pelo bootstrap, que faz o GA4
+     parar de gravar cookie. Apagar os cookies já criados é item da Fase E. */
+  consent.onChange(function (state) {
+    if (state.analytics === "granted") schedule();
+  });
+})();`;
+---
+
+{measurementId && <script is:inline set:html={script} />}

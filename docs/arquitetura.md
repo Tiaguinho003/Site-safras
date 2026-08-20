@@ -233,8 +233,21 @@ Rota não registrada cai no comportamento antigo de prefixo.
 `BaseLayout` emite `gtag('consent','default', …)` com tudo negado antes de qualquer script — é o que
 torna o sinal válido. Os sinais de publicidade (`ad_storage`, `ad_user_data`, `ad_personalization`)
 ficam negados de forma permanente, sem controle na interface, porque o site não faz publicidade. O
-contrato para a Fase D é `window.__consent.onChange()`. `src/data/consent.ts` descreve o cookie e as
-categorias. Ver `docs/registro-operacional.md` para as decisões.
+contrato consumido pela Fase D é `window.__consent.onChange()`. `src/data/consent.ts` descreve o
+cookie e as categorias. Ver `docs/registro-operacional.md` para as decisões.
+
+**GA4 sob consentimento (Fase D):** `Analytics.astro` assina `window.__consent.onChange()` e só
+injeta o `gtag.js` quando há permissão — em `requestIdleCallback`, para não disputar com a
+renderização. Desliga explicitamente `allow_google_signals` e `allow_ad_personalization_signals`,
+que **vêm ligados por padrão** e são independentes do Consent Mode; sem isso a implementação
+contradiria a política. O `cookie_expires` acompanha os 182 dias do consentimento: o cookie de
+medição não sobrevive à decisão que o autorizou.
+
+O componente é governado por `PUBLIC_GA4_MEASUREMENT_ID`. Vazia, não emite nada — e a mesma
+variável escolhe qual das duas versões da seção de cookies a política renderiza
+(`PrivacyPage.astro`), de modo que o texto nunca descreva um estado diferente do real. O script vai
+por `set:html` porque, dentro de uma expressão `{cond && <script>…}`, o compilador leria
+`{ timeout: 3000 }` como expressão da template.
 
 **Schema.org — estado real:** existe **apenas `LocalBusiness`** (nome, endereço, telefone, e-mail
 público, horário, URL canônica, fundação, imagem). Declarado em `HomePage.astro` e injetado pelo

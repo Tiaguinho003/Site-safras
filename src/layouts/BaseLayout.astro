@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import CookieConsent from "../components/layout/CookieConsent.astro";
+import Analytics from "../components/layout/Analytics.astro";
 import {
   CONSENT_COOKIE,
   CONSENT_VERSION,
@@ -69,6 +70,18 @@ const languageOptions = LOCALES.map((targetLocale) => ({
   accept: t("languageSuggestion.accept", targetLocale),
   dismiss: t("languageSuggestion.dismiss", targetLocale),
 }));
+
+/**
+ * Verificação de propriedade do Search Console.
+ *
+ * Método "tag HTML": o Google lê esta meta na home e libera a propriedade.
+ * Escolhido por não exigir alteração na zona de DNS, que hoje serve a
+ * produção — e por ser reversível removendo uma variável.
+ *
+ * Vazia enquanto o código de verificação não for gerado no painel. Sem a
+ * variável, nenhuma meta é emitida.
+ */
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
 ---
 
 <!doctype html>
@@ -226,6 +239,9 @@ const languageOptions = LOCALES.map((targetLocale) => ({
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#025c00" />
+    {gscVerification && (
+      <meta name="google-site-verification" content={gscVerification} />
+    )}
     <link rel="icon" type="image/png" href="/favicon.png" />
     {canonical && <link rel="canonical" href={canonicalHref} />}
     {/* hreflang alternates pra SEO multi-idioma */}
@@ -367,6 +383,11 @@ const languageOptions = LOCALES.map((targetLocale) => ({
     <Footer />
 
     <CookieConsent />
+
+    {/* Depois do banner: o GA4 só carrega se houver permissão, e o
+        componente não emite nada enquanto PUBLIC_GA4_MEASUREMENT_ID
+        estiver vazia. */}
+    <Analytics />
 
     <script>
       const reducedMotion = window.matchMedia(

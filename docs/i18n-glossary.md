@@ -330,6 +330,9 @@ público estrangeiro reconhece; em ES, a terminologia hispano-americana de prote
 | medição de audiência | audience measurement | medición de audiencia | ❗ Preferido a "analytics" na interface. O visitante entende a finalidade, não a ferramenta |
 | sempre ativo | always on | siempre activa | Estado da categoria necessária. ES concorda com "cookie", que é feminino |
 | aceitar / recusar | accept / reject | aceptar / rechazar | ❗ Em EN, **"reject"**, não "decline" nem "manage" — recusar precisa ser explícito |
+| dados de navegação | browsing data | datos de navegación | O que a medição coleta. Evita "dados de uso", vago demais para uma política |
+| públicos semelhantes | similar-audience | públicos similares | Recurso de publicidade do GA4 que o site **não** usa. Nomeado na política justamente para negá-lo |
+| remarketing | remarketing | remarketing | Não se traduz nos três idiomas: é o nome do recurso no painel do Google, e traduzir tornaria a negativa ambígua |
 
 ### Aceitar e recusar têm o mesmo peso
 

@@ -353,6 +353,7 @@ const dict = {
         ],
       },
       {
+        id: "cookies",
         title: "Cookies and similar technologies",
         body: [
           "This site uses two cookies, both required for it to work, and neither able to identify you:",
@@ -412,6 +413,33 @@ const dict = {
         ],
       },
     ],
+    /**
+     * Version of the cookies section that applies WHEN measurement is on.
+     * Swapped in automatically by PrivacyPage — see the pt-br dictionary
+     * for the full rationale.
+     */
+    cookiesWithAnalytics: {
+      id: "cookies",
+      title: "Cookies and similar technologies",
+      body: [
+        "This site uses cookies required for it to work and, only with your permission, audience measurement cookies. None of them are used for advertising.",
+        "These are the cookies that may be stored:",
+      ],
+      list: [
+        "safras_locale — required. Stores the language you chose, so your preference is respected on your next visit. It lasts one year. It is written only when you act: switching language in the selector, or accepting the language suggestion.",
+        "safras_consent — required. Stores your decision about audience measurement and the date you made it. It lasts six months, after which we ask again. It holds no identifier, no IP address and no data about you.",
+        "_ga — measurement, stored only if you allow it. It tells repeat visits apart using a random number that holds no name, email or phone. It lasts six months, the same period as your decision.",
+        "_ga_<site code> — measurement, also conditional on your permission. It stores the state of the current visit. It lasts six months.",
+      ],
+      after: [
+        "The site also uses the browser's session storage to remember that you dismissed the language suggestion. That record is cleared when you close the tab.",
+        "Measurement is done with Google Analytics 4 and begins only after you allow it. Until you do, this site loads no Google files at all.",
+        "What we measure is aggregate: how many people visit, which pages they pass through, where they arrived from and which language they browse in. Your IP address is not stored. We use no advertising, remarketing or similar-audience features, and this data is not associated with your Google account.",
+        "Browsing data is kept for 14 months and then deleted automatically.",
+        "You may revisit your decision at any time through the “Cookie preferences” link in the footer of any page. Withdrawing is as simple as consenting.",
+        "If your browser sends the Global Privacy Control signal, we treat it as a refusal and do not show the notice — you have already made your choice, and it is not for us to ask again.",
+      ],
+    },
     contact: {
       title: "Talk to us",
       body: "Questions about this policy or about your data:",
