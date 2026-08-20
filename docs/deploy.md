@@ -67,6 +67,8 @@ Definidas no `env` do step em `cloudbuild.yaml`:
 |---|---|---|
 | `MAINTENANCE` | `0` | `apply-maintenance.mjs` vira no-op; site completo é publicado |
 | `PUBLIC_WEB3FORMS_KEY` | chave pública | Consumida pelo formulário de contato |
+| `PUBLIC_GA4_MEASUREMENT_ID` | **vazia** | Vazia: nada de medição é emitido. Preenchida (`G-XXXXXXXXXX`): ativa o GA4 sob consentimento **e** troca a seção de cookies da política |
+| `PUBLIC_GSC_VERIFICATION` | **vazia** | Vazia: nenhuma meta. Preenchida: emite `<meta name="google-site-verification">` |
 
 Sobre a chave do Web3Forms: é pública por design — vai para o bundle do cliente de qualquer forma.
 Mas ela está **literal em arquivo versionado, em repositório público**, e a restrição por domínio
@@ -75,6 +77,25 @@ baixo; o gatilho de reavaliação está na Fase 2 do plano de SEO. Ver
 [`registro-operacional.md`](./registro-operacional.md).
 
 Localmente a chave vem de `.env` (ver `.env.example`), que não é versionado.
+
+### Ativar a medição de audiência
+
+As duas variáveis do Google entram **vazias de propósito**. O código foi mesclado inerte para não
+depender de um passo em painel externo: sem elas, nenhum script é emitido e a política de
+privacidade continua declarando que o site não mede audiência.
+
+Para ativar, quando o `G-XXXXXXXXXX` e o código de verificação existirem:
+
+1. Preencher as duas variáveis no `cloudbuild.yaml`.
+2. **No mesmo commit**, atualizar `privacy.updatedAt` nos três dicionários (`src/i18n/*.ts`). O
+   texto da política troca sozinho; a data não, e a própria política promete que ela muda junto.
+
+Um único deploy acende tag, verificação e texto jurídico — não há janela em que o site meça sem
+que a política diga que ele mede.
+
+Depois do deploy, no painel do Google e fora do repositório: retenção de **14 meses**, Google
+Signals desativado, envio do sitemap e exclusão de tráfego interno. **O IP do escritório não é
+versionado.**
 
 ---
 

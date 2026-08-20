@@ -22,6 +22,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { useTranslation } from "../../i18n";
 
 interface PrivacySection {
+  /** Só a seção trocável de cookies tem id hoje. Ver `sections` abaixo. */
+  id?: string;
   title: string;
   body: string[];
   list?: string[];
@@ -38,7 +40,31 @@ interface PrivacyContact {
 
 const { t, tArray, tObject, route } = useTranslation(Astro);
 
-const sections = tArray<PrivacySection>("privacy.sections");
+/**
+ * A seção de cookies tem duas versões, e a política precisa descrever
+ * exatamente o que o site faz — nem a mais, nem a menos.
+ *
+ * Sem `PUBLIC_GA4_MEASUREMENT_ID`, nenhuma medição é carregada e vale o
+ * texto que declara isso. Com a variável preenchida, a medição passa a
+ * existir e entra a versão que a descreve. As duas foram escritas e
+ * traduzidas juntas, então a política acende no mesmo deploy da tag — sem
+ * depender de alguém lembrar de um segundo passo.
+ *
+ * Generic em front-matter é seguro; dentro do JSX quebraria o build
+ * (CLAUDE.md §7).
+ */
+const analyticsEnabled = Boolean(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID);
+
+const baseSections = tArray<PrivacySection>("privacy.sections");
+const cookiesWithAnalytics = tObject<PrivacySection>(
+  "privacy.cookiesWithAnalytics",
+);
+
+const sections = analyticsEnabled
+  ? baseSections.map((section) =>
+      section.id === "cookies" ? cookiesWithAnalytics : section,
+    )
+  : baseSections;
 const contact = tObject<PrivacyContact>("privacy.contact");
 
 // Reaproveita os dados de contato já mantidos no bloco `contact` do

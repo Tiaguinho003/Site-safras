@@ -22,6 +22,20 @@ steps:
       # de contato (#contato). Pública por design — fica no bundle do
       # client de qualquer jeito; domínio whitelistado no painel deles.
       - "PUBLIC_WEB3FORMS_KEY=19f84f64-a60b-4447-a0d6-a858ba8a0482"
+      # PUBLIC_GA4_MEASUREMENT_ID: ID de medição do GA4. Público por design —
+      # aparece no HTML de qualquer implementação de GA4.
+      #
+      # Preenchida em 20/08/2026: a medição passa a carregar SOB CONSENTIMENTO
+      # (Analytics.astro) e a política de privacidade passa a renderizar a
+      # versão da seção de cookies que descreve a medição (PrivacyPage.astro).
+      #
+      # AO ALTERAR OU ESVAZIAR, no MESMO commit: revisar `privacy.updatedAt`
+      # nos três dicionários (src/i18n/*.ts). O texto da política troca
+      # sozinho; a data não, e a própria política promete que ela muda junto.
+      - "PUBLIC_GA4_MEASUREMENT_ID=G-CBC2Q5HSRD"
+      # PUBLIC_GSC_VERIFICATION: código da meta tag de verificação do Search
+      # Console. Vazia = meta não é emitida.
+      - "PUBLIC_GSC_VERIFICATION="
     args:
       - "-c"
       - |

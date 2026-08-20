@@ -352,6 +352,7 @@ const dict = {
         ],
       },
       {
+        id: "cookies",
         title: "Cookies e tecnologias semelhantes",
         body: [
           "Este site usa dois cookies, ambos necessários ao funcionamento e nenhum deles capaz de identificar você:",
@@ -411,6 +412,37 @@ const dict = {
         ],
       },
     ],
+    /**
+     * Versão da seção de cookies que vale QUANDO a medição está ligada.
+     *
+     * Substitui a seção `id: "cookies"` acima, e a troca é automática: o
+     * PrivacyPage escolhe pela presença de PUBLIC_GA4_MEASUREMENT_ID. As
+     * duas versões existem para que a política nunca descreva um estado
+     * diferente do que o site de fato faz — nem antes, nem depois de o GA4
+     * ser ativado.
+     */
+    cookiesWithAnalytics: {
+      id: "cookies",
+      title: "Cookies e tecnologias semelhantes",
+      body: [
+        "Este site usa cookies necessários ao funcionamento e, somente com a sua permissão, cookies de medição de audiência. Nenhum deles serve para publicidade.",
+        "Os cookies que podem ser gravados são estes:",
+      ],
+      list: [
+        "safras_locale — necessário. Guarda o idioma que você escolheu, para que a preferência seja respeitada na próxima visita. Dura um ano. É gravado somente quando você age: ao trocar de idioma no seletor ou ao aceitar a sugestão de idioma.",
+        "safras_consent — necessário. Guarda a sua decisão sobre a medição de audiência e a data em que ela foi tomada. Dura seis meses, depois dos quais perguntamos de novo. Não contém identificador, endereço de IP nem qualquer dado sobre você.",
+        "_ga — de medição, gravado apenas se você autorizar. Distingue visitas repetidas por um número aleatório, que não contém nome, e-mail nem telefone. Dura seis meses, o mesmo prazo da sua decisão.",
+        "_ga_<código do site> — de medição, também condicionado à sua permissão. Guarda o estado da visita em andamento. Dura seis meses.",
+      ],
+      after: [
+        "O site também usa o armazenamento de sessão do navegador para lembrar que você dispensou a sugestão de idioma. Esse registro é apagado quando você fecha a aba.",
+        "A medição é feita com o Google Analytics 4 e só começa depois da sua autorização. Enquanto você não autorizar, nenhum arquivo do Google é carregado por este site.",
+        "O que medimos é agregado: quantas pessoas visitam, por quais páginas passam, de onde chegaram e em qual idioma navegam. O seu endereço de IP não é armazenado. Não usamos recursos de publicidade, remarketing ou públicos semelhantes, e esses dados não são associados à sua conta do Google.",
+        "Os dados de navegação são conservados por 14 meses e depois apagados automaticamente.",
+        "Você pode rever a sua decisão quando quiser, pelo link “Preferências de cookies” no rodapé de qualquer página. Revogar é tão simples quanto consentir.",
+        "Se o seu navegador enviar o sinal Global Privacy Control, tratamos isso como recusa e não exibimos o aviso — a sua escolha já foi feita, e não cabe perguntar de novo.",
+      ],
+    },
     contact: {
       title: "Fale com a gente",
       body: "Dúvidas sobre esta política ou sobre os seus dados:",

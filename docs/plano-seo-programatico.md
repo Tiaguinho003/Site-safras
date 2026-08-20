@@ -11,13 +11,18 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.1 |
+| Versão | 3.2 |
 | Fase ativa | Fase 2 — Mensuração e presença oficial |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
 | Estado geral | **Fase 1 APROVADA em 20/08/2026** — gate integralmente atendido, com performance 100 nos três idiomas medida no PageSpeed Insights. Fase 2 autorizada a iniciar |
 | Última revisão | 20/08/2026 |
-| Próxima revisão | Ao concluir a página de privacidade e o consentimento, pré-requisitos do analytics |
+| Próxima revisão | Ao receber o `G-XXXXXXXXXX` e o código de verificação do Search Console, que ativam a medição já entregue |
 | Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.2 (20/08/2026):** Fase 2 avança com a política de privacidade (Fase B), o
+consentimento (Fase C) e o código da medição (Fase D), este último **inerte** até que a propriedade
+do GA4 e a verificação do Search Console existam. Checklist da Fase 2 atualizado, com os dois itens
+que dependem do cliente destacados como tais.
 
 **Mudanças da versão 3.1 (20/08/2026):** Fase 1 encerrada como APROVADA — o item de performance
 que faltava foi resolvido por método de medição, não por alteração de código; adotada a API do
@@ -611,6 +616,41 @@ O que ficou pronto:
 
 A comporta que a Fase D vai consumir é `window.__consent.onChange()`.
 
+### Medição — CÓDIGO PRONTO E INERTE em 20/08/2026 (Fase D)
+
+A Fase D entregou o código da medição em estado **inerte**, governado por duas variáveis de build
+vazias. A razão é de sequenciamento: criar a propriedade do GA4 e verificar o Search Console são
+passos no painel do Google, fora do alcance do repositório. Em vez de bloquear a entrega neles, o
+código foi escrito, testado e mesclado desligado.
+
+Sem as variáveis, o HTML publicado é o mesmo de antes da fase, à exceção de dois espaços em branco
+— verificado por diff contra o build de `main`.
+
+O que ficou pronto:
+
+- `Analytics.astro` assina `window.__consent.onChange()` e carrega o `gtag.js` **somente** com
+  permissão, em `requestIdleCallback`;
+- `allow_google_signals` e `allow_ad_personalization_signals` desligados **explicitamente**. Os dois
+  vêm ligados por padrão e são independentes do Consent Mode — sem isso, a implementação
+  contradiria a política de privacidade já publicada;
+- `cookie_expires` de 182 dias: o cookie de medição não sobrevive ao consentimento que o autorizou;
+- meta de verificação do Search Console, também por variável;
+- **a política de privacidade tem duas versões da seção de cookies**, e a mesma variável escolhe
+  qual renderiza. O texto nunca descreve um estado diferente do real, e a atualização não depende
+  de alguém lembrar de um segundo passo.
+
+Verificado com Playwright, com um ID de teste: recusa não carrega, aceite carrega, aceite anterior
+carrega sozinho, GPC não carrega, e a configuração emitida traz os dois sinais desligados.
+
+**Estado em 20/08/2026:** a propriedade GA4 foi criada e o `PUBLIC_GA4_MEASUREMENT_ID` está
+preenchido — a medição está **ativa sob consentimento**, com retenção de 14 meses confirmada no
+painel antes da publicação. Permanece pendente apenas o código de verificação do Search Console,
+que mantém `PUBLIC_GSC_VERIFICATION` vazia sem afetar a medição.
+
+**Nota sobre desempenho:** o Lighthouse não clica em "Aceitar", então a nota continuará 100 mesmo
+depois da ativação. O custo real do GA4 recai sobre quem consente e **não aparece no laboratório** —
+registrado para que o 100 não seja lido como ausência de custo.
+
 ### Checklist
 
 - [x] Publicar a política de privacidade completa nos três idiomas.
@@ -619,7 +659,9 @@ A comporta que a Fase D vai consumir é `window.__consent.onChange()`.
 - [ ] Verificar todas as variantes necessárias no Search Console.
 - [ ] Enviar o sitemap.
 - [ ] Registrar páginas indexadas, excluídas e erros.
-- [ ] Configurar analytics com consentimento apropriado.
+- [x] Configurar analytics com consentimento apropriado (Fase D).
+- [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
+- [ ] Preencher `PUBLIC_GSC_VERIFICATION` com o código do Search Console — depende do cliente.
 - [ ] Definir conversões: WhatsApp, telefone, formulário e e-mail.
 - [ ] Excluir acessos internos quando possível.
 - [ ] Configurar painel mensal.
