@@ -2,6 +2,13 @@
 import "../styles/global.css";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import CookieConsent from "../components/layout/CookieConsent.astro";
+import {
+  CONSENT_COOKIE,
+  CONSENT_VERSION,
+  CONSENT_MAX_AGE,
+  PERMANENTLY_DENIED,
+} from "../data/consent";
 import {
   getCurrentLocale,
   localizeURL,
@@ -69,6 +76,153 @@ const languageOptions = LOCALES.map((targetLocale) => ({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {/*
+      Bootstrap do consentimento — PRECISA ser o primeiro script da página.
+
+      O Consent Mode exige que `gtag('consent','default', …)` rode ANTES de
+      qualquer tag carregar. Não é preferência de estilo: é a diferença entre
+      um sinal de consentimento válido e uma tag que já leu o navegador antes
+      de perguntar. Por isso é `is:inline` (não passa pelo bundler, não é
+      adiado) e vive aqui, e não num componente.
+
+      Hoje não há tag alguma para liberar. O que este script estabelece é o
+      contrato que a Fase D vai consumir.
+    */}
+    <script
+      is:inline
+      define:vars={{
+        cookieName: CONSENT_COOKIE,
+        version: CONSENT_VERSION,
+        maxAge: CONSENT_MAX_AGE,
+        permanentlyDenied: PERMANENTLY_DENIED,
+      }}
+    >
+      (function () {
+        var w = window;
+
+        w.dataLayer = w.dataLayer || [];
+        function gtag() {
+          w.dataLayer.push(arguments);
+        }
+        w.gtag = w.gtag || gtag;
+
+        function readCookie(name) {
+          var match = document.cookie.match(
+            new RegExp("(?:^|;\\s*)" + name + "=([^;]*)")
+          );
+          return match ? decodeURIComponent(match[1]) : null;
+        }
+
+        /* Espelha parseConsent() de src/data/consent.ts. A duplicação é
+           deliberada: script inline não importa módulo, e o custo de manter
+           dez linhas em dois lugares é menor que o de adiar este bootstrap. */
+        function parse(raw) {
+          if (!raw) return null;
+          var params = new URLSearchParams(raw);
+          var v = Number(params.get("v"));
+          var t = Number(params.get("t"));
+          var analytics = params.get("analytics");
+          if (v !== version) return null;
+          if (!isFinite(t) || t <= 0) return null;
+          if (analytics !== "granted" && analytics !== "denied") return null;
+          return { version: v, timestamp: t, analytics: analytics };
+        }
+
+        function write(state) {
+          var value =
+            "v=" + state.version + "&t=" + state.timestamp + "&analytics=" + state.analytics;
+          document.cookie =
+            cookieName +
+            "=" +
+            encodeURIComponent(value) +
+            "; max-age=" + maxAge +
+            "; path=/; SameSite=Lax" +
+            (location.protocol === "https:" ? "; Secure" : "");
+        }
+
+        var stored = parse(readCookie(cookieName));
+        var decided = stored !== null;
+        var state = stored;
+
+        /* Global Privacy Control: o visitante já declarou a escolha no
+           navegador. Perguntar de novo seria ignorá-la. Registra a recusa e
+           não exibe o banner — o link do rodapé continua disponível para
+           quem quiser mudar de ideia. */
+        var gpc = w.navigator && w.navigator.globalPrivacyControl === true;
+
+        if (!decided && gpc) {
+          state = {
+            version: version,
+            timestamp: Math.floor(Date.now() / 1000),
+            analytics: "denied",
+          };
+          write(state);
+          decided = true;
+        }
+
+        var analytics = state ? state.analytics : "denied";
+
+        /* Sinais de publicidade ficam negados sempre. O site não faz
+           publicidade nem remarketing, e nenhuma interface oferece essa
+           chave — travar aqui impede que uma configuração descuidada do
+           GA4 conceda o que nunca foi pedido. */
+        var defaults = { analytics_storage: analytics };
+        for (var i = 0; i < permanentlyDenied.length; i++) {
+          defaults[permanentlyDenied[i]] = "denied";
+        }
+        gtag("consent", "default", defaults);
+
+        var listeners = [];
+
+        function snapshot() {
+          return {
+            analytics: analytics,
+            decided: decided,
+            timestamp: state ? state.timestamp : null,
+          };
+        }
+
+        w.__consent = {
+          get: snapshot,
+
+          set: function (prefs) {
+            var next =
+              prefs && prefs.analytics === "granted" ? "granted" : "denied";
+            state = {
+              version: version,
+              timestamp: Math.floor(Date.now() / 1000),
+              analytics: next,
+            };
+            analytics = next;
+            decided = true;
+            write(state);
+
+            gtag("consent", "update", { analytics_storage: next });
+
+            for (var j = 0; j < listeners.length; j++) {
+              try {
+                listeners[j](snapshot());
+              } catch (error) {
+                /* Um listener quebrado não pode derrubar os demais. */
+              }
+            }
+          },
+
+          /* A Fase D assina aqui para carregar o GA4 quando — e só quando —
+             houver permissão. Devolve a função de cancelamento. */
+          onChange: function (callback) {
+            listeners.push(callback);
+            return function () {
+              listeners = listeners.filter(function (fn) {
+                return fn !== callback;
+              });
+            };
+          },
+        };
+      })();
+    </script>
+
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#025c00" />
@@ -211,6 +365,8 @@ const languageOptions = LOCALES.map((targetLocale) => ({
     </main>
 
     <Footer />
+
+    <CookieConsent />
 
     <script>
       const reducedMotion = window.matchMedia(

@@ -271,6 +271,34 @@ const dict = {
     },
   },
 
+  consent: {
+    title: "Cookies and privacy",
+    description:
+      "To understand how this site is used and improve it, we need your permission. Cookies required for the site to work stay active either way.",
+    learnMore: "Read the Privacy Policy",
+    accept: "Accept",
+    reject: "Reject",
+    preferences: "Preferences",
+    panel: {
+      title: "Cookie preferences",
+      alwaysOn: "Always on",
+      save: "Save preferences",
+      categories: {
+        necessary: {
+          title: "Necessary",
+          description:
+            "These keep the site working: they store the language you chose and your own decision about cookies. They do not identify you and cannot be turned off.",
+        },
+        analytics: {
+          title: "Audience measurement",
+          description:
+            "These let us count visits and understand which pages are useful, always in aggregate. They never include your name, email, phone or the content of messages.",
+        },
+      },
+    },
+    footerLink: "Cookie preferences",
+  },
+
   privacy: {
     meta: {
       title: "Privacy Policy | Safras & Negócios",
@@ -327,10 +355,17 @@ const dict = {
       {
         title: "Cookies and similar technologies",
         body: [
-          "This site uses a single cookie, named safras_locale. It stores only the language you chose — Portuguese, English or Spanish — so your preference is respected on your next visit. It lasts one year.",
-          "It is written only when you act: switching language in the selector, or accepting the language suggestion. If you do neither, no cookie is written.",
+          "This site uses two cookies, both required for it to work, and neither able to identify you:",
+        ],
+        list: [
+          "safras_locale — stores the language you chose, so your preference is respected on your next visit. It lasts one year. It is written only when you act: switching language in the selector, or accepting the language suggestion.",
+          "safras_consent — stores your decision about audience measurement and the date you made it. It lasts six months, after which we ask again. It holds no identifier, no IP address and no data about you.",
+        ],
+        after: [
           "The site also uses the browser's session storage to remember that you dismissed the language suggestion. That record is cleared when you close the tab.",
-          "This site currently uses no audience analytics, no social media pixel and no advertising cookie. Should that change, this policy will be updated, and you will be asked beforehand where the law requires it.",
+          "This site currently uses no audience analytics, no social media pixel and no advertising cookie. We ask your permission before installing any of them, and this policy is updated before the change goes live.",
+          "You may revisit your decision at any time through the “Cookie preferences” link in the footer of any page. Withdrawing is as simple as consenting.",
+          "If your browser sends the Global Privacy Control signal, we treat it as a refusal and do not show the notice — you have already made your choice, and it is not for us to ask again.",
         ],
       },
       {

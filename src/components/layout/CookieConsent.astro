@@ -1,0 +1,267 @@
+---
+/**
+ * CookieConsent — banner de consentimento e painel de preferências.
+ *
+ * Renderizado no fim do `<body>` pelo BaseLayout, aparece nas seis páginas
+ * reais do site. `404.astro` e `manutencao.astro` são standalone, não usam
+ * BaseLayout e não gravam cookie algum.
+ *
+ * A LÓGICA não está aqui. O estado, o cookie e o sinal do Consent Mode vivem
+ * no bootstrap inline do `<head>` (BaseLayout), que precisa rodar antes de
+ * qualquer tag. Este componente é a interface: lê `window.__consent` e chama
+ * `set()`. Se o bootstrap falhar, o banner simplesmente não aparece — e nada
+ * é liberado, que é o lado seguro do erro.
+ *
+ * Decisões de acessibilidade:
+ * - `role="dialog"` com `aria-modal="false"`: não bloqueia a navegação, não
+ *   rouba o foco e não cria armadilha de foco.
+ * - Aceitar e Recusar são dois botões do MESMO tamanho, peso e contraste.
+ *   Recusar não é um link discreto — a lei exige que recusar seja tão fácil
+ *   quanto aceitar, e escondê-lo no visual burla a exigência sem burlar a
+ *   letra dela.
+ * - O painel de preferências expande no próprio banner. Sem modal, sem trap.
+ */
+import { useTranslation } from "../../i18n";
+
+interface ConsentCategory {
+  title: string;
+  description: string;
+}
+
+const { t, tObject, route } = useTranslation(Astro);
+
+// `consent.ariaLabel` fica no dicionário para uso futuro em contextos sem
+// título visível; aqui o rótulo vem do próprio <h2> via aria-labelledby.
+const necessary = tObject<ConsentCategory>("consent.panel.categories.necessary");
+const analytics = tObject<ConsentCategory>("consent.panel.categories.analytics");
+const privacyHref = route("privacidade");
+---
+
+<aside
+  id="cookie-consent"
+  data-cookie-consent
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-consent-title"
+  class="fixed inset-x-0 bottom-0 z-[90] px-4 pb-4 md:px-6 md:pb-6"
+  hidden
+>
+  <div
+    class="mx-auto w-full max-w-3xl rounded-2xl border border-line bg-paper/98 p-5 shadow-2xl backdrop-blur-md md:p-6"
+  >
+    <h2
+      id="cookie-consent-title"
+      class="text-base font-semibold text-ink md:text-lg"
+    >
+      {t("consent.title")}
+    </h2>
+
+    <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+      {t("consent.description")}
+    </p>
+
+    <p class="mt-2">
+      <a
+        href={privacyHref}
+        class="text-sm text-brand underline underline-offset-4 decoration-brand/30 transition-colors hover:text-brand-dark hover:decoration-brand"
+      >
+        {t("consent.learnMore")}
+      </a>
+    </p>
+
+    {/* ===== Painel de preferências — expande em linha, sem modal ===== */}
+    <div id="cookie-consent-panel" data-consent-panel class="mt-5" hidden>
+      <h3 class="text-sm font-semibold text-ink">{t("consent.panel.title")}</h3>
+
+      <div class="mt-3 divide-y divide-line rounded-xl border border-line">
+        <div class="flex items-start justify-between gap-4 p-4">
+          <div>
+            <p class="text-sm font-medium text-ink">{necessary.title}</p>
+            <p class="mt-1 text-xs leading-relaxed text-ink-muted">
+              {necessary.description}
+            </p>
+          </div>
+          <span
+            class="shrink-0 rounded-full bg-paper-alt px-3 py-1 text-xs font-medium text-ink-muted"
+          >
+            {t("consent.panel.alwaysOn")}
+          </span>
+        </div>
+
+        <div class="flex items-start justify-between gap-4 p-4">
+          <div>
+            <label
+              for="consent-analytics"
+              class="text-sm font-medium text-ink cursor-pointer"
+            >
+              {analytics.title}
+            </label>
+            <p class="mt-1 text-xs leading-relaxed text-ink-muted">
+              {analytics.description}
+            </p>
+          </div>
+          {/* 24px é o alvo mínimo da WCAG 2.2 (2.5.8). O rótulo também
+              alterna a chave, então o alvo efetivo é maior. */}
+          <input
+            type="checkbox"
+            id="consent-analytics"
+            data-consent-analytics
+            class="mt-1 size-6 shrink-0 cursor-pointer accent-brand"
+          />
+        </div>
+      </div>
+
+      <button
+        type="button"
+        data-consent-save
+        class="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-brand px-5 py-2.5 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-paper sm:w-auto"
+      >
+        {t("consent.panel.save")}
+      </button>
+    </div>
+
+    {/* ===== Ações ===== */}
+    <div
+      data-consent-actions
+      class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center"
+    >
+      <button
+        type="button"
+        data-consent-accept
+        class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-brand-dark sm:flex-none sm:min-w-[9rem]"
+      >
+        {t("consent.accept")}
+      </button>
+
+      <button
+        type="button"
+        data-consent-reject
+        class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-paper-alt px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-line sm:flex-none sm:min-w-[9rem]"
+      >
+        {t("consent.reject")}
+      </button>
+
+      <button
+        type="button"
+        data-consent-preferences
+        aria-expanded="false"
+        aria-controls="cookie-consent-panel"
+        class="inline-flex min-h-11 items-center justify-center px-2 text-sm font-medium text-ink-muted underline underline-offset-4 decoration-ink-muted/30 transition-colors hover:text-ink sm:ml-auto"
+      >
+        {t("consent.preferences")}
+      </button>
+    </div>
+  </div>
+</aside>
+
+<style>
+  /* O banner desliza de baixo. `prefers-reduced-motion` cancela a animação —
+     global.css já zera durações, mas a transform precisa ser neutralizada
+     explicitamente para o elemento não nascer deslocado. */
+  #cookie-consent {
+    transform: translateY(0);
+  }
+
+  #cookie-consent[data-entering="true"] {
+    animation: consent-in 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  @keyframes consent-in {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cookie-consent[data-entering="true"] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  /* Interface do consentimento. O estado vive em window.__consent, publicado
+     pelo bootstrap inline do BaseLayout. */
+
+  interface ConsentSnapshot {
+    analytics: "granted" | "denied";
+    decided: boolean;
+    timestamp: number | null;
+  }
+
+  interface ConsentApi {
+    get: () => ConsentSnapshot;
+    set: (prefs: { analytics: "granted" | "denied" }) => void;
+    onChange: (cb: (state: ConsentSnapshot) => void) => () => void;
+  }
+
+  const consent = (window as Window & { __consent?: ConsentApi }).__consent;
+  const banner = document.querySelector<HTMLElement>("[data-cookie-consent]");
+
+  /* Sem bootstrap não há como gravar decisão — melhor não exibir um banner
+     que não decide nada. Nada é liberado nesse cenário. */
+  if (consent && banner) {
+    const panel = banner.querySelector<HTMLElement>("[data-consent-panel]");
+    const toggle = banner.querySelector<HTMLInputElement>("[data-consent-analytics]");
+    const acceptBtn = banner.querySelector<HTMLButtonElement>("[data-consent-accept]");
+    const rejectBtn = banner.querySelector<HTMLButtonElement>("[data-consent-reject]");
+    const prefsBtn = banner.querySelector<HTMLButtonElement>("[data-consent-preferences]");
+    const saveBtn = banner.querySelector<HTMLButtonElement>("[data-consent-save]");
+
+    const show = (openPanel: boolean) => {
+      const snapshot = consent.get();
+      if (toggle) toggle.checked = snapshot.analytics === "granted";
+
+      if (panel) panel.hidden = !openPanel;
+      prefsBtn?.setAttribute("aria-expanded", openPanel ? "true" : "false");
+
+      banner.hidden = false;
+      banner.dataset.entering = "true";
+    };
+
+    const hide = () => {
+      banner.hidden = true;
+      delete banner.dataset.entering;
+    };
+
+    const decide = (analytics: "granted" | "denied") => {
+      consent.set({ analytics });
+      hide();
+    };
+
+    acceptBtn?.addEventListener("click", () => decide("granted"));
+    rejectBtn?.addEventListener("click", () => decide("denied"));
+    saveBtn?.addEventListener("click", () =>
+      decide(toggle?.checked ? "granted" : "denied")
+    );
+
+    prefsBtn?.addEventListener("click", () => {
+      if (!panel) return;
+      const willOpen = panel.hidden;
+      panel.hidden = !willOpen;
+      prefsBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      if (willOpen) panel.querySelector<HTMLElement>("input")?.focus();
+    });
+
+    /* Reabertura a partir de qualquer lugar — hoje o link do rodapé.
+       Revogar precisa ser tão fácil quanto consentir; sem este ponto de
+       entrada, a primeira escolha viraria definitiva na prática. */
+    document.querySelectorAll<HTMLElement>("[data-consent-open]").forEach((el) => {
+      el.addEventListener("click", (event) => {
+        event.preventDefault();
+        show(true);
+        banner.scrollIntoView({ block: "nearest" });
+        banner.querySelector<HTMLElement>("[data-consent-analytics]")?.focus();
+      });
+    });
+
+    /* Só pergunta a quem ainda não decidiu. Quem tem GPC ativo já teve a
+       escolha registrada pelo bootstrap e não é interrompido. */
+    if (!consent.get().decided) show(false);
+  }
+</script>

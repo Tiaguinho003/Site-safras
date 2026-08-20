@@ -276,6 +276,34 @@ const dict = {
     },
   },
 
+  consent: {
+    title: "Cookies y privacidad",
+    description:
+      "Para entender cómo se usa el sitio y mejorarlo, necesitamos su permiso. Las cookies necesarias para el funcionamiento siguen activas de todos modos.",
+    learnMore: "Leer la Política de Privacidad",
+    accept: "Aceptar",
+    reject: "Rechazar",
+    preferences: "Preferencias",
+    panel: {
+      title: "Preferencias de cookies",
+      alwaysOn: "Siempre activa",
+      save: "Guardar preferencias",
+      categories: {
+        necessary: {
+          title: "Necesarias",
+          description:
+            "Mantienen el sitio en funcionamiento: guardan el idioma que usted eligió y su propia decisión sobre las cookies. No lo identifican y no se pueden desactivar.",
+        },
+        analytics: {
+          title: "Medición de audiencia",
+          description:
+            "Permiten contar visitas y entender qué páginas resultan útiles, siempre de forma agregada. Nunca incluyen nombre, correo, teléfono ni el contenido de los mensajes.",
+        },
+      },
+    },
+    footerLink: "Preferencias de cookies",
+  },
+
   privacy: {
     meta: {
       title: "Política de Privacidad | Safras & Negócios",
@@ -332,10 +360,17 @@ const dict = {
       {
         title: "Cookies y tecnologías similares",
         body: [
-          "Este sitio usa una sola cookie, llamada safras_locale. Guarda únicamente el idioma que usted eligió — portugués, inglés o español — para respetar su preferencia en la próxima visita. Dura un año.",
-          "Se graba solo cuando usted actúa: al cambiar de idioma en el selector o al aceptar la sugerencia de idioma. Si no hace ninguna de las dos cosas, no se graba ninguna cookie.",
+          "Este sitio usa dos cookies, ambas necesarias para el funcionamiento y ninguna capaz de identificarle:",
+        ],
+        list: [
+          "safras_locale — guarda el idioma que usted eligió, para respetar su preferencia en la próxima visita. Dura un año. Se graba solo cuando usted actúa: al cambiar de idioma en el selector o al aceptar la sugerencia de idioma.",
+          "safras_consent — guarda su decisión sobre la medición de audiencia y la fecha en que la tomó. Dura seis meses, tras los cuales volvemos a preguntar. No contiene identificador, ni dirección IP, ni dato alguno sobre usted.",
+        ],
+        after: [
           "El sitio también usa el almacenamiento de sesión del navegador para recordar que usted descartó la sugerencia de idioma. Ese registro se borra al cerrar la pestaña.",
-          "Este sitio no utiliza hoy ninguna herramienta de analítica de audiencia, ni píxel de redes sociales, ni cookie publicitaria. Si eso cambia, esta política se actualizará y se le consultará antes, cuando la ley lo exija.",
+          "Este sitio no utiliza hoy ninguna herramienta de analítica de audiencia, ni píxel de redes sociales, ni cookie publicitaria. Pedimos su permiso antes de instalar cualquiera de ellas, y esta política se actualiza antes de que el cambio entre en funcionamiento.",
+          "Puede revisar su decisión cuando quiera, mediante el enlace “Preferencias de cookies” en el pie de cualquier página. Revocar es tan sencillo como consentir.",
+          "Si su navegador envía la señal Global Privacy Control, la tratamos como un rechazo y no mostramos el aviso — usted ya hizo su elección, y no nos corresponde volver a preguntar.",
         ],
       },
       {

@@ -160,12 +160,20 @@ Tudo em `firebase.json`.
 ### Segurança
 
 `X-Content-Type-Options: nosniff` · `Referrer-Policy: strict-origin-when-cross-origin` ·
-`X-Frame-Options: DENY` · `Permissions-Policy` restritiva · **CSP** com `default-src 'self'`,
-`connect-src` liberando apenas `https://api.web3forms.com`, `frame-ancestors 'none'`.
+`X-Frame-Options: DENY` · `Permissions-Policy` restritiva · **CSP** com `default-src 'self'` e
+`frame-ancestors 'none'`.
 
-> Ao integrar qualquer serviço externo — analytics, tag manager, pixel, fontes remotas — **a CSP
-> precisa ser atualizada junto**, ou o recurso é bloqueado silenciosamente no navegador. Este é o
-> ponto que mais costuma ser esquecido ao instalar mensuração.
+`script-src` libera `googletagmanager.com` e `connect-src` libera `api.web3forms.com` mais os
+domínios do Google Analytics. **Preparado em 20/08/2026, na Fase C, antes de existir qualquer tag.**
+O motivo é o modo de falha: carregar analytics sem a CSP correspondente faz o navegador bloquear o
+script **sem erro visível** — a ferramenta parece instalada e não coleta nada. Deixar a permissão
+pronta e publicada torna a instalação da Fase D puramente aditiva.
+
+> Ao integrar qualquer serviço externo novo — pixel, tag manager, fontes remotas — **a CSP precisa
+> ser atualizada junto**. É o ponto que mais costuma ser esquecido.
+
+**Limitação conhecida:** `script-src` mantém `'unsafe-inline'`, exigido pelos scripts inline do
+Astro. Hospedagem estática não gera nonce por requisição, então endurecer isso não é possível hoje.
 
 ---
 

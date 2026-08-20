@@ -69,11 +69,12 @@ site-safras/
 │   ├── assets/                   # imagens otimizadas pelo Astro
 │   │   ├── about/ branding/ hero/ maps/ services/
 │   ├── components/
-│   │   ├── layout/               # Header, Footer, LanguageSwitcher
+│   │   ├── layout/               # Header, Footer, LanguageSwitcher, CookieConsent
 │   │   ├── pages/                # HomePage.astro, PrivacyPage.astro
 │   │   └── sections/             # ContactSection.astro
 │   ├── data/
-│   │   └── navigation.ts         # itens do menu (anchor + labelKey)
+│   │   ├── navigation.ts         # itens do menu (anchor + labelKey)
+│   │   └── consent.ts            # contrato do consentimento (cookie, categorias)
 │   ├── i18n/                     # dicionários e helpers de tradução
 │   │   ├── pt-br.ts en.ts es.ts  # pt-br é source of truth
 │   │   ├── anchors.ts            # mapa de anchors traduzidos (#contato/#contact)
@@ -227,6 +228,13 @@ verdade das URLs por idioma (`/privacidade` · `/en/privacy` · `/es/privacidad`
 de `anchors.ts`, um nível acima. `localizeURL()` consulta esse mapa, e por isso canonical,
 `hreflang`, `x-default` e o switcher acompanham o slug traduzido em vez de trocar só o prefixo.
 Rota não registrada cai no comportamento antigo de prefixo.
+
+**Consentimento e medição:** nada é carregado sem permissão. O bootstrap inline do `<head>` do
+`BaseLayout` emite `gtag('consent','default', …)` com tudo negado antes de qualquer script — é o que
+torna o sinal válido. Os sinais de publicidade (`ad_storage`, `ad_user_data`, `ad_personalization`)
+ficam negados de forma permanente, sem controle na interface, porque o site não faz publicidade. O
+contrato para a Fase D é `window.__consent.onChange()`. `src/data/consent.ts` descreve o cookie e as
+categorias. Ver `docs/registro-operacional.md` para as decisões.
 
 **Schema.org — estado real:** existe **apenas `LocalBusiness`** (nome, endereço, telefone, e-mail
 público, horário, URL canônica, fundação, imagem). Declarado em `HomePage.astro` e injetado pelo
