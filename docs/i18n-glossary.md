@@ -309,7 +309,7 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 | Número grande | 1.000 | 1,000 | 1.000 |
 | Decimal | 1,5 | 1.5 | 1,5 |
 | Moeda (se aparecer) | R$ 1.500,00 | R$ 1,500.00 ou US$ 1,500.00 | R$ 1.500,00 ou US$ 1.500,00 |
-| Telefone | (35) 3531-4046 | +55 35 3531-4046 | +55 35 3531-4046 |
+| Telefone | (35) 98461-7193 | +55 (35) 98461-7193 | +55 (35) 98461-7193 |
 
 ---
 
