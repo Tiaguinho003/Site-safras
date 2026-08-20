@@ -33,9 +33,12 @@ steps:
       # nos três dicionários (src/i18n/*.ts). O texto da política troca
       # sozinho; a data não, e a própria política promete que ela muda junto.
       - "PUBLIC_GA4_MEASUREMENT_ID=G-CBC2Q5HSRD"
-      # PUBLIC_GSC_VERIFICATION: código da meta tag de verificação do Search
-      # Console. Vazia = meta não é emitida.
-      - "PUBLIC_GSC_VERIFICATION="
+      # PUBLIC_GSC_VERIFICATION: código da meta tag de verificação de
+      # propriedade do Search Console. Identificador público, sem valor de
+      # credencial — só prova ao Google que quem publica o site controla o
+      # domínio. Não remover: o Search Console revalida periodicamente e
+      # perde a propriedade se a meta sumir.
+      - "PUBLIC_GSC_VERIFICATION=VdcMYjbAxgqQofktrDvbZF9c4scE0UreQNaC1VUm_Tw"
     args:
       - "-c"
       - |

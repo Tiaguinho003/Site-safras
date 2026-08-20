@@ -9,6 +9,14 @@ import { Image } from "astro:assets";
 import logo from "../assets/branding/safras-logotipo.svg";
 import "@fontsource-variable/inter";
 
+/**
+ * Verificação do Search Console. Esta página é standalone e substitui a
+ * home enquanto MAINTENANCE=1 — sem esta meta, a tag sumiria do domínio
+ * durante a manutenção e o Google poderia revogar a propriedade numa
+ * revalidação. Mesma variável do BaseLayout.
+ */
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+
 const publicEmail = "atendimento@safrasnegocios.com.br";
 const whatsappHref = `https://wa.me/5535984617193?text=${encodeURIComponent(
   "Olá! Encontrei a Safras & Negócios pelo site e gostaria de mais informações.",
@@ -21,6 +29,9 @@ const whatsappHref = `https://wa.me/5535984617193?text=${encodeURIComponent(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
+    {gscVerification && (
+      <meta name="google-site-verification" content={gscVerification} />
+    )}
     <meta name="theme-color" content="#025c00" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>Em breve | Safras & Negócios</title>
