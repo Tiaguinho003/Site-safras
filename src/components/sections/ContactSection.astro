@@ -132,7 +132,12 @@ const marcadores: { label: string; top: number; left: number }[] = [
                 {t("contact.details.emailLabel")}
               </dt>
               <dd class="mt-1.5 text-sm md:text-base text-ink">
-                <a class="hover:text-brand transition-colors break-all" href={`mailto:${publicEmail}`}>
+                <a
+                  class="hover:text-brand transition-colors break-all"
+                  href={`mailto:${publicEmail}`}
+                  data-contato="contato_email"
+                  data-origem="contato"
+                >
                   {publicEmail}
                 </a>
               </dd>
@@ -142,7 +147,12 @@ const marcadores: { label: string; top: number; left: number }[] = [
                 {t("contact.details.phoneLabel")}
               </dt>
               <dd class="mt-1.5 text-sm md:text-base text-ink">
-                <a class="hover:text-brand transition-colors" href={phoneHref}>
+                <a
+                  class="hover:text-brand transition-colors"
+                  href={phoneHref}
+                  data-contato="contato_telefone"
+                  data-origem="contato"
+                >
                   {t("contact.details.callAction")}: {publicPhone}
                 </a>
               </dd>
@@ -298,7 +308,12 @@ const marcadores: { label: string; top: number; left: number }[] = [
           >
             <p>{t("contact.form.states.errorDetailed")}</p>
             <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 font-medium">
-              <a class="underline underline-offset-2" href={`mailto:${publicEmail}`}>
+              <a
+                class="underline underline-offset-2"
+                href={`mailto:${publicEmail}`}
+                data-contato="contato_email"
+                data-origem="formulario_erro"
+              >
                 {publicEmail}
               </a>
               <span aria-hidden="true">•</span>
@@ -307,6 +322,8 @@ const marcadores: { label: string; top: number; left: number }[] = [
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-contato="contato_whatsapp"
+                data-origem="formulario_erro"
               >
                 {t("contact.details.whatsappAction")}
               </a>
@@ -640,6 +657,8 @@ const marcadores: { label: string; top: number; left: number }[] = [
 </style>
 
 <script>
+  import { normalizeUf, track, type Motivo } from "../../data/analytics";
+
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
 
   if (form) {
@@ -692,9 +711,16 @@ const marcadores: { label: string; top: number; left: number }[] = [
       if (errorBox) errorBox.hidden = true;
       form.setAttribute("data-state", "submitting");
 
+      /* Categoria do erro para o evento de diagnóstico. Começa em "rede":
+         se o fetch nem chegar a resolver, rede é exatamente o que houve. */
+      let motivo: Motivo = "rede";
+
       try {
         const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
-        if (!accessKey) throw new Error("PUBLIC_WEB3FORMS_KEY ausente");
+        if (!accessKey) {
+          motivo = "configuracao";
+          throw new Error("PUBLIC_WEB3FORMS_KEY ausente");
+        }
 
         const getField = (name: string): string =>
           (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null)
@@ -713,6 +739,14 @@ const marcadores: { label: string; top: number; left: number }[] = [
         const perfil = getSelectLabel("perfil") || getField("perfil");
         const interesse = getSelectLabel("interesse") || "—";
         const mensagem = getField("mensagem") || "—";
+
+        /* Para a medição vai o `value` do campo — slug estável, igual nos
+           três idiomas. O e-mail acima continua com o rótulo traduzido, que
+           é o certo para quem lê. O estado é texto livre e passa por uma
+           lista fechada de UFs: só categoria prevista sai daqui. */
+        const perfilSlug = getField("perfil");
+        const interesseSlug = getField("interesse");
+        const estadoUf = normalizeUf(getField("estado"));
         const nomeAssunto = nome.replace(/[\r\n]+/g, " ").slice(0, 80);
 
         const enviadoEm = new Date().toLocaleString("pt-BR", {
@@ -761,12 +795,30 @@ const marcadores: { label: string; top: number; left: number }[] = [
           method: "POST",
           body: payload,
         });
+
+        /* Passou daqui: a requisição chegou e voltou. Qualquer falha adiante
+           — status, corpo inválido, success:false — é do serviço. */
+        motivo = "servico";
+
         const data = await res.json();
         if (!res.ok || !data.success) {
           throw new Error(data.message || `HTTP ${res.status}`);
         }
         showSuccess();
+
+        /* Fora do showSuccess() de propósito: aquela função também roda no
+           desvio do honeypot, que finge sucesso para bot. Medir lá dentro
+           contaria bot como lead. */
+        track("formulario_envio", {
+          perfil: perfilSlug,
+          interesse: interesseSlug,
+          estado_uf: estadoUf,
+        });
       } catch (err) {
+        /* Só a categoria. `err.message` pode ecoar conteúdo digitado pela
+           pessoa, e isso não chega ao analytics em hipótese alguma. */
+        track("formulario_erro", { motivo });
+
         if (errorBox) {
           errorBox.hidden = false;
           errorBox.focus();

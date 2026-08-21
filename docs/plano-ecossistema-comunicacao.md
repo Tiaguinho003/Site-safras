@@ -138,12 +138,38 @@ Um evento por ação de contato. Nomes estáveis, definidos uma vez.
 
 | Evento | Dispara quando | Parâmetros permitidos |
 |---|---|---|
-| `contato_whatsapp` | clique em qualquer link `wa.me` | `origem_secao`, `idioma` |
+| `contato_whatsapp` | clique em link de WhatsApp **da empresa** | `origem_secao`, `idioma` |
 | `contato_telefone` | clique em `tel:` | `origem_secao`, `idioma` |
 | `contato_email` | clique em `mailto:` | `origem_secao`, `idioma` |
 | `formulario_envio` | envio bem-sucedido | `perfil`, `interesse`, `estado_uf`, `idioma` |
 | `formulario_erro` | falha no envio | `motivo`, `idioma` |
 | `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` |
+
+### Onde os eventos estão ancorados
+
+Implementado em 21/08/2026. `data-contato` carrega o nome do evento; `data-origem`, a seção. Um
+ouvinte delegado em `ConversionEvents.astro` lê os dois. Mudar esta tabela é mudar código.
+
+| Elemento | `data-contato` | `data-origem` |
+|---|---|---|
+| Rodapé — e-mail | `contato_email` | `rodape` |
+| Rodapé — telefone | `contato_telefone` | `rodape` |
+| Rodapé — WhatsApp | `contato_whatsapp` | `rodape` |
+| Rodapé — "desenvolvido por" | **nenhum** | — |
+| Rodapé — Instagram | **nenhum** | — |
+| Seção de contato — e-mail | `contato_email` | `contato` |
+| Seção de contato — telefone | `contato_telefone` | `contato` |
+| Caixa de erro — e-mail | `contato_email` | `formulario_erro` |
+| Caixa de erro — WhatsApp | `contato_whatsapp` | `formulario_erro` |
+| Política de privacidade — e-mail | `contato_email` | `politica` |
+| Política de privacidade — telefone | `contato_telefone` | `politica` |
+
+Dois valores existem sem uso hoje, de propósito: `origem_secao: "sucesso"`, reservado para o botão
+de WhatsApp da tela de sucesso, e o evento `canal_whatsapp`, reservado para quando o Canal existir.
+Nos dois casos basta marcar o elemento — o contrato já os aceita.
+
+O formulário não usa atributo: `formulario_envio` e `formulario_erro` são disparados pelo próprio
+script de envio, em `ContactSection.astro`.
 
 ### Regras de implementação
 
@@ -179,6 +205,44 @@ programa. Um agente que precise "só dessa vez" enviar um dado pessoal deve **pa
 ---
 
 ## 8. Funil de leads
+
+### Fluxo do usuário no site
+
+Decidido em 21/08/2026, antes de instrumentar.
+
+```
+CTA do header ──────────► #contato ──► FORMULÁRIO
+                                           │
+                                  envio bem-sucedido
+                                           │
+                                           ▼
+                                   tela de sucesso
+                           "Quer adiantar? Falar no WhatsApp"
+                                           │
+                                           ▼
+                                 conversa já qualificada
+
+RODAPÉ: telefone · e-mail · Instagram · WhatsApp
+        contato institucional, não CTA — e medido
+
+CAIXA DE ERRO: WhatsApp · e-mail
+        rede de segurança quando o formulário falha
+```
+
+**O formulário é a porta; o rodapé é o endereço na fachada.** Ninguém tira o telefone da fachada
+para obrigar o cliente a tocar a campainha.
+
+Papel de cada ponto:
+
+| Ponto | Papel | Por que existe |
+|---|---|---|
+| CTA do header → formulário | porta principal | Captura perfil, interesse e estado antes do primeiro contato |
+| Tela de sucesso → WhatsApp | acelerador | Os dados já foram capturados; quem tem pressa não é perdido, e o atendente recebe a conversa sabendo quem é |
+| Rodapé | contato institucional | Telefone e e-mail visíveis são base da consistência de entidade e do SEO local — esconder prejudicaria trabalho que o programa está tentando consertar |
+| Caixa de erro | rede de segurança | Se o serviço de formulário falhar, é o único caminho que sobra. Sem ele, formulário quebrado = lead perdido sem ninguém saber |
+
+**"Somente formulário" foi avaliado e descartado como inalcançável:** a regra teria de valer para os
+quatro canais do rodapé, e telefone e e-mail não podem sair.
 
 O formulário já coleta `perfil` e `interesse`. Hoje esses campos vão para o e-mail e morrem lá.
 São exatamente os dois eixos que permitem separar produtor de comprador e priorizar atendimento.

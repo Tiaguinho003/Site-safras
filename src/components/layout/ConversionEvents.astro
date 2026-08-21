@@ -1,0 +1,45 @@
+---
+/**
+ * ConversionEvents — despacha os eventos de clique nos links de contato.
+ *
+ * Renderizado pelo BaseLayout SÓ quando `PUBLIC_GA4_MEASUREMENT_ID` existe.
+ * Sem a variável não há tag para receber evento, e este JS não é servido.
+ *
+ * Por que é um componente separado do `Analytics.astro`, e não mais um
+ * `<script>` lá dentro: no `Analytics.astro` o template inteiro vive dentro
+ * da expressão `{measurementId && …}`, e um script com blocos `{ … }` dentro
+ * de expressão JSX cai na armadilha do parser do Astro descrita no cabeçalho
+ * daquele arquivo e no CLAUDE.md §7. Aqui o `<script>` fica no topo do
+ * template — texto cru para o compilador — e a condição fica no BaseLayout,
+ * onde é só uma referência de componente.
+ *
+ * O que este componente NÃO faz: decidir se pode medir. Isso é do `track()`,
+ * em `src/data/analytics.ts`, que lê `window.__consent` antes de despachar.
+ */
+---
+
+<script>
+  import { track, type ContactEvent, type Origem } from "../../data/analytics";
+
+  /* Um ouvinte delegado no documento, em vez de fiação componente a
+     componente. Os links marcados estão no rodapé, na seção de contato e na
+     política — e dois deles só ficam visíveis depois que o formulário falha.
+     Delegar cobre todos, inclusive os que aparecem depois da carga. Mesmo
+     padrão que o CookieConsent já usa para `[data-consent-open]`. */
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const el = target.closest<HTMLElement>("[data-contato]");
+    if (!el) return;
+
+    /* O nome do evento vem do atributo, nunca do padrão do href: o rodapé
+       tem um `wa.me` que é o contato do desenvolvedor, e amarrar por href
+       contaria clique nele como lead do cliente. */
+    const evento = el.dataset.contato as ContactEvent | undefined;
+    if (!evento) return;
+
+    const origem = el.dataset.origem as Origem | undefined;
+    track(evento, origem ? { origem_secao: origem } : {});
+  });
+</script>

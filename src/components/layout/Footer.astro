@@ -27,16 +27,32 @@ const servicesLinks: { dictKey: string; href: string }[] = [
   { dictKey: "services.cards.suporteLogistico.title", href: servicesHref },
 ];
 
-const contactLinks = [
+/**
+ * `evento` marca o link para a medição de conversão. É o atributo, e não o
+ * padrão do href, que define o que conta — mais abaixo, no crédito
+ * "desenvolvido por", há um `wa.me` que é o contato do desenvolvedor e
+ * jamais pode ser contado como lead do cliente.
+ *
+ * O Instagram fica sem evento: não está no vocabulário da §7 do plano de
+ * ecossistema, e inventar um nome aqui furaria o contrato.
+ */
+const contactLinks: {
+  label: string;
+  href: string;
+  external: boolean;
+  evento?: string;
+}[] = [
   {
     label: publicEmail,
     href: `mailto:${publicEmail}`,
     external: false,
+    evento: "contato_email",
   },
   {
     label: publicPhone,
     href: "tel:+5535984617193",
     external: false,
+    evento: "contato_telefone",
   },
   {
     label: "Instagram",
@@ -47,6 +63,7 @@ const contactLinks = [
     label: "WhatsApp",
     href: whatsappHref,
     external: true,
+    evento: "contato_whatsapp",
   },
 ];
 ---
@@ -164,6 +181,8 @@ const contactLinks = [
                   href={s.href}
                   target={s.external ? "_blank" : undefined}
                   rel={s.external ? "noopener noreferrer" : undefined}
+                  data-contato={s.evento}
+                  data-origem={s.evento ? "rodape" : undefined}
                   class="text-sm text-paper/60 hover:text-paper transition-colors"
                 >
                   {s.label}
@@ -228,6 +247,8 @@ const contactLinks = [
 
     {/* ====== Credits row ====== */}
     <div class="mt-5 md:mt-6 pt-4 md:pt-5 border-t border-paper/5 text-center">
+      {/* Contato do desenvolvedor. Sem `data-contato` de propósito: clique
+          aqui não é lead do cliente e não pode entrar na medição. */}
       <a
         href="https://wa.me/5511910784384"
         target="_blank"
