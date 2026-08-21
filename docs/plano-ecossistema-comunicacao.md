@@ -104,9 +104,24 @@ Sempre minúsculas, sem acento, sem espaço. `utm_source` identifica **onde a pe
 | Publicação da rede social | `instagram` | `social` | `<nome-da-acao>` |
 | Perfil comercial (Google) | `gbp` | `local` | `perfil` |
 | Assinatura de e-mail | `email` | `assinatura` | `institucional` |
+| Canal do WhatsApp | `whatsapp` | `canal` | `<tema-ou-data>` |
+| Comunidade do WhatsApp | `whatsapp` | `comunidade` | `<tema-ou-data>` |
 
 **Nunca colocar UTM em link interno do site** — isso reinicia a sessão e destrói a atribuição
 original. UTM é só para links que **entram** no site.
+
+### Por que a UTM deixa de ser opcional quando houver conteúdo
+
+Tráfego vindo de WhatsApp e Instagram chega com frequência como **direto**: o aplicativo abre o
+link sem informar a origem. Sem UTM, canal, comunidade, Instagram e quem digitou o endereço viram
+um único bloco indistinguível no relatório.
+
+Isso torna a UTM o **único** mecanismo capaz de responder "de onde vieram os leitores" — que é a
+pergunta que justifica publicar conteúdo no site em vez de só no WhatsApp.
+
+Consequência operacional: um link publicado sem UTM é dado perdido de forma irrecuperável, porque
+não há como reconstruir a origem depois. Por isso a decisão de **construir um gerador de links**
+junto com a seção de conteúdo, em vez de depender de alguém montar a query string à mão todo dia.
 
 ### Saída para WhatsApp
 

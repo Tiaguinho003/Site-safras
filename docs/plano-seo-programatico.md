@@ -802,6 +802,9 @@ Transformar a página institucional em uma estrutura coerente de páginas, hubs 
 - `/sobre` — história, equipe, método e credenciais;
 - `/contato` — manter inicialmente o redirect para `/#contato`; página própria depende de decisão futura;
 - `/conteudos` — hub editorial;
+- `/conteudos/notas/{slug}` — **nota de mercado**, publicação frequente e de vida curta. Seção
+  separada por decisão de 20/08/2026: nota e guia fazem trabalhos diferentes, têm vidas úteis
+  diferentes e dependem de pré-requisitos diferentes. Nome final a confirmar nesta fase;
 - `/conteudos/guias/{tema}` — guias aprofundados;
 - `/conteudos/perguntas/{tema}` — respostas úteis quando merecerem URL própria;
 - `/observatorio` — hub de inteligência regional;
