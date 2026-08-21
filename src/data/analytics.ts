@@ -55,8 +55,14 @@ export type Motivo = (typeof MOTIVOS)[number];
 /** Devolvido quando o texto digitado não corresponde a nenhuma UF. */
 export const UF_DESCONHECIDA = "outro";
 
-/** Devolvido quando o campo veio vazio — ele é opcional no formulário. */
-export const UF_AUSENTE = "nao_informado";
+/**
+ * Valor usado quando um campo opcional veio vazio.
+ *
+ * Existe para que campo em branco não vire string vazia no relatório. Uma
+ * categoria sem rótulo é indistinguível de erro de implementação; "não
+ * informado" é um fato, e um fato é o que se quer contar.
+ */
+export const NAO_INFORMADO = "nao_informado";
 
 /**
  * As 27 unidades federativas.
@@ -119,7 +125,7 @@ for (const sigla of Object.keys(UF_NAMES)) {
  */
 export function normalizeUf(raw: string | null | undefined): string {
   const value = (raw ?? "").trim();
-  if (!value) return UF_AUSENTE;
+  if (!value) return NAO_INFORMADO;
 
   const sigla = value.toUpperCase();
   if (UF_NAMES[sigla] !== undefined) return sigla;

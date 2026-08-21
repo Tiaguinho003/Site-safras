@@ -657,7 +657,7 @@ const marcadores: { label: string; top: number; left: number }[] = [
 </style>
 
 <script>
-  import { normalizeUf, track, type Motivo } from "../../data/analytics";
+  import { NAO_INFORMADO, normalizeUf, track, type Motivo } from "../../data/analytics";
 
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
 
@@ -745,7 +745,10 @@ const marcadores: { label: string; top: number; left: number }[] = [
            é o certo para quem lê. O estado é texto livre e passa por uma
            lista fechada de UFs: só categoria prevista sai daqui. */
         const perfilSlug = getField("perfil");
-        const interesseSlug = getField("interesse");
+        /* `interesse` não é obrigatório. Sem isto, quem não escolhe gera um
+           evento com string vazia — uma categoria em branco no relatório,
+           indistinguível de defeito. */
+        const interesseSlug = getField("interesse") || NAO_INFORMADO;
         const estadoUf = normalizeUf(getField("estado"));
         const nomeAssunto = nome.replace(/[\r\n]+/g, " ").slice(0, 80);
 
