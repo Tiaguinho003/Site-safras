@@ -4,6 +4,7 @@ import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import CookieConsent from "../components/layout/CookieConsent.astro";
 import Analytics from "../components/layout/Analytics.astro";
+import ConversionEvents from "../components/layout/ConversionEvents.astro";
 import {
   CONSENT_COOKIE,
   CONSENT_VERSION,
@@ -82,6 +83,12 @@ const languageOptions = LOCALES.map((targetLocale) => ({
  * variável, nenhuma meta é emitida.
  */
 const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+
+/**
+ * Mesma chave que o Analytics.astro consulta. Aqui ela decide se o ouvinte
+ * de eventos de conversão é servido: sem tag, não há o que receber evento.
+ */
+const ga4Enabled = Boolean(import.meta.env.PUBLIC_GA4_MEASUREMENT_ID);
 ---
 
 <!doctype html>
@@ -99,8 +106,9 @@ const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
       de perguntar. Por isso é `is:inline` (não passa pelo bundler, não é
       adiado) e vive aqui, e não num componente.
 
-      Hoje não há tag alguma para liberar. O que este script estabelece é o
-      contrato que a Fase D vai consumir.
+      O que este script estabelece é o contrato que o Analytics.astro consome:
+      `window.__consent`, com get/set/onChange, e o sinal do Consent Mode.
+      Nenhuma tag carrega a partir daqui.
     */}
     <script
       is:inline
@@ -388,6 +396,11 @@ const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
         componente não emite nada enquanto PUBLIC_GA4_MEASUREMENT_ID
         estiver vazia. */}
     <Analytics />
+
+    {/* Eventos de conversão. Só existe quando há tag para recebê-los; o
+        despacho em si continua condicionado ao consentimento, dentro do
+        track() em src/data/analytics.ts. */}
+    {ga4Enabled && <ConversionEvents />}
 
     <script>
       const reducedMotion = window.matchMedia(

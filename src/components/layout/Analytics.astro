@@ -70,6 +70,30 @@ const script = `(function () {
     });
   }
 
+  /* Revogar o Consent Mode faz o GA4 parar de gravar, mas não apaga o que
+     já existe. O cookie precisa sumir junto com a permissão que o criou.
+
+     O GA4 grava no domínio registrável mais alto, e apagar cookie exige
+     repetir domínio e path da gravação. Como não dá para saber daqui qual
+     sufixo ele escolheu, tentamos todos os que o host tem. */
+  function expire(name) {
+    var base =
+      name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    document.cookie = base;
+
+    var parts = location.hostname.split(".");
+    for (var i = 0; i < parts.length - 1; i++) {
+      var domain = parts.slice(i).join(".");
+      document.cookie = base + "; domain=" + domain;
+      document.cookie = base + "; domain=." + domain;
+    }
+  }
+
+  function clearCookies() {
+    expire("_ga");
+    expire("_ga_" + id.replace(/^G-/, ""));
+  }
+
   /* Ocioso, não imediato: a medição não disputa banda nem CPU com a
      renderização. O timeout garante que "ocioso" não vire "nunca" numa
      página que nunca fica ociosa. */
@@ -88,9 +112,13 @@ const script = `(function () {
   /* E quem aceita agora, no banner, passa a ser medido sem recarregar a
      página. Revogar depois não descarrega o gtag.js já em memória; o que
      muda é o sinal do Consent Mode, emitido pelo bootstrap, que faz o GA4
-     parar de gravar cookie. Apagar os cookies já criados é item da Fase E. */
+     parar de gravar — e, aqui, os cookies já criados são apagados. */
   consent.onChange(function (state) {
-    if (state.analytics === "granted") schedule();
+    if (state.analytics === "granted") {
+      schedule();
+    } else {
+      clearCookies();
+    }
   });
 })();`;
 ---

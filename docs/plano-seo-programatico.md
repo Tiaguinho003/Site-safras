@@ -656,6 +656,45 @@ para uma janela comparável.
 depois da ativação. O custo real do GA4 recai sobre quem consente e **não aparece no laboratório** —
 registrado para que o 100 não seja lido como ausência de custo.
 
+### Eventos de conversão — CONCLUÍDO em 21/08/2026 (Fase E)
+
+Até aqui a medição sabia dizer quantas pessoas chegaram, não o que elas fizeram. A Fase E instrumenta
+as ações que separam visita de lead: clique em WhatsApp, telefone e e-mail, envio do formulário e
+falha no envio.
+
+Cinco dos seis eventos previstos no `plano-ecossistema-comunicacao.md` §7 estão no ar.
+`canal_whatsapp` fica reservado — o Canal ainda não existe e não há link para ele no site.
+
+Como foi construído:
+
+- **`src/data/analytics.ts`** concentra o contrato: nomes, vocabulários fechados e a função
+  `track()`, que só despacha se `window.__consent` disser `granted`. A guarda não é redundante com
+  o Consent Mode: `window.gtag` existe em toda página desde o bootstrap, e um evento disparado antes
+  da decisão ficaria na fila do `dataLayer` para ser processado retroativamente se a pessoa
+  aceitasse depois;
+- **ancoragem por atributo**, nunca por padrão de `href`. O rodapé tem um `wa.me` que é o contato
+  do desenvolvedor; amarrar por href contaria clique nele como lead do cliente;
+- **o campo `estado` é texto livre**, e passa por uma lista fechada das 27 UFs antes de virar
+  parâmetro. Só sai daqui sigla, `outro` ou `nao_informado` — nunca o que foi digitado;
+- **`formulario_envio` fica fora do `showSuccess()`**, que também roda no desvio do honeypot: medir
+  lá dentro contaria bot como lead;
+- **`formulario_erro` envia categoria, não mensagem** — `rede`, `servico` ou `configuracao`. A
+  mensagem crua do serviço pode ecoar conteúdo digitado pela pessoa;
+- revogar o consentimento agora **apaga os cookies `_ga`** já criados, pendência herdada da Fase D.
+
+Verificado com Playwright, com um ID de teste e todas as requisições ao Google abortadas — nenhum
+dado de teste entrou na propriedade real. **31 verificações passaram**, incluindo as que decidem a
+fase: recusar não dispara nada, aceitar dispara com a origem correta, o WhatsApp do desenvolvedor
+não conta, o honeypot não conta, e nenhum dos dados pessoais preenchidos no teste apareceu em
+parâmetro algum.
+
+**Sem `PUBLIC_GA4_MEASUREMENT_ID` o ouvinte não é servido** — conferido no `dist/`: o chunk é
+gerado mas nenhuma página o referencia.
+
+**A medição subnotifica por desenho.** Evento só existe com consentimento; quem recusa ou usa Global
+Privacy Control clica e não conta. O número real de contatos é sempre maior que o reportado, e essa
+frase precisa acompanhar qualquer relatório.
+
 ### Checklist
 
 - [x] Publicar a política de privacidade completa nos três idiomas.
@@ -667,7 +706,9 @@ registrado para que o 100 não seja lido como ausência de custo.
 - [x] Configurar analytics com consentimento apropriado (Fase D).
 - [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
 - [x] Preencher `PUBLIC_GSC_VERIFICATION` com o código do Search Console — feito em 20/08/2026.
-- [ ] Definir conversões: WhatsApp, telefone, formulário e e-mail.
+- [ ] Definir conversões: WhatsApp, telefone, formulário e e-mail — **eventos implementados em
+      21/08/2026 (Fase E)**; falta registrar as seis dimensões personalizadas e marcar os eventos
+      principais no painel. Sem isso o dado chega e fica invisível.
 - [ ] Excluir acessos internos quando possível.
 - [ ] Configurar painel mensal.
 - [ ] Reivindicar ou revisar Google Business Profile.

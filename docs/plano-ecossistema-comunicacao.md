@@ -145,6 +145,32 @@ Um evento por ação de contato. Nomes estáveis, definidos uma vez.
 | `formulario_erro` | falha no envio | `motivo`, `idioma` |
 | `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` |
 
+### Onde os eventos estão ancorados
+
+Implementado em 21/08/2026. `data-contato` carrega o nome do evento; `data-origem`, a seção. Um
+ouvinte delegado em `ConversionEvents.astro` lê os dois. Mudar esta tabela é mudar código.
+
+| Elemento | `data-contato` | `data-origem` |
+|---|---|---|
+| Rodapé — e-mail | `contato_email` | `rodape` |
+| Rodapé — telefone | `contato_telefone` | `rodape` |
+| Rodapé — WhatsApp | `contato_whatsapp` | `rodape` |
+| Rodapé — "desenvolvido por" | **nenhum** | — |
+| Rodapé — Instagram | **nenhum** | — |
+| Seção de contato — e-mail | `contato_email` | `contato` |
+| Seção de contato — telefone | `contato_telefone` | `contato` |
+| Caixa de erro — e-mail | `contato_email` | `formulario_erro` |
+| Caixa de erro — WhatsApp | `contato_whatsapp` | `formulario_erro` |
+| Política de privacidade — e-mail | `contato_email` | `politica` |
+| Política de privacidade — telefone | `contato_telefone` | `politica` |
+
+Dois valores existem sem uso hoje, de propósito: `origem_secao: "sucesso"`, reservado para o botão
+de WhatsApp da tela de sucesso, e o evento `canal_whatsapp`, reservado para quando o Canal existir.
+Nos dois casos basta marcar o elemento — o contrato já os aceita.
+
+O formulário não usa atributo: `formulario_envio` e `formulario_erro` são disparados pelo próprio
+script de envio, em `ContactSection.astro`.
+
 ### Regras de implementação
 
 Decididas em 20/08/2026, ao analisar a Fase E sobre o código real.
