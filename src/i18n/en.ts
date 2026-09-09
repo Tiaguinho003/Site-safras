@@ -70,7 +70,7 @@ const dict = {
       about: "About",
       contact: "Contact",
     },
-    cta: "Get Started",
+    cta: "Get started",
     logoAriaLabel: "Safras & Negócios — Back to top",
     heroHeaderAriaLabel: "Hero header",
     mobileMenuAriaLabel: "Main menu (mobile)",
@@ -79,11 +79,18 @@ const dict = {
   },
 
   hero: {
-    tag: "[ Coffee Brokerage ]",
-    rotatingWords: ["Tradition", "Trust"],
-    suffix: "in the coffee market",
-    cta: "Explore Services",
-    scrollNextLabel: "Go to next section",
+    eyebrow: "[Coffee brokerage · São Sebastião do Paraíso, MG]",
+    eyebrowMobile: "[Coffee brokerage · Since 2015]",
+    // "coffee" and "market." are uppercased by CSS in the component.
+    title: { lead: "Connecting your", coffee: "coffee", mid: "to the", market: "market." },
+    description:
+      "Since 2015, we have connected growers, buyers and exporters to market opportunities.",
+    cta: "Get started",
+    secondary: "Explore our services",
+    photoAlt:
+      "Safras & Negócios professional cupping coffee, taking in the aroma from the spoon",
+    seal: "SAFRAS & NEGÓCIOS · COFFEE BROKERAGE · SINCE 2015 · ",
+    sealMobile: "SAFRAS & NEGÓCIOS · COFFEE · SINCE 2015 · ",
   },
 
   services: {

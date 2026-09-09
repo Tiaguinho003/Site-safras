@@ -15,6 +15,7 @@
  */
 import { getImage, Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroSection from "../sections/HeroSection.astro";
 import ContactSection from "../sections/ContactSection.astro";
 import { useTranslation, getAnchor } from "../../i18n";
 
@@ -67,7 +68,6 @@ const localBusinessSchema = {
 };
 
 // IDs de seção localizados (#servicos em PT, #services em EN, #servicios em ES)
-const heroId = getAnchor("hero", locale);
 const servicosId = getAnchor("servicos", locale);
 const quemSomosId = getAnchor("quem-somos", locale);
 
@@ -141,8 +141,6 @@ const servicesTitleLines = tArray<string[]>("services.titleLines");
 const aboutTitleLines = tArray<string[]>("about.titleLines");
 const principlesTitleLines = tArray<string[]>("principles.titleLines");
 
-const rotatingWords = tArray<string>("hero.rotatingWords");
-
 // Pré-computa estruturas de spans dos títulos split-text — evita JSX
 // com .map() aninhado e ternários complexos que confundem o parser.
 const servicesTitle = servicesTitleLines.map((line, lineIdx) => {
@@ -206,118 +204,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
   socialImageHeight={630}
   structuredData={localBusinessSchema}
 >
-  <section
-    id={heroId}
-    class="relative min-h-[97svh] flex flex-col items-center overflow-hidden"
-    aria-labelledby="hero-titulo"
-  >
-    <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      <Image
-        src={fachadaSafras}
-        alt=""
-        widths={[640, 828, 1200, 1600, 2000]}
-        sizes="100vw"
-        class="w-full h-full object-cover opacity-90 object-[72%_center] md:object-center"
-        loading="eager"
-        fetchpriority="high"
-        quality={75}
-      />
-      <div class="absolute inset-0 bg-black/28"></div>
-      <div
-        class="absolute inset-0"
-        style="background: linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 20%, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.45) 100%);"
-      >
-      </div>
-    </div>
-
-    <div
-      class="relative max-w-[100rem] w-full mx-auto px-6 md:px-10 pt-[28svh] md:pt-52 text-paper"
-    >
-      <div class="text-center">
-        <span
-          class="inline-block text-[11px] md:text-xs font-semibold uppercase tracking-[0.28em] text-paper/85 mb-6 md:mb-8"
-        >
-          {t("hero.tag")}
-        </span>
-      </div>
-
-      <h1
-        id="hero-titulo"
-        class="uppercase md:normal-case leading-[0.95] mx-auto mt-6 md:mt-12 text-center font-light md:font-extralight text-paper text-4xl sm:text-5xl md:text-5xl lg:text-[64px] xl:text-[80px] 2xl:text-[150px] tracking-[-0.01em] md:tracking-[-0.03em]"
-      >
-        <span class="block">
-          <span
-            class="word-rotator uppercase font-extralight text-5xl sm:text-6xl md:text-6xl lg:text-[80px] xl:text-[150px] 2xl:text-[120px]"
-            aria-live="off"
-          >
-            {rotatingWords.map((word, idx) => (
-              <span
-                class="word-rotator__word"
-                data-state={idx === 0 ? "active" : "queued"}
-                aria-hidden={idx === 0 ? "false" : "true"}
-              >
-                {word}
-              </span>
-            ))}
-          </span>
-        </span>
-        <span class="block font-normal text-3xl sm:text-4xl md:text-4xl lg:text-[48px] xl:text-[64px] 2xl:text-[80px]">
-          <span class="inline-block text-earth">
-            {t("hero.suffix")}
-          </span>
-        </span>
-      </h1>
-    </div>
-
-    <div class="absolute bottom-12 md:bottom-2 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl">
-      <svg
-        viewBox="0 0 1000 480"
-        preserveAspectRatio="xMidYMid meet"
-        class="w-full h-auto block"
-        aria-hidden="true"
-        style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));"
-      >
-        <path
-          d="M 20 460 Q 500 5 980 460 Q 500 9 20 460 Z"
-          fill="rgba(255, 255, 255, 0.95)"
-        />
-      </svg>
-      <a
-        href={`#${servicosId}`}
-        data-radial-button
-        class="group absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-1.5 bg-paper border-2 border-transparent hover:border-paper text-ink hover:text-paper text-sm md:text-base font-medium px-5 py-2.5 rounded-full overflow-hidden whitespace-nowrap shadow-lg transition-colors duration-[600ms]"
-      >
-        <span class="relative z-10">{t("hero.cta")}</span>
-        <span
-          aria-hidden="true"
-          class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
-        >→</span>
-        <span
-          aria-hidden="true"
-          data-radial-fill
-          style="left: 50%; top: 50%; transition: width 800ms ease-in-out;"
-          class="absolute z-0 block aspect-square w-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand group-hover:w-[225%]"
-        ></span>
-      </a>
-    </div>
-
-    <button
-      type="button"
-      data-scroll-next
-      data-target-id={servicosId}
-      aria-label={t("hero.scrollNextLabel")}
-      class="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-paper/70 hover:text-paper transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-paper/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-full p-2"
-    >
-      <span
-        class="relative block w-6 h-10 rounded-full border border-paper/60"
-        aria-hidden="true"
-      >
-        <span
-          class="scroll-mouse-dot absolute top-2 inset-x-0 mx-auto w-1 h-2 bg-paper/85 rounded-full"
-        ></span>
-      </span>
-    </button>
-  </section>
+  <HeroSection />
 
   <section
     id={servicosId}
@@ -856,40 +743,6 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
   </script>
 
   <style>
-    .word-rotator {
-      display: inline-grid;
-      grid-template-areas: "stack";
-      vertical-align: baseline;
-      overflow: hidden;
-      padding-top: 0.16em;
-      padding-bottom: 0.06em;
-      padding-left: 0.18em;
-    }
-    .word-rotator__word {
-      grid-area: stack;
-      transition:
-        transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 850ms cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform, opacity;
-    }
-    .word-rotator__word[data-state="active"] {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    .word-rotator__word[data-state="exit"] {
-      transform: translateY(-32%);
-      opacity: 0;
-    }
-    .word-rotator__word[data-state="queued"] {
-      transform: translateY(32%);
-      opacity: 0;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .word-rotator__word {
-        transition: none;
-      }
-    }
-
     .split-text-word {
       display: inline-block;
       opacity: 0;
@@ -1015,51 +868,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
         will-change: auto;
       }
     }
-
-    .scroll-mouse-dot {
-      animation: scroll-mouse-dot 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    }
-    @keyframes scroll-mouse-dot {
-      0% {
-        transform: translateY(0);
-        opacity: 0;
-      }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% {
-        transform: translateY(10px);
-        opacity: 0;
-      }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .scroll-mouse-dot {
-        animation: none;
-      }
-    }
   </style>
-
-  <script>
-    // Scroll-next button — usa data-target-id setado pelo template (locale-aware)
-    const scrollNextBtn = document.querySelector<HTMLButtonElement>(
-      "[data-scroll-next]"
-    );
-    scrollNextBtn?.addEventListener("click", () => {
-      const targetId = scrollNextBtn.dataset.targetId;
-      if (!targetId) return;
-      const target = document.getElementById(targetId);
-      if (!target) return;
-      const smooth = (
-        window as Window & {
-          __smoothScrollTo?: (target: HTMLElement | number) => void;
-        }
-      ).__smoothScrollTo;
-      if (smooth) {
-        smooth(target);
-      } else {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-  </script>
 
   <script>
     document
@@ -1090,47 +899,6 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
         { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
       );
       reveals.forEach((el) => observer.observe(el));
-    }
-  </script>
-
-  <script>
-    const rotator = document.querySelector<HTMLElement>(".word-rotator");
-    if (rotator) {
-      const words = Array.from(
-        rotator.querySelectorAll<HTMLElement>(".word-rotator__word")
-      );
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-
-      if (words.length > 1 && !prefersReducedMotion) {
-        let activeIdx = 0;
-        const INTERVAL_MS = 3500;
-        const TRANSITION_MS = 1100;
-
-        const rotate = () => {
-          const nextIdx = (activeIdx + 1) % words.length;
-          const current = words[activeIdx];
-          const next = words[nextIdx];
-
-          current.setAttribute("data-state", "exit");
-          next.setAttribute("data-state", "queued");
-
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              next.setAttribute("data-state", "active");
-            });
-          });
-
-          window.setTimeout(() => {
-            current.setAttribute("data-state", "queued");
-          }, TRANSITION_MS);
-
-          activeIdx = nextIdx;
-        };
-
-        window.setInterval(rotate, INTERVAL_MS);
-      }
     }
   </script>
 

@@ -7,6 +7,18 @@
 @import "./tokens.css";
 @import "@fontsource-variable/inter";
 
+/* Altura da barra superior. Header (as duas variantes), menu mobile e hero
+   leem daqui, para que a barra em fluxo, a barra fixa e o hero fiquem
+   alinhados sem repetir o número. */
+:root {
+  --site-header-h: 64px;
+}
+@media (min-width: 768px) {
+  :root {
+    --site-header-h: 72px;
+  }
+}
+
 html {
   font-family: var(--font-sans);
   color: var(--color-ink);

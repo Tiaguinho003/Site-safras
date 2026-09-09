@@ -29,7 +29,8 @@ Base branca, dois verdes da marca (extraídos dos PNGs oficiais da logo) e um ac
 | `--color-ink` | `#141311` | `text-ink` | Texto primário |
 | `--color-ink-muted` | `#5a564f` | `text-ink-muted` | Texto secundário |
 | `--color-brand` | `#025c00` | `bg-brand` · `text-brand` | Verde da marca — CTAs primários |
-| `--color-brand-dark` | `#013d01` | `bg-brand-dark` | Verde escuro — hover, headings fortes |
+| `--color-brand-dark` | `#013d01` | `bg-brand-dark` | Verde escuro — hover, headings fortes, painel do hero |
+| `--color-brand-tint` | `#9ed69a` | `text-brand-tint` | Verde-claro de apoio sobre o verde escuro — sobretítulo e hover de link no hero |
 | `--color-earth` | `#3c3424` | `text-earth` | Accent terra — uso pontual |
 
 O `theme-color` do navegador (`BaseLayout.astro`) acompanha `--color-brand`: `#025c00`.
@@ -60,6 +61,8 @@ Escala base 4pt: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128` (px).
 - **Hover em cards:** elevação sutil + sombra crescente, ~200ms `ease-out`.
 - **Rolagem:** nativa do navegador. A biblioteca `lenis` foi removida na Fase 1; o helper
   `window.__smoothScrollTo` vive em `BaseLayout.astro` e é reusado por Header e Footer.
+- **Hero:** entrada escalonada do texto (fade-up de 16 px, 900 ms, atrasos de 60 a 360 ms) e selo
+  girando em 48 s. Os dois desligam com `prefers-reduced-motion`.
 - **Regra de ouro:** com `prefers-reduced-motion: reduce`, toda animação vira transição
   instantânea de estado. Sem exceção.
 - No celular, animações custosas que não acrescentam informação são simplificadas ou desativadas
@@ -220,11 +223,14 @@ Barra superior do site, com duas variantes que coexistem no mesmo arquivo.
 - **Anatomia:** logo → navegação por anchors (`data/navigation.ts`) → `LanguageSwitcher` → CTA de
   contato → botão de menu (mobile).
 - **Props:** nenhuma. Deriva tudo de `Astro.url.pathname` e do locale corrente.
-- **Variantes:**
-  - `.site-header--hero` (`data-header-hero`) — sobreposta ao hero, fundo transparente, logo
-    branca. Renderizada **apenas na home** de cada idioma.
-  - `.site-header--sticky` (`data-header-sticky`) — barra sólida que aparece na rolagem. Recebe
-    `data-scroll-aware="true"` na home.
+- **Variantes:** as duas têm a mesma aparência — fundo branco, logo colorida, CTA verde — e a
+  mesma altura, lida de `--site-header-h` (`global.css`: 64 px, 72 px a partir de `md:`). O hero
+  desconta essa mesma variável da viewport.
+  - `.site-header--hero` (`data-header-hero`) — em fluxo, abre a home acima do hero. Renderizada
+    **apenas na home** de cada idioma. Até setembro de 2026 era transparente sobre uma foto de
+    fundo, com logo branca.
+  - `.site-header--sticky` (`data-header-sticky`) — barra fixa que entra de cima na rolagem,
+    quando a barra em fluxo sai da tela. Recebe `data-scroll-aware="true"` na home.
 - **Estados:** oculta ↔ visível (rolagem) · link `[data-active]` via scroll-spy · menu mobile
   aberto/fechado (`aria-expanded`).
 - **Responsivo:** Camada 1 + Camada 3 — navegação vira menu hamburger abaixo de `md:`, e a
@@ -259,6 +265,30 @@ Seletor de idioma. O arquivo já carrega documentação inline detalhada — man
 - **Acessibilidade:** `aria-haspopup`, `aria-expanded`, `role="menu"`/`menuitem`, fecha com ESC e
   com clique fora, itens saem do tab order quando fechado.
 
+### `sections/HeroSection.astro`
+
+Hero da home nos três idiomas, versão "Painel" (setembro de 2026). Painel verde com o texto à
+esquerda e a foto à direita; no mobile, a foto vai para baixo.
+
+- **Anatomia:** luz radial → ramo de café em marca d'água (`assets/hero/ramo-cafe.png`, PNG com
+  transparência a 7 %) → sobretítulo → `h1` (a única da página) → parágrafo → CTA principal
+  (`#contato`, mesmo efeito radial do header) e link secundário (`#servicos`, só desktop) → foto
+  (`assets/hero/hero-prova-de-xicara.jpg`, canto superior esquerdo arredondado, sombra leve na
+  junção) → selo giratório na junção verde/foto.
+- **Selo:** SVG montado no front-matter — texto correndo num anel (`textPath` com `textLength`,
+  para fechar o círculo em qualquer idioma) e o símbolo da marca lido de
+  `safras-logo-completo.svg?raw`, sem duplicar caminhos. Decorativo (`aria-hidden`). O invólucro
+  só posiciona (`translate`); quem gira é o SVG interno — animar a rotação no mesmo `transform`
+  do posicionamento faz o navegador interpolar por matriz, e o selo desliza em vez de girar.
+- **Props:** nenhuma. Strings em `dict.hero.*`; anchors por `getAnchor`/`localizeAnchor`.
+- **Responsivo:** Camada 1. Coluna de texto 58 % em `md:`, 55 % a partir de `lg:`; o tamanho do
+  título é calibrado por idioma (`:lang(en)`, `:lang(es)`) para a primeira linha caber inteira —
+  a Inter servida pelo site não tem eixo óptico e é um pouco mais larga que a do desenho.
+  Sobretítulo e texto do selo têm versão curta no mobile.
+- **Acessibilidade:** foco visível em branco sobre o verde, por regra própria do componente (ver
+  dívida sobre a regra global de foco), `alt` descritivo na foto, ramo e selo ocultos de leitor de
+  tela, animações desligadas com `prefers-reduced-motion`.
+
 ### `sections/ContactSection.astro`
 
 Seção de contato: mapa, dados institucionais e formulário. É o único ponto de conversão do site.
@@ -281,11 +311,13 @@ Seção de contato: mapa, dados institucionais e formulário. É o único ponto 
 
 ### `pages/HomePage.astro`
 
-Composição da home. Recebe o locale do contexto e monta hero, serviços, sobre, princípios e
-`ContactSection`. Também declara o `structuredData` (`LocalBusiness`) passado ao `BaseLayout`.
+Composição da home. Recebe o locale do contexto e monta `HeroSection`, serviços, sobre,
+princípios e `ContactSection`. Também declara o `structuredData` (`LocalBusiness`) passado ao
+`BaseLayout`.
 
 - **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
-- **Observação:** é um arquivo grande (≈1.300 linhas). Ver dívidas conhecidas.
+- **Observação:** é um arquivo grande (≈1.060 linhas; o hero saiu para componente próprio em
+  setembro de 2026). Ver dívidas conhecidas.
 
 ### `layout/CookieConsent.astro`
 
@@ -343,10 +375,12 @@ mal quando o site crescer.
 
 | Dívida | Impacto | Quando tratar |
 |---|---|---|
-| `HomePage.astro` com ≈1.300 linhas concentra hero, serviços, sobre e princípios | Contraria a estrutura de seções que este documento propõe; dificulta edição isolada e revisão de diff | Ao criar a segunda página real (Fase 4 do plano de SEO) |
+| `HomePage.astro` com ≈1.060 linhas concentra serviços, sobre e princípios (o hero já é componente) | Contraria a estrutura de seções que este documento propõe; dificulta edição isolada e revisão de diff | Ao criar a segunda página real (Fase 4 do plano de SEO) |
+| Assets órfãos em `src/assets/hero/` (`prova-de-xicara.jpg`, `cafe-cereja-mao.png`, ≈1,9 MB) | Peso no repositório sem uso no site | Quando houver autorização para exclusão |
 | `inlineStylesheets: "always"` embute todo o CSS em cada HTML (~164 KB por página) | Ótimo para uma página; com muitas páginas o CSS deixa de ser cacheável entre elas | Antes de publicar o primeiro lote de páginas novas |
 | Nenhum primitivo de UI extraído | Estilos de botão/input repetidos inline entre seções | Quando a terceira repetição aparecer |
 | Sem CI de qualidade (Lighthouse, axe, lint) | Toda verificação depende de disciplina manual | Lacuna aberta, sem prioridade definida |
+| A regra global `:focus-visible` (`global.css`) fica fora de `@layer`, então vence qualquer utility `focus-visible:outline-*` do Tailwind, que fica sem efeito | Cor ou offset de foco declarados por utility não se aplicam (hoje inofensivo: as utilities existentes repetem a cor global). Componente que precise de anel diferente usa regra própria, como o hero | Ao revisar o foco de forma global; mover a regra para `@layer base` exige antes tratar os `focus:outline-none` da home |
 
 ## 6. Componentes previstos
 

@@ -1,0 +1,400 @@
+---
+/**
+ * HeroSection — hero da home nos três idiomas (versão "Painel", set/2026).
+ *
+ * Painel verde com o texto à esquerda e a foto à direita; no mobile a foto
+ * vai para baixo. Um selo giratório senta na junção entre o verde e a foto,
+ * e um ramo de café fica em marca d'água atrás do texto. Substitui o hero
+ * anterior, com foto de fundo e palavras rotativas.
+ *
+ * Strings: `dict.hero.*`. Anchors: `hero` (id da seção), `contato` (CTA
+ * principal) e `servicos` (link secundário, só no desktop).
+ *
+ * Responsivo pela Camada 1 (utilities + variants `md:`); o único conteúdo
+ * que muda entre os lados é o sobretítulo e o texto do selo, curtos demais
+ * para justificar dois componentes.
+ */
+import { Image } from "astro:assets";
+import { useTranslation, getAnchor } from "../../i18n";
+import heroPhoto from "../../assets/hero/hero-prova-de-xicara.jpg";
+import ramoCafe from "../../assets/hero/ramo-cafe.png";
+import logoRaw from "../../assets/branding/safras-logo-completo.svg?raw";
+
+const { t, locale, localizeAnchor } = useTranslation(Astro);
+const heroId = getAnchor("hero", locale);
+const contactHref = localizeAnchor("contato");
+const servicesHref = localizeAnchor("servicos");
+
+// Miolo do selo: o símbolo da marca (folha e tronco) lido do SVG oficial,
+// para não duplicar os caminhos nem sair de sincronia com o logo.
+const SYMBOL_PATHS = Array.from(
+  logoRaw.matchAll(/<path fill="(#[0-9A-Fa-f]{6})"[^>]*? d="([^"]+)"/g)
+).slice(0, 2);
+// Recorte do símbolo dentro do viewBox do logo completo.
+const SYMBOL_BOX = { x: 104, y: 429, w: 233, h: 333 };
+
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/**
+ * Selo circular: texto correndo num anel e o símbolo no centro. O texto
+ * termina em " · " e é esticado ao comprimento exato do anel, de modo que
+ * fecha o círculo em qualquer idioma.
+ */
+function seal(size: number, id: string, text: string): string {
+  const r = size / 2;
+  const ring = r * 0.74;
+  const scale = (size * 0.42) / SYMBOL_BOX.h;
+  const cx = SYMBOL_BOX.x + SYMBOL_BOX.w / 2;
+  const cy = SYMBOL_BOX.y + SYMBOL_BOX.h / 2;
+  const ringPath = `M${r},${r} m-${ring},0 a${ring},${ring} 0 1,1 ${ring * 2},0 a${ring},${ring} 0 1,1 -${ring * 2},0`;
+  const symbol = SYMBOL_PATHS.map(
+    ([, fill, d]) => `<path d="${d}" fill="${fill}" fill-rule="evenodd"/>`
+  ).join("");
+  const textLength = Math.round(2 * Math.PI * ring - 4);
+  return (
+    `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true" focusable="false">` +
+    `<circle cx="${r}" cy="${r}" r="${r}" style="fill: var(--color-paper-alt)"/>` +
+    `<defs><path id="${id}" d="${ringPath}"/></defs>` +
+    `<text font-size="${(size * 0.062).toFixed(2)}" font-weight="600" letter-spacing="1.4" style="fill: var(--color-brand)">` +
+    `<textPath href="#${id}" textLength="${textLength}" lengthAdjust="spacing">${escapeHtml(text)}</textPath></text>` +
+    `<g transform="translate(${(r - scale * cx).toFixed(2)} ${(r - scale * cy).toFixed(2)}) scale(${scale.toFixed(4)})">${symbol}</g>` +
+    `</svg>`
+  );
+}
+
+const sealMobile = seal(80, "hero-selo-m", t("hero.sealMobile"));
+const sealDesktop = seal(150, "hero-selo-d", t("hero.seal"));
+---
+
+<section id={heroId} class="hero" aria-labelledby="hero-titulo">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="hero__ramo" aria-hidden="true">
+    <Image
+      src={ramoCafe}
+      alt=""
+      widths={[700, 1000, 1400]}
+      sizes="(min-width: 768px) 66vw, 177vw"
+      loading="eager"
+      fetchpriority="low"
+      quality={80}
+    />
+  </div>
+
+  <div class="hero__copy">
+    <p
+      class="hero__rise mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-tint md:mb-6 xl:text-xs"
+      style="animation-delay: 60ms;"
+    >
+      <span class="md:hidden">{t("hero.eyebrowMobile")}</span>
+      <span class="hidden md:inline">{t("hero.eyebrow")}</span>
+    </p>
+
+    <h1
+      id="hero-titulo"
+      class="hero__rise hero__title font-medium leading-[1.04] tracking-[-0.035em] text-paper"
+      style="animation-delay: 160ms;"
+    >
+      {t("hero.title.lead")} <span class="uppercase">{t("hero.title.coffee")}</span><br />
+      {t("hero.title.mid")} <span class="uppercase">{t("hero.title.market")}</span>
+    </h1>
+
+    <p
+      class="hero__rise hero__text mt-7 max-w-[520px] leading-[1.55] text-paper/78 md:mt-6"
+      style="animation-delay: 260ms;"
+    >
+      {t("hero.description")}
+    </p>
+
+    <div
+      class="hero__rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-4 md:mt-8"
+      style="animation-delay: 360ms;"
+    >
+      <a
+        href={contactHref}
+        data-radial-button
+        class="hero__cta group relative inline-flex items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full border-2 border-transparent bg-paper-alt px-8 py-[15px] text-base font-medium text-brand-dark shadow-lg transition-[color,background-color] duration-[600ms] hover:text-paper md:px-6 md:py-2.5"
+      >
+        <span class="relative z-10">{t("hero.cta")}</span>
+        <span
+          aria-hidden="true"
+          class="relative z-10 transition-transform duration-[600ms] group-hover:translate-x-1"
+        >→</span>
+        <span
+          aria-hidden="true"
+          data-radial-fill
+          style="left: 50%; top: 50%; transition: width 800ms ease-in-out;"
+          class="absolute z-0 block aspect-square w-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand group-hover:w-[225%]"
+        ></span>
+      </a>
+
+      <a
+        href={servicesHref}
+        class="hero__link hidden items-center gap-1.5 whitespace-nowrap text-base font-medium text-paper underline decoration-1 underline-offset-[6px] transition-[color] hover:text-brand-tint md:inline-flex"
+      >
+        <span>{t("hero.secondary")}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__media">
+    <div class="hero__photo">
+      <Image
+        src={heroPhoto}
+        alt={t("hero.photoAlt")}
+        widths={[480, 720, 960, 1200, 1600]}
+        sizes="(min-width: 768px) 45vw, 100vw"
+        class="hero__img"
+        loading="eager"
+        fetchpriority="high"
+        quality={78}
+      />
+    </div>
+    <div class="hero__seal hero__seal--mobile md:hidden" aria-hidden="true" set:html={sealMobile} />
+    <div class="hero__seal hero__seal--desktop hidden md:block" aria-hidden="true" set:html={sealDesktop} />
+  </div>
+</section>
+
+<style>
+  /* ===========================================================
+     Hero "Painel". Mobile: texto em cima, foto embaixo.
+     Desktop (md+): texto em 58% da largura no tablet e 55% a partir de lg;
+     a foto ocupa o restante.
+     A altura mínima segue a viewport, descontada a barra superior,
+     e nunca fica menor que o conteúdo.
+     =========================================================== */
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--site-header-h));
+    overflow: hidden;
+    background-color: var(--color-brand-dark);
+    color: var(--color-paper);
+  }
+
+  /* Luz verde difusa atrás do texto */
+  .hero__glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 60%;
+    z-index: 0;
+    background: radial-gradient(
+      420px 320px at 20% 30%,
+      rgba(2, 92, 0, 0.6),
+      rgba(1, 61, 1, 0) 70%
+    );
+    pointer-events: none;
+  }
+
+  /* Ramo de café em marca d'água. As posições vêm do desenho aprovado,
+     em proporção ao painel; a imagem é um PNG com transparência. */
+  .hero__ramo {
+    position: absolute;
+    left: 27%;
+    top: -46%;
+    width: 177%;
+    z-index: 1;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .hero__ramo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 56px 24px 72px;
+  }
+  /* Tamanhos calibrados para a primeira linha ("Conectando seu CAFÉ")
+     caber inteira em cada idioma; medidas na Inter servida pelo site,
+     que não tem eixo óptico e é um pouco mais larga que a do desenho. */
+  .hero__title {
+    font-size: clamp(1.625rem, 8.2vw, 2rem);
+  }
+  .hero__title:lang(en) {
+    font-size: clamp(1.5rem, 7.4vw, 1.8125rem);
+  }
+  .hero__title:lang(es) {
+    font-size: clamp(1.75rem, 8.7vw, 2.125rem);
+  }
+  .hero__text {
+    font-size: 1rem;
+    text-wrap: pretty;
+  }
+
+  /* Foto com o canto superior esquerdo arredondado e uma sombra leve
+     na junção com o verde. */
+  .hero__media {
+    position: relative;
+    z-index: 2;
+    flex: none;
+    height: 310px;
+  }
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-top-left-radius: 64px;
+    background-color: var(--color-brand-dark);
+    box-shadow:
+      0 -12px 24px -6px rgba(0, 0, 0, 0.22),
+      0 -2px 6px rgba(0, 0, 0, 0.1);
+  }
+  .hero__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Selo giratório na junção verde/foto */
+  /* O invólucro só posiciona (translate); quem gira é o SVG interno.
+     Animar rotate() no mesmo transform do translate faz o navegador
+     interpolar por matriz: o selo desliza em vez de girar. */
+  .hero__seal {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .hero__seal :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    animation: hero-spin 48s linear infinite;
+  }
+  .hero__seal--mobile {
+    left: 24px;
+    top: 0;
+    width: 80px;
+    height: 80px;
+    transform: translateY(-50%);
+  }
+
+  /* Foco visível sobre o verde. A regra global de foco (global.css) fica
+     fora de camada e vence as utilities do Tailwind, então o anel branco
+     é definido aqui, com especificidade maior. */
+  .hero__cta:focus-visible,
+  .hero__link:focus-visible {
+    outline-color: var(--color-paper);
+  }
+  .hero__link:focus-visible {
+    outline-offset: 4px;
+  }
+
+  /* Entrada escalonada do texto ao carregar */
+  .hero__rise {
+    animation: hero-rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      flex-direction: row;
+      min-height: clamp(600px, calc(100svh - var(--site-header-h)), 900px);
+    }
+    .hero__glow {
+      width: 58%;
+      height: 100%;
+      background: radial-gradient(
+        760px 520px at 22% 30%,
+        rgba(2, 92, 0, 0.55),
+        rgba(1, 61, 1, 0) 70%
+      );
+    }
+    .hero__ramo {
+      left: 20%;
+      top: -42%;
+      width: 66%;
+    }
+    .hero__copy {
+      flex: 0 0 58%;
+      width: 58%;
+      justify-content: center;
+      padding: 48px 2rem 104px clamp(1.5rem, 5vw, 4.5rem);
+    }
+    .hero__title {
+      font-size: clamp(2rem, 4.4vw, 4rem);
+    }
+    .hero__title:lang(en) {
+      font-size: clamp(1.75rem, 3.95vw, 3.6875rem);
+    }
+    .hero__title:lang(es) {
+      font-size: clamp(2rem, 4.4vw, 4rem);
+    }
+    .hero__text {
+      font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+    }
+    .hero__media {
+      flex: 0 0 42%;
+      width: 42%;
+      height: auto;
+    }
+    .hero__photo {
+      border-top-left-radius: 120px;
+      box-shadow:
+        -14px 0 28px -6px rgba(0, 0, 0, 0.22),
+        -2px 0 6px rgba(0, 0, 0, 0.1);
+    }
+    .hero__seal--desktop {
+      left: 0;
+      top: 65%;
+      width: 120px;
+      height: 120px;
+      transform: translate(-50%, -50%);
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero__glow {
+      width: 55%;
+    }
+    .hero__copy {
+      flex-basis: 55%;
+      width: 55%;
+    }
+    .hero__media {
+      flex-basis: 45%;
+      width: 45%;
+    }
+    .hero__seal--desktop {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  /* O selo giratório vira estático e o texto entra sem animação. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero__seal :global(svg),
+    .hero__rise {
+      animation: none;
+    }
+  }
+</style>

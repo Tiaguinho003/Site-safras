@@ -150,12 +150,22 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 ### Hero
 
+Hero "Painel", em vigor desde 09/09/2026. As frases anteriores (Tradição / Confiança rotativo,
+"no mercado cafeeiro", "Explorar Serviços") saíram do site.
+
 | PT | EN | ES |
 |----|-----|-----|
-| Tradição **/** Confiança **(rotating)** | Tradition / Trust | Tradición / Confianza |
-| no mercado cafeeiro | in the coffee market | en el mercado cafetero |
-| [ Corretora de café ] | [ Coffee Brokerage ] | [ Casa Corredora de Café ] |
-| Explorar Serviços | Explore Services | Explorar Servicios |
+| [Corretora de café · São Sebastião do Paraíso, MG] | [Coffee brokerage · São Sebastião do Paraíso, MG] | [Corretaje de café · São Sebastião do Paraíso, MG] |
+| [Corretora de café · Desde 2015] (mobile) | [Coffee brokerage · Since 2015] | [Corretaje de café · Desde 2015] |
+| Conectando seu CAFÉ ao MERCADO. | Connecting your COFFEE to the MARKET. | Conectando su CAFÉ al MERCADO. |
+| Desde 2015, conectamos produtores, compradores e exportadoras às oportunidades do mercado. | Since 2015, we have connected growers, buyers and exporters to market opportunities. | Desde 2015, conectamos productores, compradores y exportadoras a las oportunidades del mercado. |
+| Solicitar serviço (CTA principal, igual ao header) | Get started | Solicitar cotización |
+| Conhecer os serviços (link, só desktop) | Explore our services | Conocer los servicios |
+| Selo: SAFRAS & NEGÓCIOS · CORRETORA DE CAFÉ · DESDE 2015 | SAFRAS & NEGÓCIOS · COFFEE BROKERAGE · SINCE 2015 | SAFRAS & NEGÓCIOS · CORRETAJE DE CAFÉ · DESDE 2015 |
+| Selo (mobile): SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 | SAFRAS & NEGÓCIOS · COFFEE · SINCE 2015 | SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 |
+
+Regras aplicadas: "café" e "mercado" em caixa alta por CSS, não no dicionário; produtor → grower;
+análise sensorial → cupping / catación no `alt` da foto; nome da cidade sem tradução.
 
 ### Sobre nós
 
@@ -185,7 +195,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| Solicitar Serviço | Request a Quote 🟡 / Get Started | Solicitar Servicio / Solicitar Cotización | "Service" sozinho em EN é fraco. "Request a Quote" é B2B clássico. "Get Started" é mais punchy. **Ver §11** |
+| Solicitar serviço | Get started | Solicitar cotización | "Service" sozinho em EN é fraco. "Request a Quote" é B2B clássico. "Get Started" é mais punchy. **Ver §11.** Caixa de sentença desde 09/09/2026, como o resto dos botões do site |
 | Falar no WhatsApp | Chat on WhatsApp | Chatear por WhatsApp | "Message us on WhatsApp" também funciona |
 | Voltar ao topo | Back to top | Volver arriba | OK |
 | Enviar mensagem | Send message | Enviar mensaje | OK |
@@ -221,7 +231,7 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | Serviços | Services | Servicios |
 | Sobre nós | About / About Us 🟡 | Sobre nosotros |
 | Contato | Contact | Contacto |
-| Solicitar Serviço (CTA) | Request a Quote 🟡 | Solicitar Cotización |
+| Solicitar serviço (CTA) | Get started | Solicitar cotización |
 | Pular para o conteúdo | Skip to content | Saltar al contenido |
 | Safras & Negócios — Ir para o topo | Safras & Negócios — Back to top | Safras & Negócios — Ir arriba |
 | Abrir menu | Open menu | Abrir menú |

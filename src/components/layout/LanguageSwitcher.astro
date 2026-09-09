@@ -5,7 +5,7 @@
  * Design:
  * - Trigger compacto: bandeira + código 2-letras + chevron
  * - Dropdown abre pra baixo com lista bandeira + nome nativo
- * - Inherits color do header (funciona em hero transparente E sticky)
+ * - Inherits color do header (as duas variantes têm a mesma aparência)
  * - Item ativo destacado em text-brand
  * - Animação 180ms scale+opacity, transform-origin top-right
  *
@@ -176,11 +176,6 @@ const current = options.find((o) => o.active)!;
   .lang-switcher__trigger:focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;
-  }
-
-  /* No hero header (texto branco), hover usa fundo claro */
-  :global(.site-header--hero) .lang-switcher__trigger:hover {
-    background-color: rgb(255 255 255 / 0.12);
   }
 
   .lang-switcher__flag {

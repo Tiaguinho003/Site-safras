@@ -19,6 +19,8 @@
   --color-brand: #025c00;
   --color-brand-dark: #013d01;
   --color-earth: #3c3424;
+  /* Verde-claro de apoio sobre fundo verde escuro (sobretítulo do hero) */
+  --color-brand-tint: #9ed69a;
 
   /* Typography */
   --font-sans:

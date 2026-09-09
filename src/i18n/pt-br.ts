@@ -63,7 +63,7 @@ const dict = {
       about: "Sobre nós",
       contact: "Contato",
     },
-    cta: "Solicitar Serviço",
+    cta: "Solicitar serviço",
     logoAriaLabel: "Safras & Negócios — Ir para o topo",
     heroHeaderAriaLabel: "Cabeçalho sobre o hero",
     mobileMenuAriaLabel: "Menu principal (mobile)",
@@ -72,11 +72,19 @@ const dict = {
   },
 
   hero: {
-    tag: "[ Corretora de café ]",
-    rotatingWords: ["Tradição", "Confiança"],
-    suffix: "no mercado cafeeiro",
-    cta: "Explorar Serviços",
-    scrollNextLabel: "Ir para a próxima seção",
+    eyebrow: "[Corretora de café · São Sebastião do Paraíso, MG]",
+    eyebrowMobile: "[Corretora de café · Desde 2015]",
+    // "café" e "mercado." recebem caixa alta via CSS no componente.
+    title: { lead: "Conectando seu", coffee: "café", mid: "ao", market: "mercado." },
+    description:
+      "Desde 2015, conectamos produtores, compradores e exportadoras às oportunidades do mercado.",
+    cta: "Solicitar serviço",
+    secondary: "Conhecer os serviços",
+    photoAlt:
+      "Profissional da Safras & Negócios em prova de xícara, sentindo o aroma do café na colher",
+    // Texto do selo giratório. Termina em " · " para fechar o círculo.
+    seal: "SAFRAS & NEGÓCIOS · CORRETORA DE CAFÉ · DESDE 2015 · ",
+    sealMobile: "SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 · ",
   },
 
   services: {
