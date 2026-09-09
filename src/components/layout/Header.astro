@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
 import logoCompleto from "../../assets/branding/safras-logo-completo.svg";
-import logoBranco from "../../assets/branding/safras-logo-branco.png";
 import { mainNav } from "../../data/navigation";
 import { useTranslation, DEFAULT_LOCALE } from "../../i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
@@ -33,14 +31,13 @@ const contactHref = localizeAnchor("contato");
           class="site-header__logo flex items-center shrink-0"
           aria-label={t("nav.logoAriaLabel")}
         >
-          <Image
-            src={logoBranco}
+          <img
+            src={logoCompleto.src}
             alt={t("brand.logoAlt")}
-            widths={[160, 260, 420]}
-            sizes="(min-width: 1024px) 205px, (min-width: 768px) 152px, 130px"
+            width={logoCompleto.width}
+            height={logoCompleto.height}
             class="site-header__logo-img w-auto"
             loading="eager"
-            quality={72}
           />
         </a>
 
@@ -248,19 +245,38 @@ const contactHref = localizeAnchor("contato");
 
 <style>
   /* ===========================================================
-     Two-layer header — Apexus-style.
-     Active state e fechamento do mobile menu são client-side
-     (scroll spy), já que o site é single-page com anchors.
+     Two-layer header. A barra em fluxo (`--hero`) abre a home e a
+     barra fixa (`--sticky`) entra na rolagem, com a mesma aparência:
+     fundo branco, logo colorida, CTA verde. Active state e fechamento
+     do mobile menu são client-side (scroll spy), já que o site é
+     single-page com anchors.
      =========================================================== */
 
   .site-header {
     width: 100%;
     left: 0;
     right: 0;
+    background-color: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    --header-h: var(--site-header-h);
+    --header-px: 1.5rem;
+    --logo-h: 36px;
+  }
+  @media (min-width: 768px) {
+    .site-header {
+      --header-px: 2.5rem;
+      --logo-h: 44px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .site-header {
+      --header-px: 3.5rem;
+    }
   }
 
+  /* A borda inferior entra na altura total, que é o que o hero desconta. */
   .site-header__inner {
-    height: var(--header-h);
+    height: calc(var(--header-h) - 1px);
     padding-inline: var(--header-px);
   }
 
@@ -268,105 +284,51 @@ const contactHref = localizeAnchor("contato");
     height: var(--logo-h);
   }
 
-  /* ---------- HERO HEADER (transparent, over the hero) ---------- */
-  .site-header--hero {
-    position: absolute;
-    top: 0;
-    z-index: 20;
-    background: transparent;
-    --header-h: 88px;
-    --header-px: 1.5rem;
-    --logo-h: 48px;
+  .site-header .site-header__nav-link {
+    color: var(--color-ink-muted);
   }
-  @media (min-width: 768px) {
-    .site-header--hero {
-      --header-h: 128px;
-      --header-px: 2rem;
-      --logo-h: 56px;
-    }
-  }
-  @media (min-width: 1024px) {
-    .site-header--hero {
-      --header-h: 144px;
-      --header-px: 3.5rem;
-      --logo-h: 76px;
-    }
-  }
-  .site-header--hero .site-header__nav-link {
-    color: rgba(255, 255, 255, 0.78);
-  }
-  .site-header--hero .site-header__nav-link:hover,
-  .site-header--hero .site-header__nav-link[data-active] {
-    color: #ffffff;
-  }
-  .site-header--hero .site-header__cta {
-    background-color: var(--color-paper);
+  .site-header .site-header__nav-link:hover {
     color: var(--color-ink);
-    box-shadow:
-      0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -4px rgba(0, 0, 0, 0.1);
   }
-  .site-header--hero .site-header__cta:hover {
-    color: var(--color-paper);
+  .site-header .site-header__nav-link[data-active] {
+    color: var(--color-brand);
   }
-  .site-header--hero .site-header__cta-radial {
+  .site-header .site-header__cta {
     background-color: var(--color-brand);
-  }
-  .site-header--hero .site-header__menu-btn {
     color: var(--color-paper);
+  }
+  .site-header .site-header__cta-radial {
+    background-color: var(--color-paper);
+  }
+  .site-header .site-header__cta:hover {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+  .site-header .site-header__menu-btn {
+    color: var(--color-ink);
   }
 
-  /* ---------- STICKY HEADER (solid, slides in from above) ---------- */
+  /* ---------- HERO HEADER (em fluxo, abre a home acima do hero) ---------- */
+  .site-header--hero {
+    position: relative;
+    z-index: 20;
+  }
+
+  /* ---------- STICKY HEADER (fixa, entra de cima na rolagem) ---------- */
   .site-header--sticky {
     position: fixed;
     top: 0;
     z-index: 40;
-    background-color: var(--color-paper);
-    border-bottom: 1px solid var(--color-line);
     opacity: 0;
     transform: translateY(-100%);
     transition:
       transform 600ms cubic-bezier(0.43, 0.46, 0.64, 0.66),
       opacity 600ms cubic-bezier(0.43, 0.46, 0.64, 0.66);
     will-change: transform, opacity;
-
-    --header-h: 56px;
-    --header-px: 1.5rem;
-    --logo-h: 32px;
-  }
-  @media (min-width: 768px) {
-    .site-header--sticky {
-      --header-h: 64px;
-      --header-px: 2.5rem;
-      --logo-h: 48px;
-    }
   }
   .site-header--sticky[data-visible="true"] {
     opacity: 1;
     transform: translateY(0);
-  }
-  .site-header--sticky .site-header__nav-link {
-    color: var(--color-ink-muted);
-  }
-  .site-header--sticky .site-header__nav-link:hover {
-    color: var(--color-ink);
-  }
-  .site-header--sticky .site-header__nav-link[data-active] {
-    color: var(--color-brand);
-  }
-  .site-header--sticky .site-header__cta {
-    background-color: var(--color-brand);
-    color: var(--color-paper);
-  }
-  .site-header--sticky .site-header__cta-radial {
-    background-color: var(--color-paper);
-  }
-  .site-header--sticky .site-header__cta:hover {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
-  }
-  .site-header--sticky .site-header__menu-btn {
-    color: var(--color-ink);
   }
 
   /* Shared transitions */
@@ -408,18 +370,13 @@ const contactHref = localizeAnchor("contato");
   /* Mobile dropdown, fixed below the sticky bar */
   .site-mobile-menu {
     position: fixed;
-    top: var(--header-h, 56px);
+    top: var(--site-header-h);
     left: 0;
     right: 0;
     z-index: 35;
     background-color: var(--color-paper);
     border-top: 1px solid var(--color-line);
     border-bottom: 1px solid var(--color-line);
-  }
-  @media (min-width: 768px) {
-    .site-mobile-menu {
-      top: 64px;
-    }
   }
 
   /* Mobile nav link colors driven by data-active (set by scroll spy) */

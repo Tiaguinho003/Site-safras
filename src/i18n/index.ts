@@ -7,7 +7,7 @@
  * import { useTranslation } from "../i18n";
  * const { t, tArray, locale, localizeAnchor } = useTranslation(Astro);
  * ---
- * <h1>{t("hero.tag")}</h1>
+ * <h1>{t("hero.cta")}</h1>
  * <a href={localizeAnchor("contato")}>...</a>
  * ```
  */
@@ -44,7 +44,7 @@ const DICTS: Record<Locale, unknown> = {
 
 /**
  * Resolve uma chave dot-path num objeto de dicionário.
- * Ex: resolveKey({ hero: { tag: "x" } }, "hero.tag") → "x"
+ * Ex: resolveKey({ hero: { cta: "x" } }, "hero.cta") → "x"
  * Retorna undefined se a chave não existir.
  */
 function resolveKey(dict: unknown, key: string): unknown {
@@ -60,8 +60,8 @@ function resolveKey(dict: unknown, key: string): unknown {
  * faltar até em PT (ajuda a pegar typos).
  *
  * @example
- *   t("hero.tag", "en") → "[ Coffee Brokerage ]" (após Fase 3)
- *   t("hero.tag", "en") → "[ Corretora de café ]" (Fase 2 — fallback)
+ *   t("hero.cta", "en") → "Get started" (chave traduzida)
+ *   t("hero.cta", "en") → "Solicitar serviço" (fallback pro PT quando falta)
  */
 export function t(key: string, locale: Locale = DEFAULT_LOCALE): string {
   const value = resolveKey(DICTS[locale], key);
@@ -87,7 +87,7 @@ export function t(key: string, locale: Locale = DEFAULT_LOCALE): string {
  * strips, etc.). Faz fallback pra PT-BR e retorna [] se inválido.
  *
  * @example
- *   tArray<string>("hero.rotatingWords", "en") → ["Tradition", "Trust"]
+ *   tArray<string>("services.cards.suporteLogistico.strips", "en") → ["Shipping", …]
  */
 export function tArray<T = string>(
   key: string,
@@ -157,7 +157,7 @@ export function getCurrentLocale(astro: {
  *
  * @example
  *   const { t, locale, localizeAnchor, route } = useTranslation(Astro);
- *   <h1>{t("hero.tag")}</h1>
+ *   <h1>{t("hero.cta")}</h1>
  *   <a href={localizeAnchor("contato")}>Contato</a>
  *   <a href={route("privacidade")}>Privacidade</a>
  */

@@ -71,7 +71,7 @@ const dict = {
       about: "Sobre Nosotros",
       contact: "Contacto",
     },
-    cta: "Solicitar Cotización",
+    cta: "Solicitar cotización",
     logoAriaLabel: "Safras & Negócios — Volver arriba",
     heroHeaderAriaLabel: "Encabezado sobre el hero",
     mobileMenuAriaLabel: "Menú principal (móvil)",
@@ -80,11 +80,18 @@ const dict = {
   },
 
   hero: {
-    tag: "[ Corretaje de Café ]",
-    rotatingWords: ["Tradición", "Confianza"],
-    suffix: "en el mercado cafetero",
-    cta: "Explorar Servicios",
-    scrollNextLabel: "Ir a la siguiente sección",
+    eyebrow: "[Corretaje de café · São Sebastião do Paraíso, MG]",
+    eyebrowMobile: "[Corretaje de café · Desde 2015]",
+    // "café" y "mercado." reciben mayúsculas vía CSS en el componente.
+    title: { lead: "Conectando su", coffee: "café", mid: "al", market: "mercado." },
+    description:
+      "Desde 2015, conectamos productores, compradores y exportadoras a las oportunidades del mercado.",
+    cta: "Solicitar cotización",
+    secondary: "Conocer los servicios",
+    photoAlt:
+      "Profesional de Safras & Negócios en catación, percibiendo el aroma del café en la cuchara",
+    seal: "SAFRAS & NEGÓCIOS · CORRETAJE DE CAFÉ · DESDE 2015 · ",
+    sealMobile: "SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 · ",
   },
 
   services: {
