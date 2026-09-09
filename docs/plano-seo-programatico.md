@@ -676,6 +676,8 @@ Como foi construído:
   do desenvolvedor; amarrar por href contaria clique nele como lead do cliente;
 - **o campo `estado` é texto livre**, e passa por uma lista fechada das 27 UFs antes de virar
   parâmetro. Só sai daqui sigla, `outro` ou `nao_informado` — nunca o que foi digitado;
+- **campo opcional em branco vira `nao_informado`**, nunca string vazia. Vale hoje para `estado` e
+  `interesse`, os dois únicos parâmetros que podem chegar vazios;
 - **`formulario_envio` fica fora do `showSuccess()`**, que também roda no desvio do honeypot: medir
   lá dentro contaria bot como lead;
 - **`formulario_erro` envia categoria, não mensagem** — `rede`, `servico` ou `configuracao`. A
