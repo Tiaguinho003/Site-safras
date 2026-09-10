@@ -11,13 +11,21 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.2 |
-| Fase ativa | Fase 2 — Mensuração e presença oficial |
+| Versão | 3.3 |
+| Fase ativa | Fase 2 — Mensuração e presença oficial (código concluído; resta configuração de painel e coleta) |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | **Fase 1 APROVADA em 20/08/2026** — gate integralmente atendido, com performance 100 nos três idiomas medida no PageSpeed Insights. Fase 2 autorizada a iniciar |
-| Última revisão | 20/08/2026 |
-| Próxima revisão | Ao receber o `G-XXXXXXXXXX` e o código de verificação do Search Console, que ativam a medição já entregue |
+| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; as pendências restantes são de painel do Google e de tempo de coleta, não de código. Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
+| Última revisão | 10/09/2026 |
+| Próxima revisão | Ao concluir a configuração do painel do GA4 (dimensões personalizadas, eventos principais, tráfego interno) e o envio do sitemap no Search Console |
 | Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.3 (10/09/2026):** o documento passa a refletir o que o registro operacional já
+dizia: a medição foi **ativada em 20/08/2026** (propriedade do GA4 e verificação do Search Console
+preenchidas) e a Fase E entregou cinco eventos de conversão em 21/08/2026, com suíte de 92
+verificações versionada; §1, §6, §7, Fase 2, §10 e §14 atualizados — a §14 descrevia como "em
+andamento" uma etapa concluída três semanas antes; hero Painel publicado em 09/09/2026; regra de
+cache do HTML por URL limpa corrigida em 10/09/2026; encerra a divergência documental relatada no
+registro em 21/08/2026.
 
 **Mudanças da versão 3.2 (20/08/2026):** Fase 2 avança com a política de privacidade (Fase B), o
 consentimento (Fase C) e o código da medição (Fase D), este último **inerte** até que a propriedade
@@ -154,7 +162,7 @@ Estas regras valem em todas as fases:
 - [x] Criar e validar localmente `sitemap-index.xml`; publicação pendente.
 - [x] Garantir localmente que URLs aleatórias retornem 404; correção de produção pendente.
 - [ ] Confirmar propriedade e dados no Google Search Console — acesso disponível desde 20/08/2026; verificação da propriedade ainda não executada.
-- [ ] Implantar mensuração de visitas e conversões.
+- [x] Implantar mensuração de visitas e conversões — GA4 sob consentimento em 20/08/2026, eventos de conversão em 21/08/2026.
 - [ ] Criar páginas próprias para serviços e intenções comerciais.
 - [ ] Revisar títulos, descrições e H1 ainda genéricos.
 - [ ] Adicionar dados estruturados somente quando correspondam ao conteúdo visível.
@@ -235,7 +243,7 @@ Estas regras valem em todas as fases:
 - quantidade mensal definitiva de conteúdo;
 - CRM ou automação completa do registro de leads;
 - ferramentas pagas;
-- Google Analytics, consentimento e mensuração, até a finalização da construção do site e da página completa de privacidade;
+- Google Analytics, consentimento e mensuração, até a finalização da construção do site e da página completa de privacidade — **condição cumprida em 20/08/2026; entregues nas Fases B, C, D e E**;
 - tradução de todo conteúdo futuro.
 
 ## 7. Visão geral das fases
@@ -244,7 +252,7 @@ Estas regras valem em todas as fases:
 |---:|---|---|---|
 | 0 | Governança e verdade comercial | APROVADA | Dados, acessos, responsáveis e regras aprovados |
 | 1 | Recuperação técnica | **APROVADA** | Site rastreável, indexável, rápido e sem falsos 200 |
-| 2 | Mensuração e presença oficial | **EM ANDAMENTO** | Baseline, Search Console, Analytics e perfil comercial |
+| 2 | Mensuração e presença oficial | **EM ANDAMENTO** (código concluído; painel e coleta pendentes) | Baseline, Search Console, Analytics e perfil comercial |
 | 3 | Inteligência de demanda | NÃO INICIADA | Mapa de públicos, intenções e oportunidades |
 | 4 | Arquitetura da informação | NÃO INICIADA | Estrutura de URLs, hubs e links internos |
 | 5 | Plataforma editorial | NÃO INICIADA | Conteúdo validado, versionado e publicável com segurança |
@@ -447,7 +455,7 @@ Validações locais adicionais:
 
 - PR #18 integrada à `main` pelo commit `9cf63dbc4e17a2637ae3231d17a2daa4017a03e4`;
 - Cloud Build `c6b9fab2-a771-4e57-803d-4d66b3543c36` concluído com sucesso e 72 arquivos publicados no Firebase Hosting;
-- auditoria pública identificou que a frase final do hero, após a retirada do preenchimento visual solicitada, perdeu contraste sobre áreas claras da fotografia;
+- auditoria pública identificou que a frase final do hero (o anterior, substituído pelo hero Painel em 09/09/2026), após a retirada do preenchimento visual solicitada, perdeu contraste sobre áreas claras da fotografia;
 - correção sem restaurar fundo, borda ou preenchimento publicada pela PR #19 e commit `b429e556073ea56819db71319d6ff5a084b6cdf7`;
 - Cloud Build complementar `14a1edf3-a114-4867-a765-275e5a70ae17` concluído com sucesso;
 - `/`, `/en` e `/es` responderam 200; `robots.txt`, `sitemap-index.xml` e `sitemap-0.xml` responderam 200 com os tipos corretos;
@@ -590,9 +598,11 @@ Criar uma linha de base confiável. Sem mensuração, não há como distinguir c
 
 A decisão de 21/07/2026 condiciona qualquer mensuração à publicação da política de privacidade.
 Publicada nos três idiomas em `/privacidade`, `/en/privacy` e `/es/privacidad`, descrevendo
-**apenas o que existe hoje**: o formulário de contato e o cookie de idioma. Ela declara
-explicitamente que o site não usa analytics, pixel nem cookie de publicidade — o que obriga a
-atualizá-la **antes** de instalar qualquer medição, não depois.
+**apenas o que existia na data**: o formulário de contato e o cookie de idioma. Até a ativação da
+medição, em 20/08/2026, ela declarava explicitamente que o site não usava analytics, pixel nem
+cookie de publicidade — o que obrigou a atualizá-la **antes** de instalar qualquer medição, não
+depois. Desde a ativação vale a variante da seção de cookies que descreve o GA4, escolhida pela
+mesma variável de build (ver Fase D).
 
 Junto com ela veio o registro de rotas (`src/i18n/routes.ts`), que passa a ser a fonte da verdade
 das URLs por idioma e alimenta canonical, `hreflang`, o switcher e o sitemap.
@@ -616,15 +626,16 @@ O que ficou pronto:
 
 A comporta que a Fase D vai consumir é `window.__consent.onChange()`.
 
-### Medição — CÓDIGO PRONTO E INERTE em 20/08/2026 (Fase D)
+### Medição — ATIVA SOB CONSENTIMENTO desde 20/08/2026 (Fase D)
 
 A Fase D entregou o código da medição em estado **inerte**, governado por duas variáveis de build
-vazias. A razão é de sequenciamento: criar a propriedade do GA4 e verificar o Search Console são
-passos no painel do Google, fora do alcance do repositório. Em vez de bloquear a entrega neles, o
-código foi escrito, testado e mesclado desligado.
+então vazias, e foi **ativada no mesmo dia**, assim que a propriedade do GA4 e a verificação do
+Search Console existiram. A entrega desligada foi uma escolha de sequenciamento: criar a
+propriedade e verificar o Search Console são passos no painel do Google, fora do alcance do
+repositório; em vez de bloquear a entrega neles, o código foi escrito, testado e mesclado desligado.
 
-Sem as variáveis, o HTML publicado é o mesmo de antes da fase, à exceção de dois espaços em branco
-— verificado por diff contra o build de `main`.
+Registro histórico: sem as variáveis, o HTML publicado era o mesmo de antes da fase, à exceção de
+dois espaços em branco — verificado por diff contra o build de `main`.
 
 O que ficou pronto:
 
@@ -642,7 +653,8 @@ O que ficou pronto:
 Verificado com Playwright, com um ID de teste: recusa não carrega, aceite carrega, aceite anterior
 carrega sozinho, GPC não carrega, e a configuração emitida traz os dois sinais desligados.
 
-**Estado em 20/08/2026:** as duas variáveis estão preenchidas. A medição está **ativa sob
+**Estado em 10/09/2026:** as duas variáveis estão preenchidas desde 20/08/2026, e a Fase E (eventos
+de conversão, 21/08/2026) roda sobre esta comporta. A medição está **ativa sob
 consentimento**, com retenção de 14 meses confirmada no painel antes da publicação, e a meta de
 verificação do Search Console está publicada nas seis páginas — inclusive na página de manutenção,
 que é standalone e precisou receber a meta em separado para não derrubar a propriedade se a
@@ -650,7 +662,9 @@ manutenção for ativada.
 
 Fica pendente apenas o que depende de tempo e de painel: clicar em *Verify*, enviar o sitemap e
 esperar o Search Console acumular dados, o que leva de dois a três dias para começar e vinte e oito
-para uma janela comparável.
+para uma janela comparável; e, no GA4, registrar as seis dimensões personalizadas, marcar os eventos
+principais e excluir o tráfego interno — achados da auditoria de 21/08/2026, sem os quais os
+parâmetros chegam e são descartados.
 
 **Nota sobre desempenho:** o Lighthouse não clica em "Aceitar", então a nota continuará 100 mesmo
 depois da ativação. O custo real do GA4 recai sobre quem consente e **não aparece no laboratório** —
@@ -690,8 +704,8 @@ fase: recusar não dispara nada, aceitar dispara com a origem correta, o WhatsAp
 não conta, o honeypot não conta, e nenhum dos dados pessoais preenchidos no teste apareceu em
 parâmetro algum.
 
-**Sem `PUBLIC_GA4_MEASUREMENT_ID` o ouvinte não é servido** — conferido no `dist/`: o chunk é
-gerado mas nenhuma página o referencia.
+**O ouvinte só é servido com `PUBLIC_GA4_MEASUREMENT_ID` preenchida** — e ela está, desde
+20/08/2026. Sem a variável, conferido no `dist/`, o chunk é gerado mas nenhuma página o referencia.
 
 **A medição subnotifica por desenho.** Evento só existe com consentimento; quem recusa ou usa Global
 Privacy Control clica e não conta. O número real de contatos é sempre maior que o reportado, e essa
@@ -708,9 +722,13 @@ frase precisa acompanhar qualquer relatório.
 - [x] Configurar analytics com consentimento apropriado (Fase D).
 - [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
 - [x] Preencher `PUBLIC_GSC_VERIFICATION` com o código do Search Console — feito em 20/08/2026.
-- [ ] Definir conversões: WhatsApp, telefone, formulário e e-mail — **eventos implementados em
-      21/08/2026 (Fase E)**; falta registrar as seis dimensões personalizadas e marcar os eventos
-      principais no painel. Sem isso o dado chega e fica invisível.
+- [x] Instrumentar as conversões: WhatsApp, telefone, formulário e e-mail — cinco dos seis eventos
+      no ar desde 21/08/2026 (Fase E); `canal_whatsapp` reservado até o Canal existir.
+- [x] Versionar a suíte de verificação da medição — `pnpm verify:medicao`, 92 verificações,
+      21/08/2026.
+- [ ] Registrar as seis dimensões personalizadas e marcar os eventos principais no painel do GA4.
+      Sem isso o dado chega e fica invisível — o GA4 descarta o parâmetro e não preenche
+      retroativamente.
 - [ ] Excluir acessos internos quando possível.
 - [ ] Configurar painel mensal.
 - [ ] Reivindicar ou revisar Google Business Profile.
@@ -725,7 +743,7 @@ Modelo inicial aprovado, de baixo custo:
 1. manter o formulário como canal de entrega por e-mail durante uma fase curta;
 2. registrar manualmente os contatos em planilha privada e protegida, controlada pela empresa;
 3. manter dados pessoais somente na camada operacional;
-4. quando o Analytics for futuramente aprovado, enviar somente conversões agregadas e categorias predefinidas;
+4. o Analytics envia somente conversões agregadas e categorias predefinidas — implementado em 21/08/2026 (Fase E);
 5. avaliar backend próprio no GCP ou CRM somente quando volume, risco ou operação justificarem.
 
 Gilson Souza será o responsável comercial inicial. A planilha poderá ser acessada por pessoas autorizadas dos setores de cadastro e comercial, sempre por contas individuais, com autenticação em duas etapas e privilégio mínimo. Os nomes e responsabilidades serão registrados quando a planilha for criada.
@@ -738,7 +756,7 @@ O destinatário operacional do formulário é o e-mail interno definido no regis
 
 - Camada privada: nome, e-mail, telefone e mensagem; acesso comercial restrito.
 - Camada de funil: categorias, status, datas e resultado; sem contato ou mensagem.
-- Analytics: evento `generate_lead`, idioma, página controlada, cluster e categoria de serviço; nunca `lead_id` ou PII.
+- Analytics: eventos `formulario_envio`, `contato_whatsapp`, `contato_telefone` e `contato_email` (nomes implementados em 21/08/2026 — ver plano do ecossistema §7), idioma, página controlada, cluster e categoria de serviço; nunca `lead_id` ou PII.
 - BigQuery de SEO: somente dados de navegação e resultados agregados.
 
 #### Campos operacionais sugeridos
@@ -776,10 +794,14 @@ O destinatário operacional do formulário é o e-mail interno definido no regis
 | CLS p75 | — | — | CrUX/Search Console |
 | INP p75 | — | — | CrUX/Search Console |
 
+A coleta do GA4 começou em 20/08/2026, sob consentimento; a do Search Console ainda não, porque a
+propriedade não foi verificada no painel nem o sitemap enviado. As janelas de 28 dias das duas
+fontes não são comparáveis até isso acontecer.
+
 ### Gate da Fase 2
 
 - [ ] Search Console coletando dados.
-- [ ] Analytics e eventos de conversão testados.
+- [x] Analytics e eventos de conversão testados — 92 verificações automatizadas (`pnpm verify:medicao`) e verificação em produção em 09/09/2026.
 - [ ] Perfil comercial consistente.
 - [ ] Baseline preenchido.
 - [ ] Painel e cadência de revisão definidos.
@@ -1281,6 +1303,7 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 
 - Google Search Console;
 - Google Business Profile;
+- Google Analytics 4, na faixa padrão gratuita;
 - Google Trends;
 - Lighthouse e ferramentas de qualidade;
 - geração estática com Astro;
@@ -1372,39 +1395,50 @@ Preencher ao final de cada fase:
 
 ## 14. Próximas ações
 
-Atualizado em 20/08/2026, com a Fase 1 aprovada.
+Atualizado em 10/09/2026.
 
-A sequência acordada com o cliente: **Fase 1 (concluída) → privacidade e consentimento → Search
-Console e analytics → eventos de conversão.** Ao fim, a Fase 2 encerra e a trilha do ecossistema
-destrava. Cada etapa tem análise e plano próprios antes da implementação.
+A sequência acordada com o cliente — **Fase 1 (concluída) → privacidade e consentimento → Search
+Console e analytics → eventos de conversão** — foi executada no código entre 20 e 21/08/2026. O que
+resta da Fase 2 está no painel do Google e no tempo de coleta. Ao fim, a Fase 2 encerra e a trilha do
+ecossistema destrava.
 
-### Etapa em andamento — infraestrutura de rotas e privacidade
+### Concluído (20–21/08/2026)
 
-1. criar o registro `routeKey → locale → pathname`, item já previsto no checklist da Fase 4 e
-   antecipado porque a primeira página nova o exige de qualquer forma;
-2. publicar a **página completa de privacidade** nos três idiomas — pré-requisito registrado para
-   qualquer mensuração;
-3. ajustar o filtro do sitemap em `astro.config.mjs`, hoje uma lista fixa de três URLs.
+1. registro `routeKey → locale → pathname` (`src/i18n/routes.ts`);
+2. página completa de privacidade nos três idiomas;
+3. filtro do sitemap alimentado pelo registro de rotas;
+4. consentimento de cookies, granular, com estado persistido e revogação;
+5. CSP do `firebase.json` liberando o domínio de analytics;
+6. analytics sob consentimento, ativo desde 20/08/2026, com propriedade do GA4 e retenção de 14
+   meses configuradas pelo cliente;
+7. eventos de conversão — WhatsApp, telefone, e-mail, envio e erro de formulário — sem dado pessoal,
+   com suíte de 92 verificações versionada (`pnpm verify:medicao`).
 
-### Na sequência
+### Em curso — fora do código, dependem de acesso ao painel
 
-4. **consentimento de cookies**, granular e com estado persistido;
-5. atualizar a **CSP** do `firebase.json` para o domínio de analytics — sem isso o recurso é
-   bloqueado silenciosamente pelo navegador;
-6. verificar a propriedade no **Search Console** e enviar o sitemap;
-7. instalar **analytics sob consentimento** e preencher o baseline;
-8. instrumentar os **eventos de conversão** — WhatsApp, telefone, e-mail, envio e erro de
-   formulário, sempre sem dado pessoal.
+8. Search Console: clicar em *Verify* na propriedade (a meta já está publicada) e enviar o sitemap;
+9. GA4: registrar as seis dimensões personalizadas, marcar os eventos principais e excluir o tráfego
+   interno — sem isso os parâmetros chegam e são descartados;
+10. preencher o baseline da Fase 2 quando houver 28 dias de coleta comparável nas duas fontes.
+
+### Resolvidas em 09–10/09/2026, fora da sequência
+
+11. hero Painel publicado e header unificado (PR #35);
+12. `interesse` em branco passa a `nao_informado` (PR #34);
+13. assets órfãos, scripts soltos e dependência sem uso removidos (PR #37);
+14. regra de cache do HTML por URL limpa corrigida e overflow horizontal no mobile eliminado
+    (PR #38). Detalhe e evidência no [`registro-operacional.md`](./registro-operacional.md).
 
 ### Pendências herdadas da Fase 1
 
-9. **INP de campo** — depende de dados reais de usuário, disponíveis após a etapa 7;
-10. **registro `AAAA` ausente no domínio apex** — o `www` tem IPv6, o domínio principal não.
+15. **INP de campo** — desbloqueado com a medição ativa; depende só do acúmulo de dados reais;
+16. **registro `AAAA` ausente no domínio apex** — o `www` tem IPv6, o domínio principal não.
     Tratar quando a zona de DNS for tocada, confirmando antes no console do Firebase.
 
 ### Adiadas por decisão do cliente
 
-11. credenciais setoriais e redação final do descritor da marca — ver
+17. credenciais setoriais, redação final do descritor da marca e diferenciação entre comunidade e
+    canal do WhatsApp — ver
     [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto).
 
 **Regra mantida:** nenhum commit, PR ou deploy sem autorização específica.

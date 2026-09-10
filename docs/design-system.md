@@ -7,7 +7,7 @@ componentes.
 > decide. Em caso de divergência entre os dois, o CSS está certo e este arquivo deve ser corrigido
 > — nunca o contrário.
 
-Última atualização: 2026-08-20.
+Última atualização: 2026-09-10.
 
 ---
 
@@ -34,6 +34,10 @@ Base branca, dois verdes da marca (extraídos dos PNGs oficiais da logo) e um ac
 | `--color-earth` | `#3c3424` | `text-earth` | Accent terra — uso pontual |
 
 O `theme-color` do navegador (`BaseLayout.astro`) acompanha `--color-brand`: `#025c00`.
+
+Fora do `@theme`, `src/styles/global.css` declara **`--site-header-h`** (`64px`; `72px` a partir de
+`md`): a altura do header, consumida por `Header.astro` e `HeroSection.astro` para que a barra em
+fluxo e a barra fixa tenham a mesma medida. Não gera utility; é lida via `var()`.
 
 > **Histórico:** até agosto de 2026 este documento e o `CLAUDE.md` descreviam uma paleta antiga
 > (`#1f6b3a` / `#134024` / `#8b5e34`) que o código já não usava havia meses. Os valores acima foram
@@ -207,7 +211,7 @@ Detalhes completos em [`arquitetura.md §9`](./arquitetura.md#9-acessibilidade).
 
 ## 4. Catálogo de componentes
 
-Componentes que **existem** no código, em 2026-08-20. Cada entrada documenta anatomia, props,
+Componentes que **existem** no código, em 2026-09-10. Cada entrada documenta anatomia, props,
 estados, comportamento responsivo e acessibilidade.
 
 Não há biblioteca de primitivos (`Button`, `Input`, `Badge`…): os estilos são aplicados
@@ -339,6 +343,25 @@ cookie.
   conferido no mobile, sem sobreposição.
 - **Reabertura:** qualquer elemento com `data-consent-open` reabre o painel. Hoje, o link do rodapé.
 
+### `layout/Analytics.astro`
+
+- **Papel:** carrega o `gtag.js` do GA4 **só** depois de consentimento, assinando
+  `window.__consent.onChange()` e usando `requestIdleCallback`. Sem `PUBLIC_GA4_MEASUREMENT_ID`
+  não emite nada — a variável está preenchida desde 20/08/2026.
+- **Sem UI.** Não tem estados visuais nem breakpoints; está no catálogo porque toda página o inclui
+  via `BaseLayout` e porque a política de privacidade descreve exatamente o que ele faz.
+- **Privacidade:** `allow_google_signals` e `allow_ad_personalization_signals` desligados;
+  `cookie_expires` de 182 dias; nenhum dado pessoal em parâmetro.
+
+### `layout/ConversionEvents.astro`
+
+- **Papel:** ouvinte delegado de cliques em elementos marcados com `data-contato` (nome do evento)
+  e `data-origem` (seção). Emite `contato_whatsapp`, `contato_telefone` e `contato_email`;
+  `formulario_envio` e `formulario_erro` saem do próprio script do formulário.
+- **Sem UI.** Só é servido quando a medição está ativa. Marcar um link novo é adicionar os dois
+  atributos — o contrato em `src/data/analytics.ts` fecha os vocabulários aceitos.
+- **Verificação:** `pnpm verify:medicao` cobre os cinco eventos nos três idiomas.
+
 ### `pages/PrivacyPage.astro`
 
 Política de privacidade, fonte única para os três idiomas. Primeira página do site que usa
@@ -349,8 +372,8 @@ Política de privacidade, fonte única para os três idiomas. Primeira página d
   jurídico no componente.
 - **Medida de leitura:** `max-w-[46rem]`, mais estreita que o `max-w-[88rem]` das seções da home.
   Texto corrido longo pede linha curta.
-- **Atenção ao header:** fora da home o header é `position: fixed` e opaco (56 px no mobile, 64 px
-  a partir de `md`). A página abre com `pt-28 md:pt-36` para dar folga. **Toda página nova fora da
+- **Atenção ao header:** fora da home o header é `position: fixed` e opaco (64 px no mobile, 72 px
+  a partir de `md`, lidos de `--site-header-h`). A página abre com `pt-28 md:pt-36` para dar folga. **Toda página nova fora da
   home precisa dessa folga** — o `BaseLayout` não a fornece.
 - **Rotas:** `/privacidade` · `/en/privacy` · `/es/privacidad`, registradas em `src/i18n/routes.ts`.
 
