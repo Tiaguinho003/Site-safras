@@ -53,7 +53,7 @@
         ]
       },
       {
-        "source": "**/*.html",
+        "regex": "^/[^.]*$",
         "headers": [
           {
             "key": "Cache-Control",

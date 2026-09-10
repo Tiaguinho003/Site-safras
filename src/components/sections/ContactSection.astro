@@ -514,6 +514,17 @@ const marcadores: { label: string; top: number; left: number }[] = [
     border-radius: 3px;
     backdrop-filter: blur(2px);
   }
+  /* No bloco mobile o mapa corta o que passa da borda; a 320 px o rótulo
+     (marcador a 33% + 50 px + ~182 px) ultrapassava e perdia o "MG". O rótulo
+     é absoluto dentro de um marcador de poucos px, então sem largura explícita
+     ele encolheria à palavra mais longa; `max-content` mantém a linha única e o
+     teto só entra quando o espaço até a borda não basta — a partir de 360 px o
+     teto fica acima da largura natural e nada muda. */
+  .contact-map-mobile .map-marker-label {
+    white-space: normal;
+    width: max-content;
+    max-width: calc(100vw - 165px);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .map-marker-ring,
