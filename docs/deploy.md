@@ -67,8 +67,8 @@ Definidas no `env` do step em `cloudbuild.yaml`:
 |---|---|---|
 | `MAINTENANCE` | `0` | `apply-maintenance.mjs` vira no-op; site completo é publicado |
 | `PUBLIC_WEB3FORMS_KEY` | chave pública | Consumida pelo formulário de contato |
-| `PUBLIC_GA4_MEASUREMENT_ID` | **vazia** | Vazia: nada de medição é emitido. Preenchida (`G-XXXXXXXXXX`): ativa o GA4 sob consentimento **e** troca a seção de cookies da política |
-| `PUBLIC_GSC_VERIFICATION` | **vazia** | Vazia: nenhuma meta. Preenchida: emite `<meta name="google-site-verification">` |
+| `PUBLIC_GA4_MEASUREMENT_ID` | **preenchida** desde 20/08/2026 | Vazia: nada de medição é emitido. Preenchida: ativa o GA4 sob consentimento **e** troca a seção de cookies da política |
+| `PUBLIC_GSC_VERIFICATION` | **preenchida** desde 20/08/2026 | Vazia: nenhuma meta. Preenchida: emite `<meta name="google-site-verification">` |
 
 Sobre a chave do Web3Forms: é pública por design — vai para o bundle do cliente de qualquer forma.
 Mas ela está **literal em arquivo versionado, em repositório público**, e a restrição por domínio
@@ -78,23 +78,26 @@ baixo; o gatilho de reavaliação está na Fase 2 do plano de SEO. Ver
 
 Localmente a chave vem de `.env` (ver `.env.example`), que não é versionado.
 
-### Ativar a medição de audiência
+### Medição de audiência — ativa desde 20/08/2026
 
-As duas variáveis do Google entram **vazias de propósito**. O código foi mesclado inerte para não
-depender de um passo em painel externo: sem elas, nenhum script é emitido e a política de
-privacidade continua declarando que o site não mede audiência.
+As duas variáveis do Google entraram **vazias de propósito** e foram preenchidas em 20/08/2026, no
+mesmo dia da entrega do código. O desenho continua valendo para qualquer troca futura de
+propriedade ou de código de verificação: sem elas, nenhum script é emitido e a política de
+privacidade volta a declarar que o site não mede audiência.
 
-Para ativar, quando o `G-XXXXXXXXXX` e o código de verificação existirem:
+Para trocar ou esvaziar qualquer das duas:
 
-1. Preencher as duas variáveis no `cloudbuild.yaml`.
-2. **No mesmo commit**, atualizar `privacy.updatedAt` nos três dicionários (`src/i18n/*.ts`). O
+1. Alterar a variável no `cloudbuild.yaml`.
+2. **No mesmo commit**, revisar `privacy.updatedAt` nos três dicionários (`src/i18n/*.ts`). O
    texto da política troca sozinho; a data não, e a própria política promete que ela muda junto.
+   Na ativação de 20/08/2026 a data foi atualizada para esse dia.
 
 Um único deploy acende tag, verificação e texto jurídico — não há janela em que o site meça sem
 que a política diga que ele mede.
 
-Depois do deploy, no painel do Google e fora do repositório: retenção de **14 meses**, Google
-Signals desativado, envio do sitemap e exclusão de tráfego interno. **O IP do escritório não é
+No painel do Google, fora do repositório: **feito** em 20/08/2026 — retenção de 14 meses e Google
+Signals desativado; **pendente** — envio do sitemap, exclusão de tráfego interno, registro das seis
+dimensões personalizadas e marcação dos eventos principais. **O IP do escritório não é
 versionado.**
 
 ---

@@ -9,8 +9,9 @@
 | Campo | Valor |
 |---|---|
 | Criado em | 20/08/2026 |
-| Versão | 1.0 |
-| Estado | NÃO INICIADA — **bloqueada** pela Fase 2 do plano de SEO |
+| Versão | 1.1 |
+| Última revisão | 10/09/2026 |
+| Estado | NÃO INICIADA como trilha — **pré-condições atendidas** em 20–21/08/2026; a §7 (eventos de conversão) foi entregue pela Fase 2 do plano de SEO em 21/08/2026; o início da trilha depende de decisão do proprietário |
 | Origem | Auditoria externa de 20/08/2026 (§15 do plano de SEO) |
 | Registro de decisões | [`registro-operacional.md`](./registro-operacional.md) |
 
@@ -47,12 +48,12 @@ consentimento instalados. Instrumentar canais sem ter onde registrar o dado é r
 
 | Pré-condição | Origem | Estado |
 |---|---|---|
-| Página completa de privacidade publicada | Decisão de 21/07/2026 | Pendente |
-| Consentimento de cookies implementado | Regra permanente de privacidade | Pendente |
-| Analytics instalado com consentimento | Fase 2 | Pendente |
+| Página completa de privacidade publicada | Decisão de 21/07/2026 | **Resolvida** — 20/08/2026, nos três idiomas |
+| Consentimento de cookies implementado | Regra permanente de privacidade | **Resolvida** — 20/08/2026 (Fase C); desde 21/08 revogar apaga os cookies `_ga*` |
+| Analytics instalado com consentimento | Fase 2 | **Resolvida** — 20/08/2026, GA4 sob consentimento com a variável de build preenchida |
 | Entidade pública definida | Cliente, 20/08/2026 | **Resolvida** |
 | Telefone oficial confirmado | Cliente, 20/08/2026 | **Resolvida** — publicado no site via PR #24 |
-| CSP do `firebase.json` atualizada para o domínio de analytics | [`deploy.md §5`](./deploy.md) | Pendente |
+| CSP do `firebase.json` atualizada para o domínio de analytics | [`deploy.md §5`](./deploy.md) | **Resolvida** — 20/08/2026 (Fase C), antes de a tag existir |
 
 As duas pré-condições que bloqueavam o perfil comercial e a padronização de NAP **caíram em
 20/08/2026**: o cliente confirmou a entidade única e oficial e o telefone único para ligação e
@@ -65,8 +66,9 @@ Duas consequências para esta trilha:
    números divergentes que circulam em diretórios externos. É trabalho fora do repositório e
    depende do cliente.
 
-O que segue bloqueando a trilha é a Fase 2 do plano de SEO — privacidade, consentimento e
-mensuração —, não mais dados da empresa.
+Com privacidade, consentimento e mensuração entregues em 20–21/08/2026, **nenhuma pré-condição
+bloqueia mais a trilha**. O que resta são configurações de painel do Google (Fase 2 do plano de SEO)
+e as decisões em aberto do cliente — descritor, canal e credenciais.
 
 ---
 
@@ -74,13 +76,13 @@ mensuração —, não mais dados da empresa.
 
 | Canal | Situação hoje | Medido? | Dono |
 |---|---|---|---|
-| Site (3 URLs indexáveis) | Em produção, saudável | Não | Técnico |
-| WhatsApp (`wa.me`) | Links no rodapé e na caixa de erro do formulário; também em 404 e manutenção, que não têm medição. **Não há link no header** — o CTA do header aponta para o formulário | Não | Comercial |
+| Site (6 URLs indexáveis) | Em produção, saudável | Sim — GA4 sob consentimento desde 20/08/2026 | Técnico |
+| WhatsApp (`wa.me`) | Links no rodapé e na caixa de erro do formulário; também em 404 e manutenção, que não têm medição. **Não há link no header** — o CTA do header aponta para o formulário | Sim — `contato_whatsapp` no clique, sob consentimento | Comercial |
 | Canal do WhatsApp | A criar. Divulgado pelo site | Não | Marketing |
 | Comunidade do WhatsApp | 3 grupos existentes, anteriores ao programa, a serem reunidos em uma comunidade. **Não divulgada publicamente** | Não | Comercial |
-| Formulário (Web3Forms) | Funcional; coleta perfil e interesse | Não | Comercial |
-| Telefone | Publicado no site | Não | Comercial |
-| E-mail público | Publicado no site | Não | Comercial |
+| Formulário (Web3Forms) | Funcional; coleta perfil e interesse | Sim — `formulario_envio` e `formulario_erro`, com `perfil`, `interesse` e `estado_uf` | Comercial |
+| Telefone | Publicado no site | Sim — `contato_telefone` no clique | Comercial |
+| E-mail público | Publicado no site | Sim — `contato_email` no clique | Comercial |
 | Rede social oficial | Audiência real, link para o site na bio | Não | Marketing |
 | Google Business Profile | Existe; acesso disponível | Não | Marketing |
 | QR do cartão físico (`/qr`) | **Único canal com UTM** | Parcialmente | Marketing |
@@ -136,14 +138,14 @@ depender de ferramenta.
 
 Um evento por ação de contato. Nomes estáveis, definidos uma vez.
 
-| Evento | Dispara quando | Parâmetros permitidos |
-|---|---|---|
-| `contato_whatsapp` | clique em link de WhatsApp **da empresa** | `origem_secao`, `idioma` |
-| `contato_telefone` | clique em `tel:` | `origem_secao`, `idioma` |
-| `contato_email` | clique em `mailto:` | `origem_secao`, `idioma` |
-| `formulario_envio` | envio bem-sucedido | `perfil`, `interesse`, `estado_uf`, `idioma` |
-| `formulario_erro` | falha no envio | `motivo`, `idioma` |
-| `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` |
+| Evento | Dispara quando | Parâmetros permitidos | Estado |
+|---|---|---|---|
+| `contato_whatsapp` | clique em link de WhatsApp **da empresa** | `origem_secao`, `idioma` | no ar desde 21/08/2026 |
+| `contato_telefone` | clique em `tel:` | `origem_secao`, `idioma` | no ar desde 21/08/2026 |
+| `contato_email` | clique em `mailto:` | `origem_secao`, `idioma` | no ar desde 21/08/2026 |
+| `formulario_envio` | envio bem-sucedido | `perfil`, `interesse`, `estado_uf`, `idioma` | no ar desde 21/08/2026 |
+| `formulario_erro` | falha no envio | `motivo`, `idioma` | no ar desde 21/08/2026 |
+| `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` | reservado — o Canal ainda não existe |
 
 ### Onde os eventos estão ancorados
 
@@ -170,6 +172,10 @@ Nos dois casos basta marcar o elemento — o contrato já os aceita.
 
 O formulário não usa atributo: `formulario_envio` e `formulario_erro` são disparados pelo próprio
 script de envio, em `ContactSection.astro`.
+
+Duas mudanças posteriores à implementação: desde 21/08/2026, revogar o consentimento **apaga** os
+cookies `_ga` e `_ga_<sufixo>` já criados, em vez de só interromper a gravação; e desde 09/09/2026
+(PR #34) `interesse` em branco viaja como `nao_informado`, não como categoria vazia.
 
 ### Regras de implementação
 
@@ -270,24 +276,27 @@ A defesa é consistência, repetida em todos os canais:
 - **NAP idêntico** em site, perfil comercial e diretórios — depende do telefone oficial;
 - **`sameAs`** no `LocalBusiness` ligando os perfis oficiais, para que o buscador saiba que são a
   mesma entidade;
-- **descritor geográfico nos títulos**, em vez de disputar o termo genérico da marca;
+- ~~descritor geográfico nos títulos~~ — avaliado e **revogado em 20/08/2026** por decisão do cliente
+  (plano de SEO §15): a cidade não entra no título;
 - correção dos diretórios que publicam telefone divergente.
 
 ---
 
 ## 10. Checklist
 
-Executar somente após as pré-condições.
+Pré-condições atendidas em 20–21/08/2026. A execução está liberada; iniciar a trilha é decisão do
+proprietário.
 
 - [ ] Definir e travar o descritor único da marca.
 - [ ] Padronizar NAP em site, perfil comercial e diretórios.
 - [ ] Adicionar `sameAs` ao `LocalBusiness`.
 - [ ] Aplicar a convenção de UTM em todos os links de entrada.
 - [ ] Substituir o link genérico de mapa pelo link real do perfil comercial.
-- [ ] Instrumentar os cinco eventos de conversão.
-- [ ] Atualizar a CSP para o domínio de analytics.
+- [x] Instrumentar os cinco eventos de conversão — 21/08/2026; 31 verificações Playwright na entrega e 92 na suíte versionada.
+- [x] Atualizar a CSP para o domínio de analytics — 20/08/2026 (Fase C).
 - [ ] Criar a planilha de funil com as três camadas.
-- [ ] Ligar `perfil` e `interesse` ao funil.
+- [x] Ligar `perfil` e `interesse` ao analytics — parâmetros de `formulario_envio` desde 21/08/2026.
+- [ ] Ligar `perfil` e `interesse` à planilha de funil.
 - [ ] Definir painel mensal por canal.
 - [ ] Registrar baseline de cada canal antes de qualquer otimização.
 - [ ] Testar cada evento em produção sem enviar dado pessoal.
@@ -297,8 +306,8 @@ Executar somente após as pré-condições.
 ## 11. Gate
 
 - [ ] Todo canal de entrada carrega origem identificável.
-- [ ] Os cinco eventos disparam corretamente e foram verificados em produção.
-- [ ] Nenhum dado pessoal aparece em analytics — verificado, não presumido.
+- [x] Os cinco eventos disparam corretamente e foram verificados em produção — `pnpm verify:medicao` 92/92 e verificação pós-deploy em 09/09/2026.
+- [x] Nenhum dado pessoal aparece em analytics — verificado pela suíte (os dados pessoais preenchidos no teste não aparecem em parâmetro algum), não presumido.
 - [ ] O funil registra origem para todo lead recebido.
 - [ ] NAP e descritor idênticos em todos os canais oficiais.
 - [ ] Baseline por canal preenchido, com data e fonte.

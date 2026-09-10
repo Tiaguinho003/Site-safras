@@ -1,7 +1,7 @@
 # Arquitetura — Site Safras & Negócios
 
 Documento vivo. Fonte da verdade pras decisões arquiteturais do projeto.
-Última atualização: 2026-08-20 (v1 — single-page trilíngue, Fase 1 do plano de SEO publicada).
+Última atualização: 2026-09-10 (v1 — single-page trilíngue com política de privacidade; Fase 2 do plano de SEO em execução, medição ativa).
 
 > **Escopo deste documento:** decisões de arquitetura e rationale. Tokens visuais e catálogo de
 > componentes vivem em [`design-system.md`](./design-system.md). Pipeline de publicação em
@@ -56,25 +56,28 @@ Site institucional da **Safras & Negócios**, corretora de café brasileira. Rec
 
 ## 4. Estrutura de pastas
 
-Estrutura real e versionada (conferida em 2026-08-20):
+Estrutura real e versionada (conferida em 2026-09-10):
 
 ```
 site-safras/
 ├── public/                       # servidos tal qual: favicon.png, robots.txt
-├── scripts/                      # utilitários Node one-off (build, QR, captura)
+├── scripts/                      # utilitários Node (build, verificação, medição, QR, captura)
 │   ├── apply-maintenance.mjs     # roda no fim do `pnpm build` (gate de manutenção)
+│   ├── verify-medicao.mjs        # `pnpm verify:medicao` — 92 verificações (consentimento, GA4, eventos)
+│   ├── measure-psi.mjs           # PageSpeed Insights via API, mediana e amplitude
 │   ├── generate-qr.mjs           # gera o QR do cartão físico
-│   └── …                         # analyze-bg, capture-hero, measure-title, vectorize-logo…
+│   └── …                         # analyze-bg, capture-hero, measure-title, test-qr, vectorize-logo
 ├── src/
 │   ├── assets/                   # imagens otimizadas pelo Astro
 │   │   ├── about/ branding/ hero/ maps/ services/
 │   ├── components/
-│   │   ├── layout/               # Header, Footer, LanguageSwitcher, CookieConsent
+│   │   ├── layout/               # Header, Footer, LanguageSwitcher, CookieConsent, Analytics, ConversionEvents
 │   │   ├── pages/                # HomePage.astro, PrivacyPage.astro
-│   │   └── sections/             # ContactSection.astro
+│   │   └── sections/             # HeroSection.astro, ContactSection.astro
 │   ├── data/
 │   │   ├── navigation.ts         # itens do menu (anchor + labelKey)
-│   │   └── consent.ts            # contrato do consentimento (cookie, categorias)
+│   │   ├── consent.ts            # contrato do consentimento (cookie, categorias)
+│   │   └── analytics.ts          # contrato dos eventos de conversão (vocabulários fechados, track())
 │   ├── i18n/                     # dicionários e helpers de tradução
 │   │   ├── pt-br.ts en.ts es.ts  # pt-br é source of truth
 │   │   ├── anchors.ts            # mapa de anchors traduzidos (#contato/#contact)
@@ -243,7 +246,8 @@ que **vêm ligados por padrão** e são independentes do Consent Mode; sem isso 
 contradiria a política. O `cookie_expires` acompanha os 182 dias do consentimento: o cookie de
 medição não sobrevive à decisão que o autorizou.
 
-O componente é governado por `PUBLIC_GA4_MEASUREMENT_ID`. Vazia, não emite nada — e a mesma
+O componente é governado por `PUBLIC_GA4_MEASUREMENT_ID` — preenchida desde 20/08/2026, logo a
+medição está ativa em produção. Vazia, não emite nada — e a mesma
 variável escolhe qual das duas versões da seção de cookies a política renderiza
 (`PrivacyPage.astro`), de modo que o texto nunca descreva um estado diferente do real. O script vai
 por `set:html` porque, dentro de uma expressão `{cond && <script>…}`, o compilador leria
