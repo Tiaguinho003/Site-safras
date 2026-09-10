@@ -11,13 +11,23 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.3 |
-| Fase ativa | Fase 2 — Mensuração e presença oficial (código concluído; resta configuração de painel e coleta) |
+| Versão | 3.4 |
+| Fase ativa | Fase 2 — Mensuração e presença oficial (código e painel concluídos; resta a coleta comparável até 17/09/2026 e o perfil comercial) |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; as pendências restantes são de painel do Google e de tempo de coleta, não de código. Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
+| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; Search Console verificado e sitemap enviado em 20/08/2026; painel do GA4 (seis dimensões, quatro eventos principais, tráfego interno) configurado e conferido em 10/09/2026. Resta tempo de coleta (28 dias das duas fontes em 17/09/2026) e o perfil comercial, que depende de decisão em aberto. Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
 | Última revisão | 10/09/2026 |
-| Próxima revisão | Ao concluir a configuração do painel do GA4 (dimensões personalizadas, eventos principais, tráfego interno) e o envio do sitemap no Search Console |
+| Próxima revisão | A partir de 17/09/2026 — preencher o baseline com 28 dias das duas fontes, conferir as dimensões nos relatórios e avaliar o gate da Fase 2 |
 | Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.4 (10/09/2026):** frente 4 da Fase 2 executada no painel do Google, à mão, por
+decisão do proprietário (o atalho por API foi bloqueado pelo Google — ver registro): seis dimensões
+personalizadas e quatro eventos principais registrados no GA4, regra de tráfego interno do escritório
+somada à da casa, Google Signals e retenção conferidos; descoberto que o Search Console já estava
+verificado, com sitemap enviado, desde 20/08/2026 e vinculado ao GA4 desde 25/08/2026 — quatro
+trechos deste documento diziam o contrário e foram corrigidos; indexação solicitada para as quatro
+páginas ainda não indexadas; painel e cadência de revisão definidos (nova subseção da Fase 2);
+baseline agendado para 17/09/2026, quando as duas fontes completam 28 dias; §1, §6, §7, Fase 2 e §14
+atualizados.
 
 **Mudanças da versão 3.3 (10/09/2026):** o documento passa a refletir o que o registro operacional já
 dizia: a medição foi **ativada em 20/08/2026** (propriedade do GA4 e verificação do Search Console
@@ -161,7 +171,7 @@ Estas regras valem em todas as fases:
 - [x] Criar e validar localmente `robots.txt`; publicação pendente.
 - [x] Criar e validar localmente `sitemap-index.xml`; publicação pendente.
 - [x] Garantir localmente que URLs aleatórias retornem 404; correção de produção pendente.
-- [ ] Confirmar propriedade e dados no Google Search Console — acesso disponível desde 20/08/2026; verificação da propriedade ainda não executada.
+- [x] Confirmar propriedade e dados no Google Search Console — propriedade verificada e sitemap enviado pelo proprietário em 20/08/2026; conferido no painel em 10/09/2026 (*Success*, 6 páginas; 2 indexadas).
 - [x] Implantar mensuração de visitas e conversões — GA4 sob consentimento em 20/08/2026, eventos de conversão em 21/08/2026.
 - [ ] Criar páginas próprias para serviços e intenções comerciais.
 - [ ] Revisar títulos, descrições e H1 ainda genéricos.
@@ -204,7 +214,7 @@ Estas regras valem em todas as fases:
 | Equipe | Funcionários possuem capacidade técnica; nomes e perfis individuais não serão publicados nesta etapa |
 | Responsáveis | Gilson Souza: comercial, editorial, técnico e aprovador factual |
 | Registro de leads | E-mail e planilha privada aprovados; acesso por contas individuais para pessoas autorizadas dos setores de cadastro e comercial; retenção operacional de 12 meses após a última interação |
-| Acesso técnico | CLI do Firebase e do GCP `site-safras` confirmadas; domínio/DNS e Search Console ainda precisam ser verificados |
+| Acesso técnico | CLI do Firebase e do GCP `site-safras` confirmadas; acesso ao domínio/DNS disponível desde 20/08/2026; Search Console verificado em 20/08/2026 |
 | Google Business Profile | A empresa existe no Google Maps; acesso administrativo confirmado como disponível em 20/08/2026. Ajustar o perfil depende de definir qual entidade é a pública — ver decisões em aberto |
 | Google Ads | Fora do escopo atual |
 | Custos | Teto atual de R$ 0 em novas mensalidades; qualquer recurso pago exige aprovação específica |
@@ -252,7 +262,7 @@ Estas regras valem em todas as fases:
 |---:|---|---|---|
 | 0 | Governança e verdade comercial | APROVADA | Dados, acessos, responsáveis e regras aprovados |
 | 1 | Recuperação técnica | **APROVADA** | Site rastreável, indexável, rápido e sem falsos 200 |
-| 2 | Mensuração e presença oficial | **EM ANDAMENTO** (código concluído; painel e coleta pendentes) | Baseline, Search Console, Analytics e perfil comercial |
+| 2 | Mensuração e presença oficial | **EM ANDAMENTO** (código e painel concluídos; coleta comparável a partir de 17/09/2026) | Baseline, Search Console, Analytics e perfil comercial |
 | 3 | Inteligência de demanda | NÃO INICIADA | Mapa de públicos, intenções e oportunidades |
 | 4 | Arquitetura da informação | NÃO INICIADA | Estrutura de URLs, hubs e links internos |
 | 5 | Plataforma editorial | NÃO INICIADA | Conteúdo validado, versionado e publicável com segurança |
@@ -295,7 +305,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Definir Gilson Souza como responsável técnico inicial.
 - [ ] Confirmar acesso ao domínio e DNS.
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
-- [ ] Confirmar acesso ao Google Search Console.
+- [x] Confirmar acesso ao Google Search Console — disponível (20/08/2026); propriedade verificada na mesma data.
 - [x] Confirmar que a empresa possui perfil no Google Maps.
 - [x] Recuperar ou confirmar acesso administrativo ao Google Business Profile — disponível (20/08/2026); a reivindicação depende da definição da entidade pública.
 - [x] Adiar Google Analytics e novas ferramentas de mensuração até a finalização da construção do site e da página completa de privacidade.
@@ -653,18 +663,27 @@ O que ficou pronto:
 Verificado com Playwright, com um ID de teste: recusa não carrega, aceite carrega, aceite anterior
 carrega sozinho, GPC não carrega, e a configuração emitida traz os dois sinais desligados.
 
-**Estado em 10/09/2026:** as duas variáveis estão preenchidas desde 20/08/2026, e a Fase E (eventos
-de conversão, 21/08/2026) roda sobre esta comporta. A medição está **ativa sob
-consentimento**, com retenção de 14 meses confirmada no painel antes da publicação, e a meta de
-verificação do Search Console está publicada nas seis páginas — inclusive na página de manutenção,
-que é standalone e precisou receber a meta em separado para não derrubar a propriedade se a
-manutenção for ativada.
+**Estado em 10/09/2026 (fim do dia):** as duas variáveis estão preenchidas desde 20/08/2026, e a Fase
+E (eventos de conversão, 21/08/2026) roda sobre esta comporta. A medição está **ativa sob
+consentimento**, com retenção de 14 meses e Google Signals desligado — os dois conferidos na tela do
+painel em 10/09/2026 —, e a meta de verificação do Search Console está publicada nas seis páginas,
+inclusive na página de manutenção, que é standalone e precisou receber a meta em separado para não
+derrubar a propriedade se a manutenção for ativada.
 
-Fica pendente apenas o que depende de tempo e de painel: clicar em *Verify*, enviar o sitemap e
-esperar o Search Console acumular dados, o que leva de dois a três dias para começar e vinte e oito
-para uma janela comparável; e, no GA4, registrar as seis dimensões personalizadas, marcar os eventos
-principais e excluir o tráfego interno — achados da auditoria de 21/08/2026, sem os quais os
-parâmetros chegam e são descartados.
+O lado do painel, que a auditoria de 21/08/2026 apontou como pendente, foi fechado em 10/09/2026:
+as seis dimensões personalizadas registradas (tabela em
+[`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) §7), os quatro eventos
+principais marcados (`contato_whatsapp`, `contato_telefone`, `contato_email`, `formulario_envio`;
+`formulario_erro` fica fora por ser diagnóstico e `canal_whatsapp` por não ser lead e não existir
+ainda), tráfego interno excluído por regras de IP fixo da casa e do escritório com o filtro ativo. O
+Search Console, ao contrário do que este documento afirmava até esta versão, já estava **verificado
+e com o sitemap enviado desde 20/08/2026** e vinculado ao GA4 desde 25/08/2026 — feito pelo
+proprietário sem registro; em 10/09/2026 o sitemap constava como *Success* com 6 páginas, 2
+indexadas e 4 "descobertas, ainda não indexadas", para as quais a indexação foi solicitada.
+
+Fica pendente só o que depende de tempo: as dimensões passam a aparecer nos relatórios 24–48 h
+depois do registro e devem ser conferidas então; as duas fontes completam 28 dias comparáveis em
+17/09/2026, data a partir da qual o baseline pode ser preenchido.
 
 **Nota sobre desempenho:** o Lighthouse não clica em "Aceitar", então a nota continuará 100 mesmo
 depois da ativação. O custo real do GA4 recai sobre quem consente e **não aparece no laboratório** —
@@ -716,9 +735,9 @@ frase precisa acompanhar qualquer relatório.
 - [x] Publicar a política de privacidade completa nos três idiomas.
 - [x] Implementar o consentimento de cookies, com estado persistido e revogação disponível.
 - [x] Atualizar a CSP do `firebase.json` para o domínio de analytics.
-- [ ] Verificar todas as variantes necessárias no Search Console.
-- [ ] Enviar o sitemap.
-- [ ] Registrar páginas indexadas, excluídas e erros.
+- [x] Verificar todas as variantes necessárias no Search Console — uma propriedade prefixo de URL basta: `www` e `http` redirecionam 301 para o apex (registro de 20/08/2026); propriedade verificada em 20/08/2026.
+- [x] Enviar o sitemap — `sitemap-index.xml` enviado em 20/08/2026; em 10/09/2026, *Success*, 6 páginas descobertas.
+- [ ] Registrar páginas indexadas, excluídas e erros — primeira leitura em 10/09/2026: 2 indexadas (`/`, `/en/privacy`), 4 "descobertas, ainda não indexadas" com indexação solicitada, zero erro; repetir no baseline.
 - [x] Configurar analytics com consentimento apropriado (Fase D).
 - [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
 - [x] Preencher `PUBLIC_GSC_VERIFICATION` com o código do Search Console — feito em 20/08/2026.
@@ -726,11 +745,12 @@ frase precisa acompanhar qualquer relatório.
       no ar desde 21/08/2026 (Fase E); `canal_whatsapp` reservado até o Canal existir.
 - [x] Versionar a suíte de verificação da medição — `pnpm verify:medicao`, 92 verificações,
       21/08/2026.
-- [ ] Registrar as seis dimensões personalizadas e marcar os eventos principais no painel do GA4.
-      Sem isso o dado chega e fica invisível — o GA4 descarta o parâmetro e não preenche
+- [x] Registrar as seis dimensões personalizadas e marcar os eventos principais no painel do GA4 —
+      10/09/2026; quatro eventos principais (`formulario_erro` e `canal_whatsapp` fora, de propósito).
+      Sem isso o dado chegava e ficava invisível — o GA4 descarta o parâmetro e não preenche
       retroativamente.
-- [ ] Excluir acessos internos quando possível.
-- [ ] Configurar painel mensal.
+- [x] Excluir acessos internos quando possível — regras por IP fixo da casa (anterior a 10/09/2026) e do escritório (10/09/2026), filtro *Internal Traffic* ativo; endereços só no registro privado da empresa. Acessos de outras redes entram nos números.
+- [x] Configurar painel mensal — ver *Painel e cadência de revisão*, abaixo; explorações a criar a partir de 12/09/2026, quando as dimensões estiverem disponíveis nos relatórios.
 - [ ] Reivindicar ou revisar Google Business Profile.
 - [ ] Padronizar informações oficiais no perfil comercial.
 - [ ] Configurar alertas de disponibilidade e erros.
@@ -794,17 +814,48 @@ O destinatário operacional do formulário é o e-mail interno definido no regis
 | CLS p75 | — | — | CrUX/Search Console |
 | INP p75 | — | — | CrUX/Search Console |
 
-A coleta do GA4 começou em 20/08/2026, sob consentimento; a do Search Console ainda não, porque a
-propriedade não foi verificada no painel nem o sitemap enviado. As janelas de 28 dias das duas
-fontes não são comparáveis até isso acontecer.
+A coleta das duas fontes começou em 20/08/2026 — o GA4 sob consentimento e o Search Console a partir
+da verificação e do envio do sitemap, feitos pelo proprietário nesse dia. A janela de 28 dias
+comparável fecha em **17/09/2026**; preencher a tabela a partir daí, excluindo do GA4 o tráfego
+marcado como interno. Até a versão 3.3 este documento dizia que o Search Console não coletava; estava
+errado desde 20/08/2026.
+
+### Painel e cadência de revisão
+
+Definido em 10/09/2026. É a versão concreta da "Rotina mensal" da §10 para "revisar Search Console e
+conversões".
+
+**Cadência:** revisão **mensal**, na primeira semana útil do mês, comparando os últimos 28 dias com
+os 28 anteriores. Uma pessoa, cerca de 30 minutos. Cada revisão vira uma linha no
+[`registro-operacional.md`](./registro-operacional.md), só com os números que mudam alguma decisão.
+Primeira revisão: primeira semana útil de outubro de 2026, já com o baseline preenchido.
+
+**Roteiro de leitura, nesta ordem:**
+
+| # | Onde | O que ler | Pergunta que responde |
+|---|---|---|---|
+| 1 | Search Console → *Performance* | cliques, impressões, CTR e posição média; *Queries* (marca × serviço); *Pages*; *Countries*; *Devices* | O Google mostra o site? Para quais buscas? |
+| 2 | Search Console → *Pages* | páginas indexadas (esperado 6) e motivos de exclusão | Tudo o que publicamos entrou? |
+| 3 | Search Console → *Core Web Vitals* | estado mobile e desktop ("dados insuficientes" é esperado no início) | A experiência real degradou? |
+| 4 | GA4 → *Reports* → *Engagement* → *Events* e *Key events* | contagem e usuários por evento principal | Quantos contatos o site gerou? |
+| 5 | GA4 → *Explore* → **Contatos por origem** | nome do evento × *Origem da seção* | Que seção do site converte? |
+| 6 | GA4 → *Explore* → **Leads do formulário** | `formulario_envio` × *Perfil* × *Interesse* × *Estado UF* | Quem pede o quê, de onde? |
+| 7 | GA4 → *Explore* → **Conversão por canal** | *Session source/medium* × eventos principais, com taxa | Que canal vale o esforço? |
+| 8 | GA4 → *Explore* → **Saúde do formulário** | `formulario_erro` × *Motivo do erro*, ao lado de `formulario_envio` | Estamos perdendo lead em silêncio? |
+| 9 | GA4 → qualquer um acima, segmentado por *Idioma* | contatos por idioma | EN e ES merecem investimento? |
+
+As explorações 5 a 9 dependem das dimensões personalizadas, disponíveis 24–48 h após o registro de
+10/09/2026; criá-las e salvá-las com esses nomes a partir de 12/09/2026. A 7 não depende. Tempo real
+e DebugView ficam fora da cadência: servem só para depuração. Quem recusa cookies não é contado,
+então todo número do GA4 é um piso, não o total.
 
 ### Gate da Fase 2
 
-- [ ] Search Console coletando dados.
+- [x] Search Console coletando dados — propriedade verificada e sitemap enviado em 20/08/2026; desempenho de busca visível no painel em 10/09/2026.
 - [x] Analytics e eventos de conversão testados — 92 verificações automatizadas (`pnpm verify:medicao`) e verificação em produção em 09/09/2026.
 - [ ] Perfil comercial consistente.
 - [ ] Baseline preenchido.
-- [ ] Painel e cadência de revisão definidos.
+- [x] Painel e cadência de revisão definidos — 10/09/2026, subseção acima.
 
 ---
 
@@ -1398,9 +1449,9 @@ Preencher ao final de cada fase:
 Atualizado em 10/09/2026.
 
 A sequência acordada com o cliente — **Fase 1 (concluída) → privacidade e consentimento → Search
-Console e analytics → eventos de conversão** — foi executada no código entre 20 e 21/08/2026. O que
-resta da Fase 2 está no painel do Google e no tempo de coleta. Ao fim, a Fase 2 encerra e a trilha do
-ecossistema destrava.
+Console e analytics → eventos de conversão** — foi executada no código entre 20 e 21/08/2026 e no
+painel do Google entre 20/08 e 10/09/2026. O que resta da Fase 2 é tempo de coleta e o perfil
+comercial. Ao fim, a Fase 2 encerra e a trilha do ecossistema destrava.
 
 ### Concluído (20–21/08/2026)
 
@@ -1414,30 +1465,41 @@ ecossistema destrava.
 7. eventos de conversão — WhatsApp, telefone, e-mail, envio e erro de formulário — sem dado pessoal,
    com suíte de 92 verificações versionada (`pnpm verify:medicao`).
 
-### Em curso — fora do código, dependem de acesso ao painel
+### Concluído no painel (20/08 e 10/09/2026)
 
-8. Search Console: clicar em *Verify* na propriedade (a meta já está publicada) e enviar o sitemap;
-9. GA4: registrar as seis dimensões personalizadas, marcar os eventos principais e excluir o tráfego
-   interno — sem isso os parâmetros chegam e são descartados;
-10. preencher o baseline da Fase 2 quando houver 28 dias de coleta comparável nas duas fontes.
+8. Search Console: propriedade verificada e sitemap enviado em 20/08/2026 pelo proprietário (sem
+   registro à época — este documento os deu como pendentes até a versão 3.4); vínculo com o GA4 em
+   25/08/2026; coleção *Search Console* publicada no GA4; indexação solicitada em 10/09/2026 para as
+   quatro páginas ainda não indexadas;
+9. GA4, em 10/09/2026: seis dimensões personalizadas registradas, quatro eventos principais marcados,
+   regra de tráfego interno do escritório somada à da casa com o filtro ativo, Google Signals e
+   retenção conferidos. Feito à mão, no painel: o atalho por API com o cliente OAuth padrão do
+   gcloud foi bloqueado pelo Google, e o proprietário preferiu não criar credencial nova.
+
+### Em curso — dependem só de tempo
+
+10. conferir as dimensões nos relatórios e criar as explorações do painel mensal a partir de
+    12/09/2026;
+11. preencher o baseline da Fase 2 a partir de 17/09/2026, quando as duas fontes completam 28 dias
+    comparáveis.
 
 ### Resolvidas em 09–10/09/2026, fora da sequência
 
-11. hero Painel publicado e header unificado (PR #35);
-12. `interesse` em branco passa a `nao_informado` (PR #34);
-13. assets órfãos, scripts soltos e dependência sem uso removidos (PR #37);
-14. regra de cache do HTML por URL limpa corrigida e overflow horizontal no mobile eliminado
+12. hero Painel publicado e header unificado (PR #35);
+13. `interesse` em branco passa a `nao_informado` (PR #34);
+14. assets órfãos, scripts soltos e dependência sem uso removidos (PR #37);
+15. regra de cache do HTML por URL limpa corrigida e overflow horizontal no mobile eliminado
     (PR #38). Detalhe e evidência no [`registro-operacional.md`](./registro-operacional.md).
 
 ### Pendências herdadas da Fase 1
 
-15. **INP de campo** — desbloqueado com a medição ativa; depende só do acúmulo de dados reais;
-16. **registro `AAAA` ausente no domínio apex** — o `www` tem IPv6, o domínio principal não.
+16. **INP de campo** — desbloqueado com a medição ativa; depende só do acúmulo de dados reais;
+17. **registro `AAAA` ausente no domínio apex** — o `www` tem IPv6, o domínio principal não.
     Tratar quando a zona de DNS for tocada, confirmando antes no console do Firebase.
 
 ### Adiadas por decisão do cliente
 
-17. credenciais setoriais, redação final do descritor da marca e diferenciação entre comunidade e
+18. credenciais setoriais, redação final do descritor da marca e diferenciação entre comunidade e
     canal do WhatsApp — ver
     [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto).
 
