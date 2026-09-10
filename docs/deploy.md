@@ -175,8 +175,15 @@ Tudo em `firebase.json`.
 |---|---|
 | Imagens e fontes | `public, max-age=31536000, immutable` |
 | `/_astro/**` | `public, max-age=31536000, immutable` |
-| `**/*.html` | `public, max-age=300, must-revalidate` |
+| `regex ^/[^.]*$` — toda URL sem extensão (HTML limpo, 404, redirects) | `public, max-age=300, must-revalidate` |
 | `404.html` | `public, max-age=300, must-revalidate` + `X-Robots-Tag: noindex` |
+
+A regra do HTML é `regex`, não glob, **de propósito**: o `source` do Hosting casa com o caminho da
+requisição, e com `cleanUrls: true` esse caminho não tem `.html` — o glob `**/*.html` que existiu
+de 21/04 a 10/09/2026 nunca casou com nada, e as páginas saíam com o padrão do Hosting
+(`max-age=3600`). O padrão sem ponto cobre qualquer rota futura sem edição manual e não sobrepõe as
+regras `immutable`, que só casam caminhos com extensão. A CDN é limpa a cada deploy; o `max-age`
+governa o cache do navegador. `robots.txt` e `sitemap-index.xml` seguem no padrão do Hosting.
 
 ### Segurança
 
@@ -232,12 +239,15 @@ Ou reverter o commit em `main` e deixar o pipeline republicar — mais lento, po
 Mínimo, nos três idiomas:
 
 ```bash
-for u in / /en /es /robots.txt /sitemap-index.xml /url-que-nao-existe /contato /qr; do
-  curl -s -o /dev/null -w "%{http_code}  $u\n" "https://safrasenegocios.com.br$u"
+for u in / /en /es /privacidade /robots.txt /sitemap-index.xml /url-que-nao-existe /contato /qr; do
+  curl -s -o /dev/null -w "%{http_code}  %header{cache-control}  $u\n" "https://safrasenegocios.com.br$u"
 done
 ```
 
-Esperado: `200` nas cinco primeiras · `404` na inexistente · `301` em `/contato` · `302` em `/qr`.
+Esperado: `200` nas seis primeiras · `404` na inexistente · `301` em `/contato` · `302` em `/qr`.
+`Cache-Control`: `public, max-age=300, must-revalidate` em toda URL sem extensão (páginas, 404 e
+redirects); `max-age=3600` em `robots.txt` e `sitemap-index.xml`; `immutable` em `/_astro/*` e
+imagens. (`%header{}` exige curl 7.84 ou mais novo.)
 
 Conferir também: canonical e quatro alternates presentes; uma única `<h1>`; nenhum erro de console.
 
