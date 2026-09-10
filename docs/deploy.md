@@ -95,10 +95,12 @@ Para trocar ou esvaziar qualquer das duas:
 Um único deploy acende tag, verificação e texto jurídico — não há janela em que o site meça sem
 que a política diga que ele mede.
 
-No painel do Google, fora do repositório: **feito** em 20/08/2026 — retenção de 14 meses e Google
-Signals desativado; **pendente** — envio do sitemap, exclusão de tráfego interno, registro das seis
-dimensões personalizadas e marcação dos eventos principais. **O IP do escritório não é
-versionado.**
+No painel do Google, fora do repositório: **feito** — retenção de 14 meses e Google Signals
+desativado (20/08/2026; conferidos na tela em 10/09/2026); propriedade do Search Console verificada e
+sitemap enviado (20/08/2026); vínculo GA4↔Search Console (25/08/2026); seis dimensões personalizadas,
+quatro eventos principais e regra de tráfego interno do escritório somada à da casa (10/09/2026).
+**Pendente** — conferir as dimensões nos relatórios a partir de 12/09/2026 e preencher o baseline a
+partir de 17/09/2026. **Os IPs da casa e do escritório não são versionados.**
 
 ---
 

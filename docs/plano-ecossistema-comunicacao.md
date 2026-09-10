@@ -9,7 +9,7 @@
 | Campo | Valor |
 |---|---|
 | Criado em | 20/08/2026 |
-| Versão | 1.1 |
+| Versão | 1.2 |
 | Última revisão | 10/09/2026 |
 | Estado | NÃO INICIADA como trilha — **pré-condições atendidas** em 20–21/08/2026; a §7 (eventos de conversão) foi entregue pela Fase 2 do plano de SEO em 21/08/2026; o início da trilha depende de decisão do proprietário |
 | Origem | Auditoria externa de 20/08/2026 (§15 do plano de SEO) |
@@ -146,6 +146,24 @@ Um evento por ação de contato. Nomes estáveis, definidos uma vez.
 | `formulario_envio` | envio bem-sucedido | `perfil`, `interesse`, `estado_uf`, `idioma` | no ar desde 21/08/2026 |
 | `formulario_erro` | falha no envio | `motivo`, `idioma` | no ar desde 21/08/2026 |
 | `canal_whatsapp` | clique no convite para o Canal | `origem_secao`, `idioma` | reservado — o Canal ainda não existe |
+
+**Dimensões personalizadas registradas no GA4 (10/09/2026):** todas de escopo *evento*; o nome do
+parâmetro é o que o código envia e não pode ser alterado depois de salvo. Nenhuma outra dimensão
+será criada sem decisão registrada.
+
+| Dimensão (nome no GA4) | Parâmetro | Valores possíveis |
+|---|---|---|
+| Origem da seção | `origem_secao` | `rodape`, `contato`, `formulario_erro`, `politica`, `sucesso` |
+| Perfil | `perfil` | categorias fechadas do formulário |
+| Interesse | `interesse` | categorias fechadas do formulário; `nao_informado` quando em branco |
+| Estado UF | `estado_uf` | sigla de UF, `outro` ou `nao_informado` |
+| Motivo do erro | `motivo` | `rede`, `servico`, `configuracao` |
+| Idioma | `idioma` | `pt-br`, `en`, `es` |
+
+**Eventos principais no GA4 (10/09/2026):** `contato_whatsapp`, `contato_telefone`, `contato_email`
+e `formulario_envio`. `formulario_erro` fica fora por ser diagnóstico; `canal_whatsapp`, por não ser
+lead e ainda não existir. Os padrões pré-marcados pelo Google (`close_convert_lead`, `qualify_lead`)
+foram desmarcados; `purchase` é padrão travado e nunca dispara aqui.
 
 ### Onde os eventos estão ancorados
 
@@ -297,7 +315,7 @@ proprietário.
 - [ ] Criar a planilha de funil com as três camadas.
 - [x] Ligar `perfil` e `interesse` ao analytics — parâmetros de `formulario_envio` desde 21/08/2026.
 - [ ] Ligar `perfil` e `interesse` à planilha de funil.
-- [ ] Definir painel mensal por canal.
+- [x] Definir painel mensal por canal — 10/09/2026; ver plano de SEO, Fase 2, *Painel e cadência de revisão* (exploração "Conversão por canal" e leitura por origem da seção).
 - [ ] Registrar baseline de cada canal antes de qualquer otimização.
 - [ ] Testar cada evento em produção sem enviar dado pessoal.
 
