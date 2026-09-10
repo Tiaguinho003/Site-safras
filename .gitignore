@@ -37,7 +37,7 @@ firebase-debug.*.log
 # Claude local settings (per-user, não versionar)
 .claude/settings.local.json
 
-# Scripts temporários / one-off na raiz (sempre usar /tmp ou scripts/)
+# Scripts temporários / one-off (sempre usar /tmp — scripts/ é versionada, não é rascunho)
 /.extract-*
 /.temp-*
 /.scratch-*

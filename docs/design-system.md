@@ -376,7 +376,7 @@ mal quando o site crescer.
 | Dívida | Impacto | Quando tratar |
 |---|---|---|
 | `HomePage.astro` com ≈1.060 linhas concentra serviços, sobre e princípios (o hero já é componente) | Contraria a estrutura de seções que este documento propõe; dificulta edição isolada e revisão de diff | Ao criar a segunda página real (Fase 4 do plano de SEO) |
-| Assets órfãos em `src/assets/hero/` (`prova-de-xicara.jpg`, `cafe-cereja-mao.png`, ≈1,9 MB) | Peso no repositório sem uso no site | Quando houver autorização para exclusão |
+| ~~Assets órfãos em `src/assets/hero/` (`prova-de-xicara.jpg`, `cafe-cereja-mao.png`, ≈1,9 MB)~~ — **resolvida em 10/09/2026**: a varredura completa achou seis arquivos sem referência (os dois do hero mais `about/lavoura-cafe-paisagem.png`, `about/lavoura-cafe-sunset.webp`, `about/lavoura-de-cafe.webp` e `branding/safras-logo-ori.png`, ≈5,1 MB no total); todos excluídos com autorização e recuperáveis pelo histórico do Git | — | — |
 | `inlineStylesheets: "always"` embute todo o CSS em cada HTML (~164 KB por página) | Ótimo para uma página; com muitas páginas o CSS deixa de ser cacheável entre elas | Antes de publicar o primeiro lote de páginas novas |
 | Nenhum primitivo de UI extraído | Estilos de botão/input repetidos inline entre seções | Quando a terceira repetição aparecer |
 | Sem CI de qualidade (Lighthouse, axe, lint) | Toda verificação depende de disciplina manual | Lacuna aberta, sem prioridade definida |
