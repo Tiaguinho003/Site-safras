@@ -7,6 +7,13 @@
  * e um ramo de café fica em marca d'água atrás do texto. Substitui o hero
  * anterior, com foto de fundo e palavras rotativas.
  *
+ * A foto é um carrossel ambiente (set/2026): seis fotos em fusão lenta, com
+ * um zoom quase imperceptível. Só a primeira entra no HTML carregável — as
+ * demais nascem `hidden` e o script as libera uma a uma, já decodificadas,
+ * antes de cada troca, para não pesar no carregamento. Um botão discreto
+ * pausa e retoma; com `prefers-reduced-motion` o carrossel nasce pausado e
+ * as trocas são instantâneas.
+ *
  * Strings: `dict.hero.*`. Anchors: `hero` (id da seção), `contato` (CTA
  * principal) e `servicos` (link secundário, só no desktop).
  *
@@ -17,13 +24,36 @@
 import { Image } from "astro:assets";
 import { useTranslation, getAnchor } from "../../i18n";
 import heroPhoto from "../../assets/hero/hero-prova-de-xicara.jpg";
+import heroPeneira from "../../assets/hero/hero-peneira-graos.jpg";
+import heroGraosXicara from "../../assets/hero/hero-graos-e-xicara.jpg";
+import heroTorra from "../../assets/hero/hero-torra.jpg";
+import heroColheres from "../../assets/hero/hero-prova-colheres.jpg";
+import heroFachada from "../../assets/hero/hero-fachada-placa.jpg";
 import ramoCafe from "../../assets/hero/ramo-cafe.png";
-import logoRaw from "../../assets/branding/safras-logo-completo.svg?raw";
+// Variante do logo com o verde da marca (#025c00), a mesma do header.
+import logoRaw from "../../assets/branding/safras-logo-completo-escuro.svg?raw";
 
-const { t, locale, localizeAnchor } = useTranslation(Astro);
+const { t, tArray, locale, localizeAnchor } = useTranslation(Astro);
 const heroId = getAnchor("hero", locale);
 const contactHref = localizeAnchor("contato");
 const servicesHref = localizeAnchor("servicos");
+
+/**
+ * Fotos do carrossel, na ordem de exibição. A primeira é o LCP da página e
+ * continua `eager`; o `alt` dela é `hero.photoAlt`, os demais vêm de
+ * `hero.slidesAlt`, na mesma ordem. `position` é o object-position que
+ * mantém o assunto visível nos dois recortes (retrato no desktop, paisagem
+ * no mobile).
+ */
+const slidesAlt = tArray<string>("hero.slidesAlt");
+const slides = [
+  { src: heroPhoto, alt: t("hero.photoAlt"), position: "center" },
+  { src: heroPeneira, alt: slidesAlt[0], position: "45% 55%" },
+  { src: heroGraosXicara, alt: slidesAlt[1], position: "40% 50%" },
+  { src: heroTorra, alt: slidesAlt[2], position: "50% 45%" },
+  { src: heroColheres, alt: slidesAlt[3], position: "50% 50%" },
+  { src: heroFachada, alt: slidesAlt[4], position: "60% 40%" },
+];
 
 // Miolo do selo: o símbolo da marca (folha e tronco) lido do SVG oficial,
 // para não duplicar os caminhos nem sair de sincronia com o logo.
@@ -140,17 +170,54 @@ const sealDesktop = seal(150, "hero-selo-d", t("hero.seal"));
   </div>
 
   <div class="hero__media">
-    <div class="hero__photo">
-      <Image
-        src={heroPhoto}
-        alt={t("hero.photoAlt")}
-        widths={[480, 720, 960, 1200, 1600]}
-        sizes="(min-width: 768px) 45vw, 100vw"
-        class="hero__img"
-        loading="eager"
-        fetchpriority="high"
-        quality={78}
-      />
+    <div
+      class="hero__photo"
+      role="group"
+      aria-label={t("hero.carouselAriaLabel")}
+      data-hero-carousel
+      data-interval="6000"
+    >
+      {
+        slides.map((slide, i) => (
+          <div
+            class="hero__slide"
+            data-hero-slide
+            data-active={i === 0 ? "true" : "false"}
+            aria-hidden={i === 0 ? undefined : "true"}
+            hidden={i !== 0}
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              widths={i === 0 ? [480, 720, 960, 1200, 1600] : [480, 720, 960, 1200]}
+              sizes="(min-width: 768px) 45vw, 100vw"
+              class="hero__img"
+              style={`object-position: ${slide.position};`}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchpriority={i === 0 ? "high" : "low"}
+              decoding={i === 0 ? "auto" : "async"}
+              quality={i === 0 ? 78 : 72}
+            />
+          </div>
+        ))
+      }
+      <button
+        type="button"
+        class="hero__pause"
+        data-hero-toggle
+        data-state="playing"
+        aria-label={t("hero.carouselPause")}
+        data-label-pause={t("hero.carouselPause")}
+        data-label-play={t("hero.carouselPlay")}
+      >
+        <svg class="hero__pause-icon hero__pause-icon--pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <rect x="6" y="5" width="4" height="14" rx="1" />
+          <rect x="14" y="5" width="4" height="14" rx="1" />
+        </svg>
+        <svg class="hero__pause-icon hero__pause-icon--play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.5v13a1 1 0 0 0 1.52.86l10.2-6.5a1 1 0 0 0 0-1.72L9.52 4.64A1 1 0 0 0 8 5.5Z" />
+        </svg>
+      </button>
     </div>
     <div class="hero__seal hero__seal--mobile md:hidden" aria-hidden="true" set:html={sealMobile} />
     <div class="hero__seal hero__seal--desktop hidden md:block" aria-hidden="true" set:html={sealDesktop} />
@@ -258,6 +325,73 @@ const sealDesktop = seal(150, "hero-selo-d", t("hero.seal"));
     height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+
+  /* Carrossel: a foto que entra se funde por cima da atual (que só some
+     depois, escondida atrás), então o brilho nunca cai no meio da troca.
+     O zoom lento começa quando o script marca `is-live`, para a primeira
+     foto também deslizar a partir do repouso. */
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1800ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hero__slide[data-active="true"] {
+    opacity: 1;
+    z-index: 2;
+  }
+  .hero__slide[data-previous="true"] {
+    opacity: 1;
+    z-index: 1;
+    transition: none;
+  }
+  .hero__slide .hero__img {
+    transform: scale(1);
+    transition: transform 9s linear;
+  }
+  .is-live .hero__slide[data-active="true"] .hero__img {
+    transform: scale(1.06);
+  }
+
+  /* Pausar/retomar: botão discreto no canto da foto */
+  .hero__pause {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background-color: rgba(20, 19, 17, 0.35);
+    color: var(--color-paper);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition:
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+  .hero__pause:hover {
+    background-color: rgba(20, 19, 17, 0.55);
+  }
+  .hero__pause:focus-visible {
+    outline: 2px solid var(--color-paper);
+    outline-offset: 3px;
+  }
+  .hero__pause-icon--play {
+    display: none;
+    margin-left: 2px;
+  }
+  .hero__pause[data-state="paused"] .hero__pause-icon--pause {
+    display: none;
+  }
+  .hero__pause[data-state="paused"] .hero__pause-icon--play {
+    display: block;
   }
 
   /* Selo giratório na junção verde/foto */
@@ -390,11 +524,134 @@ const sealDesktop = seal(150, "hero-selo-d", t("hero.seal"));
     }
   }
 
-  /* O selo giratório vira estático e o texto entra sem animação. */
+  @media (min-width: 768px) {
+    .hero__pause {
+      right: 24px;
+      bottom: 24px;
+    }
+  }
+
+  /* O selo giratório vira estático, o texto entra sem animação e as fotos
+     trocam sem fusão nem zoom (o carrossel nasce pausado; ver script). */
   @media (prefers-reduced-motion: reduce) {
     .hero__seal :global(svg),
     .hero__rise {
       animation: none;
     }
+    .hero__slide,
+    .hero__slide .hero__img,
+    .hero__pause {
+      transition: none;
+    }
+    .is-live .hero__slide[data-active="true"] .hero__img {
+      transform: none;
+    }
   }
 </style>
+
+<script>
+  // ---------- Carrossel ambiente do hero ----------
+  // Só a primeira foto vem carregável; as outras nascem `hidden` e são
+  // liberadas (e decodificadas) uma troca antes de aparecer. Pausa fora da
+  // viewport, com a aba oculta e pelo botão; com prefers-reduced-motion
+  // nasce pausado e, se o usuário retomar, troca sem transição (CSS).
+  const carousel = document.querySelector<HTMLElement>("[data-hero-carousel]");
+  if (carousel) {
+    const slides = Array.from(
+      carousel.querySelectorAll<HTMLElement>("[data-hero-slide]")
+    );
+    const toggle = carousel.querySelector<HTMLButtonElement>("[data-hero-toggle]");
+    const interval = Number(carousel.dataset.interval) || 6000;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    let index = 0;
+    let timer: number | null = null;
+    let paused = reduceMotion;
+    let inView = true;
+    let pageVisible = !document.hidden;
+
+    const setToggle = () => {
+      if (!toggle) return;
+      toggle.dataset.state = paused ? "paused" : "playing";
+      const label = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
+      if (label) toggle.setAttribute("aria-label", label);
+    };
+
+    // Libera a foto e espera a decodificação, para a fusão não piscar.
+    const prepare = (i: number): Promise<void> => {
+      const slide = slides[i];
+      if (!slide) return Promise.resolve();
+      if (slide.hasAttribute("hidden")) slide.removeAttribute("hidden");
+      const img = slide.querySelector("img");
+      if (img && typeof img.decode === "function") {
+        return img.decode().catch(() => undefined);
+      }
+      return Promise.resolve();
+    };
+
+    const show = async (next: number) => {
+      if (next === index) return;
+      await prepare(next);
+      const current = slides[index];
+      const incoming = slides[next];
+      current.dataset.previous = "true";
+      current.dataset.active = "false";
+      current.setAttribute("aria-hidden", "true");
+      incoming.dataset.active = "true";
+      incoming.removeAttribute("aria-hidden");
+      index = next;
+      // A anterior fica opaca atrás até a fusão terminar (1,8 s no CSS).
+      window.setTimeout(() => {
+        delete current.dataset.previous;
+      }, 2000);
+      // Adianta a seguinte, para a próxima troca já encontrá-la pronta.
+      void prepare((next + 1) % slides.length);
+    };
+
+    const clear = () => {
+      if (timer !== null) {
+        window.clearTimeout(timer);
+        timer = null;
+      }
+    };
+    const schedule = () => {
+      clear();
+      if (paused || !inView || !pageVisible || slides.length < 2) return;
+      timer = window.setTimeout(async () => {
+        await show((index + 1) % slides.length);
+        schedule();
+      }, interval);
+    };
+
+    toggle?.addEventListener("click", () => {
+      paused = !paused;
+      setToggle();
+      if (!paused) void prepare((index + 1) % slides.length);
+      schedule();
+    });
+    document.addEventListener("visibilitychange", () => {
+      pageVisible = !document.hidden;
+      schedule();
+    });
+    new IntersectionObserver(
+      (entries) => {
+        inView = entries.some((entry) => entry.isIntersecting);
+        schedule();
+      },
+      { threshold: 0.15 }
+    ).observe(carousel);
+
+    setToggle();
+    requestAnimationFrame(() => carousel.classList.add("is-live"));
+
+    // A segunda foto só começa a baixar depois do load, fora do caminho do LCP.
+    const warm = () => {
+      if (!paused) void prepare(1);
+      schedule();
+    };
+    if (document.readyState === "complete") warm();
+    else window.addEventListener("load", warm, { once: true });
+  }
+</script>

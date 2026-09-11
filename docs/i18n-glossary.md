@@ -163,9 +163,18 @@ Hero "Painel", em vigor desde 09/09/2026. As frases anteriores (Tradição / Con
 | Conhecer os serviços (link, só desktop) | Explore our services | Conocer los servicios |
 | Selo: SAFRAS & NEGÓCIOS · CORRETORA DE CAFÉ · DESDE 2015 | SAFRAS & NEGÓCIOS · COFFEE BROKERAGE · SINCE 2015 | SAFRAS & NEGÓCIOS · CORRETAJE DE CAFÉ · DESDE 2015 |
 | Selo (mobile): SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 | SAFRAS & NEGÓCIOS · COFFEE · SINCE 2015 | SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 |
+| Fotos da Safras & Negócios (rótulo do carrossel) | Safras & Negócios photos | Fotos de Safras & Negócios |
+| Pausar as fotos / Retomar as fotos (botão do carrossel) | Pause the photos / Resume the photos | Pausar las fotos / Reanudar las fotos |
+| Mãos classificando grãos de café verde numa peneira sobre o tapete de provas (`alt`) | Hands grading green coffee beans on a screen over the cupping mat | Manos clasificando granos de café verde en una criba sobre el tapete de catación |
+| Grãos de café verde e xícara de café sobre o tapete da Safras & Negócios (`alt`) | Green coffee beans and a cup of coffee on the Safras & Negócios mat | Granos de café verde y una taza de café sobre el tapete de Safras & Negócios |
+| Grãos de café torrados saindo do torrador para a bandeja de resfriamento (`alt`) | Roasted coffee beans pouring from the roaster into the cooling tray | Granos de café tostados saliendo del tostador hacia la bandeja de enfriamiento |
+| Colheres de prova sobre xícaras numa sessão de análise sensorial (`alt`) | Cupping spoons over cups during a cupping session | Cucharas de catación sobre tazas durante una sesión de catación |
+| Placa da Safras & Negócios na fachada do escritório, sob céu azul (`alt`) | Safras & Negócios sign on the office facade under a blue sky | Letrero de Safras & Negócios en la fachada de la oficina bajo un cielo azul |
 
 Regras aplicadas: "café" e "mercado" em caixa alta por CSS, não no dicionário; produtor → grower;
-análise sensorial → cupping / catación no `alt` da foto; nome da cidade sem tradução.
+análise sensorial → cupping / catación nos `alt` das fotos; peneira (o objeto) → screen / criba, como
+na §3; nome da cidade sem tradução. Os `alt` do carrossel (10/09/2026) descrevem a cena sem citar a
+marca de terceiros visível na placa.
 
 ### Sobre nós
 

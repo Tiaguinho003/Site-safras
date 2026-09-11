@@ -90,6 +90,17 @@ const dict = {
     secondary: "Conocer los servicios",
     photoAlt:
       "Profesional de Safras & Negócios en catación, percibiendo el aroma del café en la cuchara",
+    // Demás fotos del carrusel del hero, en el orden en que aparecen.
+    slidesAlt: [
+      "Manos clasificando granos de café verde en una criba sobre el tapete de catación",
+      "Granos de café verde y una taza de café sobre el tapete de Safras & Negócios",
+      "Granos de café tostados saliendo del tostador hacia la bandeja de enfriamiento",
+      "Cucharas de catación sobre tazas durante una sesión de catación",
+      "Letrero de Safras & Negócios en la fachada de la oficina bajo un cielo azul",
+    ],
+    carouselAriaLabel: "Fotos de Safras & Negócios",
+    carouselPause: "Pausar las fotos",
+    carouselPlay: "Reanudar las fotos",
     seal: "SAFRAS & NEGÓCIOS · CORRETAJE DE CAFÉ · DESDE 2015 · ",
     sealMobile: "SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 · ",
   },
