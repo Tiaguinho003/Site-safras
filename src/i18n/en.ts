@@ -114,7 +114,7 @@ const dict = {
         imageAlt:
           "Office desk with a calendar, mug and Safras & Negócios business cards",
         description:
-          "We broker coffee market deals with market analysis, commercial advisory, and end-to-end oversight of every negotiation.",
+          "We broker coffee deals, with market analysis and oversight of the whole negotiation.",
         strips: [
           "Commercial advisory",
           "Physical market",
@@ -129,7 +129,7 @@ const dict = {
         imageAlt:
           "Hands sorting green coffee beans on a black Safras & Negócios grading mat",
         description:
-          "We evaluate each sample through grading, cupping, and moisture analysis, providing technical data for safer negotiations.",
+          "We evaluate every sample and deliver technical data for safer negotiations.",
         strips: ["Bean grading", "Cupping", "Moisture analysis"],
       },
       suporteLogistico: {
@@ -138,7 +138,7 @@ const dict = {
         imageAlt:
           "Safras & Negócios team overseeing the loading of coffee bags onto a truck with a forklift",
         description:
-          "We support the logistical stage of coffee — shipping and unloading scheduling, shipping invoice issuance, and full process oversight.",
+          "We schedule shipping and unloading, issue shipping invoices and oversee the whole process.",
         strips: ["Shipping", "Unloading", "After-sales support"],
       },
     },
