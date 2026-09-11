@@ -390,7 +390,8 @@ princípios e `ContactSection`. Também declara o `structuredData` (`LocalBusine
   descrição e as fichas das frentes (`services.cards.*.strips`) abrem num painel de vidro escuro na
   base só no card ativo — fichas numa linha rolável até o `lg:` e ao lado da descrição no `xl:`. O
   card compacto mostra só ícone, número e título sobre o véu claro. Fotos em `assets/services/` —
-  `mercado-negociacao.jpg` e `analise-qualidade.jpg` (10/09/2026) e `suporte-logistico.png`.
+  `mercado-negociacao.jpg` e `analise-qualidade.jpg` (10/09/2026) e `suporte-logistico.jpg`
+  (11/09/2026).
 - **Observação:** é um arquivo grande (≈1.100 linhas; o hero saiu para componente próprio em
   setembro de 2026). Ver dívidas conhecidas.
 
