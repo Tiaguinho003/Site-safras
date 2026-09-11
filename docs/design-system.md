@@ -279,7 +279,7 @@ Barra superior do site, com duas variantes que coexistem no mesmo arquivo.
   desfoca a página e um cartão de vidro fosco (filete da marca no topo) com os links — ponto verde
   marca a seção ativa —, o CTA (só abaixo de `sm:`) e o `LanguageSwitcher` inline. No tablet o
   cartão encosta à direita com 24 rem. Fecha ao clicar fora do cartão, com Esc (foco volta ao
-  hambúrguer), ao clicar num link e ao chegar em `lg:`; enquanto aberto, trava a rolagem
+  hambúrguer), ao clicar em qualquer link do cartão (seções, CTA e idiomas) e ao chegar em `lg:`; enquanto aberto, trava a rolagem
   (`overflow: hidden` no `<html>`).
 - **Responsivo:** Camada 1 + JS de rolagem — navegação vira menu hamburger abaixo de `lg:`, e a
   transição de estados das barras é controlada por JS a partir de `scroll` e `resize`; o único

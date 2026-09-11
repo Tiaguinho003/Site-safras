@@ -748,12 +748,12 @@ const contactHref = localizeAnchor("contato");
   window.addEventListener("resize", updateActive);
   updateActive();
 
-  // ---------- Close mobile menu on anchor click ----------
-  navLinks.forEach((link) => {
+  // ---------- Close mobile menu on link click ----------
+  // Qualquer link do painel fecha o menu: seções, CTA "Solicitar serviço" e
+  // idiomas. A rolagem suave do BaseLayout roda depois, no document.
+  menu?.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((link) => {
     link.addEventListener("click", () => {
-      if (menu && !menu.hasAttribute("hidden")) {
-        setMenuState(false);
-      }
+      if (isMenuOpen()) setMenuState(false);
     });
   });
 </script>
