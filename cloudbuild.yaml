@@ -20,7 +20,8 @@ steps:
       - "MAINTENANCE=0"
       # PUBLIC_WEB3FORMS_KEY: chave pública do Web3Forms usada pelo form
       # de contato (#contato). Pública por design — fica no bundle do
-      # client de qualquer jeito; domínio whitelistado no painel deles.
+      # client de qualquer jeito. A restrição por domínio do Web3Forms é recurso
+      # pago, não contratado (decisão de 21/07/2026, registro operacional).
       - "PUBLIC_WEB3FORMS_KEY=19f84f64-a60b-4447-a0d6-a858ba8a0482"
       # PUBLIC_GA4_MEASUREMENT_ID: ID de medição do GA4. Público por design —
       # aparece no HTML de qualquer implementação de GA4.
@@ -52,7 +53,7 @@ steps:
 options:
   logging: CLOUD_LOGGING_ONLY
   # Sem machineType explícito → usa default e2-medium (elegível ao free tier
-  # de 120 build-minutes/dia). Build é um pouco mais lento (~6-10 min em vez
-  # de ~3-5 min), mas custo zero em operação normal.
+  # de 120 build-minutes/dia). Builds recentes (09-10/09/2026) levaram ~1,5 min;
+  # custo zero em operação normal.
 
 timeout: "1200s"

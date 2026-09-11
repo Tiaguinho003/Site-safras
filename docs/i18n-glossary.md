@@ -1,8 +1,8 @@
 # Glossário de tradução — Safras & Negócios
 
-Documento de referência para internacionalização (i18n) do site safrasnegocios.com.br. Aqui ficam as decisões deliberadas de tradução para Inglês (EN) e Espanhol (ES), com justificativa por termo. **Toda nova string deve respeitar este glossário** — se aparecer um termo não documentado, adicionar aqui antes de traduzir.
+Documento de referência para internacionalização (i18n) do site safrasenegocios.com.br. Aqui ficam as decisões deliberadas de tradução para Inglês (EN) e Espanhol (ES), com justificativa por termo. **Toda nova string deve respeitar este glossário** — se aparecer um termo não documentado, adicionar aqui antes de traduzir.
 
-**Última atualização**: 2026-07-20
+**Última atualização**: 2026-09-10 — tabelas de frases e microcopy (§5, §7, §8) realinhadas ao que está em `src/i18n/*.ts`. Os dicionários são a fonte da verdade das **strings**; este glossário é a fonte das **decisões de termo**.
 
 ---
 
@@ -56,7 +56,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| corretora (de café) | coffee brokerage | corretaje de café 🟡 / casa corredora de café | "Broker company" é literal e awkward. "Brokerage" é o termo da indústria. |
+| corretora (de café) | coffee brokerage | corretaje de café | "Broker company" é literal e awkward. "Brokerage" é o termo da indústria. |
 | corretor | (coffee) broker | corredor de café | OK |
 | intermediação | brokerage | corretaje / intermediación | "Intermediation" em EN soa burocrático/jurídico, não comercial |
 | consultoria comercial | commercial advisory | asesoría comercial | "Advisory" soa premium B2B, "consulting" é genérico |
@@ -66,7 +66,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| produtor (de café) | coffee grower 🟡 / producer | productor (cafetero) | "Grower" eleva o tom (specialty/premium). "Producer" é mais genérico. **Ver §11** |
+| produtor (de café) | coffee grower (**locked**; não usar producer) | productor (cafetero) | "Grower" eleva o tom (specialty/premium). **Ver §11** |
 | comprador | buyer | comprador | OK |
 | exportadora | exporter / export company | exportadora | "Exporter" é mais curto e idiomático |
 | importadora | importer | importadora | OK |
@@ -79,7 +79,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| fazenda | estate 🟡 / farm | finca 🟡 / hacienda | "Estate" é premium specialty; "farm" é genérico. **Ver §11** |
+| fazenda | estate (**locked**; não usar farm) | finca (**locked**; não usar hacienda) | "Estate" é premium specialty. **Ver §11** |
 | lavoura | crop fields / coffee fields | cultivo cafetero | "Crop" sozinho é confuso (= colheita também) |
 | safra | harvest | cosecha | "Crop" em EN pode confundir com "cultivo". "Harvest" é específico. |
 | colheita | harvest (action) | cosecha (acción) | mesmo termo, contexto distingue |
@@ -106,7 +106,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 |----|-----|-----|---------------|
 | classificação (de grãos) | bean grading / classification | clasificación (de granos) | "Grading" é mais técnico; "classification" é mais formal |
 | peneira | screen size | criba / malla | OK termo técnico |
-| análise sensorial | sensory analysis / cupping 🟡 | análisis sensorial / catación | "Cupping" é específico ao café e mais reconhecido por specialty buyers |
+| análise sensorial | cupping (**locked**; não usar sensory analysis) | catación | "Cupping" é específico ao café e mais reconhecido por specialty buyers. **Ver §11** |
 | prova de xícara | cup tasting / cupping | catación / prueba de taza | "Cupping" e "catación" são padrão na indústria |
 | análise de umidade | moisture analysis | análisis de humedad | OK |
 | amostra | sample | muestra | OK |
@@ -117,7 +117,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| embarque | loading 🟡 / shipping | embarque | "Loading" = carregar caminhão/contêiner; "shipping" = movimento logístico |
+| embarque | shipping (**locked**; não usar loading) | embarque | "Shipping" é o processo logístico; "loading" seria só carregar caminhão/contêiner. **Ver §11** |
 | desembarque | unloading | desembarque | OK |
 | nota fiscal de remessa | shipping invoice / freight invoice | factura de envío / guía de remisión | varia por país |
 | agendamento de embarque | shipping scheduling | programación de embarque | OK |
@@ -134,7 +134,7 @@ Esta é a **parte mais crítica**. Tradução literal aqui mata credibilidade B2
 | Tradição | Tradition | Tradición | OK |
 | Confiança | Trust | Confianza | OK |
 | Transparência | Transparency | Transparencia | OK |
-| Seriedade | Integrity 🟡 / Reliability | Seriedad / Confiabilidad | **"Seriousness" em EN soa errado** (parece doença/gravidade). "Integrity" é melhor. |
+| Seriedade | Integrity (**locked**; não usar Reliability) | Seriedad | **"Seriousness" em EN soa errado** (parece doença/gravidade). "Integrity" é melhor. |
 | Excelência | Excellence | Excelencia | OK |
 | Compromisso | Commitment | Compromiso | OK |
 | Respeito | Respect | Respeto | OK |
@@ -173,7 +173,7 @@ análise sensorial → cupping / catación no `alt` da foto; nome da cidade sem 
 |----|-----|-----|
 | [ Sobre nós ] | [ About ] | [ Sobre Nosotros ] |
 | Conectamos a origem ao mercado. | We connect origin to market. | Conectamos el origen al mercado. |
-| Com mais de 10 anos no mercado, oferecemos consultoria e intermediação de café com a transparência e seriedade que produtores e compradores esperam. | With over 10 years in the market, we offer coffee advisory and brokerage with the transparency and integrity that growers and buyers expect. | Con más de 10 años en el mercado, ofrecemos asesoría y corretaje de café con la transparencia y seriedad que productores y compradores esperan. |
+| Desde 2015, oferecemos consultoria e intermediação de café com a transparência e seriedade que produtores e compradores esperam. | Since 2015, we have offered coffee advisory and brokerage with the transparency and integrity that growers and buyers expect. | Desde 2015, ofrecemos asesoría y corretaje de café con la transparencia y seriedad que productores y compradores esperan. |
 
 ### Serviços
 
@@ -196,9 +196,9 @@ análise sensorial → cupping / catación no `alt` da foto; nome da cidade sem 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
 | Solicitar serviço | Get started | Solicitar cotización | "Service" sozinho em EN é fraco. "Request a Quote" é B2B clássico. "Get Started" é mais punchy. **Ver §11.** Caixa de sentença desde 09/09/2026, como o resto dos botões do site |
-| Falar no WhatsApp | Chat on WhatsApp | Chatear por WhatsApp | "Message us on WhatsApp" também funciona |
+| Falar pelo WhatsApp (link direto) · Conversar pelo WhatsApp (caixa de erro) | Chat on WhatsApp (nos dois casos) | Hablar por WhatsApp · Conversar por WhatsApp | Não usar "Chatear" em ES |
 | Voltar ao topo | Back to top | Volver arriba | OK |
-| Enviar mensagem | Send message | Enviar mensaje | OK |
+| Enviar solicitação (botão do formulário) | Send request | Enviar solicitud | Acompanha o CTA "Solicitar serviço": o formulário é uma solicitação, não uma mensagem |
 
 ### Footer tagline
 
@@ -229,11 +229,11 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 |----|-----|-----|
 | Home | Home | Inicio |
 | Serviços | Services | Servicios |
-| Sobre nós | About / About Us 🟡 | Sobre nosotros |
+| Sobre nós | About | Sobre Nosotros |
 | Contato | Contact | Contacto |
 | Solicitar serviço (CTA) | Get started | Solicitar cotización |
 | Pular para o conteúdo | Skip to content | Saltar al contenido |
-| Safras & Negócios — Ir para o topo | Safras & Negócios — Back to top | Safras & Negócios — Ir arriba |
+| Safras & Negócios — Ir para o topo | Safras & Negócios — Back to top | Safras & Negócios — Volver arriba |
 | Abrir menu | Open menu | Abrir menú |
 | Fechar menu | Close menu | Cerrar menú |
 | Menu principal | Main menu | Menú principal |
@@ -242,11 +242,12 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 
 | PT | EN | ES |
 |----|-----|-----|
-| Nossa história | Our History | Nuestra Historia |
-| Nossa missão | Our Mission | Nuestra Misión |
-| Nossos valores | Our Values | Nuestros Valores |
+| Nossa história | Our history | Nuestra historia |
+| Nossa missão | Our mission | Nuestra misión |
+| Nossa visão | Our vision | Nuestra visión |
+| Nossos valores | Our values | Nuestros valores |
 | Sediado em | Based in | Con sede en |
-| Anos de história | Years in business 🟡 | Años de trayectoria |
+| Desde (rótulo do ano de fundação; substituiu "Anos de história") | Since | Desde |
 | Em breve | Coming soon | Próximamente |
 | Carregando | Loading | Cargando |
 
@@ -257,12 +258,12 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | Consultoria comercial | Commercial advisory | Asesoría comercial |
 | Mercado físico | Physical market | Mercado físico |
 | Mercado futuro | Futures market | Mercado de futuros |
-| Conexão Produção/Exportação | Production/Export connection | Conexión producción/exportación |
+| Conexão Produção/Exportação | Production/Export bridge | Conexión Producción/Exportación |
 | CPR financeira | Financial CPR | CPR financiero |
 | Classificação de grãos | Bean grading | Clasificación de granos |
-| Análise sensorial | Sensory analysis | Análisis sensorial |
+| Análise sensorial | Cupping | Catación |
 | Análise de umidade | Moisture analysis | Análisis de humedad |
-| Embarque | Loading | Embarque |
+| Embarque | Shipping | Embarque |
 | Desembarque | Unloading | Desembarque |
 | Suporte Pós Venda | After-sales support | Soporte postventa |
 
@@ -270,35 +271,61 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 
 ## 8. Formulário de contato (microcopy crítica)
 
-### Labels
+### Labels (campos reais do formulário, desde 21/07/2026)
+
+| PT | EN | ES | Nota |
+|----|-----|-----|------|
+| Nome | Name | Nombre | |
+| E-mail | Email | Correo electrónico | |
+| Telefone | Phone | Teléfono | |
+| Estado | State / Country | Estado / País | Texto livre; no analytics vira sigla de UF, `outro` ou `nao_informado` |
+| Perfil | Profile | Perfil | `<select>`, opções abaixo |
+| Interesse | Interest | Interés | `<select>` opcional, opções abaixo |
+| Mensagem | Message | Mensaje | Opcional |
+| Enviar solicitação | Send request | Enviar solicitud | Botão |
+
+Os campos "Empresa" e "Assunto", previstos na primeira versão deste glossário, não existem.
+
+### Opções de Perfil
 
 | PT | EN | ES |
 |----|-----|-----|
-| Nome | Name | Nombre |
-| E-mail | Email | Correo electrónico |
-| Telefone / WhatsApp | Phone / WhatsApp | Teléfono / WhatsApp |
-| Empresa | Company | Empresa |
-| Assunto | Subject | Asunto |
-| Mensagem | Message | Mensaje |
-| Como podemos ajudar? | How can we help? | ¿Cómo podemos ayudar? |
-| Enviar | Send | Enviar |
+| Produtor | Grower | Productor |
+| Comprador / Trader | Buyer / Trader | Comprador / Trader |
+| Exportador | Exporter | Exportador |
+| Cooperativa | Cooperative | Cooperativa |
+| Instituição financeira | Financial institution | Institución financiera |
+| Parceiro | Partner | Aliado |
+| Outro | Other | Otro |
+
+### Opções de Interesse
+
+| PT | EN | ES |
+|----|-----|-----|
+| Intermediação e negociação de café | Coffee brokerage and trading | Corretaje y negociación de café |
+| Mercado físico | Physical market | Mercado físico |
+| Mercado futuro | Futures market | Mercado de futuros |
+| CPR | CPR | CPR |
+| Classificação e análise de qualidade | Grading and quality analysis | Clasificación y análisis de calidad |
+| Prova sensorial | Cupping | Catación |
+| Embarques e conferências | Shipping and inspections | Embarques e inspecciones |
+| Outro assunto | Other subject | Otro asunto |
+
+O `value` de cada opção é um slug estável e é o que vai ao analytics — nunca o rótulo traduzido
+(decisão de 20/08/2026, registro operacional).
 
 ### Estados
 
 | PT | EN | ES |
 |----|-----|-----|
 | Enviando... | Sending... | Enviando... |
-| Mensagem enviada com sucesso! | Message sent successfully! | ¡Mensaje enviado con éxito! |
-| Obrigado, retornaremos em breve. | Thanks, we'll get back to you shortly. | Gracias, nos pondremos en contacto pronto. |
-| Ocorreu um erro. Tente novamente. | An error occurred. Please try again. | Ocurrió un error. Por favor, intente de nuevo. |
+| Recebemos sua solicitação. Nossa equipe entrará em contato pelos dados informados. | We have received your request. Our team will contact you using the details provided. | Recibimos su solicitud. Nuestro equipo se pondrá en contacto mediante los datos informados. |
+| Não foi possível enviar agora. Fale conosco por um dos canais abaixo: | Unable to send right now. Please contact us through one of the channels below: | No fue posible enviar ahora. Contáctenos a través de uno de los siguientes canales: |
 
 ### Validação
 
-| PT | EN | ES |
-|----|-----|-----|
-| Campo obrigatório | Required field | Campo obligatorio |
-| E-mail inválido | Invalid email | Correo electrónico inválido |
-| Telefone inválido | Invalid phone | Teléfono inválido |
+A validação é a nativa do navegador (`checkValidity()` / `reportValidity()`), com as mensagens do
+próprio navegador no idioma do usuário. Não há strings de validação nos dicionários.
 
 ### Mensagens contextuais do WhatsApp
 
@@ -306,7 +333,7 @@ Texto pré-preenchido ao clicar no botão WhatsApp:
 
 | PT | EN | ES |
 |----|-----|-----|
-| Olá! Gostaria de saber mais sobre os serviços da Safras & Negócios. | Hello! I'd like to learn more about Safras & Negócios' services. | ¡Hola! Me gustaría conocer más sobre los servicios de Safras & Negócios. |
+| Olá! Encontrei a Safras & Negócios pelo site e gostaria de mais informações. | Hello! I found Safras & Negócios through the website and would like more information. | ¡Hola! Encontré Safras & Negócios a través del sitio web y me gustaría recibir más información. |
 
 ---
 
@@ -318,7 +345,7 @@ público estrangeiro reconhece; em ES, a terminologia hispano-americana de prote
 
 | PT | EN | ES | Justificativa |
 |----|-----|-----|---------------|
-| dados pessoais | personal data 🟡 / personal information | datos personales | "Personal data" é o termo do GDPR. "Personal information" é o uso norte-americano — mais coloquial, menos preciso |
+| dados pessoais | personal data (não usar personal information) | datos personales | "Personal data" é o termo do GDPR. "Personal information" é o uso norte-americano — mais coloquial, menos preciso |
 | titular (dos dados) | data subject | titular (de los datos) | "Data subject" é o termo técnico consagrado. "Owner" seria errado: o titular não é proprietário no sentido patrimonial |
 | tratamento (de dados) | processing | tratamiento | ❗ **Nunca "treatment"** — em EN significa tratamento médico ou modo de lidar com alguém. "Processing" é o termo legal |
 | controlador | controller | responsable (del tratamiento) | ES hispano-americano usa "responsable", não "controlador" |
@@ -327,7 +354,7 @@ público estrangeiro reconhece; em ES, a terminologia hispano-americana de prote
 | consentimento | consent | consentimiento | OK |
 | finalidade | purpose | finalidad | ❗ Nunca "finality" |
 | compartilhamento | sharing / disclosure | compartición / comunicación | "Disclosure" quando for revelação a terceiro; "sharing" no uso corrente |
-| eliminação | erasure 🟡 / deletion | eliminación / supresión | "Erasure" é o termo do GDPR ("right to erasure"); "deletion" é o corrente |
+| eliminação | erasure (não usar deletion) | eliminación / supresión | "Erasure" é o termo do GDPR ("right to erasure"); "deletion" é o corrente |
 | anonimização | anonymization | anonimización | OK |
 | portabilidade | portability | portabilidad | OK |
 | revogar o consentimento | withdraw consent | revocar el consentimiento | ❗ Nunca "revoke consent" em EN — "withdraw" é o verbo do GDPR |
@@ -392,61 +419,61 @@ de `anchors.ts` para páginas. Ver §6.
 | 1 | "fazenda" (EN) | **estate** | farm |
 | 2 | "fazenda" (ES) | **finca** | hacienda, fazenda |
 | 3 | "produtor" (EN) | **grower** | producer |
-| 4 | CTA "Solicitar Serviço" | **Get Started** | Request a Quote, Contact Us |
+| 4 | CTA "Solicitar serviço" | **Get started** (caixa de sentença desde 09/09/2026) | Request a Quote, Contact Us |
 | 5 | "análise sensorial" (EN) | **cupping** | sensory analysis |
 | 6 | "embarque" (EN) | **shipping** | loading |
-| 7 | "Anos de história" (EN) | **Years in business** | expertise, market |
+| 7 | "Anos de história" (EN) | **Years in business** — string fora do site em 10/09/2026; o contador mostra "Desde / Since" | expertise, market |
 | 8 | "Sobre nós" (EN) | **About** | About Us |
 | 9 | "Seriedade" (EN) | **Integrity** | Reliability, Seriousness |
 
-**Racional unificado**: posicionamento da Safras é **B2B specialty premium**. Os termos escolhidos refletem isso (estate / grower / cupping = vocabulário specialty coffee); o CTA "Get Started" é punchier e mais moderno que o tradicional "Request a Quote"; "About" minimalista é o padrão de sites institucionais atuais; "Integrity" é a tradução correta de "seriedade" para B2B EN.
+**Racional unificado**: posicionamento da Safras é **B2B specialty premium**. Os termos escolhidos refletem isso (estate / grower / cupping = vocabulário specialty coffee); o CTA "Get started" é punchier e mais moderno que o tradicional "Request a Quote"; "About" minimalista é o padrão de sites institucionais atuais; "Integrity" é a tradução correta de "seriedade" para B2B EN.
 
 ### Rationale detalhado por decisão
 
-### 10.1 "fazenda" — qual termo em EN?
+### 11.1 "fazenda" — qual termo em EN?
 - **"estate"**: tom premium, vocabulário specialty coffee. Sugere fazenda grande/icônica. Bom se o público-alvo são roasters/importadoras especialty.
 - **"farm"**: genérico, mais inclusivo. Cobre fazendas de todos os tamanhos.
 - **Pergunta**: O cliente típico internacional da Safras valoriza specialty (origens, microlotes) ou é mais commodity/volume?
 
-### 10.2 "fazenda/finca" — qual termo em ES?
+### 11.2 "fazenda/finca" — qual termo em ES?
 - **"finca"**: usado em Colômbia, Costa Rica, El Salvador, Cuba. Conota cafezais de montanha.
 - **"hacienda"**: usado em México, Equador. Conota propriedade rural maior.
 - **"fazenda"**: termo brasileiro. Pode ser mantido como brasileirismo? (alguns sites mantêm)
 - **Pergunta**: Onde estão os principais prospects em ES — México (hacienda), Colômbia (finca), ou geral?
 
-### 10.3 "produtor" em EN
+### 11.3 "produtor" em EN
 - **"grower"**: específico do specialty coffee, sugere atenção à qualidade.
 - **"producer"**: genérico, cobre desde fazenda pequena até grande operação.
-- **Pergunta**: Mesmo do item 10.1.
+- **Pergunta**: Mesmo do item 11.1.
 
-### 10.4 "Solicitar Serviço" (CTA do header)
+### 11.4 "Solicitar Serviço" (CTA do header)
 - **"Request a Quote"**: B2B clássico, claro, mas pressupõe orçamento.
 - **"Get Started"**: punchy, moderno, abre conversação.
 - **"Contact Us"**: simples, conservador.
 - **"Request Service"**: literal, mas fraco.
 - **Pergunta**: Qual tom prefere — formal-comercial ou casual-convidativo?
 
-### 10.5 "análise sensorial" em EN
+### 11.5 "análise sensorial" em EN
 - **"cupping"**: termo da indústria specialty, reconhecido por roasters/importers.
 - **"sensory analysis"**: mais formal, inclui não-especialistas.
 - **Pergunta**: Os serviços são vendidos pra specialty (cupping) ou comércio geral (sensory analysis)?
 
-### 10.6 "embarque" em EN
+### 11.6 "embarque" em EN
 - **"loading"**: carregar fisicamente caminhão/contêiner.
 - **"shipping"**: o processo logístico inteiro.
 - A Safras faz a operação física ou agenda/coordena com terceiros? Define qual termo cabe.
 
-### 10.7 "Anos de história" em EN
+### 11.7 "Anos de história" em EN
 - **"Years in business"**: foca em estabilidade comercial.
 - **"Years of expertise"**: foca em know-how acumulado.
 - **"Years in the market"**: literal.
 
-### 10.8 "Sobre nós" em EN
+### 11.8 "Sobre nós" em EN
 - **"About"**: minimalista, padrão de site moderno.
 - **"About Us"**: mais formal, inclusivo (sugere humanidade).
 - Preferência?
 
-### 10.9 "Seriedade" em EN
+### 11.9 "Seriedade" em EN
 - **"Integrity"**: caráter ético, padrão B2B.
 - **"Reliability"**: confiabilidade operacional.
 - Recomendo "Integrity" mas confirma.

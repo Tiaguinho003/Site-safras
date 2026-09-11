@@ -31,7 +31,7 @@ Base branca, dois verdes da marca (extraídos dos PNGs oficiais da logo) e um ac
 | `--color-brand` | `#025c00` | `bg-brand` · `text-brand` | Verde da marca — CTAs primários |
 | `--color-brand-dark` | `#013d01` | `bg-brand-dark` | Verde escuro — hover, headings fortes, painel do hero |
 | `--color-brand-tint` | `#9ed69a` | `text-brand-tint` | Verde-claro de apoio sobre o verde escuro — sobretítulo e hover de link no hero |
-| `--color-earth` | `#3c3424` | `text-earth` | Accent terra — uso pontual |
+| `--color-earth` | `#3c3424` | `text-earth` | Accent terra — declarado e **sem uso** nos componentes em 10/09/2026; ver dívidas conhecidas |
 
 O `theme-color` do navegador (`BaseLayout.astro`) acompanha `--color-brand`: `#025c00`.
 
@@ -39,30 +39,46 @@ Fora do `@theme`, `src/styles/global.css` declara **`--site-header-h`** (`64px`;
 `md`): a altura do header, consumida por `Header.astro` e `HeroSection.astro` para que a barra em
 fluxo e a barra fixa tenham a mesma medida. Não gera utility; é lida via `var()`.
 
+Também no `@theme`: **`--font-sans`** (Inter Variable mais a pilha de fallback), que gera a utility
+`font-sans` aplicada em `global.css`. `Header.astro` declara custom properties locais — `--header-h`,
+`--header-px` e `--logo-h` — para as duas variantes da barra; não são tokens globais.
+
 > **Histórico:** até agosto de 2026 este documento e o `CLAUDE.md` descreviam uma paleta antiga
-> (`#1f6b3a` / `#134024` / `#8b5e34`) que o código já não usava havia meses. Os valores acima foram
-> conferidos diretamente contra `tokens.css`.
+> (`#1f6b3a` / `#134024` / `#8b5e34`) como se fosse a vigente. Os valores acima foram conferidos
+> diretamente contra `tokens.css`. **Resíduo em 10/09/2026:** a paleta antiga ainda aparece fora dos
+> tokens — em `src/pages/404.astro` (`#1f6b3a` e `#134024`; página standalone com CSS próprio), no
+> brilho do ponto ativo do menu em `Header.astro` (`rgba(31, 107, 58, …)`, que é `#1f6b3a`) e no
+> ícone ativo dos cards de serviço em `HomePage.astro` (`#8b5e34`). Ver dívidas conhecidas.
 
 ### Tipografia
 
 - **Family única:** Inter Variable, via `@fontsource-variable/inter` — servida localmente, sem CDN
   de terceiros. Fallback: `ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, …`.
-- Hierarquia por **peso e tamanho**, nunca por uma segunda family:
-  - Display/headings: 700–800 em 40/56/72
-  - Subheadings: 600 em 24/32
-  - Body: 400 em 16–18
-  - Metadados/UI small: 500 em 14
-- Escala: 12 · 14 · 16 · 18 · 20 · 24 · 32 · 40 · 56 · 72 (rem-based).
+- Hierarquia por **peso e tamanho**, nunca por uma segunda family. O que o código faz em
+  10/09/2026:
+  - Títulos: pesos **300 a 500** — `font-light` no `h1` da política, `font-medium` no `h1` do hero e
+    nos `h2` de seção. Não há `font-bold` nem peso acima de 600 em componente algum.
+  - Sobretítulos, rótulos e UI pequena: 500–600 (`font-medium`, `font-semibold`), de 10 a 14 px.
+  - Corpo: 400, 16–18 px.
+- **Não existe escala tipográfica em token** — `tokens.css` só declara cores e `--font-sans`. Vale a
+  escala padrão do Tailwind, e os títulos da home escapam dela com valores arbitrários em px
+  (`text-[22px]` a `text-[112px]`); o hero usa `clamp()` por idioma. Escala própria é dívida
+  registrada em §5.
 
 ### Espaçamento
 
-Escala base 4pt: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128` (px).
+Escala base 4pt: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128` (px) — é a escala padrão do
+Tailwind, sem token próprio. Exceções em uso: `py-[15px]` no CTA do hero e
+`pb-[3.6rem] md:pb-[4.5rem] lg:pb-[5.4rem]` no rodapé.
 
 ### Motion
 
-- **Scroll reveal:** fade-up (translateY 16px → 0, opacity 0 → 1), ~600ms `ease-out`, via
-  Intersection Observer.
-- **Hover em cards:** elevação sutil + sombra crescente, ~200ms `ease-out`.
+- **Scroll reveal:** fade-up (translateY 28px → 0, opacity 0 → 1), 800 ms com
+  `cubic-bezier(0.22, 1, 0.36, 1)` e atraso de 200 ms, via Intersection Observer (`HomePage.astro`).
+  Os demais reveals da home ficam entre 700 e 1100 ms.
+- **Hover em cards:** não há elevação nem sombra. Nos cards de serviço, o hover troca a proporção da
+  coluna e a borda em 500 ms e revela a descrição em 400 ms; nos cards de princípios, preenche a
+  altura em 400 ms.
 - **Rolagem:** nativa do navegador. A biblioteca `lenis` foi removida na Fase 1; o helper
   `window.__smoothScrollTo` vive em `BaseLayout.astro` e é reusado por Header e Footer.
 - **Hero:** entrada escalonada do texto (fade-up de 16 px, 900 ms, atrasos de 60 a 360 ms) e selo
@@ -116,6 +132,10 @@ import HeroMobile from './HeroMobile.astro';
 
 Custo: dois arquivos pra manter + ~5–10kb de HTML extra por seção. Benefício: cada arquivo curto, lógica isolada, dá pra evoluir um lado sem medo de quebrar o outro.
 
+**Estado em 10/09/2026:** nenhum componente usa a Camada 2. O exemplo acima é ilustrativo — o hero é
+um único arquivo (`sections/HeroSection.astro`, Camada 1) e não existe `*Mobile.astro` nem
+`*Desktop.astro` no repositório.
+
 ### Camada 3 — JS / `matchMedia` (interação dinâmica)
 
 Pra animações, scroll triggers, hover states condicionais ou qualquer comportamento JS que difere entre touch e desktop, usar `matchMedia` no client script:
@@ -165,15 +185,20 @@ Defaults do Tailwind, sem custom:
 
 `md:` é o divisor padrão entre os dois mundos. Use `lg:`/`xl:` apenas pra refinar dentro do "lado desktop", não pra separar contextos.
 
-### Container & padding (padrão inicial)
+Exceção em uso: o **header** troca a navegação completa pelo menu hamburger em `lg:` (1024 px), não
+em `md:` — entre 768 e 1023 px o site já está em modo hamburger, com o `LanguageSwitcher` inline
+dentro do menu. As seções da home e o rodapé usam `md:` como primeira quebra.
+
+### Container & padding (em uso em 10/09/2026)
 
 | Contexto | Max-width | Padding lateral |
 |---|---|---|
-| Texto longo (artigo) | `max-w-prose` (~65ch) | `px-4 md:px-6` |
-| Seção de página padrão | `max-w-6xl` (1152px) | `px-4 md:px-8 lg:px-12` |
-| Full-bleed (hero, seções imersivas) | sem max-width | `px-4 md:px-8 lg:px-12` no conteúdo interno |
+| Seções da home (serviços, sobre, princípios) | `max-w-[88rem]` | `px-6 md:px-10` |
+| Header, rodapé e seção de contato | `max-w-[100rem]` | `px-6 md:px-10` |
+| Texto longo (política de privacidade) | `max-w-[46rem]` | `px-6 md:px-10` |
+| Full-bleed (hero) | sem max-width | padding próprio do componente |
 
-Refinar conforme uso real demandar.
+Não há `max-w-6xl` nem `max-w-prose` no código. Refinar conforme uso real demandar.
 
 ---
 
@@ -214,6 +239,10 @@ Detalhes completos em [`arquitetura.md §9`](./arquitetura.md#9-acessibilidade).
 Componentes que **existem** no código, em 2026-09-10. Cada entrada documenta anatomia, props,
 estados, comportamento responsivo e acessibilidade.
 
+Fora do catálogo, porque não são componentes: as páginas standalone `pages/404.astro` e
+`pages/manutencao.astro` (CSS próprio, sem `BaseLayout`), o skip-link e o banner de sugestão de
+idioma, os dois em `BaseLayout.astro`.
+
 Não há biblioteca de primitivos (`Button`, `Input`, `Badge`…): os estilos são aplicados
 diretamente com utilities Tailwind nos componentes de seção. Extrair primitivos só se justifica
 quando a repetição doer — o que ainda não aconteceu. Ver "dívidas conhecidas" no fim.
@@ -224,8 +253,8 @@ quando a repetição doer — o que ainda não aconteceu. Ver "dívidas conhecid
 
 Barra superior do site, com duas variantes que coexistem no mesmo arquivo.
 
-- **Anatomia:** logo → navegação por anchors (`data/navigation.ts`) → `LanguageSwitcher` → CTA de
-  contato → botão de menu (mobile).
+- **Anatomia:** logo → navegação por anchors (`data/navigation.ts`) → CTA de contato →
+  `LanguageSwitcher` → botão de menu (abaixo de `lg:`).
 - **Props:** nenhuma. Deriva tudo de `Astro.url.pathname` e do locale corrente.
 - **Variantes:** as duas têm a mesma aparência — fundo branco, logo colorida, CTA verde — e a
   mesma altura, lida de `--site-header-h` (`global.css`: 64 px, 72 px a partir de `md:`). O hero
@@ -237,22 +266,24 @@ Barra superior do site, com duas variantes que coexistem no mesmo arquivo.
     quando a barra em fluxo sai da tela. Recebe `data-scroll-aware="true"` na home.
 - **Estados:** oculta ↔ visível (rolagem) · link `[data-active]` via scroll-spy · menu mobile
   aberto/fechado (`aria-expanded`).
-- **Responsivo:** Camada 1 + Camada 3 — navegação vira menu hamburger abaixo de `md:`, e a
-  transição de estados é controlada por JS conforme a rolagem.
-- **Acessibilidade:** `aria-label` próprio em cada variante, `aria-expanded` no botão de menu,
-  navegação por teclado preservada, foco visível.
+- **Responsivo:** Camada 1 + JS de rolagem — navegação vira menu hamburger abaixo de `lg:`, e a
+  transição de estados é controlada por JS a partir de `scroll` e `resize`, sem `matchMedia`.
+- **Acessibilidade:** `aria-label` na variante em fluxo e nos dois `<nav>`; a variante fixa não tem
+  `aria-label` próprio e fica `aria-hidden` e `inert` enquanto oculta na home. `aria-expanded` no
+  botão de menu, navegação por teclado preservada, foco visível.
 
 ### `layout/Footer.astro`
 
 Rodapé institucional em fundo escuro.
 
-- **Anatomia:** logo → colunas (navegação · serviços · contato · Instagram) → botão "voltar ao
-  topo" → linha de créditos.
+- **Anatomia:** colunas (logo com tagline · serviços · navegação · contato, com o Instagram como item
+  da lista de contato) → botão "voltar ao topo" → linha de créditos.
 - **Props:** nenhuma.
 - **Detalhe de conteúdo:** os links da coluna "Serviços" reusam as chaves do dicionário dos cards
   da home (`services.cards.*.title`), o que impede o rodapé de divergir da seção de serviços.
 - **Estados:** hover/focus nos links; botão de topo reusa `window.__smoothScrollTo`.
-- **Responsivo:** Camada 1 — colunas empilham no mobile.
+- **Responsivo:** Camada 1 — no mobile ficam duas colunas lado a lado (navegação e contato); logo com
+  tagline e a coluna de serviços só aparecem a partir de `md:`; quatro colunas a partir de `lg:`.
 - **Acessibilidade:** links externos com `rel="noopener noreferrer"`, ícones `aria-hidden`, nomes
   acessíveis em todos os links.
 
@@ -261,8 +292,8 @@ Rodapé institucional em fundo escuro.
 Seletor de idioma. O arquivo já carrega documentação inline detalhada — mantê-la sincronizada.
 
 - **Props:** `mode?: "dropdown" | "inline"` (default `"dropdown"`).
-  - `dropdown` — trigger compacto (bandeira + código + chevron), usado no header desktop.
-  - `inline` — três chips horizontais, usado dentro do menu hamburger mobile.
+  - `dropdown` — trigger compacto (bandeira + código + chevron), usado no header a partir de `lg:`.
+  - `inline` — três chips horizontais, usado dentro do menu hamburger (abaixo de `lg:`).
 - **Estados:** aberto/fechado · opção ativa (`aria-current`) · hover/focus.
 - **Comportamento:** ao escolher um idioma, grava o cookie `safras_locale` (1 ano), traduz o hash
   atual para o anchor equivalente (`i18n/anchors.ts`) e navega.
@@ -297,12 +328,13 @@ esquerda e a foto à direita; no mobile, a foto vai para baixo.
 
 Seção de contato: mapa, dados institucionais e formulário. É o único ponto de conversão do site.
 
-- **Anatomia:** mapa do Brasil com marcador → dados (endereço, e-mail, telefone, horário) →
-  formulário → canais alternativos (WhatsApp, e-mail).
+- **Anatomia:** mapa do Brasil com marcador → dados (e-mail, telefone, endereço, horário) →
+  formulário. Os canais alternativos (WhatsApp, e-mail) só aparecem na caixa de erro, quando um
+  envio falha.
 - **Props:** nenhuma.
 - **Campos:** `nome`, `email`, `telefone`, `estado`, `perfil` (select), `interesse` (select),
   `mensagem` + honeypot `company` (oculto, `tabindex="-1"`).
-- **Estados do formulário:** `data-state="idle" | "success"` · `aria-busy` durante o envio · botão
+- **Estados do formulário:** `data-state="idle" | "submitting" | "success" | "error"` · `aria-busy` durante o envio · botão
   desabilitado com spinner · caixa de erro com `role="alert"` · overlay de sucesso com
   `aria-live="polite"`.
 - **Integração:** POST para `https://api.web3forms.com/submit` com `access_key` vinda de
@@ -341,13 +373,16 @@ cookie.
 - **`role="dialog"` com `aria-modal="false"`:** não bloqueia a navegação nem rouba o foco.
 - **Camada:** `z-[90]`, acima do `z-[80]` da sugestão de idioma. Um fica embaixo, o outro em cima —
   conferido no mobile, sem sobreposição.
-- **Reabertura:** qualquer elemento com `data-consent-open` reabre o painel. Hoje, o link do rodapé.
+- **Reabertura:** qualquer elemento com `data-consent-open` reabre o painel. Hoje, o botão do rodapé
+  (é `<button>`, porque abre uma interface, não navega).
 
 ### `layout/Analytics.astro`
 
 - **Papel:** carrega o `gtag.js` do GA4 **só** depois de consentimento, assinando
   `window.__consent.onChange()` e usando `requestIdleCallback`. Sem `PUBLIC_GA4_MEASUREMENT_ID`
-  não emite nada — a variável está preenchida desde 20/08/2026.
+  não emite nada — a variável está preenchida no `cloudbuild.yaml` desde 20/08/2026. No build local
+  ela costuma estar vazia (`.env`): então nem este componente nem `ConversionEvents` são servidos, e
+  a política renderiza a versão sem medição.
 - **Sem UI.** Não tem estados visuais nem breakpoints; está no catálogo porque toda página o inclui
   via `BaseLayout` e porque a política de privacidade descreve exatamente o que ele faz.
 - **Privacidade:** `allow_google_signals` e `allow_ad_personalization_signals` desligados;
@@ -360,7 +395,9 @@ cookie.
   `formulario_envio` e `formulario_erro` saem do próprio script do formulário.
 - **Sem UI.** Só é servido quando a medição está ativa. Marcar um link novo é adicionar os dois
   atributos — o contrato em `src/data/analytics.ts` fecha os vocabulários aceitos.
-- **Verificação:** `pnpm verify:medicao` cobre os cinco eventos nos três idiomas.
+- **Verificação:** `pnpm verify:medicao` dispara os cinco eventos em pt-BR e um `contato_email` em
+  `/en` para conferir o parâmetro `idioma`; em `/es` a suíte confere apresentação e consentimento, não
+  eventos.
 
 ### `pages/PrivacyPage.astro`
 
@@ -400,7 +437,9 @@ mal quando o site crescer.
 |---|---|---|
 | `HomePage.astro` com ≈1.060 linhas concentra serviços, sobre e princípios (o hero já é componente) | Contraria a estrutura de seções que este documento propõe; dificulta edição isolada e revisão de diff | Ao criar a segunda página real (Fase 4 do plano de SEO) |
 | ~~Assets órfãos em `src/assets/hero/` (`prova-de-xicara.jpg`, `cafe-cereja-mao.png`, ≈1,9 MB)~~ — **resolvida em 10/09/2026**: a varredura completa achou seis arquivos sem referência (os dois do hero mais `about/lavoura-cafe-paisagem.png`, `about/lavoura-cafe-sunset.webp`, `about/lavoura-de-cafe.webp` e `branding/safras-logo-ori.png`, ≈5,1 MB no total); todos excluídos com autorização e recuperáveis pelo histórico do Git | — | — |
-| `inlineStylesheets: "always"` embute todo o CSS em cada HTML (~164 KB por página) | Ótimo para uma página; com muitas páginas o CSS deixa de ser cacheável entre elas | Antes de publicar o primeiro lote de páginas novas |
+| `inlineStylesheets: "always"` embute todo o CSS em cada HTML (≈76 KB na home e ≈63 KB na política, medidos no build de 10/09/2026) | Ótimo para uma página; com muitas páginas o CSS deixa de ser cacheável entre elas | Antes de publicar o primeiro lote de páginas novas |
+| Paleta antiga residual fora dos tokens — `404.astro` (`#1f6b3a`, `#134024`), brilho do menu em `Header.astro` (`rgba(31, 107, 58, …)`), ícone ativo dos cards em `HomePage.astro` (`#8b5e34`) — e `--color-earth` declarado sem uso | Cor fora do token não acompanha mudança de marca | Ao tocar em cada arquivo; o 404 quando deixar de ser standalone |
+| Sem escala tipográfica em token; títulos da home com tamanhos arbitrários em px | Cada título novo escolhe um número; nada garante consistência | Ao criar a segunda página real, junto com a extração de `HomePage.astro` |
 | Nenhum primitivo de UI extraído | Estilos de botão/input repetidos inline entre seções | Quando a terceira repetição aparecer |
 | Sem CI de qualidade (Lighthouse, axe, lint) | Toda verificação depende de disciplina manual | Lacuna aberta, sem prioridade definida |
 | A regra global `:focus-visible` (`global.css`) fica fora de `@layer`, então vence qualquer utility `focus-visible:outline-*` do Tailwind, que fica sem efeito | Cor ou offset de foco declarados por utility não se aplicam (hoje inofensivo: as utilities existentes repetem a cor global). Componente que precise de anel diferente usa regra própria, como o hero | Ao revisar o foco de forma global; mover a regra para `@layer base` exige antes tratar os `focus:outline-none` da home |

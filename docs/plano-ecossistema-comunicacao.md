@@ -9,7 +9,7 @@
 | Campo | Valor |
 |---|---|
 | Criado em | 20/08/2026 |
-| Versão | 1.2 |
+| Versão | 1.3 |
 | Última revisão | 10/09/2026 |
 | Estado | NÃO INICIADA como trilha — **pré-condições atendidas** em 20–21/08/2026; a §7 (eventos de conversão) foi entregue pela Fase 2 do plano de SEO em 21/08/2026; o início da trilha depende de decisão do proprietário |
 | Origem | Auditoria externa de 20/08/2026 (§15 do plano de SEO) |
@@ -177,6 +177,7 @@ ouvinte delegado em `ConversionEvents.astro` lê os dois. Mudar esta tabela é m
 | Rodapé — WhatsApp | `contato_whatsapp` | `rodape` |
 | Rodapé — "desenvolvido por" | **nenhum** | — |
 | Rodapé — Instagram | **nenhum** | — |
+| Seção de contato — endereço (link para o mapa) | **nenhum** | — |
 | Seção de contato — e-mail | `contato_email` | `contato` |
 | Seção de contato — telefone | `contato_telefone` | `contato` |
 | Caixa de erro — e-mail | `contato_email` | `formulario_erro` |
@@ -232,7 +233,9 @@ programa. Um agente que precise "só dessa vez" enviar um dado pessoal deve **pa
 
 ### Fluxo do usuário no site
 
-Decidido em 21/08/2026, antes de instrumentar.
+Decidido em 21/08/2026, antes de instrumentar. O botão de WhatsApp da tela de sucesso está decidido e
+reservado no contrato (`origem_secao: "sucesso"`, §7), mas **não foi implementado** até 10/09/2026 —
+a tela mostra só a confirmação textual. O desenho abaixo é o fluxo aprovado, não o estado do código.
 
 ```
 CTA do header ──────────► #contato ──► FORMULÁRIO
@@ -261,7 +264,7 @@ Papel de cada ponto:
 | Ponto | Papel | Por que existe |
 |---|---|---|
 | CTA do header → formulário | porta principal | Captura perfil, interesse e estado antes do primeiro contato |
-| Tela de sucesso → WhatsApp | acelerador | Os dados já foram capturados; quem tem pressa não é perdido, e o atendente recebe a conversa sabendo quem é |
+| Tela de sucesso → WhatsApp | acelerador — **previsto, não implementado em 10/09/2026** | Os dados já foram capturados; quem tem pressa não é perdido, e o atendente recebe a conversa sabendo quem é |
 | Rodapé | contato institucional | Telefone e e-mail visíveis são base da consistência de entidade e do SEO local — esconder prejudicaria trabalho que o programa está tentando consertar |
 | Caixa de erro | rede de segurança | Se o serviço de formulário falhar, é o único caminho que sobra. Sem ele, formulário quebrado = lead perdido sem ninguém saber |
 
@@ -324,7 +327,7 @@ proprietário.
 ## 11. Gate
 
 - [ ] Todo canal de entrada carrega origem identificável.
-- [x] Os cinco eventos disparam corretamente e foram verificados em produção — `pnpm verify:medicao` 92/92 e verificação pós-deploy em 09/09/2026.
+- [ ] Os cinco eventos disparam corretamente e foram verificados em produção — a suíte local `pnpm verify:medicao` passa 92/92 sobre o build com ID de teste, e a verificação pós-deploy de 09/09/2026 conferiu o código servido, não o disparo; nenhum evento foi disparado em produção de propósito (decisão de 10/09/2026). Fecha com a primeira leitura de eventos reais no GA4.
 - [x] Nenhum dado pessoal aparece em analytics — verificado pela suíte (os dados pessoais preenchidos no teste não aparecem em parâmetro algum), não presumido.
 - [ ] O funil registra origem para todo lead recebido.
 - [ ] NAP e descritor idênticos em todos os canais oficiais.

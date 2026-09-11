@@ -43,7 +43,10 @@ produção.
 | Service account | `cloud-build-deployer@site-safras.iam.gserviceaccount.com` |
 | Roles | `cloudbuild.builds.builder` · `firebasehosting.admin` · `firebase.viewer` · `logging.logWriter` |
 | Máquina | default `e2-medium` — elegível ao free tier de 120 build-minutes/dia |
-| Timeout | 1200s (build leva ~6–10 min nessa máquina) |
+| Timeout | 1200s — os builds de 09 e 10/09/2026 levaram cerca de 1,5 min |
+
+Região, nome do trigger e branch vivem na configuração do trigger, no console do Cloud Build, fora do
+repositório; `cloudbuild.yaml` só define a service account, o timeout e os passos.
 
 > ⚠️ **`gcloud builds` exige `--region=southamerica-east1`.** Sem a flag, o comando consulta a
 > região global e retorna vazio — dá a impressão de que não há builds. Isso já custou tempo de
@@ -95,8 +98,9 @@ Para trocar ou esvaziar qualquer das duas:
 Um único deploy acende tag, verificação e texto jurídico — não há janela em que o site meça sem
 que a política diga que ele mede.
 
-No painel do Google, fora do repositório: **feito** — retenção de 14 meses e Google Signals
-desativado (20/08/2026; conferidos na tela em 10/09/2026); propriedade do Search Console verificada e
+No painel do Google, fora do repositório: **feito** — retenção de 14 meses (20/08/2026) e Google
+Signals desativado (data não registrada; os dois conferidos na tela em 10/09/2026); propriedade do
+Search Console verificada e
 sitemap enviado (20/08/2026); vínculo GA4↔Search Console (25/08/2026); seis dimensões personalizadas,
 quatro eventos principais e regra de tráfego interno do escritório somada à da casa (10/09/2026).
 **Pendente** — conferir as dimensões nos relatórios a partir de 12/09/2026 e preencher o baseline a
@@ -110,9 +114,13 @@ partir de 17/09/2026. **Os IPs da casa e do escritório não são versionados.**
 
 - `MAINTENANCE` diferente de `1` → o script sai imediatamente. Build normal.
 - `MAINTENANCE=1` → a manutenção passa a ser servida em `/`, `/en` e `/es`; todo diretório de rota
-  fora da lista de preservados é removido; o resultado é validado e o build falha se algo não bater.
+  fora da lista de preservados é removido; dentro de `en/` e `es/` só o `index.html` sobrevive, para
+  que `/en/privacy` e `/es/privacidad` também saiam do ar; o resultado é validado e o build falha se
+  algo não bater.
 
-Preservados: `_astro/` (assets), `qr/` (redirect impresso no cartão físico) e as homes de idioma.
+Preservados: `_astro/` (assets), `qr/` (redirect impresso no cartão físico), as homes de idioma
+(`en/`, `es/`, só o `index.html`) e os arquivos da raiz (`404.html`, `favicon.png`, `robots.txt`,
+sitemaps). A poda de segundo nível foi acrescentada em 20/08/2026 (registro operacional).
 
 Para ativar: trocar `MAINTENANCE=0` por `MAINTENANCE=1` em `cloudbuild.yaml` e publicar.
 
@@ -154,6 +162,10 @@ estado temporário; se a manutenção passar a ser longa, traduzir antes.
 
 A resposta é HTTP 200, não 503. Hospedagem estática não permite código de status por rota. Para uma
 janela curta é irrelevante; para uma parada longa, considerar.
+
+A página de manutenção emite a mesma meta de verificação do Search Console que o `BaseLayout`, pela
+mesma variável `PUBLIC_GSC_VERIFICATION`. Sem isso a tag sumiria do domínio durante a manutenção e o
+Google poderia revogar a propriedade numa revalidação (correção de 20/08/2026).
 
 ---
 
@@ -217,6 +229,7 @@ pnpm dev        # servidor local — http://localhost:4321
 pnpm build      # build de produção em dist/ (+ gate de manutenção)
 pnpm preview    # serve o build local
 pnpm check      # astro check (TypeScript + templates)
+pnpm verify:medicao  # 92 verificações de consentimento, medição e apresentação, sobre build local com ID de teste
 pnpm deploy     # build + firebase deploy --only=hosting --project=site-safras
 ```
 
