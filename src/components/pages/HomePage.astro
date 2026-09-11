@@ -283,7 +283,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 
       <div
         id="servicos-accordion"
-        class="flex flex-col md:flex-row gap-5 md:gap-6 md:h-[500px] lg:h-[470px]"
+        class="flex flex-col lg:flex-row gap-5 lg:gap-6 lg:h-[470px]"
       >
         {servicesData.map((service, idx) => {
           const number = t(`services.cards.${service.key}.number`);
@@ -298,9 +298,9 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
           return (
             <article
               data-service-card
-              data-scroll-active-card
+              data-scroll-active-card="md"
               data-active={idx === 0 ? "true" : "false"}
-              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[2_1_0%] data-[active=true]:lg:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line min-h-[300px] md:min-h-0 md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex flex-col flex-1 lg:flex-[1_1_0%] data-[active=true]:lg:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line min-h-[340px] md:min-h-[320px] lg:min-h-0 lg:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
               tabindex="0"
               aria-label={`${number}: ${title}`}
             >
@@ -308,7 +308,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                 src={service.image}
                 alt={imageAlt}
                 widths={[400, 640, 768, 960, 1200]}
-                sizes="(min-width: 1024px) 56vw, (min-width: 768px) 60vw, 100vw"
+                sizes="(min-width: 1024px) 56vw, 100vw"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:scale-[1.03]"
                 style={`object-position: ${service.imagePosition};`}
                 loading="lazy"
@@ -322,15 +322,20 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                 class="absolute inset-0 bg-paper-alt/70 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-0"
               />
 
-              {/* Gradiente escuro do cartão ativo — profundidade atrás do painel */}
+              {/* Sombras do cartão ativo: no topo, para o título ler bem sobre a
+                  foto; na base, profundidade sob o painel. O meio fica livre. */}
               <div
                 aria-hidden="true"
                 class="absolute inset-0 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-100"
-                style="background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0.5) 100%);"
+                style="background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.4) 100%);"
               />
 
-              <div class="relative h-full p-4 md:p-5 flex flex-col justify-between gap-6">
-                <div class="flex items-start justify-between gap-4">
+              {/* flex-1 preenche a altura mínima do card empilhado; assim o painel
+                  fica na base e a foto aparece entre ele e o título. */}
+              <div class="relative flex-1 lg:h-full p-4 md:p-5 flex flex-col justify-between gap-4">
+                {/* Topo: ícone, número e título. Título ao lado do ícone; só no lg,
+                    onde o cartão compacto é estreito, ele desce para baixo do ícone. */}
+                <div class="flex items-start gap-3 lg:flex-col xl:flex-row xl:gap-4">
                   <div
                     class="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center bg-ink text-paper group-data-[active=true]:bg-paper group-data-[active=true]:text-[#8b5e34] transition-colors duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
                     aria-hidden="true"
@@ -348,40 +353,36 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                       set:html={service.iconSvg}
                     />
                   </div>
+                  <div class="min-w-0 pt-0.5 lg:pt-0 xl:pt-0.5">
+                    <span
+                      aria-hidden="true"
+                      class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand transition-colors duration-[400ms] group-data-[active=true]:text-brand-tint"
+                    >
+                      {number}
+                      <span class="h-px w-6 bg-current opacity-70"></span>
+                    </span>
+                    <h3 class="service-card__title mt-1 font-medium text-ink transition-[color,font-size,letter-spacing] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] group-data-[active=true]:text-paper">
+                      {title}
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Painel-legenda: transparente no cartão compacto, vidro escuro
-                    quando ativo. No lg+, título à esquerda e descrição + fichas à
-                    direita; até o md os detalhes abrem abaixo do título. */}
-                <div class="service-ledger relative rounded-xl border border-transparent p-4 xl:p-5">
-                  <div
-                    aria-hidden="true"
-                    class="hidden md:block absolute inset-x-4 xl:inset-x-5 -top-px h-[2px] overflow-hidden rounded-full bg-white/15 opacity-0 transition-opacity duration-[400ms] group-data-[active=true]:opacity-100"
-                  >
-                    <div class="h-full w-0 rounded-full bg-brand-tint transition-[width] duration-[700ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:w-full group-data-[active=true]:delay-[450ms]"></div>
-                  </div>
-
-                  <h3 class="sr-only">{title}</h3>
-
-                  <div class="service-ledger__grid">
-                    <div class="min-w-0" aria-hidden="true">
-                      <span class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand transition-colors duration-[400ms] group-data-[active=true]:text-brand-tint">
-                        {number}
-                        <span class="h-px w-6 bg-current opacity-70"></span>
-                      </span>
-                      <span class="service-ledger__heading mt-2 block font-medium text-ink transition-[color,font-size,letter-spacing] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] group-data-[active=true]:text-paper">
-                        {title}
-                      </span>
-                    </div>
-
-                    <div class="service-ledger__details">
-                      <div class="pt-4 lg:pt-0 opacity-0 translate-y-1 transition-[opacity,transform] duration-300 ease-out group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:delay-[380ms]">
-                        <p class="text-[14.5px] md:text-[15px] lg:text-[16px] leading-[1.55] text-paper/90">
+                {/* Base: painel de detalhes — recolhido no cartão compacto, abre em
+                    vidro escuro quando ativo. Descrição e fichas lado a lado no xl;
+                    até lá as fichas ficam numa linha rolável. */}
+                <div class="service-details">
+                  <div class="service-details__clip">
+                    <div class="service-details__panel rounded-xl border border-white/15 bg-ink/45 p-3.5 md:p-4 backdrop-blur-xl">
+                      <div class="xl:flex xl:items-start xl:gap-6">
+                        <p class="text-[14px] md:text-[14.5px] lg:text-[15px] leading-[1.5] text-paper/90 xl:flex-1">
                           {description}
                         </p>
-                        <ul class="mt-3 md:mt-4 flex flex-wrap gap-1.5" role="list">
+                        <ul
+                          class="service-details__chips mt-2.5 flex gap-1.5 xl:mt-0 xl:w-[54%] xl:shrink-0 xl:justify-end"
+                          role="list"
+                        >
                           {strips.map((strip) => (
-                            <li class="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[11.5px] md:text-[12px] font-medium text-paper/95">
+                            <li class="shrink-0 whitespace-nowrap inline-flex items-center rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[11.5px] md:text-[12px] font-medium text-paper/95">
                               {strip}
                             </li>
                           ))}
@@ -736,98 +737,88 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
   </script>
 
   <style>
-    /* ---- Cartões de serviço: painel-legenda ----
-       Transições de grid-template-* animam o reveal (Chrome 107+, Safari 16,
-       Firefox 66); onde não há suporte, o painel apenas troca de estado. */
-    .service-ledger {
-      -webkit-backdrop-filter: blur(0px);
-      backdrop-filter: blur(0px);
-      transition:
-        background-color 400ms cubic-bezier(0.48, 0, 0.11, 1),
-        border-color 400ms cubic-bezier(0.48, 0, 0.11, 1),
-        -webkit-backdrop-filter 400ms cubic-bezier(0.48, 0, 0.11, 1),
-        backdrop-filter 400ms cubic-bezier(0.48, 0, 0.11, 1);
-    }
-    [data-service-card][data-active="true"] .service-ledger {
-      background-color: rgba(20, 19, 17, 0.42);
-      border-color: rgba(255, 255, 255, 0.16);
-      -webkit-backdrop-filter: blur(18px) saturate(1.2);
-      backdrop-filter: blur(18px) saturate(1.2);
-    }
-    .service-ledger__grid {
+    /* ---- Cartões de serviço ----
+       O painel de detalhes abre animando grid-template-rows (Chrome 107+,
+       Safari 16, Firefox 66); sem suporte, apenas troca de estado. */
+    .service-details {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: auto 0fr;
-      transition:
-        grid-template-rows 500ms cubic-bezier(0.29, 0, 0.2, 1),
-        grid-template-columns 500ms cubic-bezier(0.29, 0, 0.2, 1),
-        column-gap 500ms cubic-bezier(0.29, 0, 0.2, 1);
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 500ms cubic-bezier(0.29, 0, 0.2, 1);
     }
-    [data-service-card][data-active="true"] .service-ledger__grid {
-      grid-template-rows: auto 1fr;
+    [data-service-card][data-active="true"] .service-details {
+      grid-template-rows: 1fr;
+      transition-delay: 120ms; /* a largura do cartão anda antes de abrir */
     }
-    .service-ledger__details {
-      min-width: 0;
+    .service-details__clip {
       overflow: hidden;
+      min-height: 0;
     }
-    .service-ledger__heading {
-      font-size: 1.5rem;
+    .service-details__panel {
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 300ms ease-out,
+        transform 300ms ease-out;
+    }
+    [data-service-card][data-active="true"] .service-details__panel {
+      opacity: 1;
+      transform: none;
+      transition-delay: 320ms;
+    }
+    /* Fichas: linha rolável até o lg, quebram em linhas no xl */
+    .service-details__chips {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .service-details__chips::-webkit-scrollbar {
+      display: none;
+    }
+    @media (min-width: 1280px) {
+      .service-details__chips {
+        flex-wrap: wrap;
+        overflow: visible;
+      }
+    }
+    .service-card__title {
+      font-size: 1.375rem;
       line-height: 1.15;
       letter-spacing: -0.02em;
       text-wrap: balance;
-      hyphens: auto;
     }
-    /* Do md ao lg os cartões compactos são estreitos: título menor */
+    [data-service-card][data-active="true"] .service-card__title {
+      text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
+    }
     @media (min-width: 768px) {
-      .service-ledger__heading {
+      [data-service-card][data-active="true"] .service-card__title {
+        font-size: 1.5rem;
+      }
+    }
+    /* No lg o acordeão começa e os cartões compactos são estreitos */
+    @media (min-width: 1024px) {
+      .service-card__title {
         font-size: 1.125rem;
       }
-      [data-service-card][data-active="true"] .service-ledger__heading {
-        font-size: 2rem;
-        line-height: 1.05;
-        letter-spacing: -0.035em;
-      }
-    }
-    @media (min-width: 1024px) {
-      /* O acordeão é o container: a largura do texto de detalhes é fixada
-         na largura que a coluna terá no cartão ativo, então a altura do
-         painel não muda entre estados e o texto entra em "cortina". */
-      #servicos-accordion {
-        container-type: inline-size;
-      }
-      .service-ledger__grid {
-        grid-template-rows: auto;
-        grid-template-columns: minmax(0, 1fr) 0fr;
-        column-gap: 0;
-        align-items: end;
-      }
-      [data-service-card][data-active="true"] .service-ledger__grid {
-        grid-template-rows: auto;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-        column-gap: 2rem;
-      }
-      /* 74px = paddings do cartão (20) e do painel (16) dos dois lados + borda */
-      .service-ledger__details > div {
-        width: 14rem;
-        width: calc(((100cqw - 48px) * 0.6 - 74px - 2rem) * 0.55);
+      [data-service-card][data-active="true"] .service-card__title {
+        font-size: 1.75rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
       }
     }
     @media (min-width: 1280px) {
-      /* 82px = paddings de 20 + 20 dos dois lados + borda */
-      .service-ledger__details > div {
-        width: calc(((100cqw - 48px) * 0.6 - 82px - 2rem) * 0.55);
+      .service-card__title {
+        font-size: 1.25rem;
       }
-      .service-ledger__heading {
-        font-size: 1.5rem;
-      }
-      [data-service-card][data-active="true"] .service-ledger__heading {
-        font-size: 2.625rem;
+      [data-service-card][data-active="true"] .service-card__title {
+        font-size: 2.5rem;
+        letter-spacing: -0.035em;
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      .service-ledger,
-      .service-ledger__grid,
-      .service-ledger__heading {
+      .service-details,
+      .service-details__panel,
+      .service-card__title {
         transition: none;
       }
     }
@@ -993,14 +984,16 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 
   <script>
     /* ========================================================================
-       SCROLL-ACTIVE CARDS (MOBILE ONLY)
+       SCROLL-ACTIVE CARDS (MOBILE E TABLET)
        ========================================================================
        Em mobile (<768px) o hover não existe. Substituímos por um sistema de
        "scroll-focus": o card mais centralizado na viewport ganha data-active.
        Isso dispara os mesmos visuais do hover (overlay, descrição, etc).
 
        Gating:
-       - matchMedia("(max-width: 767px)") — só roda em mobile
+       - matchMedia("(max-width: 767px)") — todos os cards marcados
+       - até 1023px, só os cards com data-scroll-active-card="md" (serviços,
+         que ficam empilhados até o lg)
        - prefers-reduced-motion → respeita escolha do usuário (sem efeito)
 
        Algoritmo:
@@ -1019,6 +1012,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
          o breakpoint (resize)
     ======================================================================== */
     const mql = window.matchMedia("(max-width: 767px)");
+    const mqlTablet = window.matchMedia("(max-width: 1023px)");
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -1073,7 +1067,7 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
       if (scrollAttached) return;
       const allCards = Array.from(
         document.querySelectorAll<HTMLElement>("[data-scroll-active-card]")
-      );
+      ).filter((card) => mql.matches || card.dataset.scrollActiveCard === "md");
       if (allCards.length === 0) return;
 
       // Snapshot inicial pra restaurar se voltar pro desktop
@@ -1142,12 +1136,14 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 
     const apply = () => {
       if (prefersReducedMotion) return;
-      if (mql.matches) attachMobile();
-      else detachMobile();
+      // Recompõe o conjunto de cards a cada mudança de breakpoint
+      detachMobile();
+      if (mqlTablet.matches) attachMobile();
     };
 
     // Listener de mudança de viewport (rotação, resize, devtools)
     mql.addEventListener("change", apply);
+    mqlTablet.addEventListener("change", apply);
     apply();
   </script>
 </BaseLayout>

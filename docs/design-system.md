@@ -77,9 +77,9 @@ Tailwind, sem token próprio. Exceções em uso: `py-[15px]` no CTA do hero e
   `cubic-bezier(0.22, 1, 0.36, 1)` e atraso de 200 ms, via Intersection Observer (`HomePage.astro`).
   Os demais reveals da home ficam entre 700 e 1100 ms.
 - **Hover em cards:** não há elevação nem sombra. Nos cards de serviço, o hover troca a proporção da
-  coluna em 500 ms, escurece o painel-legenda (vidro fosco) em 400 ms e abre a coluna de descrição
-  e fichas animando `grid-template-columns` (500 ms), com o texto surgindo após 380 ms; nos cards
-  de princípios, preenche a altura em 400 ms.
+  coluna em 500 ms, escurece topo e base da foto em 400 ms e abre o painel de detalhes animando
+  `grid-template-rows` (500 ms, após 120 ms), com o vidro fosco surgindo após 320 ms; nos cards de
+  princípios, preenche a altura em 400 ms.
 - **Menu mobile:** backdrop em 240 ms, cartão em 320 ms (fade + leve escala) e itens escalonados a
   cada 45 ms via `--i`. Tudo desliga com `prefers-reduced-motion`.
 - **Rolagem:** nativa do navegador. A biblioteca `lenis` foi removida na Fase 1; o helper
@@ -369,14 +369,14 @@ princípios e `ContactSection`. Também declara o `structuredData` (`LocalBusine
 `BaseLayout`.
 
 - **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
-- **Cards de serviço:** acordeão `[data-service-card]` com `data-active` (hover, foco e, no
-  mobile, rolagem). Cada card tem um painel-legenda (`.service-ledger`): transparente no card
-  compacto (número e título em `ink` sobre véu claro) e vidro escuro no ativo, com título à
-  esquerda e descrição + fichas (`services.cards.*.strips`) à direita a partir de `lg:`; até `md:`
-  os detalhes abrem abaixo do título. Proporção 2:1:1 no `md:`, 3:1:1 no `lg:`. A largura do texto
-  de detalhes é fixada em unidades de container (`cqw`) do acordeão, para o painel não mudar de
-  altura entre estados. Fotos em `assets/services/` — `mercado-negociacao.jpg` e
-  `analise-qualidade.jpg` (10/09/2026) e `suporte-logistico.png`.
+- **Cards de serviço:** `[data-service-card]` com `data-active` (hover, foco e, até o `lg:`,
+  rolagem — `data-scroll-active-card="md"`). Empilhados em largura total até o `md:`; acordeão
+  3:1:1 a partir do `lg:` (470 px de altura). Número e título ficam no topo, ao lado do ícone
+  (embaixo dele só no `lg:`, onde o card compacto tem 180 px); a foto fica livre no meio; a
+  descrição e as fichas das frentes (`services.cards.*.strips`) abrem num painel de vidro escuro na
+  base só no card ativo — fichas numa linha rolável até o `lg:` e ao lado da descrição no `xl:`. O
+  card compacto mostra só ícone, número e título sobre o véu claro. Fotos em `assets/services/` —
+  `mercado-negociacao.jpg` e `analise-qualidade.jpg` (10/09/2026) e `suporte-logistico.png`.
 - **Observação:** é um arquivo grande (≈1.100 linhas; o hero saiu para componente próprio em
   setembro de 2026). Ver dívidas conhecidas.
 

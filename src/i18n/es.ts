@@ -115,7 +115,7 @@ const dict = {
         imageAlt:
           "Escritorio con calendario, taza y tarjetas de visita de Safras & Negócios",
         description:
-          "Intermediamos negocios en el mercado del café con análisis de mercado, asesoría comercial y acompañamiento completo de la negociación.",
+          "Intermediamos negocios en el mercado del café, con análisis de mercado y acompañamiento de toda la negociación.",
         strips: [
           "Asesoría comercial",
           "Mercado físico",
@@ -130,7 +130,7 @@ const dict = {
         imageAlt:
           "Manos separando granos de café verde sobre un tapete negro de clasificación de Safras & Negócios",
         description:
-          "Evaluamos cada muestra mediante clasificación, catación y análisis de humedad, ofreciendo información técnica para una negociación más segura.",
+          "Evaluamos cada muestra y entregamos información técnica para una negociación más segura.",
         strips: [
           "Clasificación de granos",
           "Catación",
@@ -143,7 +143,7 @@ const dict = {
         imageAlt:
           "Equipo de Safras & Negócios supervisando la carga de sacos de café en camión con montacargas",
         description:
-          "Apoyamos la etapa logística del café — programación de embarques y desembarques, emisión de facturas de envío y acompañamiento completo del proceso.",
+          "Programamos embarques y desembarques, emitimos facturas de envío y acompañamos todo el proceso.",
         strips: ["Embarque", "Desembarque", "Soporte postventa"],
       },
     },
