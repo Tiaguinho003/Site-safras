@@ -11,13 +11,23 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.4 |
-| Fase ativa | Fase 2 — Mensuração e presença oficial (código e painel concluídos; resta a coleta comparável até 17/09/2026 e o perfil comercial) |
+| Versão | 3.5 |
+| Fase ativa | Fase 2 — Mensuração e presença oficial (código e painel concluídos; resta a coleta comparável até 17/09/2026, o perfil comercial e dois itens operacionais do checklist: alertas e registro de consumo) |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; Search Console verificado e sitemap enviado em 20/08/2026; painel do GA4 (seis dimensões, quatro eventos principais, tráfego interno) configurado e conferido em 10/09/2026. Resta tempo de coleta (28 dias das duas fontes em 17/09/2026) e o perfil comercial, que depende de decisão em aberto. Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
+| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; Search Console verificado e sitemap enviado em 20/08/2026; painel do GA4 (seis dimensões, quatro eventos principais, tráfego interno) configurado e conferido em 10/09/2026. Resta tempo de coleta (28 dias das duas fontes em 17/09/2026), o perfil comercial, que depende de decisão em aberto, e dois itens operacionais do checklist (alertas de disponibilidade e registro de consumo do GCP). Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
 | Última revisão | 10/09/2026 |
 | Próxima revisão | A partir de 17/09/2026 — preencher o baseline com 28 dias das duas fontes, conferir as dimensões nos relatórios e avaliar o gate da Fase 2 |
 | Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+
+**Mudanças da versão 3.5 (10/09/2026):** higiene documental. Auditoria cruzada de todos os documentos
+contra o código e entre si (ver registro). Neste documento: itens da §6 que ainda diziam "publicação
+pendente" ou seguiam abertos apesar de entregues pela Fase 1 marcados com data; contradição interna da
+Fase 0 (acesso a domínio e DNS) fechada; sitemap de "três URLs" anotado como ampliado para seis em
+20/08/2026; Fase 2 ganha a legenda das frentes A–E, corrige a contagem de páginas com a meta de
+verificação, a data da leitura do sitemap, as rotas com revogação de consentimento e a lista de
+parâmetros do analytics; "Configurar painel mensal" volta a aberto até as explorações existirem;
+referência à "Rotina mensal" corrigida para a Fase 11; §1 e §14 passam a citar os dois itens
+operacionais ainda abertos no checklist da Fase 2.
 
 **Mudanças da versão 3.4 (10/09/2026):** frente 4 da Fase 2 executada no painel do Google, à mão, por
 decisão do proprietário (o atalho por API foi bloqueado pelo Google — ver registro): seis dimensões
@@ -167,22 +177,23 @@ Estas regras valem em todas as fases:
 ### Problemas críticos confirmados ou a corrigir
 
 - [x] Confirmado em 20/07/2026: a regra curinga do Firebase envia URLs inexistentes para a página inicial com status 200.
-- [x] Criar e validar localmente um `404` real; publicação pendente.
-- [x] Criar e validar localmente `robots.txt`; publicação pendente.
-- [x] Criar e validar localmente `sitemap-index.xml`; publicação pendente.
-- [x] Garantir localmente que URLs aleatórias retornem 404; correção de produção pendente.
+- [x] Criar e validar localmente um `404` real — publicado em 21/07/2026 (Fase 1).
+- [x] Criar e validar localmente `robots.txt` — publicado em 21/07/2026.
+- [x] Criar e validar localmente `sitemap-index.xml` — publicado em 21/07/2026; seis URLs desde 20/08/2026.
+- [x] Garantir localmente que URLs aleatórias retornem 404 — em produção desde 21/07/2026.
 - [x] Confirmar propriedade e dados no Google Search Console — propriedade verificada e sitemap enviado pelo proprietário em 20/08/2026; conferido no painel em 10/09/2026 (*Success*, 6 páginas; 2 indexadas).
 - [x] Implantar mensuração de visitas e conversões — GA4 sob consentimento em 20/08/2026, eventos de conversão em 21/08/2026.
 - [ ] Criar páginas próprias para serviços e intenções comerciais.
-- [ ] Revisar títulos, descrições e H1 ainda genéricos.
-- [ ] Adicionar dados estruturados somente quando correspondam ao conteúdo visível.
-- [ ] Adicionar metadados sociais e identidade local consistente.
-- [ ] Otimizar imagens grandes e remover atrasos artificiais de carregamento.
+- [x] Revisar títulos, descrições e H1 ainda genéricos — revisão inicial nos três idiomas em 21/07/2026 (Fase 1); nova revisão só com dados do Search Console.
+- [x] Adicionar dados estruturados somente quando correspondam ao conteúdo visível — `LocalBusiness` institucional em 21/07/2026 (Fase 1).
+- [x] Adicionar metadados sociais — Open Graph, Twitter Cards e imagem social real em 21/07/2026 (Fase 1).
+- [ ] Identidade local consistente nas presenças externas (diretórios, perfil comercial) — depende do descritor; ver §15 e o plano do ecossistema.
+- [x] Otimizar imagens grandes e remover atrasos artificiais de carregamento — 21/07/2026 (Fase 1); performance 100 confirmada em 20/08/2026.
 - [x] Confirmado: a detecção automática de idioma deve ser substituída por sugestão que respeite a URL solicitada.
 - [x] Confirmado: os depoimentos atuais não são reais.
 - [x] Remover integralmente os depoimentos não reais do código e do build nos três idiomas.
 - [x] Confirmar em produção a remoção dos depoimentos não verificáveis.
-- [x] Criar aviso resumido de privacidade junto ao formulário no código local; publicação pendente.
+- [x] Criar aviso resumido de privacidade junto ao formulário — publicado em 21/07/2026; política completa em 20/08/2026.
 - [ ] Revisar o uso do Web3Forms, sua retenção e transferência internacional de dados.
 - [ ] Diferenciar a entidade Safras & Negócios de marcas semelhantes nos metadados e presenças oficiais.
 
@@ -241,7 +252,7 @@ Estas regras valem em todas as fases:
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
 - [x] Confirmar acessos ao domínio/DNS e Google Search Console — disponíveis (20/08/2026).
 - [x] Recuperar ou confirmar acesso administrativo ao Google Business Profile — disponível (20/08/2026); a reivindicação depende da definição da entidade pública.
-- [x] Aprovar e implementar aviso resumido de uso dos dados junto ao formulário; página completa de privacidade conscientemente adiada.
+- [x] Aprovar e implementar aviso resumido de uso dos dados junto ao formulário; a página completa de privacidade, adiada à época, foi publicada em 20/08/2026 (Fase B).
 - [x] Aprovar a execução da ação extraordinária H0.
 - [x] Aprovar e-mail mais planilha privada como modelo operacional inicial de leads.
 
@@ -303,7 +314,7 @@ Definir o que a Safras & Negócios pode afirmar publicamente, quem valida o cont
 - [x] Definir Gilson Souza como responsável comercial pelos contatos recebidos.
 - [x] Definir Gilson Souza como responsável editorial inicial.
 - [x] Definir Gilson Souza como responsável técnico inicial.
-- [ ] Confirmar acesso ao domínio e DNS.
+- [x] Confirmar acesso ao domínio e DNS — disponível desde 20/08/2026 (mesma confirmação da pendência acima).
 - [x] Confirmar acesso CLI ao Firebase/GCP `site-safras`.
 - [x] Confirmar acesso ao Google Search Console — disponível (20/08/2026); propriedade verificada na mesma data.
 - [x] Confirmar que a empresa possui perfil no Google Maps.
@@ -408,7 +419,7 @@ Estas decisões estão aprovadas. Cada item só será considerado concluído ap�
 5. **Descrição PT da página inicial:** “Intermediação e serviços para o mercado de café, com suporte em mercado físico e futuro, CPR, qualidade, prova sensorial, embarques e conferências.” EN e ES terão traduções equivalentes e revisadas.
 6. **Imagem social:** criar posteriormente uma imagem horizontal própria, em alta resolução, baseada em atividade ou ambiente real da empresa e com marca discreta; evitar arte composta apenas por logotipo ou excesso de texto.
 7. **Dados estruturados:** implementar `LocalBusiness` com nome, endereço, telefone internacional, e-mail público, horário, URL canônica, fundação em 19/10/2015 e imagem real da empresa. Não incluir proprietário, funcionários, avaliações, clientes, preços ou logotipos de terceiros.
-8. **Sitemap inicial:** incluir somente `/`, `/en` e `/es`. Excluir `/contato`, `/qr`, `/manutencao`, 404, redirecionamentos, URLs experimentais e inexistentes.
+8. **Sitemap inicial:** incluir somente `/`, `/en` e `/es` (ampliado para seis URLs em 20/08/2026, com as três páginas de privacidade). Excluir `/contato`, `/qr`, `/manutencao`, 404, redirecionamentos, URLs experimentais e inexistentes.
 9. **Robots e indexação:** permitir rastreamento das páginas públicas, indicar o sitemap em `robots.txt` e usar `noindex` nas páginas que não devem aparecer, sem tentar usar `robots.txt` como substituto de `noindex`.
 10. **Publicação:** implementar e testar localmente junto das demais mudanças; commit, PR e deploy somente quando o conjunto estiver pronto e houver nova autorização.
 
@@ -416,7 +427,7 @@ Estas decisões estão aprovadas. Cada item só será considerado concluído ap�
 
 - fallback curinga removido do Firebase Hosting;
 - 404 trilíngue, responsivo e com `noindex`;
-- `robots.txt` explícito e sitemap oficial com somente `/`, `/en` e `/es`;
+- `robots.txt` explícito e sitemap oficial com somente `/`, `/en` e `/es` (seis URLs desde 20/08/2026);
 - canonical normalizado, `hreflang`, Open Graph e Twitter Cards validados nos três idiomas;
 - imagem social real da fachada gerada em 1200 × 630, reduzida de aproximadamente 525 KB para 60 KB;
 - `LocalBusiness` com dados públicos aprovados, sem proprietário, avaliações, clientes ou terceiros;
@@ -494,7 +505,7 @@ As três execuções de ES variaram entre 89, 90 e 99 de performance, com TBT en
 - [x] Implementar `robots.txt` explícito.
 - [x] Instalar a integração oficial e gerar `sitemap-index.xml` somente com URLs canônicas e indexáveis.
 - [x] Validar `canonical`, idioma e alternates nas três páginas principais.
-- [x] Manter registro explícito das três URLs indexáveis e traduções correspondentes.
+- [x] Manter registro explícito das três URLs indexáveis e traduções correspondentes — hoje seis, em `src/i18n/routes.ts`.
 - [x] Substituir o redirecionamento automático por sugestão de idioma.
 - [x] Revisar localmente códigos HTTP e redirects; revalidação pública permanece para o deploy.
 - [x] Aplicar `noindex` ao 404, manutenção e fallbacks das rotas auxiliares.
@@ -600,6 +611,11 @@ para o domínio antes de alterar a zona.
 
 **Estado:** EM ANDAMENTO desde 20/08/2026
 
+**Frentes internas por letra:** as entregas de código da Fase 2 foram organizadas em frentes A–E, uma
+PR cada — A, medição confiável de performance que encerrou a Fase 1 (PR #25); B, política de
+privacidade (PR #26); C, consentimento (PR #27); D, medição sob consentimento (PR #28); E, eventos de
+conversão (PR #33). As letras aparecem ao longo desta seção e no registro operacional.
+
 ### Objetivo
 
 Criar uma linha de base confiável. Sem mensuração, não há como distinguir crescimento real de impressão subjetiva.
@@ -631,7 +647,7 @@ O que ficou pronto:
   publicidade, e travar no código impede concessão por descuido de configuração;
 - **Global Privacy Control respeitado** — quem já sinalizou a escolha no navegador não é
   interrompido;
-- revogação pelo rodapé, em qualquer página;
+- revogação pelo rodapé, nas seis páginas do site (404, manutenção, `/contato` e `/qr` são standalone, sem medição nem banner);
 - CSP publicada, de modo que a instalação do GA4 seja puramente aditiva.
 
 A comporta que a Fase D vai consumir é `window.__consent.onChange()`.
@@ -666,8 +682,8 @@ carrega sozinho, GPC não carrega, e a configuração emitida traz os dois sinai
 **Estado em 10/09/2026 (fim do dia):** as duas variáveis estão preenchidas desde 20/08/2026, e a Fase
 E (eventos de conversão, 21/08/2026) roda sobre esta comporta. A medição está **ativa sob
 consentimento**, com retenção de 14 meses e Google Signals desligado — os dois conferidos na tela do
-painel em 10/09/2026 —, e a meta de verificação do Search Console está publicada nas seis páginas,
-inclusive na página de manutenção, que é standalone e precisou receber a meta em separado para não
+painel em 10/09/2026 —, e a meta de verificação do Search Console está publicada nas seis páginas do
+layout e, em separado, na página de manutenção, que é standalone e precisou receber a meta para não
 derrubar a propriedade se a manutenção for ativada.
 
 O lado do painel, que a auditoria de 21/08/2026 apontou como pendente, foi fechado em 10/09/2026:
@@ -678,8 +694,8 @@ principais marcados (`contato_whatsapp`, `contato_telefone`, `contato_email`, `f
 ainda), tráfego interno excluído por regras de IP fixo da casa e do escritório com o filtro ativo. O
 Search Console, ao contrário do que este documento afirmava até esta versão, já estava **verificado
 e com o sitemap enviado desde 20/08/2026** e vinculado ao GA4 desde 25/08/2026 — feito pelo
-proprietário sem registro; em 10/09/2026 o sitemap constava como *Success* com 6 páginas, 2
-indexadas e 4 "descobertas, ainda não indexadas", para as quais a indexação foi solicitada.
+proprietário sem registro; em 10/09/2026 o sitemap constava como *Success* com 6 páginas (última
+leitura pelo Google em 03/09/2026), 2 indexadas e 4 "descobertas, ainda não indexadas", para as quais a indexação foi solicitada.
 
 Fica pendente só o que depende de tempo: as dimensões passam a aparecer nos relatórios 24–48 h
 depois do registro e devem ser conferidas então; as duas fontes completam 28 dias comparáveis em
@@ -736,7 +752,7 @@ frase precisa acompanhar qualquer relatório.
 - [x] Implementar o consentimento de cookies, com estado persistido e revogação disponível.
 - [x] Atualizar a CSP do `firebase.json` para o domínio de analytics.
 - [x] Verificar todas as variantes necessárias no Search Console — uma propriedade prefixo de URL basta: `www` e `http` redirecionam 301 para o apex (registro de 20/08/2026); propriedade verificada em 20/08/2026.
-- [x] Enviar o sitemap — `sitemap-index.xml` enviado em 20/08/2026; em 10/09/2026, *Success*, 6 páginas descobertas.
+- [x] Enviar o sitemap — `sitemap-index.xml` enviado em 20/08/2026; conferido em 10/09/2026: *Success*, 6 páginas descobertas, última leitura pelo Google em 03/09/2026.
 - [ ] Registrar páginas indexadas, excluídas e erros — primeira leitura em 10/09/2026: 2 indexadas (`/`, `/en/privacy`), 4 "descobertas, ainda não indexadas" com indexação solicitada, zero erro; repetir no baseline.
 - [x] Configurar analytics com consentimento apropriado (Fase D).
 - [x] Criar a propriedade GA4 e preencher `PUBLIC_GA4_MEASUREMENT_ID` — feito em 20/08/2026, com retenção de 14 meses.
@@ -750,7 +766,7 @@ frase precisa acompanhar qualquer relatório.
       Sem isso o dado chegava e ficava invisível — o GA4 descarta o parâmetro e não preenche
       retroativamente.
 - [x] Excluir acessos internos quando possível — regras por IP fixo da casa (anterior a 10/09/2026) e do escritório (10/09/2026), filtro *Internal Traffic* ativo; endereços só no registro privado da empresa. Acessos de outras redes entram nos números.
-- [x] Configurar painel mensal — ver *Painel e cadência de revisão*, abaixo; explorações a criar a partir de 12/09/2026, quando as dimensões estiverem disponíveis nos relatórios.
+- [ ] Configurar painel mensal — cadência e roteiro **definidos** em 10/09/2026 (ver *Painel e cadência de revisão*, abaixo); as quatro explorações ainda não existem e serão criadas a partir de 12/09/2026, quando as dimensões estiverem disponíveis nos relatórios. Marcar só com as explorações salvas.
 - [ ] Reivindicar ou revisar Google Business Profile.
 - [ ] Padronizar informações oficiais no perfil comercial.
 - [ ] Configurar alertas de disponibilidade e erros.
@@ -776,7 +792,7 @@ O destinatário operacional do formulário é o e-mail interno definido no regis
 
 - Camada privada: nome, e-mail, telefone e mensagem; acesso comercial restrito.
 - Camada de funil: categorias, status, datas e resultado; sem contato ou mensagem.
-- Analytics: eventos `formulario_envio`, `contato_whatsapp`, `contato_telefone` e `contato_email` (nomes implementados em 21/08/2026 — ver plano do ecossistema §7), idioma, página controlada, cluster e categoria de serviço; nunca `lead_id` ou PII.
+- Analytics: eventos `formulario_envio`, `contato_whatsapp`, `contato_telefone` e `contato_email` (nomes implementados em 21/08/2026 — ver plano do ecossistema §7) com os seis parâmetros do contrato — `origem_secao`, `perfil`, `interesse`, `estado_uf`, `motivo`, `idioma`; página, cluster e categoria de serviço só entram quando houver páginas de conteúdo (Fases 4 a 6); nunca `lead_id` ou PII.
 - BigQuery de SEO: somente dados de navegação e resultados agregados.
 
 #### Campos operacionais sugeridos
@@ -822,8 +838,8 @@ errado desde 20/08/2026.
 
 ### Painel e cadência de revisão
 
-Definido em 10/09/2026. É a versão concreta da "Rotina mensal" da §10 para "revisar Search Console e
-conversões".
+Definido em 10/09/2026. É a versão concreta da "Rotina mensal" da Fase 11 para "revisar Search Console
+e conversões".
 
 **Cadência:** revisão **mensal**, na primeira semana útil do mês, comparando os últimos 28 dias com
 os 28 anteriores. Uma pessoa, cerca de 30 minutos. Cada revisão vira uma linha no
@@ -1450,8 +1466,9 @@ Atualizado em 10/09/2026.
 
 A sequência acordada com o cliente — **Fase 1 (concluída) → privacidade e consentimento → Search
 Console e analytics → eventos de conversão** — foi executada no código entre 20 e 21/08/2026 e no
-painel do Google entre 20/08 e 10/09/2026. O que resta da Fase 2 é tempo de coleta e o perfil
-comercial. Ao fim, a Fase 2 encerra e a trilha do ecossistema destrava.
+painel do Google entre 20/08 e 10/09/2026. O que resta da Fase 2 é tempo de coleta, o perfil
+comercial e dois itens operacionais do checklist — alertas de disponibilidade e registro de consumo
+do GCP — que não estão no gate. Ao fim, a Fase 2 encerra e a trilha do ecossistema destrava.
 
 ### Concluído (20–21/08/2026)
 
@@ -1551,7 +1568,7 @@ de entidade: `sameAs` ligando perfis oficiais, perfil comercial consistente e de
 comércio de café estadual, onde constam concorrentes diretos. É credencial de autoridade e fonte
 legítima de link. Registrado como decisão em aberto.
 
-**5. Superfície de conteúdo insuficiente.** O site tem **uma** URL indexável por idioma. O
+**5. Superfície de conteúdo insuficiente.** O site tem **uma** URL indexável por idioma (em 10/09/2026: duas, com a política de privacidade; seis no total). O
 concorrente digital de referência do setor mantém **dez**, com hub editorial e slugs orientados a
 intenção de busca. Não há o que ranquear além da home — este é o principal limitador de
 posicionamento hoje, acima de design e de performance.

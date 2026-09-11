@@ -190,24 +190,26 @@ região do Cloud Build — em **[`deploy.md`](./deploy.md)**.
 
 ## 7. Metas de performance
 
-| Métrica | Meta | Como medir | Última medição (21/07/2026, produção) |
+| Métrica | Meta | Como medir | Última medição (20/08/2026, produção, PSI mobile) |
 |---|---|---|---|
-| LCP | ≤ 2,5s | Lighthouse mobile + CrUX | 1,95s PT · 1,48s EN · 1,61s ES |
-| CLS | ≤ 0,1 | Lighthouse mobile | < 0,003 nos três idiomas |
-| INP | ≤ 200ms | dados de campo (CrUX) | **sem dados de campo ainda** |
+| LCP | ≤ 2,5s | API do PageSpeed Insights (`scripts/measure-psi.mjs`) + CrUX | 1,43 s nos três idiomas |
+| CLS | ≤ 0,1 | API do PageSpeed Insights | 0,0009 PT · 0,0008 EN · 0,0006 ES |
+| INP | ≤ 200ms | dados de campo (CrUX) | **sem dados de campo ainda** — medição ativa desde 20/08/2026 |
 | TTFB | < 600ms | Firebase Hosting (CDN edge) | — |
-| Lighthouse Performance (mobile) | ≥ 95 | execução manual | 97 PT · 96 EN · **90 ES** ⚠️ |
-| Lighthouse Accessibility | 100 | execução manual | 100 nos três idiomas |
-| Lighthouse Best Practices | ≥ 95 | execução manual | 100 nos três idiomas |
-| Lighthouse SEO | 100 | execução manual | 100 nos três idiomas |
+| Lighthouse Performance (mobile) | ≥ 95 | API do PageSpeed Insights, mediana de 3 execuções por URL | **100** nos três idiomas, amplitude 0 em 18 execuções |
+| Lighthouse Accessibility | 100 | Lighthouse manual (última leitura em 21/07/2026) | 100 nos três idiomas |
+| Lighthouse Best Practices | ≥ 95 | Lighthouse manual (última leitura em 21/07/2026) | 100 nos três idiomas |
+| Lighthouse SEO | 100 | Lighthouse manual (última leitura em 21/07/2026) | 100 nos três idiomas |
 
 > **Estas medições são manuais, não automatizadas.** Não existe CI de qualidade neste repositório:
 > `cloudbuild.yaml` instala, builda e publica — não roda Lighthouse, axe, lint nem testes. Criar
 > esse CI é uma lacuna conhecida e ainda não priorizada. Enquanto não existir, a verificação é
 > responsabilidade de quem entrega, seguindo o checklist do `AGENTS.md`.
 >
-> ⚠️ O gate de performance da Fase 1 segue **aberto** por causa da instabilidade de ES
-> (execuções entre 89 e 99). Ver `plano-seo-programatico.md`.
+> O gate de performance da Fase 1 foi **fechado em 20/08/2026**: a oscilação do ES entre 89 e 99 era
+> ruído da máquina local, e a medição pela API do PageSpeed Insights deu 100 nos três idiomas com
+> amplitude 0. Regra desde então: medir com `scripts/measure-psi.mjs` e reportar a **mediana**, nunca a
+> melhor execução. Ver `plano-seo-programatico.md` (Fase 1, "Medição definitiva") e `deploy.md` §8.
 
 ---
 
@@ -233,8 +235,9 @@ de `anchors.ts`, um nível acima. `localizeURL()` consulta esse mapa, e por isso
 Rota não registrada cai no comportamento antigo de prefixo.
 
 **Consentimento e medição:** nada é carregado sem permissão. O bootstrap inline do `<head>` do
-`BaseLayout` emite `gtag('consent','default', …)` com tudo negado antes de qualquer script — é o que
-torna o sinal válido. Os sinais de publicidade (`ad_storage`, `ad_user_data`, `ad_personalization`)
+`BaseLayout` emite `gtag('consent','default', …)` antes de qualquer script — é o que torna o sinal
+válido. Na primeira visita tudo sai negado; se já houver decisão gravada no cookie, `analytics_storage`
+reflete essa decisão. Os sinais de publicidade (`ad_storage`, `ad_user_data`, `ad_personalization`)
 ficam negados de forma permanente, sem controle na interface, porque o site não faz publicidade. O
 contrato consumido pela Fase D é `window.__consent.onChange()`. `src/data/consent.ts` descreve o
 cookie e as categorias. Ver `docs/registro-operacional.md` para as decisões.
@@ -277,8 +280,9 @@ Pendências registradas, ainda **não** implementadas:
 - `alt` em toda imagem significativa; `alt=""` em decorativas.
 - Formulários com `<label>` associados, mensagens de erro com `aria-describedby`.
 - `prefers-reduced-motion: reduce` respeitado em todas as animações.
-- Testes: **auditoria manual** com Lighthouse antes de cada entrega. Não há axe-core nem qualquer
-  verificação automatizada em CI — ver a nota em §7.
+- Testes: medição pela API do PageSpeed Insights (`scripts/measure-psi.mjs`) e a suíte
+  `pnpm verify:medicao` (consentimento, medição e apresentação nos três idiomas), executadas à mão
+  antes de cada entrega. Não há axe-core nem qualquer verificação em CI — ver a nota em §7.
 
 ---
 

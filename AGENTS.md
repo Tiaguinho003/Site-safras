@@ -116,6 +116,7 @@ pnpm dev        # http://localhost:4321
 pnpm build      # produção em dist/
 pnpm preview    # serve o build
 pnpm check      # astro check
+pnpm verify:medicao  # 92 verificações da medição e do consentimento, sobre build local
 ```
 
 > **Não acumular servidor de desenvolvimento.** O Astro tem HMR — não reinicie a cada validação.
@@ -124,8 +125,9 @@ pnpm check      # astro check
 ### Tokens da marca
 
 Verde `--color-brand` **`#025c00`** · escuro `--color-brand-dark` **`#013d01`** · terra
-`--color-earth` **`#3c3424`** · texto `--color-ink` `#141311` · secundário `--color-ink-muted`
-`#5a564f` · fundo `--color-paper` `#ffffff` · alt `#f6f6f4` · linha `#e3e3df`.
+`--color-earth` **`#3c3424`** · verde-claro `--color-brand-tint` `#9ed69a` · texto `--color-ink`
+`#141311` · secundário `--color-ink-muted` `#5a564f` · fundo `--color-paper` `#ffffff` · alt
+`#f6f6f4` · linha `#e3e3df`.
 
 Tipografia: **Inter apenas**. Hierarquia por peso e tamanho, jamais por segunda family.
 
@@ -164,9 +166,10 @@ Regras críticas:
 - ✅ Anchors traduzidos: `localizeAnchor("contato")` para href, `getAnchor("contato", locale)`
   para id.
 
-Decisões locked: fazenda→estate/finca · produtor→grower/productor · corretora→brokerage/corretaje ·
-análise sensorial→cupping/catación · embarque→shipping/embarque · seriedade→integrity/seriedad ·
-safra→harvest/cosecha.
+Decisões locked (glossário §11): fazenda→estate/finca · produtor→grower/productor · análise
+sensorial→cupping/catación · embarque→shipping/embarque · seriedade→integrity/seriedad · Sobre
+nós→About · CTA Solicitar serviço→Get started. Demais termos do café — corretora→brokerage/corretaje,
+safra→harvest/cosecha e outros — na §3 do glossário.
 
 ### `(mobile)` / `(desktop)`
 
