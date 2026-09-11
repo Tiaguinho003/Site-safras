@@ -89,6 +89,17 @@ const dict = {
     secondary: "Explore our services",
     photoAlt:
       "Safras & Negócios professional cupping coffee, taking in the aroma from the spoon",
+    // Remaining hero carousel photos, in display order.
+    slidesAlt: [
+      "Hands grading green coffee beans on a screen over the cupping mat",
+      "Green coffee beans and a cup of coffee on the Safras & Negócios mat",
+      "Roasted coffee beans pouring from the roaster into the cooling tray",
+      "Cupping spoons over cups during a cupping session",
+      "Safras & Negócios sign on the office facade under a blue sky",
+    ],
+    carouselAriaLabel: "Safras & Negócios photos",
+    carouselPause: "Pause the photos",
+    carouselPlay: "Resume the photos",
     seal: "SAFRAS & NEGÓCIOS · COFFEE BROKERAGE · SINCE 2015 · ",
     sealMobile: "SAFRAS & NEGÓCIOS · COFFEE · SINCE 2015 · ",
   },

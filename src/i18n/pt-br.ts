@@ -82,6 +82,17 @@ const dict = {
     secondary: "Conhecer os serviços",
     photoAlt:
       "Profissional da Safras & Negócios em prova de xícara, sentindo o aroma do café na colher",
+    // Demais fotos do carrossel do hero, na ordem em que aparecem.
+    slidesAlt: [
+      "Mãos classificando grãos de café verde numa peneira sobre o tapete de provas",
+      "Grãos de café verde e xícara de café sobre o tapete da Safras & Negócios",
+      "Grãos de café torrados saindo do torrador para a bandeja de resfriamento",
+      "Colheres de prova sobre xícaras numa sessão de análise sensorial",
+      "Placa da Safras & Negócios na fachada do escritório, sob céu azul",
+    ],
+    carouselAriaLabel: "Fotos da Safras & Negócios",
+    carouselPause: "Pausar as fotos",
+    carouselPlay: "Retomar as fotos",
     // Texto do selo giratório. Termina em " · " para fechar o círculo.
     seal: "SAFRAS & NEGÓCIOS · CORRETORA DE CAFÉ · DESDE 2015 · ",
     sealMobile: "SAFRAS & NEGÓCIOS · CAFÉ · DESDE 2015 · ",

@@ -84,8 +84,11 @@ Tailwind, sem token próprio. Exceções em uso: `py-[15px]` no CTA do hero e
   cada 45 ms via `--i`. Tudo desliga com `prefers-reduced-motion`.
 - **Rolagem:** nativa do navegador. A biblioteca `lenis` foi removida na Fase 1; o helper
   `window.__smoothScrollTo` vive em `BaseLayout.astro` e é reusado por Header e Footer.
-- **Hero:** entrada escalonada do texto (fade-up de 16 px, 900 ms, atrasos de 60 a 360 ms) e selo
-  girando em 48 s. Os dois desligam com `prefers-reduced-motion`.
+- **Hero:** entrada escalonada do texto (fade-up de 16 px, 900 ms, atrasos de 60 a 360 ms), selo
+  girando em 48 s e carrossel de fotos: uma troca a cada 6 s, fusão de 1,8 s
+  (`cubic-bezier(0.4, 0, 0.2, 1)`) com a foto nova por cima da atual, e zoom de 1 → 1,06 em 9 s
+  linear. Com `prefers-reduced-motion` o texto e o selo ficam parados e o carrossel nasce pausado;
+  se o usuário retomar, as trocas são instantâneas.
 - **Regra de ouro:** com `prefers-reduced-motion: reduce`, toda animação vira transição
   instantânea de estado. Sem exceção.
 - No celular, animações custosas que não acrescentam informação são simplificadas ou desativadas
@@ -323,12 +326,22 @@ esquerda e a foto à direita; no mobile, a foto vai para baixo.
 
 - **Anatomia:** luz radial → ramo de café em marca d'água (`assets/hero/ramo-cafe.png`, PNG com
   transparência a 7 %) → sobretítulo → `h1` (a única da página) → parágrafo → CTA principal
-  (`#contato`, mesmo efeito radial do header) e link secundário (`#servicos`, só desktop) → foto
-  (`assets/hero/hero-prova-de-xicara.jpg`, canto superior esquerdo arredondado, sombra leve na
-  junção) → selo giratório na junção verde/foto.
+  (`#contato`, mesmo efeito radial do header) e link secundário (`#servicos`, só desktop) →
+  carrossel de fotos (canto superior esquerdo arredondado, sombra leve na junção) → selo giratório
+  na junção verde/foto.
+- **Carrossel (`[data-hero-carousel]`):** seis fotos em `assets/hero/` — `hero-prova-de-xicara.jpg`
+  (a primeira, LCP da página, `eager` + `fetchpriority="high"`), `hero-peneira-graos.jpg`,
+  `hero-graos-e-xicara.jpg`, `hero-torra.jpg`, `hero-prova-colheres.jpg` e
+  `hero-fachada-placa.jpg`. As cinco seguintes nascem `hidden` e o script as libera uma troca
+  antes de aparecer, já decodificadas (`img.decode()`), então não entram no caminho do LCP. Fusão
+  por cima da foto atual (a anterior fica opaca atrás até a troca acabar, sem queda de brilho).
+  Pausa fora da viewport, com a aba oculta e pelo botão de pausar/retomar no canto da foto
+  (`aria-label` traduzido por `data-*`). Slides inativos ficam `aria-hidden`. Foi incluída, por
+  decisão do proprietário, a foto da placa da fachada, que mostra a representação comercial de
+  outra marca.
 - **Selo:** SVG montado no front-matter — texto correndo num anel (`textPath` com `textLength`,
   para fechar o círculo em qualquer idioma) e o símbolo da marca lido de
-  `safras-logo-completo.svg?raw`, sem duplicar caminhos. Decorativo (`aria-hidden`). O invólucro
+  `safras-logo-completo-escuro.svg?raw` (verde da marca, como no header), sem duplicar caminhos. Decorativo (`aria-hidden`). O invólucro
   só posiciona (`translate`); quem gira é o SVG interno — animar a rotação no mesmo `transform`
   do posicionamento faz o navegador interpolar por matriz, e o selo desliza em vez de girar.
 - **Props:** nenhuma. Strings em `dict.hero.*`; anchors por `getAnchor`/`localizeAnchor`.
@@ -337,8 +350,9 @@ esquerda e a foto à direita; no mobile, a foto vai para baixo.
   a Inter servida pelo site não tem eixo óptico e é um pouco mais larga que a do desenho.
   Sobretítulo e texto do selo têm versão curta no mobile.
 - **Acessibilidade:** foco visível em branco sobre o verde, por regra própria do componente (ver
-  dívida sobre a regra global de foco), `alt` descritivo na foto, ramo e selo ocultos de leitor de
-  tela, animações desligadas com `prefers-reduced-motion`.
+  dívida sobre a regra global de foco), `alt` descritivo em cada foto, ramo e selo ocultos de leitor
+  de tela, botão de pausa do carrossel (WCAG 2.2.2), animações desligadas com
+  `prefers-reduced-motion`.
 
 ### `sections/ContactSection.astro`
 
