@@ -92,7 +92,9 @@ Tailwind, sem token próprio. Exceções em uso: `py-[15px]` no CTA do hero e
 - **Regra de ouro:** com `prefers-reduced-motion: reduce`, toda animação vira transição
   instantânea de estado. Sem exceção.
 - No celular, animações custosas que não acrescentam informação são simplificadas ou desativadas
-  (decisão da Fase 1, motivada por TBT).
+  (decisão da Fase 1, motivada por TBT). Os grãos decorativos (`coffee-bean-float` e
+  `coffee-bean-tilt`) voltaram a se mover no celular em 11/09/2026: animam só `transform`, que roda
+  no compositor e não ocupa a thread principal.
 
 **Não usamos** View Transitions API. Já foi previsto, nunca implementado — não referenciar como se
 existisse.
