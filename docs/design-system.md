@@ -77,8 +77,11 @@ Tailwind, sem token próprio. Exceções em uso: `py-[15px]` no CTA do hero e
   `cubic-bezier(0.22, 1, 0.36, 1)` e atraso de 200 ms, via Intersection Observer (`HomePage.astro`).
   Os demais reveals da home ficam entre 700 e 1100 ms.
 - **Hover em cards:** não há elevação nem sombra. Nos cards de serviço, o hover troca a proporção da
-  coluna e a borda em 500 ms e revela a descrição em 400 ms; nos cards de princípios, preenche a
-  altura em 400 ms.
+  coluna em 500 ms, escurece o painel-legenda (vidro fosco) em 400 ms e abre a coluna de descrição
+  e fichas animando `grid-template-columns` (500 ms), com o texto surgindo após 380 ms; nos cards
+  de princípios, preenche a altura em 400 ms.
+- **Menu mobile:** backdrop em 240 ms, cartão em 320 ms (fade + leve escala) e itens escalonados a
+  cada 45 ms via `--i`. Tudo desliga com `prefers-reduced-motion`.
 - **Rolagem:** nativa do navegador. A biblioteca `lenis` foi removida na Fase 1; o helper
   `window.__smoothScrollTo` vive em `BaseLayout.astro` e é reusado por Header e Footer.
 - **Hero:** entrada escalonada do texto (fade-up de 16 px, 900 ms, atrasos de 60 a 360 ms) e selo
@@ -258,32 +261,45 @@ Barra superior do site, com duas variantes que coexistem no mesmo arquivo.
 - **Props:** nenhuma. Deriva tudo de `Astro.url.pathname` e do locale corrente.
 - **Variantes:** as duas têm a mesma aparência — fundo branco, logo colorida, CTA verde — e a
   mesma altura, lida de `--site-header-h` (`global.css`: 64 px, 72 px a partir de `md:`). O hero
-  desconta essa mesma variável da viewport.
+  desconta essa mesma variável da viewport. A logo usa `branding/safras-logo-completo-escuro.svg`
+  (o verde da marca, `#025c00`); o SVG original, de verde mais claro, segue no selo do hero.
   - `.site-header--hero` (`data-header-hero`) — em fluxo, abre a home acima do hero. Renderizada
     **apenas na home** de cada idioma. Até setembro de 2026 era transparente sobre uma foto de
     fundo, com logo branca.
   - `.site-header--sticky` (`data-header-sticky`) — barra fixa que entra de cima na rolagem,
     quando a barra em fluxo sai da tela. Recebe `data-scroll-aware="true"` na home.
 - **Estados:** oculta ↔ visível (rolagem) · link `[data-active]` via scroll-spy · menu mobile
-  aberto/fechado (`aria-expanded`).
+  aberto/fechado (`aria-expanded`; o botão alterna o ícone barras/X por esse atributo).
+- **Menu mobile (`#mobile-menu`):** camada fixa abaixo do header, com backdrop que escurece e
+  desfoca a página e um cartão de vidro fosco (filete da marca no topo) com os links — ponto verde
+  marca a seção ativa —, o CTA (só abaixo de `sm:`) e o `LanguageSwitcher` inline. No tablet o
+  cartão encosta à direita com 24 rem. Fecha ao clicar fora do cartão, com Esc (foco volta ao
+  hambúrguer), ao clicar num link e ao chegar em `lg:`; enquanto aberto, trava a rolagem
+  (`overflow: hidden` no `<html>`).
 - **Responsivo:** Camada 1 + JS de rolagem — navegação vira menu hamburger abaixo de `lg:`, e a
-  transição de estados é controlada por JS a partir de `scroll` e `resize`, sem `matchMedia`.
+  transição de estados das barras é controlada por JS a partir de `scroll` e `resize`; o único
+  `matchMedia` fecha o menu mobile ao chegar em `lg:`.
 - **Acessibilidade:** `aria-label` na variante em fluxo e nos dois `<nav>`; a variante fixa não tem
   `aria-label` próprio e fica `aria-hidden` e `inert` enquanto oculta na home. `aria-expanded` no
   botão de menu, navegação por teclado preservada, foco visível.
 
 ### `layout/Footer.astro`
 
-Rodapé institucional em fundo escuro.
+Rodapé institucional sobre a foto aérea da lavoura (`about/lavoura-aerea.png`): a foto entra em
+fade curto a partir do branco da seção anterior e anoitece em gradiente para o verde da marca e um
+preto quente na base, onde ficam as colunas.
 
-- **Anatomia:** colunas (logo com tagline · serviços · navegação · contato, com o Instagram como item
-  da lista de contato) → botão "voltar ao topo" → linha de créditos.
+- **Anatomia:** logo branca centralizada (`branding/safras-logo-branco.png`, sobre uma sombra
+  radial, com a tagline em `brand-tint`) → linha que desaparece nas pontas → três colunas
+  (serviços · navegação · contato, com o Instagram como item da lista de contato) → linha inferior
+  (copyright, privacidade, cookies, "voltar ao topo") → linha de créditos.
 - **Props:** nenhuma.
 - **Detalhe de conteúdo:** os links da coluna "Serviços" reusam as chaves do dicionário dos cards
   da home (`services.cards.*.title`), o que impede o rodapé de divergir da seção de serviços.
 - **Estados:** hover/focus nos links; botão de topo reusa `window.__smoothScrollTo`.
-- **Responsivo:** Camada 1 — no mobile ficam duas colunas lado a lado (navegação e contato); logo com
-  tagline e a coluna de serviços só aparecem a partir de `md:`; quatro colunas a partir de `lg:`.
+- **Responsivo:** Camada 1 — no mobile ficam duas colunas lado a lado (navegação e contato); a
+  coluna de serviços aparece a partir de `md:` (três colunas). Logo e tagline aparecem em todos os
+  tamanhos.
 - **Acessibilidade:** links externos com `rel="noopener noreferrer"`, ícones `aria-hidden`, nomes
   acessíveis em todos os links.
 
@@ -326,10 +342,11 @@ esquerda e a foto à direita; no mobile, a foto vai para baixo.
 
 ### `sections/ContactSection.astro`
 
-Seção de contato: mapa, dados institucionais e formulário. É o único ponto de conversão do site.
+Seção de contato: dados institucionais e formulário. É o único ponto de conversão do site.
 
-- **Anatomia:** mapa do Brasil com marcador → dados (e-mail, telefone, endereço, horário) →
-  formulário. Os canais alternativos (WhatsApp, e-mail) só aparecem na caixa de erro, quando um
+- **Anatomia:** rótulo da seção e cartão de dados (e-mail, telefone, endereço, horário) à
+  esquerda → formulário à direita. O mapa do Brasil com marcador da cidade foi removido em
+  10/09/2026. Os canais alternativos (WhatsApp, e-mail) só aparecem na caixa de erro, quando um
   envio falha.
 - **Props:** nenhuma.
 - **Campos:** `nome`, `email`, `telefone`, `estado`, `perfil` (select), `interesse` (select),
@@ -339,7 +356,7 @@ Seção de contato: mapa, dados institucionais e formulário. É o único ponto 
   `aria-live="polite"`.
 - **Integração:** POST para `https://api.web3forms.com/submit` com `access_key` vinda de
   `PUBLIC_WEB3FORMS_KEY`. Ver `deploy.md`.
-- **Responsivo:** Camada 1 + bloco de mapa exclusivo do mobile (`md:hidden`).
+- **Responsivo:** Camada 1 — uma coluna; duas a partir de `lg:`.
 - **Acessibilidade:** labels associados, resumo de privacidade como `aria-describedby` do
   formulário, foco movido para o aviso em caso de erro.
 - **i18n:** strings que o JS do cliente precisa (rótulos de envio) chegam por `data-*` no markup —
@@ -352,7 +369,15 @@ princípios e `ContactSection`. Também declara o `structuredData` (`LocalBusine
 `BaseLayout`.
 
 - **Props:** nenhuma — o locale vem de `Astro.currentLocale` via `useTranslation`.
-- **Observação:** é um arquivo grande (≈1.060 linhas; o hero saiu para componente próprio em
+- **Cards de serviço:** acordeão `[data-service-card]` com `data-active` (hover, foco e, no
+  mobile, rolagem). Cada card tem um painel-legenda (`.service-ledger`): transparente no card
+  compacto (número e título em `ink` sobre véu claro) e vidro escuro no ativo, com título à
+  esquerda e descrição + fichas (`services.cards.*.strips`) à direita a partir de `lg:`; até `md:`
+  os detalhes abrem abaixo do título. Proporção 2:1:1 no `md:`, 3:1:1 no `lg:`. A largura do texto
+  de detalhes é fixada em unidades de container (`cqw`) do acordeão, para o painel não mudar de
+  altura entre estados. Fotos em `assets/services/` — `mercado-negociacao.jpg` e
+  `analise-qualidade.jpg` (10/09/2026) e `suporte-logistico.png`.
+- **Observação:** é um arquivo grande (≈1.100 linhas; o hero saiu para componente próprio em
   setembro de 2026). Ver dívidas conhecidas.
 
 ### `layout/CookieConsent.astro`

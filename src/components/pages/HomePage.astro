@@ -22,8 +22,8 @@ import { useTranslation, getAnchor } from "../../i18n";
 import fachadaSafras from "../../assets/hero/fachada-safras.jpg";
 import saoSebastiaoParaiso from "../../assets/about/sao-sebastiao-paraiso.png";
 import lavouraCafeAerea from "../../assets/about/lavoura-cafe-aerea.png";
-import analiseQualidadeImg from "../../assets/services/analise-qualidade.png";
-import mercadoNegociacaoImg from "../../assets/services/mercado-negociacao.png";
+import analiseQualidadeImg from "../../assets/services/analise-qualidade.jpg";
+import mercadoNegociacaoImg from "../../assets/services/mercado-negociacao.jpg";
 import suporteLogisticoImg from "../../assets/services/suporte-logistico.png";
 
 const { t, tArray, locale } = useTranslation(Astro);
@@ -120,13 +120,13 @@ const servicesData = [
     key: "mercadoNegociacao",
     iconSvg: `<path d="m11 17 2 2a1 1 0 1 0 3-3" /><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" /><path d="m21 3 1 11h-2" /><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" /><path d="M3 4h8" />`,
     image: mercadoNegociacaoImg,
-    imagePosition: "50% 35%",
+    imagePosition: "50% 45%",
   },
   {
     key: "analiseQualidade",
     iconSvg: `<path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" />`,
     image: analiseQualidadeImg,
-    imagePosition: "30% 25%",
+    imagePosition: "55% 40%",
   },
   {
     key: "suporteLogistico",
@@ -283,48 +283,53 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
 
       <div
         id="servicos-accordion"
-        class="flex flex-col md:flex-row gap-5 md:gap-6 md:h-[386px]"
+        class="flex flex-col md:flex-row gap-5 md:gap-6 md:h-[500px] lg:h-[470px]"
       >
         {servicesData.map((service, idx) => {
           const number = t(`services.cards.${service.key}.number`);
           const title = t(`services.cards.${service.key}.title`);
           const imageAlt = t(`services.cards.${service.key}.imageAlt`);
           const description = t(`services.cards.${service.key}.description`);
+          // Frentes do serviço viram fichas no painel. A quebra de linha do
+          // dict era para as tiras antigas; aqui vira espaço.
+          const strips = tArray(`services.cards.${service.key}.strips`).map(
+            (strip) => strip.replace(/\n/g, " "),
+          );
           return (
             <article
               data-service-card
               data-scroll-active-card
               data-active={idx === 0 ? "true" : "false"}
-              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line min-h-[280px] md:min-h-0 md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
+              class="group relative overflow-hidden rounded-2xl bg-paper-alt border border-dashed border-line cursor-pointer flex-1 md:flex-[1_1_0%] data-[active=true]:md:flex-[2_1_0%] data-[active=true]:lg:flex-[3_1_0%] data-[active=true]:border-solid data-[active=true]:border-line min-h-[300px] md:min-h-0 md:h-full transition-[flex,border-color] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4"
               tabindex="0"
               aria-label={`${number}: ${title}`}
             >
               <Image
                 src={service.image}
                 alt={imageAlt}
-                widths={[400, 640, 768, 960]}
-                sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
-                class="absolute inset-0 w-full h-full object-cover"
+                widths={[400, 640, 768, 960, 1200]}
+                sizes="(min-width: 1024px) 56vw, (min-width: 768px) 60vw, 100vw"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:scale-[1.03]"
                 style={`object-position: ${service.imagePosition};`}
                 loading="lazy"
                 fetchpriority="low"
                 quality={62}
               />
 
-              {/* Light overlay (visível em compacto, some quando focado/hover) */}
+              {/* Véu claro do cartão compacto — some quando ativo */}
               <div
                 aria-hidden="true"
                 class="absolute inset-0 bg-paper-alt/70 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-0"
               />
 
-              {/* Dark gradient (aparece quando focado/hover) */}
+              {/* Gradiente escuro do cartão ativo — profundidade atrás do painel */}
               <div
                 aria-hidden="true"
                 class="absolute inset-0 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:opacity-100"
-                style="background: linear-gradient(180deg, rgba(0,0,0,0) 22%, rgba(0,0,0,0.55) 97%);"
+                style="background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0.5) 100%);"
               />
 
-              <div class="relative h-full p-5 md:p-6 flex flex-col justify-between gap-4 md:gap-0">
+              <div class="relative h-full p-4 md:p-5 flex flex-col justify-between gap-6">
                 <div class="flex items-start justify-between gap-4">
                   <div
                     class="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center bg-ink text-paper group-data-[active=true]:bg-paper group-data-[active=true]:text-[#8b5e34] transition-colors duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] shrink-0"
@@ -345,58 +350,46 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
                   </div>
                 </div>
 
-                <div>
-                  <h3 class="sr-only">{title}</h3>
-
-                  <div class="grid" aria-hidden="true">
-                    {/* Título mobile-friendly: stays visible, mas flipa de ink → paper quando focado */}
-                    <span
-                      class="col-start-1 row-start-1 self-end text-[22px] sm:text-[24px] md:text-[28px] lg:text-[30px] font-medium text-ink leading-[1.2] tracking-[-0.02em] md:line-clamp-2 transition-[opacity,color] duration-[300ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:md:opacity-0 group-data-[active=true]:max-md:text-paper"
-                    >
-                      {title}
-                    </span>
-                    {/* Título desktop-only (grande paper) — usado pelo crossfade no md+ */}
-                    <span
-                      class="col-start-1 row-start-1 self-end text-[35px] md:text-[40px] lg:text-[48px] font-medium text-paper leading-[1.08] tracking-[-0.05em] line-clamp-2 opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[300ms] group-data-[active=true]:md:opacity-100 hidden md:block"
-                    >
-                      {title}
-                    </span>
+                {/* Painel-legenda: transparente no cartão compacto, vidro escuro
+                    quando ativo. No lg+, título à esquerda e descrição + fichas à
+                    direita; até o md os detalhes abrem abaixo do título. */}
+                <div class="service-ledger relative rounded-xl border border-transparent p-4 xl:p-5">
+                  <div
+                    aria-hidden="true"
+                    class="hidden md:block absolute inset-x-4 xl:inset-x-5 -top-px h-[2px] overflow-hidden rounded-full bg-white/15 opacity-0 transition-opacity duration-[400ms] group-data-[active=true]:opacity-100"
+                  >
+                    <div class="h-full w-0 rounded-full bg-brand-tint transition-[width] duration-[700ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:w-full group-data-[active=true]:delay-[450ms]"></div>
                   </div>
 
-                  {/* Descrição mobile com painel "vidro escuro": grid-rows reveal empurra o título pra cima.
-                      bg-ink/55 + backdrop-blur dá efeito frosted glass pra leitura do texto sobre a imagem. */}
-                  <div class="md:hidden grid grid-rows-[0fr] group-data-[active=true]:grid-rows-[1fr] transition-[grid-template-rows] duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
-                    <div class="overflow-hidden">
-                      <div class="mt-3 bg-ink/55 backdrop-blur-md rounded-xl px-4 py-3">
-                        <p class="text-[14px] text-paper leading-[1.55] opacity-0 group-data-[active=true]:opacity-100 transition-opacity duration-[300ms] ease-out delay-[150ms]">
+                  <h3 class="sr-only">{title}</h3>
+
+                  <div class="service-ledger__grid">
+                    <div class="min-w-0" aria-hidden="true">
+                      <span class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand transition-colors duration-[400ms] group-data-[active=true]:text-brand-tint">
+                        {number}
+                        <span class="h-px w-6 bg-current opacity-70"></span>
+                      </span>
+                      <span class="service-ledger__heading mt-2 block font-medium text-ink transition-[color,font-size,letter-spacing] duration-500 ease-[cubic-bezier(0.29,0,0.2,1)] group-data-[active=true]:text-paper">
+                        {title}
+                      </span>
+                    </div>
+
+                    <div class="service-ledger__details">
+                      <div class="pt-4 lg:pt-0 opacity-0 translate-y-1 transition-[opacity,transform] duration-300 ease-out group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:delay-[380ms]">
+                        <p class="text-[14.5px] md:text-[15px] lg:text-[16px] leading-[1.55] text-paper/90">
                           {description}
                         </p>
+                        <ul class="mt-3 md:mt-4 flex flex-wrap gap-1.5" role="list">
+                          {strips.map((strip) => (
+                            <li class="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[11.5px] md:text-[12px] font-medium text-paper/95">
+                              {strip}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </div>
-
-                  <div
-                    aria-hidden="true"
-                    class="hidden md:block mt-4 md:mt-6 h-1 w-[calc(100%-5px)] rounded bg-white/50 backdrop-blur-lg overflow-hidden opacity-0 transition-opacity duration-[400ms] ease-[cubic-bezier(0.48,0,0.11,1)] group-data-[active=true]:md:opacity-100"
-                  >
-                    <div
-                      class="h-full w-0 bg-white rounded transition-[width] duration-[650ms] ease-[cubic-bezier(0.48,0,0.11,1)] delay-[550ms] group-data-[active=true]:md:w-full"
-                    ></div>
-                  </div>
                 </div>
-              </div>
-
-              <div
-                aria-hidden="true"
-                class="hidden md:block absolute inset-y-0 right-0 w-[200px] bg-black/60 origin-right scale-x-0 transition-transform duration-[150ms] ease-out group-data-[active=true]:scale-x-100 group-data-[active=true]:duration-[900ms] group-data-[active=true]:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[active=true]:delay-[500ms]"
-              ></div>
-
-              <div
-                class="hidden md:flex absolute inset-y-0 right-0 w-[200px] p-5 md:p-6 items-center pointer-events-none"
-              >
-                <p class="text-paper/95 text-[14px] leading-[1.5] font-normal tracking-[0.005em] opacity-0 translate-y-1 group-data-[active=true]:opacity-100 group-data-[active=true]:translate-y-0 group-data-[active=true]:transition-[opacity,transform] group-data-[active=true]:duration-500 group-data-[active=true]:delay-700">
-                  {description}
-                </p>
               </div>
             </article>
           );
@@ -743,6 +736,102 @@ const principlesTitle = principlesTitleLines.map((line, lineIdx) => {
   </script>
 
   <style>
+    /* ---- Cartões de serviço: painel-legenda ----
+       Transições de grid-template-* animam o reveal (Chrome 107+, Safari 16,
+       Firefox 66); onde não há suporte, o painel apenas troca de estado. */
+    .service-ledger {
+      -webkit-backdrop-filter: blur(0px);
+      backdrop-filter: blur(0px);
+      transition:
+        background-color 400ms cubic-bezier(0.48, 0, 0.11, 1),
+        border-color 400ms cubic-bezier(0.48, 0, 0.11, 1),
+        -webkit-backdrop-filter 400ms cubic-bezier(0.48, 0, 0.11, 1),
+        backdrop-filter 400ms cubic-bezier(0.48, 0, 0.11, 1);
+    }
+    [data-service-card][data-active="true"] .service-ledger {
+      background-color: rgba(20, 19, 17, 0.42);
+      border-color: rgba(255, 255, 255, 0.16);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      backdrop-filter: blur(18px) saturate(1.2);
+    }
+    .service-ledger__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto 0fr;
+      transition:
+        grid-template-rows 500ms cubic-bezier(0.29, 0, 0.2, 1),
+        grid-template-columns 500ms cubic-bezier(0.29, 0, 0.2, 1),
+        column-gap 500ms cubic-bezier(0.29, 0, 0.2, 1);
+    }
+    [data-service-card][data-active="true"] .service-ledger__grid {
+      grid-template-rows: auto 1fr;
+    }
+    .service-ledger__details {
+      min-width: 0;
+      overflow: hidden;
+    }
+    .service-ledger__heading {
+      font-size: 1.5rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      hyphens: auto;
+    }
+    /* Do md ao lg os cartões compactos são estreitos: título menor */
+    @media (min-width: 768px) {
+      .service-ledger__heading {
+        font-size: 1.125rem;
+      }
+      [data-service-card][data-active="true"] .service-ledger__heading {
+        font-size: 2rem;
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+      }
+    }
+    @media (min-width: 1024px) {
+      /* O acordeão é o container: a largura do texto de detalhes é fixada
+         na largura que a coluna terá no cartão ativo, então a altura do
+         painel não muda entre estados e o texto entra em "cortina". */
+      #servicos-accordion {
+        container-type: inline-size;
+      }
+      .service-ledger__grid {
+        grid-template-rows: auto;
+        grid-template-columns: minmax(0, 1fr) 0fr;
+        column-gap: 0;
+        align-items: end;
+      }
+      [data-service-card][data-active="true"] .service-ledger__grid {
+        grid-template-rows: auto;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+        column-gap: 2rem;
+      }
+      /* 74px = paddings do cartão (20) e do painel (16) dos dois lados + borda */
+      .service-ledger__details > div {
+        width: 14rem;
+        width: calc(((100cqw - 48px) * 0.6 - 74px - 2rem) * 0.55);
+      }
+    }
+    @media (min-width: 1280px) {
+      /* 82px = paddings de 20 + 20 dos dois lados + borda */
+      .service-ledger__details > div {
+        width: calc(((100cqw - 48px) * 0.6 - 82px - 2rem) * 0.55);
+      }
+      .service-ledger__heading {
+        font-size: 1.5rem;
+      }
+      [data-service-card][data-active="true"] .service-ledger__heading {
+        font-size: 2.625rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .service-ledger,
+      .service-ledger__grid,
+      .service-ledger__heading {
+        transition: none;
+      }
+    }
+
     .split-text-word {
       display: inline-block;
       opacity: 0;

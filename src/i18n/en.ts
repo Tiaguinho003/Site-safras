@@ -112,7 +112,7 @@ const dict = {
         number: "01",
         title: "Market & Trading",
         imageAlt:
-          "Safras & Negócios advisor with a clipboard guiding a coffee grower on a mountain estate",
+          "Office desk with a calendar, mug and Safras & Negócios business cards",
         description:
           "We broker coffee market deals with market analysis, commercial advisory, and end-to-end oversight of every negotiation.",
         strips: [
@@ -127,7 +127,7 @@ const dict = {
         number: "02",
         title: "Quality Analysis",
         imageAlt:
-          "Green coffee beans on a black Safras & Negócios mat, beside a grading screen",
+          "Hands sorting green coffee beans on a black Safras & Negócios grading mat",
         description:
           "We evaluate each sample through grading, cupping, and moisture analysis, providing technical data for safer negotiations.",
         strips: ["Bean grading", "Cupping", "Moisture analysis"],
@@ -210,7 +210,6 @@ const dict = {
   contact: {
     sectionLabel: "[ Contact ]",
     sectionAriaLabel: "Contact",
-    cityMarkerLabel: "São Sebastião do Paraíso, MG",
     whatsappPrefill:
       "Hello! I found Safras & Negócios through the website and would like more information.",
     details: {
