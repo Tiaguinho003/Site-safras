@@ -128,7 +128,6 @@ const dict = {
           "We broker coffee deals, with market analysis and oversight of the whole negotiation.",
         strips: [
           "Commercial advisory",
-          "Physical market",
           "Futures market",
           "Production/Export\nbridge",
           "Financial CPR",
@@ -147,10 +146,10 @@ const dict = {
         number: "03",
         title: "Logistics Support",
         imageAlt:
-          "Safras & Negócios team overseeing the loading of coffee bags onto a truck with a forklift",
+          "Forklift pouring green coffee from a big bag into a truck bed, with staff overseeing the loading",
         description:
-          "We schedule shipping and unloading, issue shipping invoices and oversee the whole process.",
-        strips: ["Shipping", "Unloading", "After-sales support"],
+          "Shipping scheduling and inspections, with oversight of the entire after-sales process.",
+        strips: ["Shipping", "Inspection", "After-sales support"],
       },
     },
   },

@@ -129,7 +129,6 @@ const dict = {
           "Intermediamos negocios en el mercado del café, con análisis de mercado y acompañamiento de toda la negociación.",
         strips: [
           "Asesoría comercial",
-          "Mercado físico",
           "Mercado de futuros",
           "Conexión\nProducción/Exportación",
           "CPR financiero",
@@ -152,10 +151,10 @@ const dict = {
         number: "03",
         title: "Soporte Logístico",
         imageAlt:
-          "Equipo de Safras & Negócios supervisando la carga de sacos de café en camión con montacargas",
+          "Montacargas vaciando café verde de un big bag en la caja de un camión, con personal supervisando la carga",
         description:
-          "Programamos embarques y desembarques, emitimos facturas de envío y acompañamos todo el proceso.",
-        strips: ["Embarque", "Desembarque", "Soporte postventa"],
+          "Programación e inspección de embarques, con acompañamiento de todo el proceso postventa.",
+        strips: ["Embarque", "Inspección", "Soporte postventa"],
       },
     },
   },

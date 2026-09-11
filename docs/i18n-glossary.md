@@ -265,7 +265,6 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | PT | EN | ES |
 |----|-----|-----|
 | Consultoria comercial | Commercial advisory | Asesoría comercial |
-| Mercado físico | Physical market | Mercado físico |
 | Mercado futuro | Futures market | Mercado de futuros |
 | Conexão Produção/Exportação | Production/Export bridge | Conexión Producción/Exportación |
 | CPR financeira | Financial CPR | CPR financiero |
@@ -273,8 +272,10 @@ Cada idioma traduz os anchors. A rota `/en/#contact` é equivalente a `/#contato
 | Análise sensorial | Cupping | Catación |
 | Análise de umidade | Moisture analysis | Análisis de humedad |
 | Embarque | Shipping | Embarque |
-| Desembarque | Unloading | Desembarque |
+| Conferência | Inspection | Inspección |
 | Suporte Pós Venda | After-sales support | Soporte postventa |
+
+"Conferência" reusa a decisão da opção de interesse do formulário (§8, "Embarques e conferências").
 
 ---
 
