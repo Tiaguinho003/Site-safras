@@ -1,5 +1,5 @@
 ---
-import logoCompleto from "../../assets/branding/safras-logo-completo.svg";
+import logoCompleto from "../../assets/branding/safras-logo-completo-escuro.svg";
 import { mainNav } from "../../data/navigation";
 import { useTranslation, DEFAULT_LOCALE } from "../../i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
@@ -99,11 +99,7 @@ const contactHref = localizeAnchor("contato");
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
+              <path class="site-header__menu-icon-bars" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /><path class="site-header__menu-icon-x" stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6 6 18" />
             </svg>
           </button>
         </div>
@@ -196,52 +192,56 @@ const contactHref = localizeAnchor("contato");
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+          <path class="site-header__menu-icon-bars" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /><path class="site-header__menu-icon-x" stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6 6 18" />
         </svg>
       </button>
     </div>
   </div>
 </header>
 
-<!-- Mobile dropdown lives outside the headers so either hamburger
-     (hero or sticky) can toggle it, even when one is off-screen. -->
-<nav
-  id="mobile-menu"
-  aria-label={t("nav.mobileMenuAriaLabel")}
-  hidden
-  class="site-mobile-menu lg:hidden"
->
-  <ul class="px-6 py-4 space-y-1">
-    {
-      mainNav.map((item) => (
-        <li>
-          <a
-            data-nav-link
-            href={localizeAnchor(item.anchor)}
-            class="site-mobile-link block px-3 py-2.5 rounded-md text-base font-medium transition-colors"
-          >
-            {t(item.labelKey)}
-          </a>
-        </li>
-      ))
-    }
-    <li class="pt-3 sm:hidden">
+<!-- Menu mobile. Vive fora dos headers para que qualquer hambúrguer (hero
+     ou sticky) o controle. O backdrop escurece e desfoca a página; o painel é
+     um cartão de vidro fosco. Clique fora, Esc e resize ≥ lg fecham. -->
+<div id="mobile-menu" hidden class="site-mobile-menu lg:hidden">
+  <div class="site-mobile-menu__backdrop" aria-hidden="true"></div>
+  <nav aria-label={t("nav.mobileMenuAriaLabel")} class="site-mobile-menu__panel">
+    <ul class="site-mobile-menu__list" role="list">
+      {
+        mainNav.map((item, i) => (
+          <li class="site-mobile-menu__item" style={`--i: ${i}`}>
+            <a
+              data-nav-link
+              href={localizeAnchor(item.anchor)}
+              class="site-mobile-link"
+            >
+              <span class="site-mobile-link__dot" aria-hidden="true"></span>
+              <span class="site-mobile-link__label">{t(item.labelKey)}</span>
+              <span class="site-mobile-link__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div
+      class="site-mobile-menu__item site-mobile-menu__cta sm:hidden"
+      style={`--i: ${mainNav.length}`}
+    >
       <a
         href={contactHref}
-        class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors"
+        class="w-full inline-flex items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark text-paper text-base font-medium px-5 py-3 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
       >
         {t("nav.cta")}
         <span aria-hidden="true">→</span>
       </a>
-    </li>
-    <li class="pt-2 border-t border-line/60 mt-2">
+    </div>
+    <div
+      class="site-mobile-menu__item site-mobile-menu__lang"
+      style={`--i: ${mainNav.length + 1}`}
+    >
       <LanguageSwitcher mode="inline" />
-    </li>
-  </ul>
-</nav>
+    </div>
+  </nav>
+</div>
 
 <style>
   /* ===========================================================
@@ -367,28 +367,195 @@ const contactHref = localizeAnchor("contato");
       0 0 12px rgba(31, 107, 58, 0.28);
   }
 
-  /* Mobile dropdown, fixed below the sticky bar */
-  .site-mobile-menu {
-    position: fixed;
-    top: var(--site-header-h);
-    left: 0;
-    right: 0;
-    z-index: 35;
-    background-color: var(--color-paper);
-    border-top: 1px solid var(--color-line);
-    border-bottom: 1px solid var(--color-line);
+  /* Ícone do hambúrguer: barras fechado, X aberto */
+  .site-header__menu-icon-x {
+    display: none;
+  }
+  .site-header__menu-btn[aria-expanded="true"] .site-header__menu-icon-bars {
+    display: none;
+  }
+  .site-header__menu-btn[aria-expanded="true"] .site-header__menu-icon-x {
+    display: block;
   }
 
-  /* Mobile nav link colors driven by data-active (set by scroll spy) */
-  .site-mobile-link {
-    color: var(--color-ink);
+  /* ===========================================================
+     Menu mobile: camada fixa abaixo do header. O backdrop escurece e
+     desfoca a página; o painel flutua como um cartão de vidro fosco.
+     `hidden` no wrapper controla a visibilidade (script abaixo).
+     =========================================================== */
+  .site-mobile-menu {
+    position: fixed;
+    inset: 0;
+    top: var(--site-header-h);
+    z-index: 35;
   }
-  .site-mobile-link:hover {
-    background-color: var(--color-paper-alt);
+  .site-mobile-menu__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(20, 19, 17, 0.42);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    animation: menu-backdrop-in 240ms ease-out both;
+  }
+  .site-mobile-menu__panel {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    right: 1rem;
+    max-height: calc(100% - 1.5rem);
+    overflow-y: auto;
+    padding: 0.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.86);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow:
+      0 24px 60px -24px rgba(20, 19, 17, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transform-origin: top center;
+    animation: menu-panel-in 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  /* Filete da marca no topo do cartão */
+  .site-mobile-menu__panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(
+      90deg,
+      var(--color-brand),
+      var(--color-brand-tint)
+    );
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .site-mobile-menu__panel {
+      background-color: rgba(255, 255, 255, 0.98);
+    }
+  }
+  /* Tablet: o cartão encosta à direita, sob o hambúrguer */
+  @media (min-width: 640px) {
+    .site-mobile-menu__panel {
+      left: auto;
+      width: min(24rem, calc(100% - 2rem));
+    }
+  }
+  .site-mobile-menu__list {
+    padding-top: 0.25rem;
+  }
+  .site-mobile-menu__item {
+    animation: menu-item-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(60ms + var(--i, 0) * 45ms);
+  }
+  .site-mobile-menu__item + .site-mobile-menu__item {
+    border-top: 1px solid rgba(20, 19, 17, 0.06);
+  }
+  .site-mobile-menu__cta {
+    padding: 0.75rem 0.5rem 0.25rem;
+  }
+  .site-mobile-menu__lang {
+    margin-top: 0.5rem;
+    padding: 0.875rem 1rem 0.375rem;
+  }
+
+  /* Links: ponto da marca marca a seção ativa (scroll spy) */
+  .site-mobile-link {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.875rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+  .site-mobile-link__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--color-brand);
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 200ms ease,
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .site-mobile-link__label {
+    flex: 1;
+  }
+  .site-mobile-link__arrow {
+    color: var(--color-ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+  .site-mobile-link:hover,
+  .site-mobile-link:focus-visible {
+    background-color: rgba(2, 92, 0, 0.06);
+    outline: none;
+  }
+  .site-mobile-link:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-brand);
+  }
+  .site-mobile-link:hover .site-mobile-link__arrow,
+  .site-mobile-link:focus-visible .site-mobile-link__arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
   .site-mobile-link[data-active] {
     color: var(--color-brand);
-    background-color: var(--color-paper-alt);
+    font-weight: 600;
+  }
+  .site-mobile-link[data-active] .site-mobile-link__dot {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(2, 92, 0, 0.12);
+  }
+
+  @keyframes menu-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes menu-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes menu-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-mobile-menu__backdrop,
+    .site-mobile-menu__panel,
+    .site-mobile-menu__item {
+      animation: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -458,6 +625,8 @@ const contactHref = localizeAnchor("contato");
     if (!menu) return;
     if (open) menu.removeAttribute("hidden");
     else menu.setAttribute("hidden", "");
+    // Página não rola atrás do menu aberto
+    document.documentElement.style.overflow = open ? "hidden" : "";
     toggles.forEach((btn) => {
       btn.setAttribute("aria-expanded", String(open));
       // Labels traduzidos vêm via data-attr setado pelo template (locale-aware)
@@ -473,6 +642,39 @@ const contactHref = localizeAnchor("contato");
       const isOpen = menu && !menu.hasAttribute("hidden");
       setMenuState(!isOpen);
     });
+  });
+
+  const isMenuOpen = () => Boolean(menu && !menu.hasAttribute("hidden"));
+
+  // Clique fora do painel (backdrop, header ou qualquer área) fecha.
+  // O próprio botão fica de fora: ele já alterna o estado acima.
+  document.addEventListener("click", (event) => {
+    if (!isMenuOpen()) return;
+    const target = event.target as Element | null;
+    if (!target) return;
+    if (
+      target.closest(".site-mobile-menu__panel") ||
+      target.closest(".js-menu-toggle")
+    ) {
+      return;
+    }
+    setMenuState(false);
+  });
+
+  // Esc fecha e devolve o foco ao hambúrguer visível
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !isMenuOpen()) return;
+    setMenuState(false);
+    const visibleToggle = Array.from(toggles).find(
+      (btn) => btn.getClientRects().length > 0
+    );
+    visibleToggle?.focus();
+  });
+
+  // Virou desktop (lg) com o menu aberto: fecha e libera a rolagem
+  const desktopQuery = window.matchMedia("(min-width: 1024px)");
+  desktopQuery.addEventListener("change", (event) => {
+    if (event.matches && isMenuOpen()) setMenuState(false);
   });
 
   // ---------- Scroll spy (active state across all nav variants) ----------

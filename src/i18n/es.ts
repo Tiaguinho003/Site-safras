@@ -113,7 +113,7 @@ const dict = {
         number: "01",
         title: "Mercado y Negociación",
         imageAlt:
-          "Asesor de Safras & Negócios con tablero orientando a un productor de café en finca de montaña",
+          "Escritorio con calendario, taza y tarjetas de visita de Safras & Negócios",
         description:
           "Intermediamos negocios en el mercado del café con análisis de mercado, asesoría comercial y acompañamiento completo de la negociación.",
         strips: [
@@ -128,7 +128,7 @@ const dict = {
         number: "02",
         title: "Análisis de Calidad",
         imageAlt:
-          "Granos de café verde sobre tapete negro Safras & Negócios, al lado de criba de clasificación",
+          "Manos separando granos de café verde sobre un tapete negro de clasificación de Safras & Negócios",
         description:
           "Evaluamos cada muestra mediante clasificación, catación y análisis de humedad, ofreciendo información técnica para una negociación más segura.",
         strips: [
@@ -215,7 +215,6 @@ const dict = {
   contact: {
     sectionLabel: "[ Contacto ]",
     sectionAriaLabel: "Contacto",
-    cityMarkerLabel: "São Sebastião do Paraíso, MG",
     whatsappPrefill:
       "¡Hola! Encontré Safras & Negócios a través del sitio web y me gustaría recibir más información.",
     details: {
