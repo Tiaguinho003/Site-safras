@@ -148,7 +148,8 @@ Decisões de arquitetura visual que permanecem aqui:
   passa a ser rebaixado inteiro a cada visita. Ver "dívidas conhecidas" em `design-system.md`.
 - **Movimento comedido** — animações reforçam hierarquia e sempre respeitam
   `prefers-reduced-motion: reduce`. Animações mais custosas são simplificadas ou desativadas no
-  celular quando não acrescentam informação (decisão da Fase 1).
+  celular quando não acrescentam informação (decisão da Fase 1). Animação só de `transform`, como a
+  dos grãos decorativos, fica ligada (revisão de 11/09/2026).
 - **Rolagem nativa** — a biblioteca de smooth scroll (`lenis`) foi removida na Fase 1 em favor da
   rolagem nativa do navegador, reduzindo JavaScript sem perder a transição da barra superior.
 
