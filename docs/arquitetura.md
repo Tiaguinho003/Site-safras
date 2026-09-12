@@ -267,6 +267,12 @@ Pendências registradas, ainda **não** implementadas:
   alta prioridade para desambiguar a entidade, dado o conflito de marca documentado no plano.
 - `Organization`, `WebSite` e `BreadcrumbList` — só fazem sentido quando houver mais páginas
   (Fase 4). Não devem ser adicionados antes de existir conteúdo visível correspondente.
+- **Revisão de 12/09/2026** (levantamento em [`plataformas-google.md`](./plataformas-google.md)):
+  `WebSite` (nome do site na Busca) e os campos `@id`, `geo`, `sameAs`, `hasMap`, `logo` e
+  `description` do `LocalBusiness` passam à Onda 1, sem depender de conteúdo novo; `BreadcrumbList`
+  segue condicionado a mais de um nível de navegação; `Organization` separado não é necessário,
+  porque `LocalBusiness` já é subtipo dele. Nunca `taxID`, `vatID` ou `legalName`: exporiam CNPJ e
+  razão social no repositório público.
 - `LocalBusiness` dependia da confirmação de qual entidade jurídica é a pública. **Resolvido em
   20/08/2026:** entidade única confirmada, endereço e telefone corretos no schema. Ver
   `registro-operacional.md`.

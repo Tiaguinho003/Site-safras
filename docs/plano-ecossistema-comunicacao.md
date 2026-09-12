@@ -9,11 +9,12 @@
 | Campo | Valor |
 |---|---|
 | Criado em | 20/08/2026 |
-| Versão | 1.3 |
-| Última revisão | 10/09/2026 |
-| Estado | NÃO INICIADA como trilha — **pré-condições atendidas** em 20–21/08/2026; a §7 (eventos de conversão) foi entregue pela Fase 2 do plano de SEO em 21/08/2026; o início da trilha depende de decisão do proprietário |
+| Versão | 1.4 |
+| Última revisão | 12/09/2026 |
+| Estado | NÃO INICIADA como trilha — **pré-condições atendidas** em 20–21/08/2026; a §7 (eventos de conversão) foi entregue pela Fase 2 do plano de SEO em 21/08/2026; o início da trilha depende de decisão do proprietário; **descritor único decidido em 11/09/2026** ("Corretora de café"), o que libera perfil comercial, `sameAs` e bios — ver a Onda 0 do [`plataformas-google.md`](./plataformas-google.md) |
 | Origem | Auditoria externa de 20/08/2026 (§15 do plano de SEO) |
 | Registro de decisões | [`registro-operacional.md`](./registro-operacional.md) |
+| Levantamento de plataformas | [`plataformas-google.md`](./plataformas-google.md) |
 
 ---
 
@@ -78,13 +79,13 @@ e as decisões em aberto do cliente — descritor, canal e credenciais.
 |---|---|---|---|
 | Site (6 URLs indexáveis) | Em produção, saudável | Sim — GA4 sob consentimento desde 20/08/2026 | Técnico |
 | WhatsApp (`wa.me`) | Links no rodapé e na caixa de erro do formulário; também em 404 e manutenção, que não têm medição. **Não há link no header** — o CTA do header aponta para o formulário | Sim — `contato_whatsapp` no clique, sob consentimento | Comercial |
-| Canal do WhatsApp | A criar. Divulgado pelo site | Não | Marketing |
+| Canal do WhatsApp | A criar. Divulgado pelo site. Tem página pública (`whatsapp.com/channel/…`) que o Google pode indexar: nome, descrição e URL do site precisam seguir o descritor e o NAP | Não | Marketing |
 | Comunidade do WhatsApp | 3 grupos existentes, anteriores ao programa, a serem reunidos em uma comunidade. **Não divulgada publicamente** | Não | Comercial |
 | Formulário (Web3Forms) | Funcional; coleta perfil e interesse | Sim — `formulario_envio` e `formulario_erro`, com `perfil`, `interesse` e `estado_uf` | Comercial |
 | Telefone | Publicado no site | Sim — `contato_telefone` no clique | Comercial |
 | E-mail público | Publicado no site | Sim — `contato_email` no clique | Comercial |
-| Rede social oficial | Audiência real, link para o site na bio | Não | Marketing |
-| Google Business Profile | Existe; acesso disponível | Não | Marketing |
+| Rede social oficial | Audiência real, link para o site na bio. Fotos, vídeos e carrosséis públicos de conta profissional são indexáveis pelo Google desde 10/07/2025 (opção ligada por padrão; conferir). A bio deve trazer o nome completo e o descritor | Não | Marketing |
+| Google Business Profile | Existe; acesso disponível; reivindicação liberada em 11/09/2026 (descritor decidido). Depois do ajuste, vincular ao GA4 (Admin → Vínculos de produtos, disponível desde junho de 2026) | Não — passa a sim com o vínculo GA4 ↔ Perfil da Empresa | Marketing |
 | QR do cartão físico (`/qr`) | **Único canal com UTM** | Parcialmente | Marketing |
 
 O QR é a prova de que o padrão funciona: ele já carrega `utm_source`, `utm_medium` e
@@ -108,6 +109,14 @@ Sempre minúsculas, sem acento, sem espaço. `utm_source` identifica **onde a pe
 | Assinatura de e-mail | `email` | `assinatura` | `institucional` |
 | Canal do WhatsApp | `whatsapp` | `canal` | `<tema-ou-data>` |
 | Comunidade do WhatsApp | `whatsapp` | `comunidade` | `<tema-ou-data>` |
+
+**Leitura no GA4 (decisão de 11/09/2026):** `local`, `canal` e `comunidade` não batem com nenhum
+canal padrão do GA4 e cairiam em *Unassigned*. A convenção fica como está e o painel ganha um
+**grupo de canais personalizado** — "Perfil comercial" (origem `gbp`) e "Mensageria" (origem
+`whatsapp`) —, gratuito e retroativo. Nunca usar `utm_source=google` no link do perfil: misturaria
+o perfil com a busca orgânica comum. O vínculo GA4 ↔ Perfil da Empresa (junho de 2026) traz
+cliques, ligações e rotas do perfil sem UTM; a UTM continua necessária para ver o que a pessoa fez
+depois do clique.
 
 **Nunca colocar UTM em link interno do site** — isso reinicia a sessão e destrói a atribuição
 original. UTM é só para links que **entram** no site.
@@ -292,13 +301,15 @@ já estão definidos na Fase 2 do plano de SEO. Não duplicar aqui.
 A auditoria mostrou que a marca disputa espaço com empresas de nome semelhante e de porte maior.
 A defesa é consistência, repetida em todos os canais:
 
-- **um descritor único** — decisão em aberto, hoje o site e a rede social usam descritores
-  diferentes;
+- **um descritor único** — **decidido em 11/09/2026: "Corretora de café"**; falta aplicar na bio da
+  rede social e no perfil comercial;
 - **NAP idêntico** em site, perfil comercial e diretórios — depende do telefone oficial;
 - **`sameAs`** no `LocalBusiness` ligando os perfis oficiais, para que o buscador saiba que são a
   mesma entidade;
 - ~~descritor geográfico nos títulos~~ — avaliado e **revogado em 20/08/2026** por decisão do cliente
-  (plano de SEO §15): a cidade não entra no título;
+  (plano de SEO §15): a cidade não entra no título. **Reaberto em 11/09/2026** como revisão prevista:
+  cidade ou região entram no `title` e no H1 se as consultas do baseline (17/09/2026) não trouxerem
+  termos da região;
 - correção dos diretórios que publicam telefone divergente.
 
 ---
@@ -308,11 +319,16 @@ A defesa é consistência, repetida em todos os canais:
 Pré-condições atendidas em 20–21/08/2026. A execução está liberada; iniciar a trilha é decisão do
 proprietário.
 
-- [ ] Definir e travar o descritor único da marca.
+- [x] Definir e travar o descritor único da marca — "Corretora de café", 11/09/2026.
+- [ ] Aplicar o descritor na bio da rede social e na descrição do perfil comercial.
 - [ ] Padronizar NAP em site, perfil comercial e diretórios.
 - [ ] Adicionar `sameAs` ao `LocalBusiness`.
 - [ ] Aplicar a convenção de UTM em todos os links de entrada.
-- [ ] Substituir o link genérico de mapa pelo link real do perfil comercial.
+- [ ] Substituir o link genérico de mapa pelo link real do perfil comercial — depende do perfil verificado; é código (Onda 1), e o link segue sem evento por decisão da §7.
+- [ ] Vincular o GA4 ao Perfil da Empresa (Admin → Vínculos de produtos).
+- [ ] Criar o grupo de canais personalizado no GA4 ("Perfil comercial" e "Mensageria").
+- [ ] Ativar o contato por WhatsApp no perfil comercial e conferir a opção de indexação por buscadores na conta profissional do Instagram.
+- [ ] Cadastrar Bing Places (importando do perfil do Google), Apple Business e Waze com NAP idêntico ao do site.
 - [x] Instrumentar os cinco eventos de conversão — 21/08/2026; 31 verificações Playwright na entrega e 92 na suíte versionada.
 - [x] Atualizar a CSP para o domínio de analytics — 20/08/2026 (Fase C).
 - [ ] Criar a planilha de funil com as três camadas.
@@ -345,7 +361,7 @@ proprietário.
 | Tempo até o primeiro contato | Funil |
 | Distribuição por perfil e interesse | Funil |
 | Participação do orgânico no total | Search Console + funil |
-| Ações no perfil comercial (rotas, ligações, cliques) | Google Business Profile |
+| Ações no perfil comercial (rotas, ligações, cliques, mensagens) | Google Business Profile e, após o vínculo, coleção *Perfil da Empresa* no GA4 |
 
 ---
 
