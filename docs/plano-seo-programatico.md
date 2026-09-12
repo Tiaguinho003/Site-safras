@@ -11,13 +11,28 @@
 | Repositório | `Tiaguinho003/Site-safras` |
 | GCP/Firebase | `site-safras` |
 | Criado em | 20/07/2026 |
-| Versão | 3.5 |
-| Fase ativa | Fase 2 — Mensuração e presença oficial (código e painel concluídos; resta a coleta comparável até 17/09/2026, o perfil comercial e dois itens operacionais do checklist: alertas e registro de consumo) |
+| Versão | 3.6 |
+| Fase ativa | Fase 2 — Mensuração e presença oficial (código e painel concluídos; resta a coleta comparável até 17/09/2026, o perfil comercial — liberado em 11/09/2026 pela decisão do descritor — e dois itens operacionais do checklist: alertas e registro de consumo) |
 | Ação extraordinária | H0 — APROVADA e verificada em produção |
-| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; Search Console verificado e sitemap enviado em 20/08/2026; painel do GA4 (seis dimensões, quatro eventos principais, tráfego interno) configurado e conferido em 10/09/2026. Resta tempo de coleta (28 dias das duas fontes em 17/09/2026), o perfil comercial, que depende de decisão em aberto, e dois itens operacionais do checklist (alertas de disponibilidade e registro de consumo do GCP). Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas |
-| Última revisão | 10/09/2026 |
-| Próxima revisão | A partir de 17/09/2026 — preencher o baseline com 28 dias das duas fontes, conferir as dimensões nos relatórios e avaliar o gate da Fase 2 |
-| Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) |
+| Estado geral | **Fase 2 em execução** — privacidade, consentimento, GA4 sob consentimento e cinco eventos de conversão no ar desde 21/08/2026; Search Console verificado e sitemap enviado em 20/08/2026; painel do GA4 (seis dimensões, quatro eventos principais, tráfego interno) configurado e conferido em 10/09/2026. Resta tempo de coleta (28 dias das duas fontes em 17/09/2026), o perfil comercial, que depende de decisão em aberto, e dois itens operacionais do checklist (alertas de disponibilidade e registro de consumo do GCP). Fase 1 APROVADA em 20/08/2026 com performance 100 nos três idiomas Em 11/09/2026 o descritor único foi decidido ("Corretora de café"), liberando o perfil comercial, e o levantamento das plataformas Google virou o documento irmão [`plataformas-google.md`](./plataformas-google.md), com plano de ação em ondas a custo zero |
+| Última revisão | 12/09/2026 |
+| Próxima revisão | A partir de 17/09/2026 — preencher o baseline com 28 dias das duas fontes, conferir as dimensões nos relatórios, aplicar o critério da cidade no título (consultas com ou sem termos da região) e avaliar o gate da Fase 2 |
+| Documentos irmãos | [`registro-operacional.md`](./registro-operacional.md) · [`plano-ecossistema-comunicacao.md`](./plano-ecossistema-comunicacao.md) · [`plataformas-google.md`](./plataformas-google.md) |
+
+**Mudanças da versão 3.6 (12/09/2026):** levantamento das plataformas Google. Cinco frentes de pesquisa
+(documentos, código, Busca/Search Console, Perfil da Empresa/Maps, GA4/canais/IA, estado de setembro
+de 2026) viraram o documento irmão [`plataformas-google.md`](./plataformas-google.md), com matriz de
+capacidades, tabela existe/falta no código e plano de ação em quatro ondas a custo zero. Neste
+documento: §1 e §14 registram o descritor decidido em 11/09/2026 ("Corretora de café") e a liberação
+do perfil comercial; a Fase 2 desdobra o item do perfil comercial e ganha o vínculo GA4 ↔ Perfil da
+Empresa, o grupo de canais personalizado e três leituras novas no painel mensal (*Generative AI
+performance*, desempenho do perfil, *Recommendations*); a Fase 3 corrige a condição do Keyword
+Planner (conta Google Ads com faturamento, sem campanha) e soma o relatório de IA do Search Console;
+as Fases 4 e 6 anotam a rota só em português, a página de autor (`ProfilePage`), o `BreadcrumbList`
+e a autoria nominal decidida; a §10 lista as citações gratuitas fora do Google e tira o BigQuery; a
+§11 ganha o risco de queda de CTR com respostas de IA; a §15 fecha o achado 3; a §16 recebe as
+referências oficiais novas. Nenhuma fase mudou de estado. Decisões no
+[`registro-operacional.md`](./registro-operacional.md).
 
 **Mudanças da versão 3.5 (10/09/2026):** higiene documental. Auditoria cruzada de todos os documentos
 contra o código e entre si (ver registro). Neste documento: itens da §6 que ainda diziam "publicação
@@ -187,7 +202,7 @@ Estas regras valem em todas as fases:
 - [x] Revisar títulos, descrições e H1 ainda genéricos — revisão inicial nos três idiomas em 21/07/2026 (Fase 1); nova revisão só com dados do Search Console.
 - [x] Adicionar dados estruturados somente quando correspondam ao conteúdo visível — `LocalBusiness` institucional em 21/07/2026 (Fase 1).
 - [x] Adicionar metadados sociais — Open Graph, Twitter Cards e imagem social real em 21/07/2026 (Fase 1).
-- [ ] Identidade local consistente nas presenças externas (diretórios, perfil comercial) — depende do descritor; ver §15 e o plano do ecossistema.
+- [ ] Identidade local consistente nas presenças externas (diretórios, perfil comercial) — descritor decidido em 11/09/2026; execução na Onda 0 do [`plataformas-google.md`](./plataformas-google.md); ver §15 e o plano do ecossistema.
 - [x] Otimizar imagens grandes e remover atrasos artificiais de carregamento — 21/07/2026 (Fase 1); performance 100 confirmada em 20/08/2026.
 - [x] Confirmado: a detecção automática de idioma deve ser substituída por sugestão que respeite a URL solicitada.
 - [x] Confirmado: os depoimentos atuais não são reais.
@@ -767,8 +782,11 @@ frase precisa acompanhar qualquer relatório.
       retroativamente.
 - [x] Excluir acessos internos quando possível — regras por IP fixo da casa (anterior a 10/09/2026) e do escritório (10/09/2026), filtro *Internal Traffic* ativo; endereços só no registro privado da empresa. Acessos de outras redes entram nos números.
 - [ ] Configurar painel mensal — cadência e roteiro **definidos** em 10/09/2026 (ver *Painel e cadência de revisão*, abaixo); as quatro explorações ainda não existem e serão criadas a partir de 12/09/2026, quando as dimensões estiverem disponíveis nos relatórios. Marcar só com as explorações salvas.
-- [ ] Reivindicar ou revisar Google Business Profile.
-- [ ] Padronizar informações oficiais no perfil comercial.
+- [ ] Reivindicar ou revisar o Perfil da Empresa no Google — liberado em 11/09/2026 pela decisão do descritor. Subitens (Onda 0 do [`plataformas-google.md`](./plataformas-google.md)): nome só "Safras & Negócios"; categoria primária escolhida no seletor e registrada; descrição com "corretora de café" e a cidade; serviços predefinidos e personalizados; endereço mais área de atendimento real; horário igual ao do site; telefone oficial; link do site com a UTM da convenção; WhatsApp no perfil; fotos, logo e capa; link e QR de avaliação.
+- [ ] Padronizar informações oficiais no perfil comercial e nas citações gratuitas (Bing Places importando do perfil, Apple Business, Waze), com NAP idêntico ao do site.
+- [ ] Vincular o GA4 ao Perfil da Empresa (Admin → Vínculos de produtos; disponível desde junho de 2026) — traz cliques no site, ligações, rotas e mensagens do perfil sem UTM nem credencial.
+- [ ] Criar o grupo de canais personalizado no GA4 — "Perfil comercial" (origem `gbp`) e "Mensageria" (origem `whatsapp`) — decisão de 11/09/2026.
+- [ ] Ler *Recommendations* e *Insights* do Search Console e registrar a primeira anotação (Search Console e GA4) com a data do ajuste do perfil.
 - [ ] Configurar alertas de disponibilidade e erros.
 - [ ] Registrar consumo e orçamento do Firebase/GCP.
 
@@ -859,17 +877,24 @@ Primeira revisão: primeira semana útil de outubro de 2026, já com o baseline 
 | 7 | GA4 → *Explore* → **Conversão por canal** | *Session source/medium* × eventos principais, com taxa | Que canal vale o esforço? |
 | 8 | GA4 → *Explore* → **Saúde do formulário** | `formulario_erro` × *Motivo do erro*, ao lado de `formulario_envio` | Estamos perdendo lead em silêncio? |
 | 9 | GA4 → qualquer um acima, segmentado por *Idioma* | contatos por idioma | EN e ES merecem investimento? |
+| 10 | Search Console → *Generative AI performance* | impressões em AI Overviews e AI Mode por página e país (sem cliques nem consultas; disponível para todos os sites desde 31/08/2026) | O conteúdo aparece nas respostas de IA? |
+| 11 | Perfil da Empresa → *Performance* e GA4 → coleção *Perfil da Empresa* (após o vínculo) | termos de pesquisa, visualizações, rotas, ligações, cliques no site e mensagens | O perfil gera contato? Para quais termos? |
+| 12 | Search Console → *Recommendations* e *Insights* | sugestões automáticas e consultas em ascensão | Há algo simples a corrigir este mês? |
 
 As explorações 5 a 9 dependem das dimensões personalizadas, disponíveis 24–48 h após o registro de
 10/09/2026; criá-las e salvá-las com esses nomes a partir de 12/09/2026. A 7 não depende. Tempo real
 e DebugView ficam fora da cadência: servem só para depuração. Quem recusa cookies não é contado,
 então todo número do GA4 é um piso, não o total.
 
+As leituras 10 a 12 entraram em 12/09/2026 (levantamento em [`plataformas-google.md`](./plataformas-google.md)).
+Anotar no Search Console e no GA4 cada publicação, ajuste de perfil e mudança de título, para que a
+leitura mensal separe efeito de conteúdo de efeito de plataforma.
+
 ### Gate da Fase 2
 
 - [x] Search Console coletando dados — propriedade verificada e sitemap enviado em 20/08/2026; desempenho de busca visível no painel em 10/09/2026.
 - [x] Analytics e eventos de conversão testados — 92 verificações automatizadas (`pnpm verify:medicao`) e verificação em produção em 09/09/2026.
-- [ ] Perfil comercial consistente.
+- [ ] Perfil comercial consistente — liberado em 11/09/2026 pelo descritor; marcar só com o perfil verificado e conferido em tela.
 - [ ] Baseline preenchido.
 - [x] Painel e cadência de revisão definidos — 10/09/2026, subseção acima.
 
@@ -885,11 +910,11 @@ Descobrir quais problemas e perguntas reais merecem conteúdo, sem transformar c
 
 ### Fontes permitidas
 
-- dados próprios do Search Console;
+- dados próprios do Search Console — *Performance* (consultas com impressão) e *Generative AI performance* (impressões em respostas de IA);
 - entrevistas com equipe e clientes;
 - dúvidas recebidas por telefone, formulário e WhatsApp;
-- Google Trends por meios oficiais;
-- Keyword Planner quando disponível;
+- Google Trends por meios oficiais — *Explore* (Brasil → Minas Gerais, cinco anos) e *Em alta agora*, com exportação em CSV; a API segue em alpha restrito e exigiria credencial;
+- Keyword Planner — exige conta Google Ads com dados de faturamento preenchidos e mostra faixas de volume sem campanha; conta autorizada em 11/09/2026, **sem campanha**;
 - fontes públicas como IBGE, Conab e órgãos setoriais;
 - pesquisas e publicações primárias;
 - análise manual dos resultados de busca;
@@ -941,7 +966,17 @@ Transformar a página institucional em uma estrutura coerente de páginas, hubs 
 - `/conteudos/perguntas/{tema}` — respostas úteis quando merecerem URL própria;
 - `/observatorio` — hub de inteligência regional;
 - `/observatorio/{estado}/{localidade}` — somente quando houver dados e análise exclusivos;
-- equivalentes localizados sob `/en` e `/es` somente quando houver tradução publicada e revisada.
+- equivalentes localizados sob `/en` e `/es` somente quando houver tradução publicada e revisada;
+- rota que existe **só em português** precisa de suporte no registro `routeKey → locale → pathname`
+  (`src/i18n/routes.ts`): hoje o tipo exige os três idiomas, e uma rota fora do registro cai no
+  fallback de prefixo e publicaria `hreflang` para 404. Regra: `hreflang` só dos idiomas que existem,
+  mais `x-default`; destino do seletor de idioma a decidir antes da primeira nota (ressalva de
+  20/08/2026);
+- `/sobre/{autor}` — página de autor com `ProfilePage`, destino do `author.url` das notas e guias
+  (autoria nominal decidida em 11/09/2026);
+- `BreadcrumbList` a partir do primeiro nível abaixo da home; gerador de links com UTM junto da
+  primeira nota (decisão de 20/08/2026). Detalhe técnico na Onda 2 do
+  [`plataformas-google.md`](./plataformas-google.md).
 
 ### Checklist
 
@@ -949,10 +984,11 @@ Transformar a página institucional em uma estrutura coerente de páginas, hubs 
 - [ ] Mapear cada intenção prioritária para uma URL.
 - [ ] Definir hubs e páginas-filhas.
 - [ ] Evitar mais de uma URL para a mesma intenção.
-- [ ] Projetar breadcrumbs.
+- [ ] Projetar breadcrumbs, com `BreadcrumbList` (resultado avançado só no desktop desde 01/2025).
 - [ ] Projetar links contextuais e conteúdos relacionados.
 - [ ] Definir regras de canonical, tradução e paginação.
-- [ ] Criar registro `routeKey → locale → pathname` para slugs realmente traduzidos.
+- [x] Criar registro `routeKey → locale → pathname` para slugs realmente traduzidos — 20/08/2026 (`src/i18n/routes.ts`).
+- [ ] Estender o registro para rota que existe só em português, com `hreflang` autorreferente mais `x-default`, ou nenhum — antes da primeira nota.
 - [ ] Definir o que recebe `noindex`.
 - [ ] Definir processo de consolidação e redirects.
 - [ ] Validar navegação com usuários e equipe.
@@ -1049,12 +1085,14 @@ O piloto deverá conter de 15 a 30 páginas, prioritariamente em PT-BR:
 - 2 a 4 casos reais ou fluxos operacionais documentados;
 - tradução apenas das páginas comerciais prioritárias quando revisadas.
 
+**Cadência decidida em 11/09/2026:** uma nota de mercado por semana e um guia por mês; a meta dos guias vale a partir da abertura dos guias, depois da Fase 3 (decisão de 20/08/2026). Horas por peça pesam mais que frequência.
+
 Clusters iniciais: autoridade e identidade; quem vende café; quem compra café; classificação e qualidade; mercado e gestão de risco; embarques e operações comerciais; cobertura geral.
 
 A revisão humana confirma fatos, serviços, termos técnicos, limites financeiros, fontes, datas e traduções. Ela não é apenas revisão ortográfica.
 
 - páginas dos serviços realmente prestados;
-- página completa sobre a empresa e especialistas;
+- página completa sobre a empresa e especialistas — notas e guias assinados pelo proprietário, com página de autor (`ProfilePage`), por decisão de 11/09/2026, condicionada ao consentimento registrado antes da primeira nota;
 - página de regiões atendidas, sem criar cidade fictícia;
 - guias principais sobre intermediação, qualidade, comercialização e embarque;
 - perguntas reais de produtores e compradores;
@@ -1065,6 +1103,7 @@ A revisão humana confirma fatos, serviços, termos técnicos, limites financeir
 
 - [ ] Selecionar de 15 a 30 páginas prioritárias.
 - [ ] Preparar briefing de intenção para cada página.
+- [ ] Confirmar o consentimento do proprietário para a autoria nominal, registrar a exceção ao boundary do nome (`AGENTS.md`/`CLAUDE.md` §8) e publicar a página de autor antes da primeira nota.
 - [ ] Produzir conteúdo original com especialista.
 - [ ] Incluir evidências, fontes e exemplos úteis.
 - [ ] Revisar títulos e snippets sem sensacionalismo.
@@ -1369,7 +1408,7 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 ### Itens que podem começar sem cobrança direta
 
 - Google Search Console;
-- Google Business Profile;
+- Google Business Profile, incluindo o vínculo com o GA4 (junho de 2026);
 - Google Analytics 4, na faixa padrão gratuita;
 - Google Trends;
 - Lighthouse e ferramentas de qualidade;
@@ -1378,12 +1417,14 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 - fontes públicas que permitam o uso pretendido.
 - Web3Forms gratuito, dentro do limite atual de 250 submissões mensais, somente como ponte temporária após recuperar a governança da conta.
 - planilha privada manual aprovada para o funil inicial, usando conta controlada pela empresa.
+- citações gratuitas fora do Google — Bing Places (importa do perfil do Google), Apple Business e Waze (autorizadas em 11/09/2026).
+- Keyword Planner por conta Google Ads sem campanha — exige dados de faturamento preenchidos, mas não gera cobrança enquanto não houver campanha (autorizado em 11/09/2026).
 
 ### Itens que podem gerar custo
 
 - tráfego e armazenamento do Firebase Hosting acima da franquia;
 - minutos de build acima da franquia;
-- BigQuery acima dos limites gratuitos;
+- BigQuery — fora por decisão de 11/09/2026: o sandbox apaga tabelas em 60 dias e guardar histórico exige faturamento ativo no projeto;
 - APIs, modelos de IA e serviços de monitoramento;
 - banco de dados, funções agendadas ou Cloud Run no futuro;
 - ferramentas profissionais de pesquisa ou auditoria;
@@ -1419,6 +1460,8 @@ Grande parte da base pode começar em faixas gratuitas, mas o programa não é n
 | Vazamento de dados pessoais | PII em Analytics, URL, log ou planilha ampla | separar camadas, minimizar campos e restringir acesso |
 | Retenção excessiva | cópias antigas em fornecedor, e-mail ou planilha | política de retenção e exclusão em todas as cópias |
 | Confusão de marca | resultados associam a empresa a outra organização | nome completo, descritor, NAP e entidade consistente |
+| Queda de CTR com respostas de IA | impressões estáveis e cliques em queda; impressões no relatório *Generative AI performance* sem cliques correspondentes | conteúdo citável (fonte, data, autor), sem reduzir snippet; acompanhar o relatório de IA na revisão mensal |
+| Suspensão do perfil comercial | palavra-chave ou cidade no nome do perfil; avaliações incentivadas, filtradas ou de funcionários | nome real; pedir avaliação só por link ou QR, sem incentivo; responder todas; edições em campos críticos com parcimônia |
 
 ## 12. Registro de decisões e histórico de execução
 
@@ -1462,7 +1505,7 @@ Preencher ao final de cada fase:
 
 ## 14. Próximas ações
 
-Atualizado em 10/09/2026.
+Atualizado em 12/09/2026.
 
 A sequência acordada com o cliente — **Fase 1 (concluída) → privacidade e consentimento → Search
 Console e analytics → eventos de conversão** — foi executada no código entre 20 e 21/08/2026 e no
@@ -1516,9 +1559,19 @@ do GCP — que não estão no gate. Ao fim, a Fase 2 encerra e a trilha do ecoss
 
 ### Adiadas por decisão do cliente
 
-18. credenciais setoriais, redação final do descritor da marca e diferenciação entre comunidade e
-    canal do WhatsApp — ver
-    [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto).
+18. credenciais setoriais e diferenciação entre comunidade e canal do WhatsApp — ver
+    [`registro-operacional.md`](./registro-operacional.md#decisões-em-aberto). A redação do
+    descritor saiu desta lista em 11/09/2026.
+
+### Liberadas em 11/09/2026
+
+19. **descritor único decidido** ("Corretora de café") — libera a Onda 0 do
+    [`plataformas-google.md`](./plataformas-google.md): perfil comercial, citações gratuitas,
+    vínculo GA4 ↔ Perfil da Empresa e grupo de canais personalizado, tudo no painel;
+20. **critério da cidade no título** — aplicar na leitura de 17/09/2026;
+21. **Onda 1 técnica** (`max-image-preview:large`, `LocalBusiness` completo com `geo` e `sameAs`,
+    `WebSite`, sitemap com alternates e `lastmod`, ícones) — uma PR, após autorização e com os
+    insumos do proprietário (coordenadas do pino, URL do perfil, URLs oficiais).
 
 **Regra mantida:** nenhum commit, PR ou deploy sem autorização específica.
 
@@ -1563,6 +1616,10 @@ de entidade: `sameAs` ligando perfis oficiais, perfil comercial consistente e de
 > espaço útil do título em troca de ganho incerto; o cliente também indicou que a cidade não é
 > necessária nessa posição. A desambiguação de entidade fica por conta de `sameAs` e do perfil
 > comercial. A redação final do descritor da marca segue em aberto por decisão do cliente.
+
+> **Atualização de 12/09/2026 —** o descritor foi decidido em 11/09/2026: **"Corretora de café"**, o
+> mesmo que o site já usa. A cidade no título ganhou critério objetivo (registro de 11/09/2026):
+> reabrir na leitura de 17/09/2026 se as consultas com impressão não trouxerem termos da região.
 
 **4. Ausência em diretório setorial.** A empresa não consta na lista de corretores do centro de
 comércio de café estadual, onde constam concorrentes diretos. É credencial de autoridade e fonte
@@ -1618,6 +1675,34 @@ Brasil. A medida real virá do Search Console, agora acessível.
 - [Documentação do Firebase Hosting](https://firebase.google.com/docs/hosting)
 - [IBGE](https://www.ibge.gov.br/)
 - [Conab](https://www.conab.gov.br/)
+
+**Acrescentadas em 12/09/2026** (levantamento registrado em [`plataformas-google.md`](./plataformas-google.md), que guarda a lista completa, com terceiros e datas):
+
+- [Recursos de IA na Busca e como medir](https://developers.google.com/search/docs/appearance/ai-features)
+- [Relatório Generative AI performance do Search Console](https://support.google.com/webmasters/answer/16984139)
+- [Relatório de desempenho do Search Console](https://support.google.com/webmasters/answer/7576553)
+- [Dados estruturados — LocalBusiness](https://developers.google.com/search/docs/appearance/structured-data/local-business)
+- [Dados estruturados — Organization](https://developers.google.com/search/docs/appearance/structured-data/organization)
+- [Dados estruturados — Article](https://developers.google.com/search/docs/appearance/structured-data/article)
+- [Dados estruturados — ProfilePage](https://developers.google.com/search/docs/appearance/structured-data/profile-page)
+- [Dados estruturados — Dataset](https://developers.google.com/search/docs/appearance/structured-data/dataset)
+- [Dados estruturados — Breadcrumb](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb)
+- [Nome do site nos resultados](https://developers.google.com/search/docs/appearance/site-names)
+- [Favicon nos resultados](https://developers.google.com/search/docs/appearance/favicon-in-search)
+- [Google Discover](https://developers.google.com/search/docs/appearance/google-discover)
+- [Versões localizadas e hreflang](https://developers.google.com/search/docs/specialty/international/localized-versions)
+- [Como criar sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+- [Conteúdo gerado por IA na Busca](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
+- [Perfil da Empresa — diretrizes de representação](https://support.google.com/business/answer/3038177)
+- [Perfil da Empresa — como melhorar o ranking local](https://support.google.com/business/answer/7091)
+- [Perfil da Empresa — área de atendimento e empresa híbrida](https://support.google.com/business/answer/9157481)
+- [Perfil da Empresa — pedir avaliações](https://support.google.com/business/answer/3474122)
+- [Política de conteúdo gerado por usuários no Maps](https://support.google.com/contributionpolicy/answer/7400114)
+- [GA4 — grupo de canais padrão](https://support.google.com/analytics/answer/9756891)
+- [GA4 — grupos de canais personalizados](https://support.google.com/analytics/answer/13051316)
+- [GA4 — vínculo com o Perfil da Empresa](https://support.google.com/analytics/answer/16930347)
+- [Google Trends para donos de site](https://developers.google.com/search/docs/monitor-debug/trends-start)
+- [Keyword Planner](https://support.google.com/google-ads/answer/7337243)
 
 ---
 

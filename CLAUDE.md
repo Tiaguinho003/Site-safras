@@ -36,6 +36,7 @@ Cada documento responde a uma pergunta. Antes de escrever, saiba qual você prec
 | `docs/deploy.md` | Como o site vai do commit à produção |
 | `docs/i18n-glossary.md` | Como traduzir — decisões locked de PT/EN/ES |
 | `docs/plano-ecossistema-comunicacao.md` | Canais, atribuição e funil de leads |
+| `docs/plataformas-google.md` | Que recursos do Google e dos canais usamos — capacidades, estado e plano de ação em ondas |
 
 **Fonte da verdade viva:** o estado atual do programa está na tabela §1 do
 `plano-seo-programatico.md` — fase ativa, estado geral, última revisão. Não duplicar esse estado
